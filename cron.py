@@ -1,10 +1,40 @@
 #!/usr/bin/env python
 
-from exchange.exmo import test as exmo_test
+import getopt
+import sys
 from logger.logger import Logger
 
-#exmo_test.test_api()
-#exmo_test.test_action()
+try:
+    optlist, args = getopt.getopt(sys.argv[1:], 'fs:e:')
+    if '-f' in map(lambda item: item[0], optlist):
+        log_file = filter(lambda item: item[0]=='-f', optlist)[0][1]
+        logger = Logger(log_file)
+    else:
+        logger = Logger()
+    exchange_name = filter(lambda item: item[0]=='-e', optlist)[0][1]
+    strategy_name = filter(lambda item: item[0]=='-s', optlist)[0][1]
+except:
+	print 'Usage: %s -e <exchange name: (exmo|btc_e)> -s <strategy name> [-f <log file>]' % sys.argv[0]
+	exit(1)
+
+try:
+    strategy = __import__('strategy.' + strategy_name, globals(), locals(), ['run'], -1)
+    mod_api = __import__('exchange.' + exchange_name + '.api', globals(), locals(), ['API'], -1)
+    mod_action = __import__('exchange.' + exchange_name + '.action', globals(), locals(), ['Action'], -1)
+    api = mod_api.API()
+    action = mod_action.Action(api)
+except:
+    print 'Usage: %s -e <exchange name: (exmo|btc_e)> -s <strategy name>' % sys.argv[0]
+    exit(1)
+
+
+strategy.run(action, logger)
+
+
+
+
+
+
 
 
 

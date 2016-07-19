@@ -6,19 +6,21 @@ import json
 import hashlib
 import hmac
 import time
+import exchange.exmo.config as Config
 
 
-class ExmoApiError(Exception): pass
+class ApiError(Exception): pass
 
 
-class EXMO:
+class API:
     api_key = ''
     api_secret = ''
     pairs = []
 
-    def __init__(self, api_key, api_secret):
-        self.api_key = api_key
-        self.api_secret = api_secret
+    def __init__(self):
+        self.api_key = Config.api_key
+        self.api_secret = Config.api_secret
+        self.fee = Config.fee
 
     '''
     Вызов метода API
@@ -42,7 +44,10 @@ class EXMO:
         reason = response.reason
         res = json.load(response)
         conn.close()
-        return {'status': status, 'reson': reason, 'result': res}
+        if status == 200:
+            return res
+        else:
+            raise ApiError(reason)
 
     '''
     Вызов метода PUBLIC API
@@ -60,14 +65,34 @@ class EXMO:
         reason = response.reason
         res = json.load(response)
         conn.close()
-        return {'status': status, 'reson': reason, 'result': res}
+        if status == 200:
+            return res
+        else:
+            raise ApiError(reason)
 
 
     '''
-    Получение списака валютных пар
+    Получение списка валютных пар
     '''
     def _getCurrencyPairs(self):
-        self.pairs = self.pair_settings()['result'].keys()
+        self.pairs = self.pair_settings().keys()
+
+
+    '''
+    Проверка валютной пары на допустимость
+    '''
+    def isPairValid(self, pair):
+        self._getCurrencyPairs()
+        if pair in self.pairs:
+            return True
+        else:
+            return False
+
+    '''
+    Получение комиссии
+    '''
+    def getFee(self, pair, order_type='sell'):
+        return self.fee[order_type]
 
     #PUBLIC API
 
@@ -101,7 +126,7 @@ class EXMO:
         self._getCurrencyPairs()
         for pair in pairs:
             if pair not in self.pairs:
-                raise ExmoApiError('pair expected in ' + str(self.pairs))
+                raise ApiError('pair expected in ' + str(self.pairs))
         return self._exmo_public_api('trades', {'pair': ','.join(pairs)})
 
     '''
@@ -156,7 +181,7 @@ class EXMO:
         self._getCurrencyPairs()
         for pair in pairs:
             if pair not in self.pairs:
-                raise ExmoApiError('pair expected in ' + str(self.pairs))
+                raise ApiError('pair expected in ' + str(self.pairs))
         return self._exmo_public_api('order_book', {'pair': ','.join(pairs), 'limit': limit})
 
     '''
@@ -294,13 +319,13 @@ class EXMO:
         self._getCurrencyPairs()
         valid_types = ['buy', 'sell', 'market_buy', 'market_sell', 'market_buy_total', 'market_sell_total']
         if pair is None or pair not in self.pairs:
-            raise ExmoApiError('pair expected in ' + str(self.pairs))
+            raise ApiError('pair expected in ' + str(self.pairs))
         if quantity is None or quantity <= 0:
-            raise ExmoApiError('quantity expected!')
+            raise ApiError('quantity expected!')
         if price is None or price <= 0:
-            raise ExmoApiError('price expected!')
+            raise ApiError('price expected!')
         if order_type is None or order_type not in valid_types:
-            raise ExmoApiError('type expected in ' + str(valid_types))
+            raise ApiError('type expected in ' + str(valid_types))
         params = {'pair': pair, 'quantity': quantity, 'price': price, 'type': order_type}
         return self._exmo_api('order_create', params)
 
@@ -406,7 +431,7 @@ class EXMO:
         self._getCurrencyPairs()
         for pair in pairs:
             if pair not in self.pairs:
-                raise ExmoApiError('pair expected in ' + str(self.pairs))
+                raise ApiError('pair expected in ' + str(self.pairs))
         params = {'pair': ','.join(pairs), 'offset': offset, 'limit': limit}
         return self._exmo_api('user_trades', params)
 
@@ -524,7 +549,7 @@ class EXMO:
     def required_amount(self, pair, quantity):
         self._getCurrencyPairs()
         if pair not in self.pairs:
-            raise ExmoApiError('pair expected in ' + str(self.pairs))
+            raise ApiError('pair expected in ' + str(self.pairs))
         params = {'pair': pair, 'quantity': quantity}
         return self._exmo_api('required_amount', params)
 
@@ -574,7 +599,7 @@ class EXMO:
     def withdraw_crypt(self, amount, currency, address):
         all_currency = self.currency()
         if currency not in all_currency:
-            raise ExmoApiError('Currency expected in ' + str(all_currency))
+            raise ApiError('Currency expected in ' + str(all_currency))
         params = {'amount': amount, 'currency': currency, 'address': address}
         return self._exmo_api('withdraw_crypt', params)
 
