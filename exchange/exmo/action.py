@@ -1,10 +1,5 @@
 # coding=utf-8
 
-from exchange.exmo.api import EXMO
-from exchange.exmo.config import *
-
-exmo = EXMO(api_key, api_secret)
-
 class Action:
     api = None
 
