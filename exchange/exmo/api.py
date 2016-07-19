@@ -659,8 +659,8 @@ class EXMO:
     amount - сумма
     account - счет
     '''
-    def wallet_history(self, date=None):
-        if date is None:
+    def wallet_history(self, date=0):
+        if date == 0:
             date = time.time()
         params = {'date': date}
         return self._exmo_api('wallet_history', params)
