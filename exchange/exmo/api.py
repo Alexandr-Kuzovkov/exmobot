@@ -88,11 +88,6 @@ class API:
         else:
             return False
 
-    '''
-    Получение комиссии
-    '''
-    def getFee(self, pair, order_type='sell'):
-        return self.fee[order_type]
 
     #PUBLIC API
 

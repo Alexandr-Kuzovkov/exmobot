@@ -20,15 +20,15 @@ except:
 try:
     strategy = __import__('strategy.' + strategy_name, globals(), locals(), ['run'], -1)
     mod_api = __import__('exchange.' + exchange_name + '.api', globals(), locals(), ['API'], -1)
-    mod_action = __import__('exchange.' + exchange_name + '.action', globals(), locals(), ['Action'], -1)
+    mod_common_api = __import__('exchange.' + exchange_name + '.common_api', globals(), locals(), ['Action'], -1)
     api = mod_api.API()
-    action = mod_action.Action(api)
+    capi = mod_common_api.CommonAPI(api)
 except:
     print 'Usage: %s -e <exchange name: (exmo|btc_e)> -s <strategy name>' % sys.argv[0]
     exit(1)
 
 
-strategy.run(action, logger)
+strategy.run(capi, logger)
 
 
 

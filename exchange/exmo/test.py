@@ -1,12 +1,12 @@
 # coding=utf-8
 
 from exchange.exmo.api import API
-from exchange.exmo.action import Action
+from exchange.exmo.common_api import CommonAPI
 from logger.logger import Logger
 from exchange.exmo.config import *
 
 api = API()
-action = Action(api)
+capi = CommonAPI(api)
 
 
 def test_api():
@@ -26,7 +26,7 @@ def test_api():
         print 'pair %s is not in pairs' % pair
     '''
 
-    print api.user_open_orders()
+    #print api.user_open_orders()
     #print exmo.user_trades(pairs=['BTC_USD','ETH_USD'])
     #print exmo.user_cancelled_orders(offset=100)
     #print exmo.required_amount('BTC_USD',1)
@@ -37,7 +37,7 @@ def test_api():
 
 
 
-def test_action():
+def test_common_api():
     #print action.delete_all_orders()
     #print action.delete_orders_for_pair('ETH_USD')
 
@@ -54,4 +54,5 @@ def test_action():
 
     '''
 
-    #print action.get_balance()
+    #print capi.get_user_orders()
+    print capi.get_orders(['BTC_USD'])
