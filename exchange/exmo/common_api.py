@@ -58,6 +58,14 @@ class CommonAPI:
 
 
     '''
+    Получение комиссии
+    '''
+    def get_fee(self, pair=None, order_type='sell'):
+        return Config.fee[order_type]
+
+
+
+    '''
     Список сделок по валютной паре
     pair - одна или несколько валютных пар в виде списка (пример ['BTC_USD','BTC_EUR'])
     Возращаемое значение:
@@ -164,7 +172,48 @@ class CommonAPI:
         return orders
 
 
+    '''
+    Cтатистика цен и объемов торгов по валютным парам
+    Входящие параметры:	Отсутствуют
+    Возращаемое значение:
+    {
+      "BTC_USD": {
+        "high": 120,
+        "low": 100,
+        "avg": 110,
+        "vol": 1020,
+        "vol_curr": 1043420,
+        "last_trade": 111,
+        "buy_price": 110,
+        "sell_price": 111,
+        "updated": 1435517311
+      }
+    }
+    Описание полей:
+    high - максимальная цена сделки за 24 часа
+    low - минимальная цена сделки за 24 часа
+    avg - средняя цена сделки за 24 часа
+    vol - объем всех сделок за 24 часа
+    vol_curr - сумма всех сделок за 24 часа
+    last_trade - цена последней сделки
+    buy_price - текущая максимальная цена покупки
+    sell_price - текущая минимальная цена продажи
+    updated - дата и время обновления данных
+    '''
+    def get_ticker(self):
+        ticker = self.api._exmo_public_api('ticker')
+        for pair, data in ticker.items():
+            data['high'] = float(data['high'])
+            data['low'] = float(data['low'])
+            data['avg'] = float(data['avg'])
+            data['vol'] = float(data['vol'])
+            data['vol_curr'] = float(data['vol_curr'])
+            data['last_trade'] = float(data['last_trade'])
+            data['buy_price'] = float(data['buy_price'])
+            data['sell_price'] = float(data['sell_price'])
+            data['updated'] = int(data['updated'])
 
+        return ticker
 
 
 
@@ -256,11 +305,6 @@ class CommonAPI:
         return orders
 
 
-    '''
-    Получение комиссии
-    '''
-    def get_fee(self, pair=None, order_type='sell'):
-        return Config.fee[order_type]
 
 
 

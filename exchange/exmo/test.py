@@ -55,4 +55,4 @@ def test_common_api():
     '''
 
     #print capi.get_user_orders()
-    print capi.get_orders(['BTC_USD'])
+    print capi.get_ticker()
