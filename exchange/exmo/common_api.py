@@ -13,7 +13,7 @@ class CommonAPI:
     def __init__(self, api):
         self.api = api
         self.pair_settings = self._get_pair_settings()
-        self.currency = self._get_currrency()
+        self.currency = self._get_currency()
         self.fee = config.fee
 
     '''
@@ -56,7 +56,7 @@ class CommonAPI:
     Возращаемое значение:
     ["USD","EUR","RUB","BTC","DOGE","LTC"] 
     '''
-    def _get_currrency(self):
+    def _get_currency(self):
         return self.api.exmo_public_api('currency')
 
 
@@ -84,7 +84,7 @@ class CommonAPI:
     amount - сумма сделки
     date - дата и время сделки в формате Unix
     '''
-    def get_trades(self, pairs=[]):
+    def trades(self, pairs=[]):
         valid_pairs = self.pair_settings.keys()
         for pair in pairs:
             if pair not in valid_pairs:
@@ -144,7 +144,7 @@ class CommonAPI:
     bid - список ордеров на покупку, где каждая строка это цена, количество и сумма
     ask - список ордеров на продажу, где каждая строка это цена, количество и сумма
     '''
-    def get_orders(self, pairs=[], limit=100):
+    def orders(self, pairs=[], limit=100):
         valid_pairs = self.pair_settings.keys()
         for pair in pairs:
             if pair not in valid_pairs:
@@ -195,7 +195,7 @@ class CommonAPI:
     sell_price - текущая минимальная цена продажи
     updated - дата и время обновления данных
     '''
-    def get_ticker(self):
+    def ticker(self):
         ticker = self.api.exmo_public_api('ticker')
         for pair, data in ticker.items():
             data['high'] = float(data['high'])
@@ -292,7 +292,7 @@ class CommonAPI:
     return словарь вида {u'DASH': 0.0, u'USD': 6e-08, u'RUB': 0.0, u'DOGE': 0.0, u'LTC': 0.0, u'BTC': 0.0, u'ETH': 0.0, u'EUR': 0.0}
     или число
     '''
-    def get_balance(self, currency=None):
+    def balance(self, currency=None):
         user_info = self.api.exmo_api('user_info')
         if currency is not None and currency in self.currency:
             return float(user_info['balances'][currency])
@@ -308,7 +308,7 @@ class CommonAPI:
     return словарь вида {u'DASH': 0.0, u'USD': 6e-08, u'RUB': 0.0, u'DOGE': 0.0, u'LTC': 0.0, u'BTC': 0.0, u'ETH': 0.0, u'EUR': 0.0}
     или число
     '''
-    def get_orders_balance(self, currency=None):
+    def orders_balance(self, currency=None):
         user_info = self.api.exmo_api('user_info')
         if currency is not None and currency in self.currency:
             return float(user_info['reserved'][currency])
@@ -343,7 +343,7 @@ class CommonAPI:
     quantity - кол-во по ордеру
     amount - сумма по ордеру
     '''
-    def get_user_orders(self):
+    def user_orders(self):
         orders = self.api.user_open_orders()
         for pair,list_orders in orders.items():
             for order in list_orders:
