@@ -20,7 +20,7 @@ except:
 try:
     strategy = __import__('strategy.' + strategy_name, globals(), locals(), ['run'], -1)
     mod_api = __import__('exchange.' + exchange_name + '.api', globals(), locals(), ['API'], -1)
-    mod_common_api = __import__('exchange.' + exchange_name + '.common_api', globals(), locals(), ['Action'], -1)
+    mod_common_api = __import__('exchange.' + exchange_name + '.common_api', globals(), locals(), ['CommonAPI'], -1)
     api = mod_api.API()
     capi = mod_common_api.CommonAPI(api)
 except:

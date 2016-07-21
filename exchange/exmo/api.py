@@ -6,10 +6,7 @@ import json
 import hashlib
 import hmac
 import time
-import exchange.exmo.config as Config
-
-
-class ApiError(Exception): pass
+import exchange.exmo.config as config
 
 
 class API:
@@ -18,14 +15,14 @@ class API:
     pairs = []
 
     def __init__(self):
-        self.api_key = Config.api_key
-        self.api_secret = Config.api_secret
-        self.fee = Config.fee
+        self.api_key = config.api_key
+        self.api_secret = config.api_secret
+        self.fee = config.fee
 
     '''
     Вызов метода API
     '''
-    def _exmo_api(self, method, params={}):
+    def exmo_api(self, method, params={}):
         nonce = int(round(time.time() * 1000))
         params["nonce"] = nonce
         params = urllib.urlencode(params)
@@ -47,12 +44,12 @@ class API:
         if status == 200:
             return res
         else:
-            raise ApiError(reason)
+            raise Exception(reason)
 
     '''
     Вызов метода PUBLIC API
     '''
-    def _exmo_public_api(self, method, params={}):
+    def exmo_public_api(self, method, params={}):
         nonce = int(round(time.time() * 1000))
         params["nonce"] = nonce
         params = urllib.urlencode(params)
@@ -68,25 +65,8 @@ class API:
         if status == 200:
             return res
         else:
-            raise ApiError(reason)
+            raise Exception(reason)
 
-
-    '''
-    Получение списка валютных пар
-    '''
-    def _getCurrencyPairs(self):
-        self.pairs = self.pair_settings().keys()
-
-
-    '''
-    Проверка валютной пары на допустимость
-    '''
-    def isPairValid(self, pair):
-        self._getCurrencyPairs()
-        if pair in self.pairs:
-            return True
-        else:
-            return False
 
 
     #PUBLIC API
@@ -121,8 +101,8 @@ class API:
         self._getCurrencyPairs()
         for pair in pairs:
             if pair not in self.pairs:
-                raise ApiError('pair expected in ' + str(self.pairs))
-        return self._exmo_public_api('trades', {'pair': ','.join(pairs)})
+                raise Exception('pair expected in ' + str(self.pairs))
+        return self.exmo_public_api('trades', {'pair': ','.join(pairs)})
 
     '''
     Книга ордеров по валютной паре
@@ -176,8 +156,8 @@ class API:
         self._getCurrencyPairs()
         for pair in pairs:
             if pair not in self.pairs:
-                raise ApiError('pair expected in ' + str(self.pairs))
-        return self._exmo_public_api('order_book', {'pair': ','.join(pairs), 'limit': limit})
+                raise Exception('pair expected in ' + str(self.pairs))
+        return self.exmo_public_api('order_book', {'pair': ','.join(pairs), 'limit': limit})
 
     '''
     Cтатистика цен и объемов торгов по валютным парам
@@ -211,7 +191,7 @@ class API:
     updated - дата и время обновления данных
     '''
     def ticker(self):
-        return self._exmo_public_api('ticker')
+        return self.exmo_public_api('ticker')
 
     '''
     Настройки валютных пар
@@ -239,7 +219,7 @@ class API:
     max_amount - максимальная сумма по ордеру
     '''
     def pair_settings(self):
-        return self._exmo_public_api('pair_settings')
+        return self.exmo_public_api('pair_settings')
 
     '''
     Cписок валют биржи
@@ -251,7 +231,7 @@ class API:
     ["USD","EUR","RUB","BTC","DOGE","LTC"] 
     '''
     def currency(self):
-        return self._exmo_public_api('currency')
+        return self.exmo_public_api('currency')
 
 
     #AUTHENTICATED API
@@ -282,7 +262,7 @@ class API:
     reserved - баланс пользователя в ордерах
     '''
     def user_info(self):
-        return self._exmo_api('user_info')
+        return self.exmo_api('user_info')
 
     '''
     Создание ордера
@@ -314,15 +294,15 @@ class API:
         self._getCurrencyPairs()
         valid_types = ['buy', 'sell', 'market_buy', 'market_sell', 'market_buy_total', 'market_sell_total']
         if pair is None or pair not in self.pairs:
-            raise ApiError('pair expected in ' + str(self.pairs))
+            raise Exception('pair expected in ' + str(self.pairs))
         if quantity is None or quantity <= 0:
-            raise ApiError('quantity expected!')
+            raise Exception('quantity expected!')
         if price is None or price <= 0:
-            raise ApiError('price expected!')
+            raise Exception('price expected!')
         if order_type is None or order_type not in valid_types:
-            raise ApiError('type expected in ' + str(valid_types))
+            raise Exception('type expected in ' + str(valid_types))
         params = {'pair': pair, 'quantity': quantity, 'price': price, 'type': order_type}
-        return self._exmo_api('order_create', params)
+        return self.exmo_api('order_create', params)
 
     '''
     Отмена ордера
@@ -346,7 +326,7 @@ class API:
     '''
     def order_cancel(self, order_id):
         params = {'order_id': order_id}
-        return self._exmo_api('order_cancel', params)
+        return self.exmo_api('order_cancel', params)
 
     '''
     Получение списока открытых ордеров пользователя
@@ -380,7 +360,7 @@ class API:
     amount - сумма по ордеру
     '''
     def user_open_orders(self):
-        return self._exmo_api('user_open_orders')
+        return self.exmo_api('user_open_orders')
 
     '''
     Получение сделок пользователя
@@ -426,9 +406,9 @@ class API:
         self._getCurrencyPairs()
         for pair in pairs:
             if pair not in self.pairs:
-                raise ApiError('pair expected in ' + str(self.pairs))
+                raise Exception('pair expected in ' + str(self.pairs))
         params = {'pair': ','.join(pairs), 'offset': offset, 'limit': limit}
-        return self._exmo_api('user_trades', params)
+        return self.exmo_api('user_trades', params)
 
     '''
     Получение отмененных ордеров пользователя
@@ -465,7 +445,7 @@ class API:
     '''
     def user_cancelled_orders(self, offset=0, limit=0):
         params = {'offset': offset, 'limit': limit}
-        return self._exmo_api('user_cancelled_orders', params)
+        return self.exmo_api('user_cancelled_orders', params)
 
 
     '''
@@ -516,7 +496,7 @@ class API:
     '''
     def order_trades(self, order_id):
         params = {'order_id': order_id}
-        return self._exmo_api('order_trades', params)
+        return self.exmo_api('order_trades', params)
 
     '''
     Подсчет в какую сумму обойдется покупка определенного кол-ва валюты по конкретной валютной паре
@@ -544,9 +524,9 @@ class API:
     def required_amount(self, pair, quantity):
         self._getCurrencyPairs()
         if pair not in self.pairs:
-            raise ApiError('pair expected in ' + str(self.pairs))
+            raise Exception('pair expected in ' + str(self.pairs))
         params = {'pair': pair, 'quantity': quantity}
-        return self._exmo_api('required_amount', params)
+        return self.exmo_api('required_amount', params)
 
     '''
     Получнение списка адресов для депозита криптовалют
@@ -563,7 +543,7 @@ class API:
     }
     '''
     def deposit_address(self):
-        return self._exmo_api('deposit_address')
+        return self.exmo_api('deposit_address')
 
 
     '''
@@ -596,7 +576,7 @@ class API:
         if currency not in all_currency:
             raise ApiError('Currency expected in ' + str(all_currency))
         params = {'amount': amount, 'currency': currency, 'address': address}
-        return self._exmo_api('withdraw_crypt', params)
+        return self.exmo_api('withdraw_crypt', params)
 
     '''
     Получение ИД транзакции криптовалюты для отслеживания на blockchain
@@ -623,7 +603,7 @@ class API:
     '''
     def withdraw_get_txid(self, task_id):
         params = {'task_id': task_id}
-        return self._exmo_api('withdraw_get_txid', params)
+        return self.exmo_api('withdraw_get_txid', params)
 
 
 
@@ -683,6 +663,6 @@ class API:
         if date == 0:
             date = time.time()
         params = {'date': date}
-        return self._exmo_api('wallet_history', params)
+        return self.exmo_api('wallet_history', params)
 
 #Количество API вызовов ограничено 180 запросами в минуту с одного IP адреса либо от одного пользователя.
