@@ -23,7 +23,9 @@ def run(capi, logger):
     #print capi.get_ticker()
     #print capi.user_trades(['BTC_USD'])
     #print capi.user_cancelled_orders(100000, 1000)
-    print capi.order_trades(48266008)
+    res = capi.order_trades(48266008)
     #print capi.required_amount('BTC_USD', 1)
+    #logger.info(res)
+    print res
 
 

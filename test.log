@@ -1,0 +1,1 @@
+Thu Jul 21 15:40:29 2016: {u'out_amount': 0.01577584, u'trades': [{u'order_id': 48266008, u'price': 664.688, u'amount': 10.48601153, u'pair': u'BTC_USD', u'trade_id': 5094188, u'date': 1469098371, u'type': u'sell', u'quantity': 0.01577584}], u'out_currency': u'BTC', u'in_currency': u'USD', u'type': u'sell', u'in_amount': 10.48601153}

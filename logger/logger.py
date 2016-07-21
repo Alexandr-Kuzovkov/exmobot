@@ -23,7 +23,8 @@ class Logger:
                 f = open(self.logfile, 'a')
                 f.write(self._prep_message(msg))
                 f.close()
-            except:
+            except Exception, e:
+                print 'Error: ' + e.strerror
                 return False
         else:
             print self._prep_message(msg)
@@ -33,6 +34,7 @@ class Logger:
         if self.logfile is not None:
             try:
                 os.remove(self.logfile)
-            except:
+            except Exception, e:
+                print 'Error: ' + e.strerror
                 return False
 

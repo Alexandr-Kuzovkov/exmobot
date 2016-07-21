@@ -5,7 +5,7 @@ import sys
 from logger.logger import Logger
 
 try:
-    optlist, args = getopt.getopt(sys.argv[1:], 'fs:e:')
+    optlist, args = getopt.getopt(sys.argv[1:], 'f:s:e:')
     if '-f' in map(lambda item: item[0], optlist):
         log_file = filter(lambda item: item[0]=='-f', optlist)[0][1]
         logger = Logger(log_file)
