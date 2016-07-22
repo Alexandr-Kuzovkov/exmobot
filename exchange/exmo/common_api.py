@@ -241,12 +241,16 @@ class CommonAPI:
     def order_create(self, pair, quantity, price, order_type):
         valid_types = ['buy', 'sell', 'market_buy', 'market_sell', 'market_buy_total', 'market_sell_total']
         valid_pairs = self.pair_settings.keys()
+        min_quantity = self.pair_settings[pair]['min_quantity']
+        max_quantity = self.pair_settings[pair]['max_quantity']
+        min_price = self.pair_settings[pair]['min_price']
+        max_price = self.pair_settings[pair]['max_price']
         if pair is None or pair not in valid_pairs:
             raise Exception('pair expected in ' + str(valid_pairs))
-        if quantity is None or quantity <= 0:
-            raise Exception('quantity expected!')
-        if price is None or price <= 0:
-            raise Exception('price expected!')
+        if quantity is None or quantity < min_quantity or quantity > max_quantity:
+            raise Exception('quantity expected in range %i - %i!' % (min_quantity, max_quantity))
+        if price is None or price < min_price or price > max_price:
+            raise Exception('price expected in range %i - %i!' % (min_price, max_price))
         if order_type is None or order_type not in valid_types:
             raise Exception('type expected in ' + str(valid_types))
         params = {'pair': pair, 'quantity': quantity, 'price': price, 'type': order_type}

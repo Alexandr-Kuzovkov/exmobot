@@ -34,11 +34,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="common_api.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="common_api.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/exchange/exmo/common_api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="387" column="25" selection-start-line="387" selection-start-column="25" selection-end-line="387" selection-end-column="25" />
+            <state vertical-scroll-proportion="0.47777778">
+              <caret line="252" column="86" selection-start-line="252" selection-start-column="86" selection-end-line="252" selection-end-column="86" />
               <folding />
             </state>
           </provider>
@@ -98,11 +98,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sqlite.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="sqlite.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/storage/sqlite.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.18">
-              <caret line="59" column="20" selection-start-line="59" selection-start-column="20" selection-end-line="59" selection-end-column="20" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="46" column="29" selection-start-line="46" selection-start-column="29" selection-end-line="46" selection-end-column="29" />
               <folding>
                 <element signature="e#15#29#0" expanded="true" />
                 <marker date="1469217501693" expanded="true" signature="124:217" placeholder="CREATE TABLE... IF" />
@@ -145,13 +145,13 @@
         <option value="$PROJECT_DIR$/exchange/exmo/test.py" />
         <option value="$PROJECT_DIR$/strategy/strateg1.py" />
         <option value="$PROJECT_DIR$/logger/logger.py" />
-        <option value="$PROJECT_DIR$/exchange/exmo/common_api.py" />
         <option value="$PROJECT_DIR$/test_opt.py" />
         <option value="$PROJECT_DIR$/storage/__init__.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/cron.py" />
         <option value="$PROJECT_DIR$/strategy/test.py" />
         <option value="$PROJECT_DIR$/storage/sqlite.py" />
+        <option value="$PROJECT_DIR$/exchange/exmo/common_api.py" />
       </list>
     </option>
   </component>
@@ -622,14 +622,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/exchange/exmo/common_api.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="387" column="25" selection-start-line="387" selection-start-column="25" selection-end-line="387" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cron.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -660,8 +652,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/storage/sqlite.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.18">
-          <caret line="59" column="20" selection-start-line="59" selection-start-column="20" selection-end-line="59" selection-end-column="20" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="46" column="29" selection-start-line="46" selection-start-column="29" selection-end-line="46" selection-end-column="29" />
           <folding>
             <element signature="e#15#29#0" expanded="true" />
             <marker date="1469217501693" expanded="true" signature="124:217" placeholder="CREATE TABLE... IF" />
@@ -676,6 +668,14 @@
             <marker date="1469217501693" expanded="true" signature="1722:1777" placeholder="SELECT * FRO... session_data" />
             <marker date="1469217501693" expanded="true" signature="2030:2083" placeholder="DELETE FROM " />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exchange/exmo/common_api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.47777778">
+          <caret line="252" column="86" selection-start-line="252" selection-start-column="86" selection-end-line="252" selection-end-column="86" />
+          <folding />
         </state>
       </provider>
     </entry>
