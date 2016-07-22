@@ -1,7 +1,8 @@
 #coding=utf-8
 
 
-def run(capi, logger, session_id):
+
+def run(capi, logger, storage):
     #print capi.delete_orders(['BTC_USD'])
     #print action.delete_orders_for_pair('ETH_USD')
     #print capi.orders_balance()
@@ -19,15 +20,18 @@ def run(capi, logger, session_id):
 
     '''
 
-    print capi.user_orders()
+    #print capi.user_orders()
     #print capi.ticker()
     #print capi.user_trades(['BTC_USD'])
     #print capi.user_cancelled_orders(100000, 1000)
-    print capi.order_trades(48267083)
+    #print capi.order_trades(48267083)
     #print capi.required_amount('BTC_USD', 1)
     #logger.info(res)
     #print res
     #print capi.
     #print capi.order_trades()
-
-
+    #storage.save('key1', 'value1')
+    #storage.save('key2', 'value1')
+    #print storage.load('key2')
+    #print storage.get_utime('key2')
+    storage.delete('key2')

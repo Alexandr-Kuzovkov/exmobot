@@ -26,7 +26,7 @@
         <entry file="file://$PROJECT_DIR$/exchange/exmo/api.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="526" column="27" selection-start-line="526" selection-start-column="27" selection-end-line="526" selection-end-column="27" />
+              <caret line="98" column="7" selection-start-line="98" selection-start-column="7" selection-end-line="98" selection-end-column="7" />
               <folding>
                 <element signature="e#16#30#0" expanded="true" />
               </folding>
@@ -38,7 +38,7 @@
         <entry file="file://$PROJECT_DIR$/exchange/exmo/common_api.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="20" column="35" selection-start-line="20" selection-start-column="35" selection-end-line="20" selection-end-column="35" />
+              <caret line="387" column="25" selection-start-line="387" selection-start-column="25" selection-end-line="387" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -68,7 +68,7 @@
         <entry file="file://$PROJECT_DIR$/cron.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="7" column="51" selection-start-line="7" selection-start-column="51" selection-end-line="7" selection-end-column="51" />
+              <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
               <folding>
                 <element signature="e#23#36#0" expanded="true" />
               </folding>
@@ -80,17 +80,7 @@
         <entry file="file://$PROJECT_DIR$/strategy/test.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="3" column="32" selection-start-line="3" selection-start-column="32" selection-end-line="3" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="logger.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/logger/logger.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="34" column="16" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
+              <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -100,7 +90,7 @@
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="49" column="37" selection-start-line="49" selection-start-column="37" selection-end-line="49" selection-end-column="37" />
+              <caret line="21" column="80" selection-start-line="21" selection-start-column="80" selection-end-line="21" selection-end-column="80" />
               <folding>
                 <element signature="e#23#36#0" expanded="true" />
               </folding>
@@ -111,9 +101,22 @@
       <file leaf-file-name="sqlite.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/storage/sqlite.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.18">
-              <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
-              <folding />
+            <state vertical-scroll-proportion="1.18">
+              <caret line="59" column="20" selection-start-line="59" selection-start-column="20" selection-end-line="59" selection-end-column="20" />
+              <folding>
+                <element signature="e#15#29#0" expanded="true" />
+                <marker date="1469217501693" expanded="true" signature="124:217" placeholder="CREATE TABLE... IF" />
+                <marker date="1469217501693" expanded="true" signature="613:650" placeholder="SELECT * FRO... session_data" />
+                <marker date="1469217501693" expanded="true" signature="613:651" placeholder="SELECT * FRO... session_data" />
+                <marker date="1469217501693" expanded="true" signature="613:664" placeholder="SELECT * FRO... session_data" />
+                <marker date="1469217501693" expanded="true" signature="613:668" placeholder="SELECT * FRO... session_data" />
+                <marker date="1469217501693" expanded="true" signature="758:835" placeholder="INSERT INTO session_data... " />
+                <marker date="1469217501693" expanded="true" signature="931:980" placeholder="UPDATE sessi... " />
+                <marker date="1469217501693" expanded="true" signature="931:1008" placeholder="UPDATE sessi... " />
+                <marker date="1469217501693" expanded="true" signature="1249:1304" placeholder="SELECT * FRO... session_data" />
+                <marker date="1469217501693" expanded="true" signature="1722:1777" placeholder="SELECT * FRO... session_data" />
+                <marker date="1469217501693" expanded="true" signature="2030:2083" placeholder="DELETE FROM " />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -142,12 +145,12 @@
         <option value="$PROJECT_DIR$/exchange/exmo/test.py" />
         <option value="$PROJECT_DIR$/strategy/strateg1.py" />
         <option value="$PROJECT_DIR$/logger/logger.py" />
-        <option value="$PROJECT_DIR$/cron.py" />
         <option value="$PROJECT_DIR$/exchange/exmo/common_api.py" />
         <option value="$PROJECT_DIR$/test_opt.py" />
-        <option value="$PROJECT_DIR$/test.py" />
-        <option value="$PROJECT_DIR$/strategy/test.py" />
         <option value="$PROJECT_DIR$/storage/__init__.py" />
+        <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/cron.py" />
+        <option value="$PROJECT_DIR$/strategy/test.py" />
         <option value="$PROJECT_DIR$/storage/sqlite.py" />
       </list>
     </option>
@@ -577,54 +580,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/strategy/strateg1.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/exchange/exmo/api.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="526" column="27" selection-start-line="526" selection-start-column="27" selection-end-line="526" selection-end-column="27" />
-          <folding>
-            <element signature="e#16#30#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test.log">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cron.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="51" selection-start-line="7" selection-start-column="51" selection-end-line="7" selection-end-column="51" />
-          <folding>
-            <element signature="e#23#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/exchange/exmo/common_api.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="35" selection-start-line="20" selection-start-column="35" selection-end-line="20" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logger/logger.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="34" column="16" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
           <folding />
         </state>
       </provider>
@@ -637,29 +596,86 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/strategy/test.py">
+    <entry file="file://$PROJECT_DIR$/logger/logger.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="3" column="32" selection-start-line="3" selection-start-column="32" selection-end-line="3" selection-end-column="32" />
+        <state vertical-scroll-proportion="0.66">
+          <caret line="34" column="16" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test.py">
+    <entry file="file://$PROJECT_DIR$/strategy/strateg1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="49" column="37" selection-start-line="49" selection-start-column="37" selection-end-line="49" selection-end-column="37" />
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exchange/exmo/api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="98" column="7" selection-start-line="98" selection-start-column="7" selection-end-line="98" selection-end-column="7" />
+          <folding>
+            <element signature="e#16#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exchange/exmo/common_api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="387" column="25" selection-start-line="387" selection-start-column="25" selection-end-line="387" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cron.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
           <folding>
             <element signature="e#23#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="80" selection-start-line="21" selection-start-column="80" selection-end-line="21" selection-end-column="80" />
+          <folding>
+            <element signature="e#23#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/strategy/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/storage/sqlite.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.18">
-          <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
-          <folding />
+        <state vertical-scroll-proportion="1.18">
+          <caret line="59" column="20" selection-start-line="59" selection-start-column="20" selection-end-line="59" selection-end-column="20" />
+          <folding>
+            <element signature="e#15#29#0" expanded="true" />
+            <marker date="1469217501693" expanded="true" signature="124:217" placeholder="CREATE TABLE... IF" />
+            <marker date="1469217501693" expanded="true" signature="613:650" placeholder="SELECT * FRO... session_data" />
+            <marker date="1469217501693" expanded="true" signature="613:651" placeholder="SELECT * FRO... session_data" />
+            <marker date="1469217501693" expanded="true" signature="613:664" placeholder="SELECT * FRO... session_data" />
+            <marker date="1469217501693" expanded="true" signature="613:668" placeholder="SELECT * FRO... session_data" />
+            <marker date="1469217501693" expanded="true" signature="758:835" placeholder="INSERT INTO session_data... " />
+            <marker date="1469217501693" expanded="true" signature="931:980" placeholder="UPDATE sessi... " />
+            <marker date="1469217501693" expanded="true" signature="931:1008" placeholder="UPDATE sessi... " />
+            <marker date="1469217501693" expanded="true" signature="1249:1304" placeholder="SELECT * FRO... session_data" />
+            <marker date="1469217501693" expanded="true" signature="1722:1777" placeholder="SELECT * FRO... session_data" />
+            <marker date="1469217501693" expanded="true" signature="2030:2083" placeholder="DELETE FROM " />
+          </folding>
         </state>
       </provider>
     </entry>
