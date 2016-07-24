@@ -12,22 +12,22 @@ class Logger:
             self.logfile = logfile
 
     #Подготовка сообщения к выводу
-    def _prep_message(self, msg):
-        date = time.asctime(time.localtime())
+    def _prep_message(self, msg, prefix):
+        date = prefix + ' ' + time.asctime(time.localtime())
         return date + ': ' + str(msg) + "\n"
 
     #Запись сообщения в лог-файл или в stdout
-    def info(self, msg):
+    def info(self, msg, prefix=''):
         if self.logfile is not None:
             try:
                 f = open(self.logfile, 'a')
-                f.write(self._prep_message(msg))
+                f.write(self._prep_message(msg, prefix))
                 f.close()
             except Exception, e:
                 print 'Error: ' + e.strerror
                 return False
         else:
-            print self._prep_message(msg)
+            print self._prep_message(msg, prefix)
 
     #Удаление лог-файла
     def clear(self):
