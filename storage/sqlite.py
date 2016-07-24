@@ -7,7 +7,7 @@ class Storage:
 
     session_id = 0
     db_file = 'store.sqlite'
-    init_sql = ['CREATE TABLE IF NOT EXISTS session_data (key, value, type, session_id INTEGER, utime INTEGER)']
+    init_sql = ['CREATE TABLE IF NOT EXISTS session_data (key, value, type, session_id, utime INTEGER)']
 
     def __init__(self, session_id):
         self.session_id = session_id

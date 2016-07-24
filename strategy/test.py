@@ -34,4 +34,4 @@ def run(capi, logger, storage):
     #storage.save('key2', 'value1')
     #print storage.load('key2')
     #print storage.get_utime('key2')
-    storage.delete('key2')
+    #storage.delete('key2')
