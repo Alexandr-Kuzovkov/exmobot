@@ -67,6 +67,8 @@ def run(capi, logger, storage):
         #если coin на балансе нет удаляем цену покупки
         storage.delete('btc_buy_price')
 
+    time.sleep(2)
+
     #если есть на балансе fiat
     if fiat_balance > 0:
         #новые цены продажи и покупки
