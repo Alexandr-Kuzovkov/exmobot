@@ -2,10 +2,19 @@
 import time
 import math
 
-pair = 'ETH_USD'
-name = 'FLIP_ETH_USD'
 
-def run(capi, logger, storage):
+def run(capi, logger, storage, conf=None):
+
+    if conf.has_option('common', 'name'):
+        name = conf.get('common', 'name')
+    else:
+        name = 'unknown'
+
+    if conf.has_option('common', 'pair'):
+        pair = conf.get('common', 'pair')
+    else:
+        pair = 'BTC_USD'
+
     #префикс для логгера
     prefix = capi.name + ' ' + name
 

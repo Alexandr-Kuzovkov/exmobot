@@ -2,24 +2,31 @@
 
 import sqlite3
 import time
+import os
+
 
 class Storage:
 
     session_id = 0
     db_file = 'store.sqlite'
+    root_dir = '/'
     init_sql = ['CREATE TABLE IF NOT EXISTS session_data (key, value, type, session_id, utime INTEGER)']
 
-    def __init__(self, session_id):
+    def __init__(self, session_id, root_dir):
         self.session_id = session_id
-        conn = sqlite3.connect(self.db_file)
+        self.root_dir = root_dir
+        conn = self._get_connection()
         cur = conn.cursor()
         for sql in self.init_sql:
             cur.execute(sql)
         cur.close()
         conn.close()
 
+    def _get_connection(self):
+        return sqlite3.connect(self.root_dir + '/db/' + self.db_file)
+
     def save(self, key, value, type='string'):
-        conn = sqlite3.connect(self.db_file)
+        conn = conn = self._get_connection()
         cur = conn.cursor()
         cur.execute('SELECT * FROM session_data WHERE key=? AND session_id=?', (key, self.session_id,))
         if len(cur.fetchall()) == 0:
@@ -31,7 +38,7 @@ class Storage:
         conn.close()
 
     def load(self, key):
-        conn = sqlite3.connect(self.db_file)
+        conn = conn = self._get_connection()
         cur = conn.cursor()
         cur.execute('SELECT * FROM session_data WHERE key=? AND session_id=?', (key, self.session_id,))
         row = cur.fetchone()
@@ -45,7 +52,7 @@ class Storage:
         return None
 
     def get_utime(self, key):
-        conn = sqlite3.connect(self.db_file)
+        conn = conn = self._get_connection()
         cur = conn.cursor()
         cur.execute('SELECT * FROM session_data WHERE key=? AND session_id=?', (key, self.session_id,))
         row = cur.fetchone()
@@ -54,7 +61,7 @@ class Storage:
         return None
 
     def delete(self, key):
-        conn = sqlite3.connect(self.db_file)
+        conn = conn = self._get_connection()
         cur = conn.cursor()
         cur.execute('DELETE FROM session_data WHERE key=? AND session_id=?', (key, self.session_id,))
         conn.commit()
