@@ -27,10 +27,11 @@ def run(capi, logger, storage):
     coin_balance = balance['ETH']
     fiat_balance = balance['USD']
     #print 'usd=%f   eth=%f' % (fiat_balance, coin_balance)
-    logger.info(balance, prefix)
+    logger.info('Balance: %s = %f; %s = %f' % (pair.split('_')[0], balance[pair.split('_')[0]], pair.split('_')[1], balance[pair.split('_')[1]]), prefix)
 
     #получаем цену предыдущей покупки coin
-    prev_price = storage.load('btc_buy_price')
+    prev_price = storage.load(pair.split('_')[0] + '_buy_price')
+    #logger.info('prev_price=%s' % str(prev_price), prefix)
 
     #комиссия
     fee = capi.fee['sell']
@@ -45,7 +46,7 @@ def run(capi, logger, storage):
             #вычисляем профит на основе верхней цены продажи и цены покупки
             profit = new_ask/prev_price*(1-fee)*(1-fee) - 1
             if profit <= 0:
-                #если профита нет, то цену ставим пониже но с профитом
+                #если профита нет, то цену ставим побольше (пониже по стакану) но с профитом
                 new_ask = prev_price * (1 + (2*fee + 0.003))
         else:
             #если монеты не покупались
@@ -67,7 +68,7 @@ def run(capi, logger, storage):
 
     else:
         #если coin на балансе нет удаляем цену покупки
-        storage.delete('btc_buy_price')
+        storage.delete(pair.split('_')[0] + '_buy_price')
 
     time.sleep(2)
 
@@ -88,6 +89,6 @@ def run(capi, logger, storage):
                 logger.info('Ошибка выставления ордера "buy": %s' % str(res['error']), prefix)
             else:
                 logger.info('Ордер "buy": %s: price=%f' % (pair, new_bid), prefix)
-                storage.save('btc_buy_price', new_bid, 'float')
+                storage.save(pair.split('_')[0] + '_buy_price', new_bid, 'float')
         except Exception, ex:
             logger.info('Ошибка выставления ордера "buy": %s' % ex.message, prefix)

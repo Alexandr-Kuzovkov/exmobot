@@ -57,8 +57,8 @@
       <file leaf-file-name="flip_eth_usd.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/strategy/flip_eth_usd.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.36">
-              <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.5">
+              <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
               <folding>
                 <element signature="e#14#25#0" expanded="true" />
               </folding>
@@ -66,12 +66,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="logger.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/logger/logger.py">
+      <file leaf-file-name="flip_btc_usd.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/strategy/flip_btc_usd.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="29" column="48" selection-start-line="29" selection-start-column="48" selection-end-line="29" selection-end-column="48" />
-              <folding />
+              <caret line="33" column="5" selection-start-line="33" selection-start-column="5" selection-end-line="33" selection-end-column="5" />
+              <folding>
+                <element signature="e#14#25#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -80,7 +82,7 @@
         <entry file="file://$PROJECT_DIR$/cron.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
+              <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
               <folding>
                 <element signature="e#23#36#0" expanded="true" />
               </folding>
@@ -102,32 +104,9 @@
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="21" column="80" selection-start-line="21" selection-start-column="80" selection-end-line="21" selection-end-column="80" />
+              <caret line="48" column="20" selection-start-line="48" selection-start-column="16" selection-end-line="48" selection-end-column="152" />
               <folding>
                 <element signature="e#23#36#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sqlite.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/storage/sqlite.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="9" column="86" selection-start-line="9" selection-start-column="86" selection-end-line="9" selection-end-column="86" />
-              <folding>
-                <element signature="e#15#29#0" expanded="true" />
-                <marker date="1469342137764" expanded="true" signature="124:209" placeholder="CREATE TABLE... IF" />
-                <marker date="1469342137764" expanded="true" signature="605:642" placeholder="SELECT * FRO... session_data" />
-                <marker date="1469342137764" expanded="true" signature="605:643" placeholder="SELECT * FRO... session_data" />
-                <marker date="1469342137764" expanded="true" signature="605:656" placeholder="SELECT * FRO... session_data" />
-                <marker date="1469342137764" expanded="true" signature="605:660" placeholder="SELECT * FRO... session_data" />
-                <marker date="1469342137764" expanded="true" signature="750:827" placeholder="INSERT INTO session_data... " />
-                <marker date="1469342137764" expanded="true" signature="923:972" placeholder="UPDATE sessi... " />
-                <marker date="1469342137764" expanded="true" signature="923:1000" placeholder="UPDATE sessi... " />
-                <marker date="1469342137764" expanded="true" signature="1241:1296" placeholder="SELECT * FRO... session_data" />
-                <marker date="1469342137764" expanded="true" signature="1714:1769" placeholder="SELECT * FRO... session_data" />
-                <marker date="1469342137764" expanded="true" signature="2022:2075" placeholder="DELETE FROM " />
               </folding>
             </state>
           </provider>
@@ -158,15 +137,15 @@
         <option value="$PROJECT_DIR$/strategy/strateg1.py" />
         <option value="$PROJECT_DIR$/test_opt.py" />
         <option value="$PROJECT_DIR$/storage/__init__.py" />
-        <option value="$PROJECT_DIR$/test.py" />
-        <option value="$PROJECT_DIR$/cron.py" />
         <option value="$PROJECT_DIR$/storage/sqlite.py" />
         <option value="$PROJECT_DIR$/strategy/test.py" />
         <option value="$PROJECT_DIR$/strategy/flip_btc_usd__eth_usd.py" />
-        <option value="$PROJECT_DIR$/strategy/flip_btc_usd.py" />
         <option value="$PROJECT_DIR$/logger/logger.py" />
         <option value="$PROJECT_DIR$/exchange/exmo/common_api.py" />
+        <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/cron.py" />
         <option value="$PROJECT_DIR$/strategy/flip_eth_usd.py" />
+        <option value="$PROJECT_DIR$/strategy/flip_btc_usd.py" />
       </list>
     </option>
   </component>
@@ -603,67 +582,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="80" selection-start-line="21" selection-start-column="80" selection-end-line="21" selection-end-column="80" />
-          <folding>
-            <element signature="e#23#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/storage/sqlite.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="86" selection-start-line="9" selection-start-column="86" selection-end-line="9" selection-end-column="86" />
-          <folding>
-            <element signature="e#15#29#0" expanded="true" />
-            <marker date="1469342137764" expanded="true" signature="124:209" placeholder="CREATE TABLE... IF" />
-            <marker date="1469342137764" expanded="true" signature="605:642" placeholder="SELECT * FRO... session_data" />
-            <marker date="1469342137764" expanded="true" signature="605:643" placeholder="SELECT * FRO... session_data" />
-            <marker date="1469342137764" expanded="true" signature="605:656" placeholder="SELECT * FRO... session_data" />
-            <marker date="1469342137764" expanded="true" signature="605:660" placeholder="SELECT * FRO... session_data" />
-            <marker date="1469342137764" expanded="true" signature="750:827" placeholder="INSERT INTO session_data... " />
-            <marker date="1469342137764" expanded="true" signature="923:972" placeholder="UPDATE sessi... " />
-            <marker date="1469342137764" expanded="true" signature="923:1000" placeholder="UPDATE sessi... " />
-            <marker date="1469342137764" expanded="true" signature="1241:1296" placeholder="SELECT * FRO... session_data" />
-            <marker date="1469342137764" expanded="true" signature="1714:1769" placeholder="SELECT * FRO... session_data" />
-            <marker date="1469342137764" expanded="true" signature="2022:2075" placeholder="DELETE FROM " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cron.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
-          <folding>
-            <element signature="e#23#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/strategy/flip_btc_usd__eth_usd.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="7" column="27" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/strategy/flip_btc_usd.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24">
-          <caret line="12" column="30" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/strategy/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="3" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="31" />
           <folding />
         </state>
       </provider>
@@ -686,14 +608,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/logger/logger.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="29" column="48" selection-start-line="29" selection-start-column="48" selection-end-line="29" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/exchange/exmo/common_api.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -702,10 +616,77 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/logger/logger.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.56">
+          <caret line="29" column="48" selection-start-line="29" selection-start-column="48" selection-end-line="29" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/strategy/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="3" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/storage/sqlite.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.16">
+          <caret line="9" column="86" selection-start-line="9" selection-start-column="86" selection-end-line="9" selection-end-column="86" />
+          <folding>
+            <element signature="e#15#29#0" expanded="true" />
+            <marker date="1469342137764" expanded="true" signature="124:209" placeholder="CREATE TABLE... IF" />
+            <marker date="1469342137764" expanded="true" signature="605:642" placeholder="SELECT * FRO... session_data" />
+            <marker date="1469342137764" expanded="true" signature="605:643" placeholder="SELECT * FRO... session_data" />
+            <marker date="1469342137764" expanded="true" signature="605:656" placeholder="SELECT * FRO... session_data" />
+            <marker date="1469342137764" expanded="true" signature="605:660" placeholder="SELECT * FRO... session_data" />
+            <marker date="1469342137764" expanded="true" signature="750:827" placeholder="INSERT INTO session_data... " />
+            <marker date="1469342137764" expanded="true" signature="923:972" placeholder="UPDATE sessi... " />
+            <marker date="1469342137764" expanded="true" signature="923:1000" placeholder="UPDATE sessi... " />
+            <marker date="1469342137764" expanded="true" signature="1241:1296" placeholder="SELECT * FRO... session_data" />
+            <marker date="1469342137764" expanded="true" signature="1714:1769" placeholder="SELECT * FRO... session_data" />
+            <marker date="1469342137764" expanded="true" signature="2022:2075" placeholder="DELETE FROM " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="48" column="20" selection-start-line="48" selection-start-column="16" selection-end-line="48" selection-end-column="152" />
+          <folding>
+            <element signature="e#23#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cron.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+          <folding>
+            <element signature="e#23#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/strategy/flip_btc_usd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="33" column="5" selection-start-line="33" selection-start-column="5" selection-end-line="33" selection-end-column="5" />
+          <folding>
+            <element signature="e#14#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/strategy/flip_eth_usd.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36">
-          <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.5">
+          <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
           <folding>
             <element signature="e#14#25#0" expanded="true" />
           </folding>
