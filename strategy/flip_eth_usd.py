@@ -1,5 +1,6 @@
 #coding=utf-8
 import time
+import math
 
 pair = 'ETH_USD'
 name = 'FLIP_ETH_USD'
@@ -41,27 +42,28 @@ def run(capi, logger, storage):
         new_bid = bid + 0.000001
         if prev_price is not None:
             #если монеты уже покупались
-            #вычисляем профит на основе верхней цены и цены покупки
+            #вычисляем профит на основе верхней цены продажи и цены покупки
             profit = new_ask/prev_price*(1-fee)*(1-fee) - 1
             if profit <= 0:
                 #если профита нет, то цену ставим пониже но с профитом
-                new_ask = prev_price * (1 + (2*fee + 0.001))
+                new_ask = prev_price * (1 + (2*fee + 0.003))
         else:
             #если монеты не покупались
             #вычисляем профит на основе верхней цены и нижней цены
             profit = new_ask/new_bid*(1-fee)*(1-fee) - 1
             if profit <= 0:
-                new_ask = None
+                #вычисляем цену продажи исходя из текущей цены покупки и небольшого профита
+                new_ask = new_bid * (1 + (2*fee + 0.003))
 
-        #если нужно ставим ордер на продажу
-        if new_ask is not None:
-            try:
-                capi.order_create(pair=pair, quantity=coin_balance, price=new_ask, order_type='sell')
+        #ставим ордер на продажу
+        try:
+            res = capi.order_create(pair=pair, quantity=coin_balance, price=new_ask, order_type='sell')
+            if not res['result']:
+                logger.info('Ошибка выставления ордера "buy": %s' % str(res['error']), prefix)
+            else:
                 logger.info('Ордер "sell": %s: price=%f' % (pair, new_ask), prefix)
-            except Exception, ex:
-                logger.info('Ошибка выставления ордера "sell": %s' % ex.message, prefix)
-        else:
-            logger.info('Профита для ордера "sell" нет', prefix)
+        except Exception, ex:
+            logger.info('Ошибка выставления ордера "sell": %s' % ex.message, prefix)
 
     else:
         #если coin на балансе нет удаляем цену покупки
@@ -76,13 +78,16 @@ def run(capi, logger, storage):
         new_bid = bid + 0.000001
         #вычисляем профит на основе верхней цены и нижней цены
         profit = new_ask/new_bid*(1-fee)*(1-fee) - 1
-        if profit >= 0:
-            #если профит есть выставляем ордер на покупку и запоминаем цену покупки
-            try:
-                capi.order_create(pair=pair, quantity=fiat_balance, price=new_bid, order_type='buy')
+        if profit <= 0:
+            #если профита нет выставляем цену покупки ниже, на основе цены продажи и профита
+            new_bid = new_ask * (1 - (2*fee + 0.005))
+        #выставляем ордер на покупку и запоминаем цену покупки
+        try:
+            res = capi.order_create(pair=pair, quantity=(fiat_balance/new_bid), price=new_bid, order_type='buy')
+            if not res['result']:
+                logger.info('Ошибка выставления ордера "buy": %s' % str(res['error']), prefix)
+            else:
                 logger.info('Ордер "buy": %s: price=%f' % (pair, new_bid), prefix)
                 storage.save('btc_buy_price', new_bid, 'float')
-            except Exception, ex:
-                logger.info('Ошибка выставления ордера "buy": %s' % ex.message, prefix)
-        else:
-            logger.info('Профита для ордера "buy" нет', prefix)
+        except Exception, ex:
+            logger.info('Ошибка выставления ордера "buy": %s' % ex.message, prefix)

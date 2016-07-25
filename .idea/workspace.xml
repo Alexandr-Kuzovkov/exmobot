@@ -38,7 +38,7 @@
         <entry file="file://$PROJECT_DIR$/exchange/exmo/common_api.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="240" column="58" selection-start-line="240" selection-start-column="8" selection-end-line="240" selection-end-column="62" />
+              <caret line="252" column="60" selection-start-line="252" selection-start-column="60" selection-end-line="252" selection-end-column="60" />
               <folding />
             </state>
           </provider>
@@ -57,9 +57,11 @@
       <file leaf-file-name="flip_eth_usd.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/strategy/flip_eth_usd.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.52">
-              <caret line="69" column="16" selection-start-line="69" selection-start-column="16" selection-end-line="69" selection-end-column="16" />
-              <folding />
+            <state vertical-scroll-proportion="0.36">
+              <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+              <folding>
+                <element signature="e#14#25#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -158,12 +160,12 @@
         <option value="$PROJECT_DIR$/storage/__init__.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/cron.py" />
-        <option value="$PROJECT_DIR$/exchange/exmo/common_api.py" />
         <option value="$PROJECT_DIR$/storage/sqlite.py" />
         <option value="$PROJECT_DIR$/strategy/test.py" />
         <option value="$PROJECT_DIR$/strategy/flip_btc_usd__eth_usd.py" />
         <option value="$PROJECT_DIR$/strategy/flip_btc_usd.py" />
         <option value="$PROJECT_DIR$/logger/logger.py" />
+        <option value="$PROJECT_DIR$/exchange/exmo/common_api.py" />
         <option value="$PROJECT_DIR$/strategy/flip_eth_usd.py" />
       </list>
     </option>
@@ -695,16 +697,18 @@
     <entry file="file://$PROJECT_DIR$/exchange/exmo/common_api.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="240" column="58" selection-start-line="240" selection-start-column="8" selection-end-line="240" selection-end-column="62" />
+          <caret line="252" column="60" selection-start-line="252" selection-start-column="60" selection-end-line="252" selection-end-column="60" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/strategy/flip_eth_usd.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.52">
-          <caret line="69" column="16" selection-start-line="69" selection-start-column="16" selection-end-line="69" selection-end-column="16" />
-          <folding />
+        <state vertical-scroll-proportion="0.36">
+          <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+          <folding>
+            <element signature="e#14#25#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -248,9 +248,9 @@ class CommonAPI:
         if pair is None or pair not in valid_pairs:
             raise Exception('pair expected in ' + str(valid_pairs))
         if quantity is None or quantity < min_quantity or quantity > max_quantity:
-            raise Exception('quantity expected in range %i - %i!' % (min_quantity, max_quantity))
+            raise Exception('quantity expected in range %f - %f!' % (min_quantity, max_quantity))
         if price is None or price < min_price or price > max_price:
-            raise Exception('price expected in range %i - %i!' % (min_price, max_price))
+            raise Exception('price expected in range %f - %f!' % (min_price, max_price))
         if order_type is None or order_type not in valid_types:
             raise Exception('type expected in ' + str(valid_types))
         params = {'pair': pair, 'quantity': quantity, 'price': price, 'type': order_type}
