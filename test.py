@@ -75,7 +75,10 @@ except Exception, e:
     print 'Startup Error: %s' % e
     exit(1)
 
-strategy.run(capi, logger, storage, conf)
+try:
+    strategy.run(capi, logger, storage, conf)
+except Exception, ex:
+    print ex.message
 
 
 

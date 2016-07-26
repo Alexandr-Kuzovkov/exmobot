@@ -69,7 +69,7 @@ def run(capi, logger, storage, conf=None):
         try:
             res = capi.order_create(pair=pair, quantity=coin_balance, price=new_ask, order_type='sell')
             if not res['result']:
-                logger.info('Ошибка выставления ордера "buy": %s' % str(res['error']), prefix)
+                logger.info('Ошибка выставления ордера "sell": %s' % str(res['error']), prefix)
             else:
                 logger.info('Ордер "sell": %s: price=%f' % (pair, new_ask), prefix)
         except Exception, ex:
