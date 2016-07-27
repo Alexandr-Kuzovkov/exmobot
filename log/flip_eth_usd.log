@@ -2445,3 +2445,4 @@ EXMO FLIP_ETH_USD Tue Jul 26 23:32:03 2016: pair ETH_USD: ask=12.244000  bid=12.
 EXMO FLIP_ETH_USD Tue Jul 26 23:32:03 2016: Balance: ETH = 0.720483; USD = 0.000000
 EXMO FLIP_ETH_USD Tue Jul 26 23:32:04 2016: Ордер "sell": ETH_USD: price=12.243999
 EXMO FLIP_ETH_USD Tue Jul 26 23:32:06 2016: Ошибка выставления ордера "buy": quantity expected in range 0.001000 - 1000.000000!
+ Wed Jul 27 23:03:30 2016: Startup Error: EXMO API is not availlable!

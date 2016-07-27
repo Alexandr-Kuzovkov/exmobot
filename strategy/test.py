@@ -36,6 +36,7 @@ def run(capi, logger, storage, conf=None, **params):
     #print storage.get_utime('key2')
     #storage.delete('key2')
     #print capi.balance_full()
+    '''
     ids = random.randrange(100000, 200000, 1)
     storage.order_add(ids, 'ETH_USD', 10.5, 12.45, 'sell', '123')
     storage.order_add(ids+1, 'BTC_USD', 1.1, 645.45, 'sell', '123')
@@ -44,3 +45,21 @@ def run(capi, logger, storage, conf=None, **params):
     print storage.orders(pair='LTC_USD', session_id='123')
     storage.order_delete(pair='BTC_USD', session_id='123')
     storage.old_orders_delete(utime=1469620306, pair='ETH_USD', session_id='123')
+    '''
+    #print capi.order_cancel(123)
+    #удаляем неактуальные записи об ордерах
+    '''
+    session_id='123'
+    user_orders = capi.user_orders()
+    print user_orders
+    stored_orders = storage.orders(session_id='123')
+    print stored_orders
+    for stored_order in stored_orders:
+        order_exists = False
+        for user_order_for_pair in user_orders[stored_order['pair']]:
+            if user_order_for_pair['order_id'] == stored_order['order_id'] and user_order_for_pair['type'] == stored_order['order_type']:
+                order_exists = True
+        print order_exists
+        if not order_exists:
+            storage.order_delete(pair=stored_order['pair'], order_id=stored_order['order_id'], session_id=session_id)
+    '''

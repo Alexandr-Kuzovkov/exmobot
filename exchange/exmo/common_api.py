@@ -40,6 +40,8 @@ class CommonAPI:
     '''
     def _get_pair_settings(self):
         data = self.api.exmo_public_api('pair_settings')
+        if ('result' in data) and (not data['result']):
+            raise Exception('EXMO API is not availlable!')
         for pair, settings in data.items():
             settings['max_amount'] = float(settings['max_amount'])
             settings['max_quantity'] = float(settings['max_quantity'])
@@ -57,7 +59,10 @@ class CommonAPI:
     ["USD","EUR","RUB","BTC","DOGE","LTC"] 
     '''
     def _get_currency(self):
-        return self.api.exmo_public_api('currency')
+        data = self.api.exmo_public_api('currency')
+        if ('result' in data) and (not data['result']):
+            raise Exception('EXMO API is not availlable!')
+        return data
 
 
     '''
@@ -366,7 +371,7 @@ class CommonAPI:
     '''
     def user_orders(self):
         orders = self.api.user_open_orders()
-        for pair,list_orders in orders.items():
+        for pair, list_orders in orders.items():
             for order in list_orders:
                 order['created'] = int(order['created'])
                 order['order_id'] = int(order['order_id'])

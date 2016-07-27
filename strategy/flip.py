@@ -56,6 +56,17 @@ def run(capi, logger, storage, conf=None, **params):
 
     logger.info('pair: %s  mode: %i' % (pair, mode), prefix)
 
+    #удаляем неактуальные записи об ордерах
+    user_orders = capi.user_orders()
+    stored_orders = storage.orders(session_id=session_id)
+    for stored_order in stored_orders:
+        order_exists = False
+        for user_order_for_pair in user_orders[stored_order['pair']]:
+            if user_order_for_pair['order_id'] == stored_order['order_id'] and user_order_for_pair['type'] == stored_order['order_type']:
+                order_exists = True
+        if not order_exists:
+            storage.order_delete(pair=stored_order['pair'], order_id=stored_order['order_id'], session_id=session_id)
+
     #удаляем ордера по валютной паре, поставленные в своей сессии
     logger.info('Удаляем ордера по %s в сессии %s' % (pair, session_id), prefix)
     own_orders = storage.orders(pair, session_id)
