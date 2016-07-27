@@ -56,7 +56,7 @@ except Exception, ex:
 
             Example:
                 crontab -e
-                * * * * * /path/to/exmo_bot/cron.py --config-file=/path/to/exmo_bot/conf/flip_eth_usd.conf
+                * * * * * /path/to/exmo_bot/bot.py --config-file=/path/to/exmo_bot/conf/flip_eth_usd.conf
 
     '''
     print ex.message

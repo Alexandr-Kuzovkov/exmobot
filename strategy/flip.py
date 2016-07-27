@@ -5,31 +5,46 @@ import math
 '''
 Циклический обмен одной валюты на другую
 с целью увеличить количество одной из валют,
-названной базовой
+названной базовой. Базовая определяется параметром
+mode.
+0 - увеличиваем вторую валюту в паре: покупаем дешевле, продаем дороже
+1 - увеличиваем первую валюту в паре: продаем дороже, покупаем дешевле
 '''
+def run(capi, logger, storage, conf=None, **params):
 
-def run(capi, logger, storage, conf=None):
     #ввод параметров
-    if conf.has_option('common', 'pair'):
+    #параметры передаваемые при вызове функции имеют приоритет
+    #перед параметрами заданными в файле конфигурации
+    if 'pair' in params:
+        pair = params['pair']
+    elif conf.has_option('common', 'pair'):
         pair = conf.get('common', 'pair')
     else:
         pair = 'BTC_USD'
 
-    if conf.has_option('common', 'name'):
+    if 'name' in params:
+        name = params['name']
+    elif conf.has_option('common', 'name'):
         name = conf.get('common', 'name')
     else:
         name = 'FLIP_' + pair
 
-    if conf.has_option('common', 'mode'):
+    if 'mode' in params:
+        mode = int(params['mode'])
+    elif conf.has_option('common', 'mode'):
         mode = int(conf.get('common', 'mode'))
     else:
         mode = 0
 
-    if conf.has_option('common', 'min-profit'):
-        min_profit = float(conf.get('common', 'min-profit'))
+    if 'min_profit' in params:
+        min_profit = float(params['min_profit'])
+    elif conf.has_option('common', 'min_profit'):
+        min_profit = float(conf.get('common', 'min_profit'))
     else:
         min_profit = 0.005
 
+    print pair, mode, min_profit
+    return
 
     #префикс для логгера
     prefix = capi.name + ' ' + name
@@ -77,14 +92,14 @@ def run(capi, logger, storage, conf=None):
                 profit = new_ask/prev_price*(1-fee)*(1-fee) - 1
                 if profit <= 0:
                     #если профита нет, то цену ставим побольше (пониже по стакану) но с профитом
-                    new_ask = prev_price * (1 + (2*fee + 0.003))
+                    new_ask = prev_price * (1 + (2*fee + min_profit))
             else:
                 #если монеты не покупались
                 #вычисляем профит на основе верхней цены и нижней цены
                 profit = new_ask/new_bid*(1-fee)*(1-fee) - 1
                 if profit <= 0:
                     #вычисляем цену продажи исходя из текущей цены покупки и небольшого профита
-                    new_ask = new_bid * (1 + (2*fee + 0.003))
+                    new_ask = new_bid * (1 + (2*fee + min_profit))
 
             #ставим ордер на продажу
             try:
@@ -111,7 +126,7 @@ def run(capi, logger, storage, conf=None):
             profit = new_ask/new_bid*(1-fee)*(1-fee) - 1
             if profit <= 0:
                 #если профита нет выставляем цену покупки ниже, на основе цены продажи и профита
-                new_bid = new_ask * (1 - (2*fee + 0.005))
+                new_bid = new_ask * (1 - (2*fee + min_profit))
             #выставляем ордер на покупку и запоминаем цену покупки
             try:
                 res = capi.order_create(pair=pair, quantity=(secondary_balance/new_bid), price=new_bid, order_type='buy')
@@ -134,7 +149,7 @@ def run(capi, logger, storage, conf=None):
             profit = new_ask/new_bid*(1-fee)*(1-fee) - 1
             if profit <= 0:
                 #если профита нет выставляем цену продажи выше, на основе цены покупки и профита
-                new_ask = new_bid * (1 + (2*fee + 0.005))
+                new_ask = new_bid * (1 + (2*fee + min_profit))
             #ставим ордер на продажу и запоминаем цену продажи
             try:
                 res = capi.order_create(pair=pair, quantity=primary_balance, price=new_ask, order_type='sell')
@@ -165,14 +180,14 @@ def run(capi, logger, storage, conf=None):
                 profit = prev_price/new_bid*(1-fee)*(1-fee) - 1
                 if profit <= 0:
                     #если профита нет, то цену ставим поменьше (пониже по стакану) но с профитом
-                    new_bid = prev_price * (1 - (2*fee + 0.003))
+                    new_bid = prev_price * (1 - (2*fee + min_profit))
             else:
                 #если монеты не продавались
                 #вычисляем профит на основе верхней цены и нижней цены
                 profit = new_ask/new_bid*(1-fee)*(1-fee) - 1
                 if profit <= 0:
                     #вычисляем цену покупки исходя из текущей цены продажи и небольшого профита
-                    new_bid = new_ask * (1 - (2*fee + 0.003))
+                    new_bid = new_ask * (1 - (2*fee + min_profit))
 
             #выставляем ордер на покупку
             try:

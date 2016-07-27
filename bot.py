@@ -29,13 +29,13 @@ try:
     else:
         raise Exception('"strategy" option expected in config file!')
 
-    if conf.has_option('common', 'session-id'):
-        session_id = conf.get('common', 'session-id')
+    if conf.has_option('common', 'session_id'):
+        session_id = conf.get('common', 'session_id')
     else:
         session_id = 0
 
-    if conf.has_option('common', 'log-file'):
-        log_file = conf.get('common', 'log-file')
+    if conf.has_option('common', 'log_file'):
+        log_file = conf.get('common', 'log_file')
         logger = Logger(log_file)
     else:
         logger = Logger()
@@ -56,7 +56,7 @@ except Exception, ex:
 
             Example:
                 crontab -e
-                * * * * * /path/to/exmo_bot/cron.py --config-file=/path/to/exmo_bot/conf/flip_eth_usd.conf
+                * * * * * /path/to/exmo_bot/bot.py --config-file=/path/to/exmo_bot/conf/flip_eth_usd.conf
 
     '''
     print ex.message

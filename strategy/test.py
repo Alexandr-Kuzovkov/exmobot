@@ -2,7 +2,7 @@
 
 
 
-def run(capi, logger, storage):
+def run(capi, logger, storage, conf=None, **params):
     #print capi.delete_orders(['BTC_USD'])
     #print action.delete_orders_for_pair('ETH_USD')
     #print capi.orders_balance()
