@@ -56,9 +56,19 @@ def run(capi, logger, storage, conf=None, **params):
 
     logger.info('pair: %s  mode: %i' % (pair, mode), prefix)
 
-    #удаляем ордера по валютной паре
-    capi.orders_cancel([pair])
-    logger.info('Удаляем ордера по %s' % pair, prefix)
+    #удаляем ордера по валютной паре, поставленные в своей сессии
+    logger.info('Удаляем ордера по %s в сессии %s' % (pair, session_id), prefix)
+    own_orders = storage.orders(pair, session_id)
+    for own_order in own_orders:
+        res = capi.order_cancel(own_order['order_id'])
+        if res['result']:
+            storage.order_delete(own_order['order_id'], pair, session_id)
+        else:
+            logger.info('Ошибка отмены ордера %i "%s" на паре %s в сессии %s' % (own_order['order_id'], own_order['order_type'], own_order['pair'], own_order['session_id']), prefix)
+
+    #удаляем все ордера по паре
+    #capi.orders_cancel([pair])
+
 
     #получаем существующие ордера по валютной паре
     orders = capi.orders([pair])
@@ -113,6 +123,8 @@ def run(capi, logger, storage, conf=None, **params):
                     logger.info('Ошибка выставления ордера "buy": %s' % str(res['error']), prefix)
                 else:
                     logger.info('Ордер "sell": %s: price=%f' % (pair, new_ask), prefix)
+                    #сохраняем данные по поставленному ордеру
+                    storage.order_add(res['order_id'], pair, primary_balance, new_ask, 'sell', session_id)
             except Exception, ex:
                 logger.info('Ошибка выставления ордера "sell": %s' % ex.message, prefix)
 
@@ -140,6 +152,8 @@ def run(capi, logger, storage, conf=None, **params):
                 else:
                     logger.info('Ордер "buy": %s: price=%f' % (pair, new_bid), prefix)
                     storage.save(pair.split('_')[0] + '_buy_price', new_bid, 'float', session_id)
+                    #сохраняем данные по поставленному ордеру
+                    storage.order_add(res['order_id'], pair, secondary_balance/new_bid, new_bid, 'buy', session_id)
             except Exception, ex:
                 logger.info('Ошибка выставления ордера "buy": %s' % ex.message, prefix)
 
@@ -163,6 +177,8 @@ def run(capi, logger, storage, conf=None, **params):
                 else:
                     logger.info('Ордер "sell": %s: price=%f' % (pair, new_ask), prefix)
                     storage.save(pair.split('_')[0] + '_sell_price', new_ask, 'float', session_id)
+                    #сохраняем данные по поставленному ордеру
+                    storage.order_add(res['order_id'], pair, primary_balance, new_ask, 'sell', session_id)
             except Exception, ex:
                 logger.info('Ошибка выставления ордера "sell": %s' % ex.message, prefix)
 
@@ -201,6 +217,8 @@ def run(capi, logger, storage, conf=None, **params):
                     logger.info('Ошибка выставления ордера "buy": %s' % str(res['error']), prefix)
                 else:
                     logger.info('Ордер "buy": %s: price=%f' % (pair, new_bid), prefix)
+                    #сохраняем данные по поставленному ордеру
+                    storage.order_add(res['order_id'], pair, secondary_balance/new_bid, new_bid, 'buy', session_id)
             except Exception, ex:
                 logger.info('Ошибка выставления ордера "buy": %s' % ex.message, prefix)
 

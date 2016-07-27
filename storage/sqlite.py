@@ -75,7 +75,7 @@ class Storage:
         cur.close()
         conn.close()
 
-    def add_order(self, order_id, pair, quantity, price, order_type, session_id=None):
+    def order_add(self, order_id, pair, quantity, price, order_type, session_id=None):
         conn = self._get_connection()
         if session_id is None:
             session_id = self.session_id
@@ -89,7 +89,7 @@ class Storage:
         cur.close()
         conn.close()
 
-    def delete_order(self, order_id=None, pair=None, session_id=None):
+    def order_delete(self, order_id=None, pair=None, session_id=None):
         conn = self._get_connection()
         if session_id is None:
             session_id = self.session_id
@@ -106,7 +106,7 @@ class Storage:
         cur.close()
         conn.close()
 
-    def delete_old_orders(self, utime, pair=None, session_id=None):
+    def old_orders_delete(self, utime, pair=None, session_id=None):
         conn = self._get_connection()
         if session_id is None:
             session_id = self.session_id
@@ -119,7 +119,7 @@ class Storage:
         cur.close()
         conn.close()
 
-    def get_orders(self, pair=None, session_id=None):
+    def orders(self, pair=None, session_id=None):
         conn = self._get_connection()
         if session_id is None:
             session_id = self.session_id
