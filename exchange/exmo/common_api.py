@@ -322,6 +322,23 @@ class CommonAPI:
                 balances[k] = float(v)
             return balances
 
+
+    '''
+    получение баланса по выбранной валюте или по всем
+    @currency валюта
+    return словарь вида {u'DASH': 0.0, u'USD': 6e-08, u'RUB': 0.0, u'DOGE': 0.0, u'LTC': 0.0, u'BTC': 0.0, u'ETH': 0.0, u'EUR': 0.0}
+    или число
+    '''
+    def balance_full(self):
+        user_info = self.api.exmo_api('user_info')
+        balances = {'balances': user_info['balances'], 'orders': user_info['reserved']}
+        for currency, amount in balances['balances'].items():
+            balances['balances'][currency] = float(balances['balances'][currency])
+        for currency, amount in balances['orders'].items():
+            balances['orders'][currency] = float(balances['orders'][currency])
+        return balances
+
+
     '''
     Получение списока открытых ордеров пользователя
     Входящие параметры:	отсутствуют

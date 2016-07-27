@@ -35,3 +35,4 @@ def run(capi, logger, storage, conf=None, **params):
     #print storage.load('key2')
     #print storage.get_utime('key2')
     #storage.delete('key2')
+    print capi.balance_full()
