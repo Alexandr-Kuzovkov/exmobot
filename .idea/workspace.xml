@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="caed98d7-9df3-486c-847b-196bfd55c276" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/strategy/flip_btc_usd.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/strategy/flip_btc_usd__eth_usd.py" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/cron.py" afterPath="$PROJECT_DIR$/bot.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conf/flip_eth_usd.conf" afterPath="$PROJECT_DIR$/conf/flip_eth_usd.conf" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/strategy/flip.py" afterPath="$PROJECT_DIR$/strategy/flip.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/strategy/flip_eth_usd.py" afterPath="$PROJECT_DIR$/strategy/flip_eth_usd.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/strategy/test.py" afterPath="$PROJECT_DIR$/strategy/test.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test.py" afterPath="$PROJECT_DIR$/test.py" />
     </list>
     <ignored path="exmo_bot.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -64,11 +56,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="flip.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="flip.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/strategy/flip.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="10" column="70" selection-start-line="10" selection-start-column="70" selection-end-line="10" selection-end-column="70" />
+            <state vertical-scroll-proportion="0.2">
+              <caret line="43" column="26" selection-start-line="43" selection-start-column="26" selection-end-line="43" selection-end-column="26" />
               <folding>
                 <element signature="e#14#25#0" expanded="true" />
               </folding>
@@ -76,10 +68,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="flip_eth_usd.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="flip_eth_usd.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/strategy/flip_eth_usd.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.1">
+            <state vertical-scroll-proportion="0.0">
               <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
               <folding />
             </state>
@@ -159,8 +151,8 @@
         <option value="$PROJECT_DIR$/strategy/flip_btc_usd__eth_usd.py" />
         <option value="$PROJECT_DIR$/bot.py" />
         <option value="$PROJECT_DIR$/conf/flip_eth_usd.conf" />
-        <option value="$PROJECT_DIR$/strategy/flip.py" />
         <option value="$PROJECT_DIR$/strategy/flip_eth_usd2.py" />
+        <option value="$PROJECT_DIR$/strategy/flip.py" />
       </list>
     </option>
   </component>
@@ -745,16 +737,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/strategy/flip.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="70" selection-start-line="10" selection-start-column="70" selection-end-line="10" selection-end-column="70" />
-          <folding>
-            <element signature="e#14#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/exchange/exmo/common_api.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -765,9 +747,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/strategy/flip_eth_usd.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1">
+        <state vertical-scroll-proportion="0.0">
           <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/strategy/flip.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2">
+          <caret line="43" column="26" selection-start-line="43" selection-start-column="26" selection-end-line="43" selection-end-column="26" />
+          <folding>
+            <element signature="e#14#25#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

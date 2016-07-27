@@ -43,9 +43,6 @@ def run(capi, logger, storage, conf=None, **params):
     else:
         min_profit = 0.005
 
-    print pair, mode, min_profit
-    return
-
     #префикс для логгера
     prefix = capi.name + ' ' + name
 
