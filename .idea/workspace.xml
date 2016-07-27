@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="caed98d7-9df3-486c-847b-196bfd55c276" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conf/flip_eth_usd.conf" afterPath="$PROJECT_DIR$/conf/flip_eth_usd.conf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/storage/sqlite.py" afterPath="$PROJECT_DIR$/storage/sqlite.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/strategy/flip.py" afterPath="$PROJECT_DIR$/strategy/flip.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/strategy/flip_eth_usd.py" afterPath="$PROJECT_DIR$/strategy/flip_eth_usd.py" />
     </list>
     <ignored path="exmo_bot.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -50,17 +53,17 @@
         <entry file="file://$PROJECT_DIR$/conf/flip_eth_usd.conf">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="20" column="4" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
+              <caret line="6" column="21" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="flip.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="flip.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/strategy/flip.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.2">
-              <caret line="43" column="26" selection-start-line="43" selection-start-column="26" selection-end-line="43" selection-end-column="26" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="21" column="9" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="9" />
               <folding>
                 <element signature="e#14#25#0" expanded="true" />
               </folding>
@@ -68,11 +71,34 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="flip_eth_usd.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/strategy/flip_eth_usd.py">
+      <file leaf-file-name="sqlite.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/storage/sqlite.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
+              <caret line="73" column="83" selection-start-line="73" selection-start-column="83" selection-end-line="73" selection-end-column="83" />
+              <folding>
+                <element signature="e#15#29#0" expanded="true" />
+                <marker date="1469614696932" expanded="true" signature="154:239" placeholder="CREATE TABLE... IF" />
+                <marker date="1469614696932" expanded="true" signature="862:899" placeholder="SELECT * FRO... session_data" />
+                <marker date="1469614696932" expanded="true" signature="862:900" placeholder="SELECT * FRO... session_data" />
+                <marker date="1469614696932" expanded="true" signature="862:913" placeholder="SELECT * FRO... session_data" />
+                <marker date="1469614696932" expanded="true" signature="862:917" placeholder="SELECT * FRO... session_data" />
+                <marker date="1469614696932" expanded="true" signature="1002:1079" placeholder="INSERT INTO session_data... " />
+                <marker date="1469614696932" expanded="true" signature="1170:1219" placeholder="UPDATE sessi... " />
+                <marker date="1469614696932" expanded="true" signature="1170:1247" placeholder="UPDATE sessi... " />
+                <marker date="1469614696932" expanded="true" signature="1572:1627" placeholder="SELECT * FRO... session_data" />
+                <marker date="1469614696932" expanded="true" signature="2129:2184" placeholder="SELECT * FRO... session_data" />
+                <marker date="1469614696932" expanded="true" signature="2521:2574" placeholder="DELETE FROM " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="flip_eth_usd.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/strategy/flip_eth_usd.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.12">
+              <caret line="6" column="80" selection-start-line="6" selection-start-column="80" selection-end-line="6" selection-end-column="80" />
               <folding />
             </state>
           </provider>
@@ -143,16 +169,16 @@
         <option value="$PROJECT_DIR$/logger/logger.py" />
         <option value="$PROJECT_DIR$/exchange/exmo/common_api.py" />
         <option value="$PROJECT_DIR$/strategy/flip_btc_usd.py" />
-        <option value="$PROJECT_DIR$/storage/sqlite.py" />
         <option value="$PROJECT_DIR$/cron.py" />
         <option value="$PROJECT_DIR$/test.py" />
-        <option value="$PROJECT_DIR$/strategy/flip_eth_usd.py" />
         <option value="$PROJECT_DIR$/strategy/test.py" />
         <option value="$PROJECT_DIR$/strategy/flip_btc_usd__eth_usd.py" />
         <option value="$PROJECT_DIR$/bot.py" />
-        <option value="$PROJECT_DIR$/conf/flip_eth_usd.conf" />
         <option value="$PROJECT_DIR$/strategy/flip_eth_usd2.py" />
+        <option value="$PROJECT_DIR$/storage/sqlite.py" />
         <option value="$PROJECT_DIR$/strategy/flip.py" />
+        <option value="$PROJECT_DIR$/conf/flip_eth_usd.conf" />
+        <option value="$PROJECT_DIR$/strategy/flip_eth_usd.py" />
       </list>
     </option>
   </component>
@@ -694,13 +720,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/storage/sqlite.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.32">
-          <caret line="16" column="17" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -729,14 +748,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/conf/flip_eth_usd.conf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="4" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/exchange/exmo/common_api.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -745,21 +756,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/strategy/flip_eth_usd.py">
+    <entry file="file://$PROJECT_DIR$/storage/sqlite.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
-          <folding />
+          <caret line="73" column="83" selection-start-line="73" selection-start-column="83" selection-end-line="73" selection-end-column="83" />
+          <folding>
+            <element signature="e#15#29#0" expanded="true" />
+            <marker date="1469614696932" expanded="true" signature="154:239" placeholder="CREATE TABLE... IF" />
+            <marker date="1469614696932" expanded="true" signature="862:899" placeholder="SELECT * FRO... session_data" />
+            <marker date="1469614696932" expanded="true" signature="862:900" placeholder="SELECT * FRO... session_data" />
+            <marker date="1469614696932" expanded="true" signature="862:913" placeholder="SELECT * FRO... session_data" />
+            <marker date="1469614696932" expanded="true" signature="862:917" placeholder="SELECT * FRO... session_data" />
+            <marker date="1469614696932" expanded="true" signature="1002:1079" placeholder="INSERT INTO session_data... " />
+            <marker date="1469614696932" expanded="true" signature="1170:1219" placeholder="UPDATE sessi... " />
+            <marker date="1469614696932" expanded="true" signature="1170:1247" placeholder="UPDATE sessi... " />
+            <marker date="1469614696932" expanded="true" signature="1572:1627" placeholder="SELECT * FRO... session_data" />
+            <marker date="1469614696932" expanded="true" signature="2129:2184" placeholder="SELECT * FRO... session_data" />
+            <marker date="1469614696932" expanded="true" signature="2521:2574" placeholder="DELETE FROM " />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/strategy/flip.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2">
-          <caret line="43" column="26" selection-start-line="43" selection-start-column="26" selection-end-line="43" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="9" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="9" />
           <folding>
             <element signature="e#14#25#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conf/flip_eth_usd.conf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="21" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/strategy/flip_eth_usd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.12">
+          <caret line="6" column="80" selection-start-line="6" selection-start-column="80" selection-end-line="6" selection-end-column="80" />
+          <folding />
         </state>
       </provider>
     </entry>

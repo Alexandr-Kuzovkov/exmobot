@@ -25,22 +25,26 @@ class Storage:
     def _get_connection(self):
         return sqlite3.connect(self.root_dir + '/db/' + self.db_file)
 
-    def save(self, key, value, type='string'):
+    def save(self, key, value, type='string', session_id=None):
         conn = conn = self._get_connection()
+        if session_id is None:
+            session_id = self.session_id
         cur = conn.cursor()
-        cur.execute('SELECT * FROM session_data WHERE key=? AND session_id=?', (key, self.session_id,))
+        cur.execute('SELECT * FROM session_data WHERE key=? AND session_id=?', (key, session_id,))
         if len(cur.fetchall()) == 0:
-            cur.execute('INSERT INTO session_data (key,value,type,session_id, utime) VALUES(?,?,?,?,?)',(key, value, type, self.session_id, int(time.time())))
+            cur.execute('INSERT INTO session_data (key,value,type,session_id, utime) VALUES(?,?,?,?,?)',(key, value, type, session_id, int(time.time())))
         else:
-            cur.execute('UPDATE session_data SET value=?, type=?, utime=? WHERE session_id=? AND key=?',(value, type, int(time.time()), self.session_id, key,))
+            cur.execute('UPDATE session_data SET value=?, type=?, utime=? WHERE session_id=? AND key=?',(value, type, int(time.time()), session_id, key,))
         conn.commit()
         cur.close()
         conn.close()
 
-    def load(self, key):
+    def load(self, key, session_id=None):
         conn = conn = self._get_connection()
+        if session_id is None:
+            session_id = self.session_id
         cur = conn.cursor()
-        cur.execute('SELECT * FROM session_data WHERE key=? AND session_id=?', (key, self.session_id,))
+        cur.execute('SELECT * FROM session_data WHERE key=? AND session_id=?', (key, session_id,))
         row = cur.fetchone()
         if row is not None:
             if row[2] == 'int':
@@ -51,19 +55,23 @@ class Storage:
                 return row[1]
         return None
 
-    def get_utime(self, key):
+    def get_utime(self, key, session_id=None):
         conn = conn = self._get_connection()
+        if session_id is None:
+            session_id = self.session_id
         cur = conn.cursor()
-        cur.execute('SELECT * FROM session_data WHERE key=? AND session_id=?', (key, self.session_id,))
+        cur.execute('SELECT * FROM session_data WHERE key=? AND session_id=?', (key, session_id,))
         row = cur.fetchone()
         if row is not None:
             return row[4]
         return None
 
-    def delete(self, key):
+    def delete(self, key, session_id=None):
         conn = conn = self._get_connection()
+        if session_id is None:
+            session_id = self.session_id
         cur = conn.cursor()
-        cur.execute('DELETE FROM session_data WHERE key=? AND session_id=?', (key, self.session_id,))
+        cur.execute('DELETE FROM session_data WHERE key=? AND session_id=?', (key, session_id,))
         conn.commit()
         cur.close()
         conn.close()

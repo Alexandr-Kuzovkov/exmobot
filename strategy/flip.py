@@ -43,6 +43,13 @@ def run(capi, logger, storage, conf=None, **params):
     else:
         min_profit = 0.005
 
+    if 'session_id' in params:
+        session_id = params['session_id']
+    else:
+        session_id = None
+    print mode, pair, session_id
+    return
+
     #префикс для логгера
     prefix = capi.name + ' ' + name
 
@@ -75,7 +82,7 @@ def run(capi, logger, storage, conf=None, **params):
     #если наращиваем вторую валюту в паре(игра на повышении)
     if mode == 0:
         #получаем цену предыдущей покупки
-        prev_price = storage.load(pair.split('_')[0] + '_buy_price')
+        prev_price = storage.load(pair.split('_')[0] + '_buy_price', session_id)
         #logger.info('prev_price=%s' % str(prev_price), prefix)
 
         #если есть на балансе первая валюта
@@ -110,7 +117,7 @@ def run(capi, logger, storage, conf=None, **params):
 
         else:
             #если первой валюты на балансе нет удаляем цену покупки
-            storage.delete(pair.split('_')[0] + '_buy_price')
+            storage.delete(pair.split('_')[0] + '_buy_price', session_id)
 
         time.sleep(2)
 
@@ -131,7 +138,7 @@ def run(capi, logger, storage, conf=None, **params):
                     logger.info('Ошибка выставления ордера "buy": %s' % str(res['error']), prefix)
                 else:
                     logger.info('Ордер "buy": %s: price=%f' % (pair, new_bid), prefix)
-                    storage.save(pair.split('_')[0] + '_buy_price', new_bid, 'float')
+                    storage.save(pair.split('_')[0] + '_buy_price', new_bid, 'float', session_id)
             except Exception, ex:
                 logger.info('Ошибка выставления ордера "buy": %s' % ex.message, prefix)
 
@@ -154,7 +161,7 @@ def run(capi, logger, storage, conf=None, **params):
                     logger.info('Ошибка выставления ордера "sell": %s' % str(res['error']), prefix)
                 else:
                     logger.info('Ордер "sell": %s: price=%f' % (pair, new_ask), prefix)
-                    storage.save(pair.split('_')[0] + '_sell_price', new_ask, 'float')
+                    storage.save(pair.split('_')[0] + '_sell_price', new_ask, 'float', session_id)
             except Exception, ex:
                 logger.info('Ошибка выставления ордера "sell": %s' % ex.message, prefix)
 
@@ -164,7 +171,7 @@ def run(capi, logger, storage, conf=None, **params):
         #если есть на балансе вторая валюта
         if secondary_balance > 0:
             #получаем цену предыдущей продажи
-            prev_price = storage.load(pair.split('_')[0] + '_sell_price')
+            prev_price = storage.load(pair.split('_')[0] + '_sell_price', session_id)
             #logger.info('prev_price=%s' % str(prev_price), prefix)
 
             #новые цены продажи и покупки
@@ -198,7 +205,7 @@ def run(capi, logger, storage, conf=None, **params):
 
         else:
             #если второй валюты на балансе нет, то удаляем цену продажи
-            storage.delete(pair.split('_')[0] + '_sell_price')
+            storage.delete(pair.split('_')[0] + '_sell_price', session_id)
 
     else:
         #если неправильно задан mode
