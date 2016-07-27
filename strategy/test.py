@@ -1,5 +1,5 @@
 #coding=utf-8
-
+import random
 
 
 def run(capi, logger, storage, conf=None, **params):
@@ -35,4 +35,12 @@ def run(capi, logger, storage, conf=None, **params):
     #print storage.load('key2')
     #print storage.get_utime('key2')
     #storage.delete('key2')
-    print capi.balance_full()
+    #print capi.balance_full()
+    ids = random.randrange(100000, 200000, 1)
+    storage.add_order(ids, 'ETH_USD', 10.5, 12.45, 'sell', '123')
+    storage.add_order(ids+1, 'BTC_USD', 1.1, 645.45, 'sell', '123')
+    print storage.get_orders(session_id='123')
+    print '-' * 40
+    print storage.get_orders(pair='LTC_USD', session_id='123')
+    storage.delete_order(pair='BTC_USD', session_id='123')
+    storage.delete_old_orders(utime=1469620306, pair='ETH_USD', session_id='123')

@@ -47,8 +47,9 @@ def run(capi, logger, storage, conf=None, **params):
         session_id = params['session_id']
     else:
         session_id = None
-    print mode, pair, session_id
-    return
+
+    #print mode, pair, session_id
+    #return
 
     #префикс для логгера
     prefix = capi.name + ' ' + name
