@@ -73,6 +73,8 @@ class CommonAPI:
         return fee
 
 
+    #PUBLIC API
+
     '''
     Список сделок по валютной паре
     pair - одна или несколько валютных пар в виде списка (пример ['BTC_USD','BTC_EUR'])
@@ -97,12 +99,12 @@ class CommonAPI:
     amount - сумма сделки
     date - дата и время сделки в формате Unix
     '''
-    def trades(self, pairs=[]):
+    def trades(self, pairs=[], limit=150):
         valid_pairs = self.pair_settings.keys()
         for pair in pairs:
             if pair not in valid_pairs:
                 raise Exception('pairs expected subset %s' % str(self.pair_settings.keys()))
-        data = self.api.btce_public_api('trades', pair='-'.join(pairs).lower())
+        data = self.api.btce_public_api('trades', pairs='-'.join(pairs).lower(), limit=limit)
         trades = {}
         for pair, items in data.items():
             trades[pair.upper()] = []
@@ -110,8 +112,8 @@ class CommonAPI:
                 date = int(item['timestamp'])
                 trade_id = int(item['tid'])
                 price = float(item['price'])
-                amount = float(item['amount'])
-                quantity = amount * price
+                quantity = float(item['amount'])
+                amount = quantity * price
                 ttype = {'ask':'sell', 'bid':'buy'}[item['type']]
                 trades[pair.upper()].append({'date': date, 'trade_id': trade_id, 'price': price, 'amount': amount, 'quantity': quantity, 'type': ttype})
         return trades
@@ -162,25 +164,21 @@ class CommonAPI:
     bid - список ордеров на покупку, где каждая строка это цена, количество и сумма
     ask - список ордеров на продажу, где каждая строка это цена, количество и сумма
     '''
-    def orders(self, pairs=[], limit=100):
+    def orders(self, pairs=[], limit=150):
         valid_pairs = self.pair_settings.keys()
         for pair in pairs:
             if pair not in valid_pairs:
-                raise Exception('pair expected in ' + str(valid_pairs))
-        orders = self.api.exmo_public_api('order_book', {'pair': ','.join(pairs), 'limit': limit})
-        for pair, data in orders.items():
-            data['ask_quantity'] = float(data['ask_quantity'])
-            data['ask_amount'] = float(data['ask_amount'])
-            data['ask_top'] = float(data['ask_top'])
-            data['bid_quantity'] = float(data['bid_quantity'])
-            data['bid_amount'] = float(data['bid_amount'])
-            data['bid_top'] = float(data['bid_top'])
-            for row in data['bid']:
-                for i in range(len(row)):
-                    row[i] = float(row[i])
-            for row in data['ask']:
-                for i in range(len(row)):
-                    row[i] = float(row[i])
+                raise Exception('pairs expected subset %s' % str(self.pair_settings.keys()))
+        data = self.api.btce_public_api('depth', pairs='-'.join(pairs).lower(), limit=limit)
+        orders = {}
+        for pair, orders_for_pair in data.items():
+            orders[pair.upper()] = {}
+            orders[pair.upper()]['ask'] = []
+            orders[pair.upper()]['bid'] = []
+            for order in orders_for_pair['asks']:
+                orders[pair.upper()]['ask'].append([float(order[0]), float(order[1]), float(order[0])*float(order[1])])
+            for order in orders_for_pair['bids']:
+                orders[pair.upper()]['bid'].append([float(order[0]), float(order[1]), float(order[0])*float(order[1])])
 
         return orders
 
@@ -214,22 +212,24 @@ class CommonAPI:
     updated - дата и время обновления данных
     '''
     def ticker(self):
-        ticker = self.api.exmo_public_api('ticker')
-        for pair, data in ticker.items():
-            data['high'] = float(data['high'])
-            data['low'] = float(data['low'])
-            data['avg'] = float(data['avg'])
-            data['vol'] = float(data['vol'])
-            data['vol_curr'] = float(data['vol_curr'])
-            data['last_trade'] = float(data['last_trade'])
-            data['buy_price'] = float(data['buy_price'])
-            data['sell_price'] = float(data['sell_price'])
-            data['updated'] = int(data['updated'])
+        data = self.api.btce_public_api('ticker')
+        tickers = {}
+        for pair, params in data.items():
+            tickers[pair.upper()] = {}
+            tickers[pair.upper()]['high'] = float(params['high'])
+            tickers[pair.upper()]['low'] = float(params['low'])
+            tickers[pair.upper()]['avg'] = float(params['avg'])
+            tickers[pair.upper()]['vol'] = float(params['vol'])
+            tickers[pair.upper()]['vol_curr'] = float(params['vol_cur'])
+            tickers[pair.upper()]['last_trade'] = float(params['last'])
+            tickers[pair.upper()]['buy_price'] = float(params['buy'])
+            tickers[pair.upper()]['sell_price'] = float(params['sell'])
+            tickers[pair.upper()]['updated'] = int(params['updated'])
 
-        return ticker
+        return tickers
 
 
-
+    #AUTH API
 
 
     '''

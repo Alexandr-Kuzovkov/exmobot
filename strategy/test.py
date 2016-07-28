@@ -65,4 +65,6 @@ def run(capi, logger, storage, conf=None, **params):
             storage.order_delete(pair=stored_order['pair'], order_id=stored_order['order_id'], session_id=session_id)
     '''
 
-    pprint(capi.trades(['BTC_USD', 'ETH_USD']))
+    #pprint(capi.trades(['BTC_USD', 'ETH_USD'], limit=10))
+    #pprint(capi.orders(['BTC_USD', 'ETH_USD'], limit=10))
+    #pprint(capi.ticker())

@@ -287,7 +287,10 @@ class PublicAPIv3(BTCEConnection):
         if method == 'info':
             url = '/api/3/{}'.format(method)
         else:    # method: ticker, depth, trades
-            url = '/api/3/{}/{}'.format(method, self.pairs)
+            if 'pairs' in params:
+                url = '/api/3/{}/{}'.format(method, params['pairs'])
+            else:
+                url = '/api/3/{}/{}'.format(method, self.pairs)
         return self.apirequest(url, **params)
 
 

@@ -71,6 +71,8 @@ class CommonAPI:
         return fee
 
 
+    #PUBLIC API
+
     '''
     Список сделок по валютной паре
     pair - одна или несколько валютных пар в виде списка (пример ['BTC_USD','BTC_EUR'])
@@ -222,8 +224,7 @@ class CommonAPI:
         return ticker
 
 
-
-
+    #AUTH API
 
     '''
     Создание ордера

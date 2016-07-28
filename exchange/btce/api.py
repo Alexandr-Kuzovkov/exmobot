@@ -29,7 +29,7 @@ class API:
 
 
 '''
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 PUBLIC API
 
 Contents
@@ -53,7 +53,7 @@ https://btc-e.nz/api/3/ticker/btc_usd-btc_btc?ignore_invalid=1
 Without the parameter ignore_invalid this request would have caused an error because of a non-existent pair.
 
 
-----------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 Method info
 This method provides all the information about currently active pairs, such as the maximum number of digits after the decimal point, the minimum price, the maximum price, the minimum transaction size, whether the pair is hidden, the commission for each pair.
 
@@ -86,7 +86,7 @@ fee: commission for this pair.
 A hidden pair (hidden=1) remains active but is not displayed in the list of pairs on the main page.
 The Commission is displayed for all users, it will not change even if it was reduced on your account in case of promotional pricing.
 If one of the pairs is disabled, it will simply disappear from the list.
--------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 Method ticker
 This method provides all the information about currently active pairs, such as: the maximum price, the minimum price, average price, trade volume, trade volume in currency, the last trade, Buy and Sell price.
 All information is provided over the past 24 hours.
@@ -119,7 +119,7 @@ last: the price of the last trade.
 buy: buy price.
 sell: sell price.
 updated: last update of cache.
-------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 Method depth
 This method provides the information about active orders on the pair.
 
@@ -152,7 +152,7 @@ Sample response:
 
 asks: Sell orders.
 bids: Buy orders.
----------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 Method trades
 This method provides the information about the last trades.
 
@@ -189,7 +189,7 @@ price: Buy price/Sell price.
 amount: the amount of asset bought/sold.
 tid: trade ID.
 timestamp: UNIX time of the trade.
---------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 TRADE API
 
 Contents
@@ -218,7 +218,7 @@ Response in the case of error:
 }
 
 In the case of error you may also receive a response not in the JSON format. It usually happens if API limits are exceeded or in the case of unknown errors.
---------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 Method getInfo
 Returns information about the user’s current balance, API-key privileges, the number of open orders and Server Time.
 To use this method you need a privilege of the key info.
@@ -250,7 +250,7 @@ rights: The privileges of the current API key. At this time the privilege to wit
 transaction_count: Deprecated, is equal to 0.
 open_orders: The number of your open orders.
 server_time: Server time (MSK).
----------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 Method Trade
 The basic method that can be used for creating orders and trading on the exchange.
 To use this method you need an API key privilege to trade.
@@ -285,7 +285,7 @@ received: The amount of currency bought/sold.
 remains: The remaining amount of currency to be bought/sold (and the initial order amount).
 order_id: Is equal to 0 if the request was fully “matched” by the opposite orders, otherwise the ID of the executed order will be returned.
 funds: Balance after the request.
--------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 Method ActiveOrders
 Returns the list of your active orders.
 To use this method you need a privilege of the info key.
@@ -319,7 +319,7 @@ amount: The amount of currency to be bought/sold.
 rate: Sell/Buy price.
 timestamp_created: The time when the order was created.
 status: Deprecated, is always equal to 0.
-------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 Method OrderInfo
 Returns the information on particular order.
 To use this method you need a privilege of the info key.
@@ -350,7 +350,7 @@ amount: The remaining amount of currency to be bought/sold.
 rate: Sell/Buy price.
 timestamp_created: The time when the order was created.
 status: 0 - active, 1 – executed order, 2 - canceled, 3 – canceled, but was partially executed.
-------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 Method CancelOrder
 This method is used for order cancelation.
 To use this method you need a privilege of the trade key.
@@ -373,7 +373,7 @@ Sample response:
 
 order_id: The ID of canceled order.
 funds: Balance upon request.
-------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 Method TradeHistory
 Returns trade history.
 To use this method you need a privilege of the info key.
@@ -414,7 +414,7 @@ rate: Sell/Buy price.
 order_id: Order ID.
 is_your_order: Is equal to 1 if order_id is your order, otherwise is equal to 0.
 timestamp: Trade execution time.
-------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 Method TransHistory
 Returns the history of transactions.
 To use this method you need a privilege of the info key.
@@ -451,7 +451,7 @@ currency: Transaction currency.
 desc: Transaction description.
 status: Transaction status. 0 - canceled/failed, 1 - waiting for acceptance, 2 - successful, 3 – not confirmed
 timestamp: Transaction time.
-------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 WithdrawCoin Method
 The method is designed for cryptocurrency withdrawals.
 Please note: You need to have the privilege of the Withdraw key to be able to use this method. You can make a request for enabling this privilege by submitting a ticket to Support.
@@ -480,7 +480,7 @@ Sample response:
 tId: Transaction ID.
 amountSent: The amount sent including commission.
 funds: Balance after the request.
------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 CreateCoupon Method
 This method allows you to create Coupons.
 Please, note: In order to use this method, you need the Coupon key privilege. You can make a request to enable it by submitting a ticket to Support..
@@ -509,7 +509,7 @@ Sample response:
 coupon: Generated coupon.
 transID: Transaction ID.
 funds: Balance after the request.
-------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 RedeemCoupon Method
 This method is used to redeem coupons.
 Please, note: In order to use this method, you need the Coupon key privilege. You can make a request to enable it by submitting a ticket to Support..
@@ -539,5 +539,5 @@ couponAmount: The amount that has been redeemed.
 couponCurrency: The currency of the coupon that has been redeemed.
 transID: Transaction ID.
 funds: Balance after the request.
--------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 '''

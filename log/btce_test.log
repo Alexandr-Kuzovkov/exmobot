@@ -2,3 +2,5 @@
  Thu Jul 28 16:50:54 2016: Startup Error: call() takes exactly 2 arguments (3 given)
  Thu Jul 28 16:53:41 2016: Startup Error: call() takes exactly 2 arguments (3 given)
  Thu Jul 28 19:30:17 2016: Strategy.run: btce_public_api() takes exactly 2 arguments (3 given)
+ Thu Jul 28 21:05:03 2016: Strategy.run: PPC_USD
+ Thu Jul 28 21:06:42 2016: Strategy.run: PPC_USD

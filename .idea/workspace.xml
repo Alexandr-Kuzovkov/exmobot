@@ -2,13 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="caed98d7-9df3-486c-847b-196bfd55c276" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/exchange/btce/api.py" afterPath="$PROJECT_DIR$/exchange/btce/api.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/exchange/btce/btcelib.py" afterPath="$PROJECT_DIR$/exchange/btce/btcelib.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/exchange/btce/common_api.py" afterPath="$PROJECT_DIR$/exchange/btce/common_api.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/exchange/exmo/api.py" afterPath="$PROJECT_DIR$/exchange/exmo/api.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/exchange/exmo/common_api.py" afterPath="$PROJECT_DIR$/exchange/exmo/common_api.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/exchange/exmo/config.py" afterPath="$PROJECT_DIR$/exchange/exmo/config.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/btce_test.log" afterPath="$PROJECT_DIR$/log/btce_test.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/strategy/flip.py" afterPath="$PROJECT_DIR$/strategy/flip.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/strategy/test.py" afterPath="$PROJECT_DIR$/strategy/test.py" />
     </list>
     <ignored path="exmo_bot.iws" />
@@ -47,7 +46,7 @@
         <entry file="file://$PROJECT_DIR$/exchange/exmo/common_api.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="70" column="18" selection-start-line="70" selection-start-column="18" selection-end-line="70" selection-end-column="18" />
+              <caret line="226" column="13" selection-start-line="226" selection-start-column="13" selection-end-line="226" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -73,11 +72,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="api.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="api.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/exchange/btce/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.94">
-              <caret line="541" column="115" selection-start-line="541" selection-start-column="115" selection-end-line="541" selection-end-column="115" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="541" column="109" selection-start-line="541" selection-start-column="109" selection-end-line="541" selection-end-column="109" />
               <folding>
                 <element signature="e#16#55#0" expanded="true" />
               </folding>
@@ -89,20 +88,20 @@
         <entry file="file://$PROJECT_DIR$/exchange/btce/btcelib.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="90" column="57" selection-start-line="90" selection-start-column="57" selection-end-line="90" selection-end-column="57" />
+              <caret line="292" column="16" selection-start-line="292" selection-start-column="16" selection-end-line="292" selection-end-column="16" />
               <folding>
                 <element signature="e#86#98#0" expanded="true" />
-                <marker date="1469710594542" expanded="true" signature="1020:1068" placeholder="import ..." />
+                <marker date="1469730835029" expanded="true" signature="1020:1068" placeholder="import ..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="common_api.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="common_api.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/exchange/btce/common_api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="117" column="0" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.34">
+              <caret line="231" column="13" selection-start-line="231" selection-start-column="13" selection-end-line="231" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -134,7 +133,7 @@
         <entry file="file://$PROJECT_DIR$/strategy/test.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="67" column="47" selection-start-line="67" selection-start-column="47" selection-end-line="67" selection-end-column="47" />
+              <caret line="69" column="5" selection-start-line="69" selection-start-column="5" selection-end-line="69" selection-end-column="5" />
               <folding>
                 <element signature="e#14#27#0" expanded="true" />
               </folding>
@@ -181,17 +180,17 @@
         <option value="$PROJECT_DIR$/exchange/btc_e/common_api.py" />
         <option value="$PROJECT_DIR$/exchange/btc_e/config.py" />
         <option value="$PROJECT_DIR$/exchange/btc_e/api.py" />
-        <option value="$PROJECT_DIR$/exchange/btce/btcelib.py" />
         <option value="$PROJECT_DIR$/exchange/btce/config.py" />
         <option value="$PROJECT_DIR$/conf/btce_test.conf" />
         <option value="$PROJECT_DIR$/bot.py" />
         <option value="$PROJECT_DIR$/exchange/exmo/api.py" />
         <option value="$PROJECT_DIR$/exchange/exmo/config.py" />
-        <option value="$PROJECT_DIR$/exchange/exmo/common_api.py" />
         <option value="$PROJECT_DIR$/strategy/flip.py" />
-        <option value="$PROJECT_DIR$/strategy/test.py" />
-        <option value="$PROJECT_DIR$/exchange/btce/common_api.py" />
         <option value="$PROJECT_DIR$/exchange/btce/api.py" />
+        <option value="$PROJECT_DIR$/exchange/btce/btcelib.py" />
+        <option value="$PROJECT_DIR$/strategy/test.py" />
+        <option value="$PROJECT_DIR$/exchange/exmo/common_api.py" />
+        <option value="$PROJECT_DIR$/exchange/btce/common_api.py" />
       </list>
     </option>
   </component>
@@ -836,16 +835,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/exchange/exmo/api.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="43" selection-start-line="18" selection-start-column="43" selection-end-line="18" selection-end-column="43" />
-          <folding>
-            <element signature="e#16#30#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/exchange/exmo/config.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -862,13 +851,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/exchange/btce/api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="541" column="109" selection-start-line="541" selection-start-column="109" selection-end-line="541" selection-end-column="109" />
+          <folding>
+            <element signature="e#16#55#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/exchange/btce/btcelib.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="90" column="57" selection-start-line="90" selection-start-column="57" selection-end-line="90" selection-end-column="57" />
+          <caret line="292" column="16" selection-start-line="292" selection-start-column="16" selection-end-line="292" selection-end-column="16" />
           <folding>
             <element signature="e#86#98#0" expanded="true" />
-            <marker date="1469710594542" expanded="true" signature="1020:1068" placeholder="import ..." />
+            <marker date="1469730835029" expanded="true" signature="1020:1068" placeholder="import ..." />
           </folding>
         </state>
       </provider>
@@ -876,9 +875,19 @@
     <entry file="file://$PROJECT_DIR$/strategy/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="67" column="47" selection-start-line="67" selection-start-column="47" selection-end-line="67" selection-end-column="47" />
+          <caret line="69" column="5" selection-start-line="69" selection-start-column="5" selection-end-line="69" selection-end-column="5" />
           <folding>
             <element signature="e#14#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exchange/exmo/api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="18" column="43" selection-start-line="18" selection-start-column="43" selection-end-line="18" selection-end-column="43" />
+          <folding>
+            <element signature="e#16#30#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -886,26 +895,16 @@
     <entry file="file://$PROJECT_DIR$/exchange/exmo/common_api.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="70" column="18" selection-start-line="70" selection-start-column="18" selection-end-line="70" selection-end-column="18" />
+          <caret line="226" column="13" selection-start-line="226" selection-start-column="13" selection-end-line="226" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/exchange/btce/common_api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="117" column="0" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.34">
+          <caret line="231" column="13" selection-start-line="231" selection-start-column="13" selection-end-line="231" selection-end-column="13" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/exchange/btce/api.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.94">
-          <caret line="541" column="115" selection-start-line="541" selection-start-column="115" selection-end-line="541" selection-end-column="115" />
-          <folding>
-            <element signature="e#16#55#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
