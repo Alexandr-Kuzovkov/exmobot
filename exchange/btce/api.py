@@ -24,7 +24,7 @@ class API:
     '''
 
     def btce_api(self, method, **params):
-        return self.tapi.call(method, params)
+        return self.tapi.call(method, **params)
 
 
 

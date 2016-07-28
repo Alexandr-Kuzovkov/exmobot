@@ -68,3 +68,5 @@ def run(capi, logger, storage, conf=None, **params):
     #pprint(capi.trades(['BTC_USD', 'ETH_USD'], limit=10))
     #pprint(capi.orders(['BTC_USD', 'ETH_USD'], limit=10))
     #pprint(capi.ticker())
+    #pprint(capi.balance())
+    pprint(capi.user_orders())

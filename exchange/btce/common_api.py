@@ -315,14 +315,14 @@ class CommonAPI:
     или число
     '''
     def balance(self, currency=None):
-        user_info = self.api.exmo_api('user_info')
+        data = self.api.btce_api('getInfo')
         if currency is not None and currency in self.currency:
-            return float(user_info['balances'][currency])
+            balances = float(data['funds'][currency.lower()])
         else:
             balances = {}
-            for k,v in user_info['balances'].items():
-                balances[k] = float(v)
-            return balances
+            for pair, amount in data['funds'].items():
+                balances[pair.upper()] = float(amount)
+        return balances
 
     '''
     получение баланса по выбранной валюте или по всем в ордерах
@@ -331,14 +331,7 @@ class CommonAPI:
     или число
     '''
     def orders_balance(self, currency=None):
-        user_info = self.api.exmo_api('user_info')
-        if currency is not None and currency in self.currency:
-            return float(user_info['reserved'][currency])
-        else:
-            balances = {}
-            for k,v in user_info['reserved'].items():
-                balances[k] = float(v)
-            return balances
+        raise Exception('"orders_balance" now not realise!')
 
 
     '''
@@ -348,13 +341,7 @@ class CommonAPI:
     или число
     '''
     def balance_full(self):
-        user_info = self.api.exmo_api('user_info')
-        balances = {'balances': user_info['balances'], 'orders': user_info['reserved']}
-        for currency, amount in balances['balances'].items():
-            balances['balances'][currency] = float(balances['balances'][currency])
-        for currency, amount in balances['orders'].items():
-            balances['orders'][currency] = float(balances['orders'][currency])
-        return balances
+        raise Exception('"balance_full" now not realise!')
 
 
     '''
@@ -383,7 +370,11 @@ class CommonAPI:
     amount - сумма по ордеру
     '''
     def user_orders(self):
-        orders = self.api.user_open_orders()
+        try:
+            data = self.api.btce_api('ActiveOrders')
+        except Exception, ex:
+            return {}
+        '''
         for pair, list_orders in orders.items():
             for order in list_orders:
                 order['created'] = int(order['created'])
@@ -391,7 +382,8 @@ class CommonAPI:
                 order['price'] = float(order['price'])
                 order['amount'] = float(order['amount'])
                 order['quantity'] = float(order['quantity'])
-        return orders
+        '''
+        return data
 
 
     '''

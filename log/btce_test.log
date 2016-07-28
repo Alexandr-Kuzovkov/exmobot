@@ -4,3 +4,13 @@
  Thu Jul 28 19:30:17 2016: Strategy.run: btce_public_api() takes exactly 2 arguments (3 given)
  Thu Jul 28 21:05:03 2016: Strategy.run: PPC_USD
  Thu Jul 28 21:06:42 2016: Strategy.run: PPC_USD
+ Thu Jul 28 22:07:34 2016: Strategy.run: call() takes exactly 2 arguments (3 given)
+ Thu Jul 28 22:31:25 2016: Strategy.run: no orders
+ Thu Jul 28 22:34:39 2016: Strategy.run: no orders
+ Thu Jul 28 22:37:44 2016: Strategy.run: no orders
+ Thu Jul 28 22:39:34 2016: Strategy.run: no orders
+ Thu Jul 28 22:45:02 2016: Strategy.run: no orders
+ Thu Jul 28 23:03:51 2016: Strategy.run: error
+ Thu Jul 28 23:05:09 2016: Strategy.run: error
+ Thu Jul 28 23:05:52 2016: Strategy.run: error
+ Thu Jul 28 23:10:12 2016: Strategy.run: no orders
