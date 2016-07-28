@@ -115,7 +115,7 @@ def run(capi, logger, storage, conf=None, **params):
     logger.info('Balance: %s = %f; %s = %f' % (pair.split('_')[0], balance[pair.split('_')[0]], pair.split('_')[1], balance[pair.split('_')[1]]), prefix)
 
     #комиссия
-    fee = capi.fee['sell']
+    fee = capi.fee[pair]
 
     #если наращиваем вторую валюту в паре(игра на повышении)
     if mode == 0:

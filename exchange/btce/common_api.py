@@ -63,6 +63,9 @@ class CommonAPI:
         return currency
 
 
+    '''
+    Получение комиссий по парам
+    '''
     def _get_fee(self):
         fee = {}
         for pair, settings in self.pair_settings.items():
@@ -98,16 +101,21 @@ class CommonAPI:
         valid_pairs = self.pair_settings.keys()
         for pair in pairs:
             if pair not in valid_pairs:
-                return False
-        data = self.api.exmo_public_api('trades', {'pair': ','.join(pairs)})
+                raise Exception('pairs expected subset %s' % str(self.pair_settings.keys()))
+        data = self.api.btce_public_api('trades', pair='-'.join(pairs).lower())
+        trades = {}
         for pair, items in data.items():
-            for order in items:
-                order['date'] = int(order['date'])
-                order['trade_id'] = int(order['trade_id'])
-                order['price'] = float(order['price'])
-                order['amount'] = float(order['amount'])
-                order['quantity'] = float(order['quantity'])
-        return data
+            trades[pair.upper()] = []
+            for item in items:
+                date = int(item['timestamp'])
+                trade_id = int(item['tid'])
+                price = float(item['price'])
+                amount = float(item['amount'])
+                quantity = amount * price
+                ttype = {'ask':'sell', 'bid':'buy'}[item['type']]
+                trades[pair.upper()].append({'date': date, 'trade_id': trade_id, 'price': price, 'amount': amount, 'quantity': quantity, 'type': ttype})
+        return trades
+
 
     '''
     Книга ордеров по валютной паре

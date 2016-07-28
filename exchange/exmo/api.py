@@ -17,7 +17,6 @@ class API:
     def __init__(self):
         self.api_key = config.api_key
         self.api_secret = config.api_secret
-        self.fee = config.fee
 
     '''
     Вызов метода AUTH API

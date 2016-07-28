@@ -1,3 +1,4 @@
  Thu Jul 28 16:50:05 2016: Startup Error: CommonAPI instance has no attribute '_get_pair_settings'
  Thu Jul 28 16:50:54 2016: Startup Error: call() takes exactly 2 arguments (3 given)
  Thu Jul 28 16:53:41 2016: Startup Error: call() takes exactly 2 arguments (3 given)
+ Thu Jul 28 19:30:17 2016: Strategy.run: btce_public_api() takes exactly 2 arguments (3 given)

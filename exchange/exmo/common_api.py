@@ -14,7 +14,7 @@ class CommonAPI:
         self.api = api
         self.pair_settings = self._get_pair_settings()
         self.currency = self._get_currency()
-        self.fee = config.fee
+        self.fee = self._get_fee()
 
     '''
     Настройки валютных пар
@@ -63,6 +63,12 @@ class CommonAPI:
         if ('result' in data) and (not data['result']):
             raise Exception('EXMO API is not availlable!')
         return data
+
+    def _get_fee(self):
+        fee = {}
+        for pair in self.pair_settings.keys():
+            fee[pair] = config.fee
+        return fee
 
 
     '''

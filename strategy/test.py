@@ -1,5 +1,6 @@
 #coding=utf-8
 import random
+from pprint import pprint
 
 
 def run(capi, logger, storage, conf=None, **params):
@@ -64,3 +65,4 @@ def run(capi, logger, storage, conf=None, **params):
             storage.order_delete(pair=stored_order['pair'], order_id=stored_order['order_id'], session_id=session_id)
     '''
 
+    pprint(capi.trades(['BTC_USD', 'ETH_USD']))
