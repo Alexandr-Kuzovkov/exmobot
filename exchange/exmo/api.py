@@ -20,7 +20,7 @@ class API:
         self.fee = config.fee
 
     '''
-    Вызов метода API
+    Вызов метода AUTH API
     '''
     def exmo_api(self, method, params={}):
         nonce = int(round(time.time() * 1000))

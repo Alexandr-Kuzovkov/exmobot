@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="caed98d7-9df3-486c-847b-196bfd55c276" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conf/flip_eth_usd.conf" afterPath="$PROJECT_DIR$/conf/flip_eth_usd.conf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/exchange/btce/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/exchange/btce/api.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/exchange/exmo/api.py" afterPath="$PROJECT_DIR$/exchange/exmo/api.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/flip_eth_usd.log" afterPath="$PROJECT_DIR$/log/flip_eth_usd.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/strategy/flip.py" afterPath="$PROJECT_DIR$/strategy/flip.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/strategy/test.py" afterPath="$PROJECT_DIR$/strategy/test.py" />
     </list>
     <ignored path="exmo_bot.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,7 +33,7 @@
         <entry file="file://$PROJECT_DIR$/exchange/exmo/api.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="100" column="32" selection-start-line="100" selection-start-column="32" selection-end-line="100" selection-end-column="32" />
+              <caret line="22" column="22" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
               <folding>
                 <element signature="e#16#30#0" expanded="true" />
               </folding>
@@ -42,7 +45,7 @@
         <entry file="file://$PROJECT_DIR$/exchange/exmo/common_api.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="62" column="55" selection-start-line="62" selection-start-column="55" selection-end-line="62" selection-end-column="55" />
+              <caret line="24" column="29" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -52,65 +55,42 @@
         <entry file="file://$PROJECT_DIR$/conf/flip_eth_usd.conf">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="30" column="2" selection-start-line="30" selection-start-column="1" selection-end-line="30" selection-end-column="53" />
+              <caret line="0" column="2" selection-start-line="0" selection-start-column="0" selection-end-line="31" selection-end-column="10" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="flip.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/strategy/flip.py">
+      <file leaf-file-name="api.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/exchange/btce/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.88">
-              <caret line="262" column="0" selection-start-line="262" selection-start-column="0" selection-end-line="262" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
               <folding>
-                <element signature="e#14#25#0" expanded="true" />
+                <element signature="e#16#55#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sqlite.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/storage/sqlite.py">
+      <file leaf-file-name="btcelib.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/exchange/btce/btcelib.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="121" column="14" selection-start-line="121" selection-start-column="14" selection-end-line="121" selection-end-column="14" />
+              <caret line="158" column="50" selection-start-line="158" selection-start-column="50" selection-end-line="158" selection-end-column="50" />
               <folding>
-                <element signature="e#15#29#0" expanded="true" />
-                <marker date="1469627189085" expanded="true" signature="341:426" placeholder="CREATE TABLE... session_data" />
-                <marker date="1469627189085" expanded="true" signature="450:566" placeholder="CREATE TABLE... orders" />
-                <marker date="1469627189085" expanded="true" signature="936:973" placeholder="SELECT * FRO... session_data" />
-                <marker date="1469627189085" expanded="true" signature="936:974" placeholder="SELECT * FRO... session_data" />
-                <marker date="1469627189085" expanded="true" signature="936:987" placeholder="SELECT * FRO... session_data" />
-                <marker date="1469627189085" expanded="true" signature="936:991" placeholder="SELECT * FRO... session_data" />
-                <marker date="1469627189085" expanded="true" signature="1076:1153" placeholder="INSERT INTO session_data... " />
-                <marker date="1469627189085" expanded="true" signature="1244:1293" placeholder="UPDATE sessi... " />
-                <marker date="1469627189085" expanded="true" signature="1244:1321" placeholder="UPDATE sessi... " />
-                <marker date="1469627189085" expanded="true" signature="1639:1694" placeholder="SELECT * FRO... session_data" />
-                <marker date="1469627189085" expanded="true" signature="2189:2244" placeholder="SELECT * FRO... session_data" />
-                <marker date="1469627189085" expanded="true" signature="2574:2627" placeholder="DELETE FROM " />
-                <marker date="1469627189085" expanded="true" signature="2960:3014" placeholder="SELECT * FRO... orders" />
-                <marker date="1469627189085" expanded="true" signature="3104:3210" placeholder="INSERT INTO session_data... " />
-                <marker date="1469627189085" expanded="true" signature="3328:3442" placeholder="UPDATE sessi... " />
-                <marker date="1469627189085" expanded="true" signature="3888:3948" placeholder="DELETE FROM " />
-                <marker date="1469627189085" expanded="true" signature="4038:4086" placeholder="DELETE FROM " />
-                <marker date="1469627189085" expanded="true" signature="4170:4222" placeholder="DELETE FROM " />
-                <marker date="1469627189085" expanded="true" signature="4289:4326" placeholder="DELETE FROM " />
-                <marker date="1469627189085" expanded="true" signature="4668:4728" placeholder="DELETE FROM " />
-                <marker date="1469627189085" expanded="true" signature="4797:4834" placeholder="DELETE FROM " />
-                <marker date="1469627189085" expanded="true" signature="4797:4846" placeholder="DELETE FROM " />
-                <marker date="1469627189085" expanded="true" signature="5172:5211" placeholder="SELECT * FRO... orders" />
-                <marker date="1469627189085" expanded="true" signature="5268:5318" placeholder="SELECT * FRO... orders" />
+                <element signature="e#86#98#0" expanded="true" />
+                <marker date="1469710594542" expanded="true" signature="1020:1068" placeholder="import ..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="flip_eth_usd.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/strategy/flip_eth_usd.py">
+      <file leaf-file-name="common_api.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/exchange/btce/common_api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="6" column="80" selection-start-line="6" selection-start-column="80" selection-end-line="6" selection-end-column="80" />
+            <state vertical-scroll-proportion="-2.4">
+              <caret line="81" column="25" selection-start-line="81" selection-start-column="25" selection-end-line="81" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -120,10 +100,20 @@
         <entry file="file://$PROJECT_DIR$/bot.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="79" column="20" selection-start-line="73" selection-start-column="0" selection-end-line="82" selection-end-column="48" />
+              <caret line="69" column="4" selection-start-line="69" selection-start-column="4" selection-end-line="69" selection-end-column="4" />
               <folding>
                 <element signature="e#23#36#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="btce_test.conf" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/conf/btce_test.conf">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -132,20 +122,18 @@
         <entry file="file://$PROJECT_DIR$/strategy/test.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="58" column="33" selection-start-line="58" selection-start-column="33" selection-end-line="58" selection-end-column="33" />
+              <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test.py">
+      <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/exchange/btce/config.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="81" column="41" selection-start-line="81" selection-start-column="41" selection-end-line="81" selection-end-column="41" />
-              <folding>
-                <element signature="e#23#36#0" expanded="true" />
-              </folding>
+              <caret line="2" column="140" selection-start-line="2" selection-start-column="140" selection-end-line="2" selection-end-column="140" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -173,7 +161,6 @@
         <option value="$PROJECT_DIR$/strategy/__init__.py" />
         <option value="$PROJECT_DIR$/strategy/buy_sell.py" />
         <option value="$PROJECT_DIR$/exchange/exmo/action.py" />
-        <option value="$PROJECT_DIR$/exchange/exmo/api.py" />
         <option value="$PROJECT_DIR$/exchange/exmo/test.py" />
         <option value="$PROJECT_DIR$/strategy/strateg1.py" />
         <option value="$PROJECT_DIR$/test_opt.py" />
@@ -183,14 +170,24 @@
         <option value="$PROJECT_DIR$/cron.py" />
         <option value="$PROJECT_DIR$/strategy/flip_btc_usd__eth_usd.py" />
         <option value="$PROJECT_DIR$/strategy/flip_eth_usd2.py" />
-        <option value="$PROJECT_DIR$/strategy/flip_eth_usd.py" />
         <option value="$PROJECT_DIR$/storage/sqlite.py" />
         <option value="$PROJECT_DIR$/exchange/exmo/common_api.py" />
-        <option value="$PROJECT_DIR$/strategy/test.py" />
-        <option value="$PROJECT_DIR$/bot.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/conf/flip_eth_usd.conf" />
         <option value="$PROJECT_DIR$/strategy/flip.py" />
+        <option value="$PROJECT_DIR$/strategy/flip_eth_usd.py" />
+        <option value="$PROJECT_DIR$/exchange/btc_e/__init__.py" />
+        <option value="$PROJECT_DIR$/exchange/btc_e/common_api.py" />
+        <option value="$PROJECT_DIR$/exchange/btc_e/config.py" />
+        <option value="$PROJECT_DIR$/exchange/btc_e/api.py" />
+        <option value="$PROJECT_DIR$/exchange/btce/btcelib.py" />
+        <option value="$PROJECT_DIR$/exchange/exmo/api.py" />
+        <option value="$PROJECT_DIR$/exchange/btce/config.py" />
+        <option value="$PROJECT_DIR$/conf/btce_test.conf" />
+        <option value="$PROJECT_DIR$/strategy/test.py" />
+        <option value="$PROJECT_DIR$/bot.py" />
+        <option value="$PROJECT_DIR$/exchange/btce/api.py" />
+        <option value="$PROJECT_DIR$/exchange/btce/common_api.py" />
       </list>
     </option>
   </component>
@@ -211,7 +208,7 @@
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="1" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
@@ -332,6 +329,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="exchange" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="btce" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="exmo_bot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="exmo_bot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="conf" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -345,6 +360,8 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js-jscs-nodeInterpreter" value="/usr/bin/node" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -569,7 +586,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1796875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -599,6 +616,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="PERFORM_UPDATE_IN_BACKGROUND" value="false" />
+    <option name="PERFORM_COMMIT_IN_BACKGROUND" value="false" />
+    <option name="PERFORM_CHECKOUT_IN_BACKGROUND" value="false" />
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
@@ -639,7 +659,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#14#25#0" expanded="true" />
+            <element signature="e#14#25#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -675,7 +695,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="81" column="0" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
           <folding>
-            <element signature="e#23#36#0" expanded="true" />
+            <element signature="e#23#36#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -720,13 +740,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="2" column="35" selection-start-line="2" selection-start-column="35" selection-end-line="2" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/strategy/flip_eth_usd.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="80" selection-start-line="6" selection-start-column="80" selection-end-line="6" selection-end-column="80" />
           <folding />
         </state>
       </provider>
@@ -765,48 +778,56 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="79" column="20" selection-start-line="73" selection-start-column="0" selection-end-line="82" selection-end-column="48" />
-          <folding>
-            <element signature="e#23#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="81" column="41" selection-start-line="81" selection-start-column="41" selection-end-line="81" selection-end-column="41" />
           <folding>
-            <element signature="e#23#36#0" expanded="true" />
+            <element signature="e#23#36#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/strategy/test.py">
+    <entry file="file://$PROJECT_DIR$/strategy/flip_eth_usd.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="58" column="33" selection-start-line="58" selection-start-column="33" selection-end-line="58" selection-end-column="33" />
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exchange/btce/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/strategy/flip.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="261" column="65" selection-start-line="261" selection-start-column="65" selection-end-line="261" selection-end-column="65" />
+          <folding>
+            <element signature="e#14#25#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/exchange/exmo/api.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="100" column="32" selection-start-line="100" selection-start-column="32" selection-end-line="100" selection-end-column="32" />
+          <caret line="22" column="22" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
           <folding>
             <element signature="e#16#30#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/exchange/exmo/common_api.py">
+    <entry file="file://$PROJECT_DIR$/exchange/btce/config.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="62" column="55" selection-start-line="62" selection-start-column="55" selection-end-line="62" selection-end-column="55" />
+          <caret line="2" column="140" selection-start-line="2" selection-start-column="140" selection-end-line="2" selection-end-column="140" />
           <folding />
         </state>
       </provider>
@@ -814,18 +835,71 @@
     <entry file="file://$PROJECT_DIR$/conf/flip_eth_usd.conf">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="30" column="2" selection-start-line="30" selection-start-column="1" selection-end-line="30" selection-end-column="53" />
+          <caret line="0" column="2" selection-start-line="0" selection-start-column="0" selection-end-line="31" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/strategy/flip.py">
+    <entry file="file://$PROJECT_DIR$/conf/btce_test.conf">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.88">
-          <caret line="262" column="0" selection-start-line="262" selection-start-column="0" selection-end-line="262" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/strategy/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="69" column="4" selection-start-line="69" selection-start-column="4" selection-end-line="69" selection-end-column="4" />
           <folding>
-            <element signature="e#14#25#0" expanded="true" />
+            <element signature="e#23#36#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exchange/btce/api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+          <folding>
+            <element signature="e#16#55#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exchange/btce/btcelib.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="158" column="50" selection-start-line="158" selection-start-column="50" selection-end-line="158" selection-end-column="50" />
+          <folding>
+            <element signature="e#86#98#0" expanded="true" />
+            <marker date="1469710594542" expanded="true" signature="1020:1068" placeholder="import ..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exchange/exmo/common_api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="24" column="29" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exchange/btce/common_api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.4">
+          <caret line="81" column="25" selection-start-line="81" selection-start-column="25" selection-end-line="81" selection-end-column="25" />
+          <folding />
         </state>
       </provider>
     </entry>

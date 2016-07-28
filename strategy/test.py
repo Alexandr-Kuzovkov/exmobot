@@ -63,3 +63,4 @@ def run(capi, logger, storage, conf=None, **params):
         if not order_exists:
             storage.order_delete(pair=stored_order['pair'], order_id=stored_order['order_id'], session_id=session_id)
     '''
+
