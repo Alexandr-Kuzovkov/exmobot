@@ -75,3 +75,4 @@ def run(capi, logger, storage, conf=None, **params):
     #pprint(capi.orders_cancel())
     #pprint(capi.orders_cancel())
     #pprint(capi.required_amount('USD_RUR', 10000))
+    pprint(capi.order_create(pair='ETH_USD', quantity=1.180682, price=12.484980, order_type='buy'))

@@ -51,8 +51,10 @@ def run(capi, logger, storage, conf=None, **params):
     #id сессии
     if 'session_id' in params:
         session_id = params['session_id']
+    elif conf.has_option('common', 'session_id'):
+        session_id = conf.get('common', 'session_id')
     else:
-        session_id = None
+        session_id = 0
 
     #лимит использования депозита по второй валюте в паре
     if 'limit' in params:
@@ -69,6 +71,7 @@ def run(capi, logger, storage, conf=None, **params):
     #префикс для логгера
     prefix = capi.name + ' ' + name
 
+    logger.info('-'*40, prefix)
     logger.info('pair: %s  mode: %i' % (pair, mode), prefix)
 
     #удаляем неактуальные записи об ордерах
@@ -116,6 +119,7 @@ def run(capi, logger, storage, conf=None, **params):
 
     #комиссия
     fee = capi.fee[pair]
+    logger.info('fee=%f' % fee)
 
     #если наращиваем вторую валюту в паре(игра на повышении)
     if mode == 0:
@@ -177,14 +181,14 @@ def run(capi, logger, storage, conf=None, **params):
                 quantity = min(limit/new_bid, secondary_balance/new_bid)
                 res = capi.order_create(pair=pair, quantity=quantity, price=new_bid, order_type='buy')
                 if not res['result']:
-                    logger.info('Ошибка выставления ордера "buy": %s' % str(res['error']), prefix)
+                    logger.info('1.Ошибка выставления ордера "buy": %s' % str(res['error']), prefix)
                 else:
                     logger.info('Ордер "buy": %s: price=%f' % (pair, new_bid), prefix)
                     storage.save(pair.split('_')[0] + '_buy_price', new_bid, 'float', session_id)
                     #сохраняем данные по поставленному ордеру
                     storage.order_add(res['order_id'], pair, quantity, new_bid, 'buy', session_id)
             except Exception, ex:
-                logger.info('Ошибка выставления ордера "buy": %s' % ex.message, prefix)
+                logger.info('2.Ошибка выставления ордера "buy": %s' % ex.message, prefix)
 
     #если наращиваем первую валюту в паре (игра на понижении)
     elif mode == 1:

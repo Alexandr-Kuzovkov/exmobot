@@ -70,8 +70,18 @@ class CommonAPI:
     def _get_fee(self):
         fee = {}
         for pair, settings in self.pair_settings.items():
-            fee[pair] = settings['fee']
+            fee[pair] = settings['fee']/100.0
         return fee
+
+
+    '''
+    Округление числа
+    '''
+    def _round(self, number, prec):
+        number = number * (10**prec)
+        number = int(number)
+        number = float(number) / (10**prec)
+        return number
 
 
     #PUBLIC API
@@ -273,6 +283,9 @@ class CommonAPI:
         if order_type is None or order_type not in valid_types:
             raise Exception('type expected in ' + str(valid_types))
 
+        quantity = self._round(quantity, 6)
+        price = self._round(price, 6)
+        
         try:
             data = self.api.btce_api('Trade', pair=pair.lower(), type=order_type, rate=price, amount=quantity)
         except Exception, ex:
