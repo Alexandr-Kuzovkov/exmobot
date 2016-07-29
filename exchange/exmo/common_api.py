@@ -64,6 +64,9 @@ class CommonAPI:
             raise Exception('EXMO API is not availlable!')
         return data
 
+    '''
+    Получение комиссий по парам
+    '''
     def _get_fee(self):
         fee = {}
         for pair in self.pair_settings.keys():

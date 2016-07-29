@@ -257,7 +257,7 @@ class CommonAPI:
     order_id - идентификатор ордера
     '''
     def order_create(self, pair, quantity, price, order_type):
-        valid_types = ['buy', 'sell', 'market_buy', 'market_sell', 'market_buy_total', 'market_sell_total']
+        valid_types = ['buy', 'sell']
         valid_pairs = self.pair_settings.keys()
         min_quantity = self.pair_settings[pair]['min_quantity']
         max_quantity = self.pair_settings[pair]['max_quantity']
@@ -271,8 +271,13 @@ class CommonAPI:
             raise Exception('price expected in range %f - %f!' % (min_price, max_price))
         if order_type is None or order_type not in valid_types:
             raise Exception('type expected in ' + str(valid_types))
-        params = {'pair': pair, 'quantity': quantity, 'price': price, 'type': order_type}
-        return self.api.exmo_api('order_create', params)
+
+        try:
+            data = self.api.btce_api('Trade', pair=pair.lower(), type=order_type, rate=price, amount=quantity)
+        except Exception, ex:
+            return {'result': False, 'error': ex.message}
+        else:
+            return {'result': True, 'error': '', 'order_id': data['order_id']}
 
     '''
     Отмена ордера
@@ -288,8 +293,12 @@ class CommonAPI:
     error - содержит текст ошибки
     '''
     def order_cancel(self, order_id):
-        params = {'order_id': order_id}
-        return self.api.exmo_api('order_cancel', params)
+        try:
+            data = self.api.btce_api('CancelOrder', order_id=order_id)
+        except Exception, ex:
+            return {'result': False, 'error': ex.message}
+        else:
+            return {'result': True, 'error': ''}
 
     '''
     отмена всех ордеров по валютным парам(задаются в виде списка), если не задана то по всем парам
@@ -297,13 +306,13 @@ class CommonAPI:
     @return {order_id:True/False, ...}
     '''
     def orders_cancel(self, pairs=None):
-        open_orders = self.api.exmo_api('user_open_orders')
+        open_orders = self.user_orders()
         results = {}
-        for cur_pair, orders_for_pair in open_orders.items():
-            if pairs is not None and cur_pair not in pairs:
+        for pair, orders_for_pair in open_orders.items():
+            if pairs is not None and pair not in pairs:
                 continue
             for order in orders_for_pair:
-                res = self.api.exmo_api('order_cancel', {'order_id': order['order_id']})
+                res = self.order_cancel(order['order_id'])
                 results[order['order_id']] = res['result']
         return results
 
@@ -315,7 +324,10 @@ class CommonAPI:
     или число
     '''
     def balance(self, currency=None):
-        data = self.api.btce_api('getInfo')
+        try:
+            data = self.api.btce_api('getInfo')
+        except Exception, ex:
+            return {'error': ex.message}
         if currency is not None and currency in self.currency:
             balances = float(data['funds'][currency.lower()])
         else:
@@ -374,17 +386,21 @@ class CommonAPI:
             data = self.api.btce_api('ActiveOrders')
         except Exception, ex:
             return {}
-        '''
-        for pair, list_orders in orders.items():
-            for order in list_orders:
-                order['created'] = int(order['created'])
-                order['order_id'] = int(order['order_id'])
-                order['price'] = float(order['price'])
-                order['amount'] = float(order['amount'])
-                order['quantity'] = float(order['quantity'])
-        '''
-        return data
+        orders = {}
+        for order_id, order in data.items():
+            if order['pair'].upper() not in orders:
+                orders[order['pair'].upper()] = []
+            new_order = {}
+            new_order['order_id'] = int(order_id)
+            new_order['created'] = int(order['timestamp_created'])
+            new_order['type'] = order['type']
+            new_order['pair'] = order['pair'].upper()
+            new_order['price'] = float(order['rate'])
+            new_order['quantity'] = float(order['amount'])
+            new_order['amount'] = float(order['rate']) * float(order['amount'])
+            orders[order['pair'].upper()].append(new_order)
 
+        return orders
 
     '''
     Получение сделок пользователя
@@ -423,14 +439,28 @@ class CommonAPI:
         for pair in pairs:
             if pair not in valid_pairs:
                 raise Exception('pair expected in ' + str(valid_pairs))
-        params = {'pair': ','.join(pairs), 'offset': offset, 'limit': limit}
-        data = self.api.exmo_api('user_trades', params)
-        for pair, trades in data.items():
-            for trade in trades:
-                trade['price'] = float(trade['price'])
-                trade['amount'] = float(trade['amount'])
-                trade['quantity'] = float(trade['quantity'])
-        return data
+        try:
+            data = self.api.btce_api('TradeHistory', pair='-'.join(pairs).lower(), count=limit)
+        except Exception, ex:
+            return {}
+
+        trades = {}
+        for trade_id, trade in data.items():
+           if trade['is_you_order'] == 0: continue
+           if trade['pair'].upper() not in trades:
+                trades[trade['pair'].upper()] = []
+                new_trade = {}
+                new_trade['order_id'] = int(trade_id)
+                new_trade['date'] = int(trade['timestamp'])
+                new_trade['type'] = trade['type']
+                new_trade['pair'] = trade['pair'].upper()
+                new_trade['trade_id'] = int(trade_id)
+                new_trade['price'] = float(trade['rate'])
+                new_trade['quantity'] = float(trade['amount'])
+                new_trade['amount'] = float(trade['rate']) * float(trade['amount'])
+                trades[trade['pair'].upper()].append(new_trade)
+
+        return trades
 
 
     '''
@@ -460,8 +490,7 @@ class CommonAPI:
     amount - сумма по ордеру
     '''
     def user_cancelled_orders(self, offset=0, limit=0):
-        params = {'offset': offset, 'limit': limit}
-        return self.api.exmo_api('user_cancelled_orders', params)
+        raise Exception('"user_cancelled_orders" not realised now!')
 
 
     '''
@@ -506,15 +535,7 @@ class CommonAPI:
     amount - сумма по сделке
     '''
     def order_trades(self, order_id):
-        params = {'order_id': order_id}
-        data = self.api.exmo_api('order_trades', params)
-        data['in_amount'] = float(data['in_amount'])
-        data['out_amount'] = float(data['out_amount'])
-        for trade in data['trades']:
-            trade['price'] = float(trade['price'])
-            trade['amount'] = float(trade['amount'])
-            trade['quantity'] = float(trade['quantity'])
-        return data
+        raise Exception('"order_trades" not realised now!')
 
 
     '''
@@ -534,12 +555,25 @@ class CommonAPI:
     avg_price - средняя цена покупки
     '''
     def required_amount(self, pair, quantity):
+        #raise Exception('"required_amount" not realised now!')
         valid_pairs = self.pair_settings.keys()
         if pair not in valid_pairs:
             raise Exception('pair expected in ' + str(valid_pairs))
-        params = {'pair': pair, 'quantity': quantity}
-        data = self.api.exmo_api('required_amount', params)
-        data['quantity'] = float(data['quantity'])
-        data['amount'] = float(data['amount'])
-        data['avg_price'] = float(data['avg_price'])
-        return data
+        orders = self.orders([pair], limit=1000)
+        amount = 0.0
+        curr_quantity = 0.0
+        for order in orders[pair]['ask']:
+            order_price = order[0]
+            order_quantity = order[1]
+            order_amount = order[2]
+            if order_quantity >= (quantity - curr_quantity):
+                amount = amount + (order_quantity - quantity + curr_quantity) * order_price
+                curr_quantity = quantity
+                break
+            else:
+                amount = amount + order_quantity * order_price
+                curr_quantity = curr_quantity + order_quantity
+        if curr_quantity == quantity:
+            return {'quantity': quantity, 'amount': amount, 'avg_price': amount/quantity}
+        else:
+            raise Exception('Еhe requested quantity can not be bought!')
