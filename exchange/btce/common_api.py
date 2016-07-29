@@ -45,6 +45,7 @@ class CommonAPI:
             for key in settings.keys():
                 result[pair.upper()][key] = float(result[pair.upper()][key])
                 result[pair.upper()]['min_quantity'] = 0.0
+                result[pair.upper()]['max_quantity'] = 10000000.0
         return result
 
     '''
@@ -277,7 +278,7 @@ class CommonAPI:
         except Exception, ex:
             return {'result': False, 'error': ex.message}
         else:
-            return {'result': True, 'error': '', 'order_id': data['order_id']}
+            return {'result': True, 'error': '', 'order_id': int(data['order_id'])}
 
     '''
     Отмена ордера
@@ -555,7 +556,6 @@ class CommonAPI:
     avg_price - средняя цена покупки
     '''
     def required_amount(self, pair, quantity):
-        #raise Exception('"required_amount" not realised now!')
         valid_pairs = self.pair_settings.keys()
         if pair not in valid_pairs:
             raise Exception('pair expected in ' + str(valid_pairs))
@@ -567,7 +567,7 @@ class CommonAPI:
             order_quantity = order[1]
             order_amount = order[2]
             if order_quantity >= (quantity - curr_quantity):
-                amount = amount + (order_quantity - quantity + curr_quantity) * order_price
+                amount = amount + (quantity - curr_quantity) * order_price
                 curr_quantity = quantity
                 break
             else:

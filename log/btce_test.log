@@ -14,3 +14,10 @@
  Thu Jul 28 23:05:09 2016: Strategy.run: error
  Thu Jul 28 23:05:52 2016: Strategy.run: error
  Thu Jul 28 23:10:12 2016: Strategy.run: no orders
+ Fri Jul 29 21:38:00 2016: Strategy.run: max_quantity
+ Fri Jul 29 21:41:45 2016: Strategy.run: max_quantity
+ Fri Jul 29 21:46:11 2016: Strategy.run: max_quantity
+ Fri Jul 29 21:46:49 2016: Strategy.run: max_quantity
+ Fri Jul 29 22:02:18 2016: Strategy.run: max_quantity
+ Fri Jul 29 22:03:21 2016: Strategy.run: CommonAPI instance has no attribute '_pair_settings'
+ Fri Jul 29 22:04:16 2016: Strategy.run: max_quantity
