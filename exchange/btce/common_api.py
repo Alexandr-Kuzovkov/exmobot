@@ -1,6 +1,7 @@
 #coding=utf-8
 
 import exchange.exmo.config as config
+from pprint import pprint
 
 
 class CommonAPI:
@@ -43,7 +44,10 @@ class CommonAPI:
         for pair, settings in data.items():
             result[pair.upper()] = settings
             for key in settings.keys():
-                result[pair.upper()][key] = float(result[pair.upper()][key])
+                if key in ['decimal_places', 'hidden']:
+                    result[pair.upper()][key] = int(result[pair.upper()][key])
+                else:
+                    result[pair.upper()][key] = float(result[pair.upper()][key])
                 result[pair.upper()]['min_quantity'] = 0.0
                 result[pair.upper()]['max_quantity'] = 10000000.0
         return result
@@ -274,6 +278,11 @@ class CommonAPI:
         max_quantity = self.pair_settings[pair]['max_quantity']
         min_price = self.pair_settings[pair]['min_price']
         max_price = self.pair_settings[pair]['max_price']
+        min_amount = self.pair_settings[pair]['min_amount']
+        
+        amount = price * quantity
+        if amount < min_amount:
+            raise Exception('amount expected greater %f!' % min_amount)
         if pair is None or pair not in valid_pairs:
             raise Exception('pair expected in ' + str(valid_pairs))
         if quantity is None or quantity < min_quantity or quantity > max_quantity:
@@ -284,8 +293,8 @@ class CommonAPI:
             raise Exception('type expected in ' + str(valid_types))
 
         quantity = self._round(quantity, 6)
-        price = self._round(price, 6)
-        
+        price = self._round(price, self.pair_settings[pair]['decimal_places'])
+
         try:
             data = self.api.btce_api('Trade', pair=pair.lower(), type=order_type, rate=price, amount=quantity)
         except Exception, ex:

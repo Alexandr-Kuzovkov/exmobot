@@ -2456,3 +2456,5 @@ EXMO FLIP_ETH_USD Tue Jul 26 23:32:06 2016: Ошибка выставления 
  Thu Jul 28 15:28:10 2016: Startup Error: EXMO API is not availlable!
  Thu Jul 28 16:01:31 2016: Startup Error: EXMO API is not availlable!
  Thu Jul 28 16:30:10 2016: Startup Error: EXMO API is not availlable!
+ Sat Jul 30 20:46:43 2016: Startup Error: [Errno 111] Connection refused
+ Sat Jul 30 20:47:52 2016: Startup Error: [Errno 111] Connection refused

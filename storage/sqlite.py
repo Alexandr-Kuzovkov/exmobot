@@ -95,7 +95,7 @@ class Storage:
             session_id = self.session_id
         cur = conn.cursor()
         if (order_id is not None) and (pair is not None):
-            cur.execute('DELETE FROM orders WHERE pair=? AND order_id=?, session_id=?', (pair, order_id, session_id,))
+            cur.execute('DELETE FROM orders WHERE pair=? AND order_id=? AND session_id=?', (pair, order_id, session_id,))
         elif pair is not None:
             cur.execute('DELETE FROM orders WHERE pair=? AND session_id=?', (pair, session_id,))
         elif order_id is not None:

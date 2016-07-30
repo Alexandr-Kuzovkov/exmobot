@@ -75,14 +75,16 @@ def run(capi, logger, storage, conf=None, **params):
     logger.info('pair: %s  mode: %i' % (pair, mode), prefix)
 
     #удаляем неактуальные записи об ордерах
+
     user_orders = capi.user_orders()
     stored_orders = storage.orders(session_id=session_id)
     for stored_order in stored_orders:
         order_exists = False
-        for user_order_for_pair in user_orders[stored_order['pair']]:
-            if (user_order_for_pair['order_id'] == stored_order['order_id']) and (user_order_for_pair['type'] == stored_order['order_type']):
-                order_exists = True
-                break
+        for curr_pair, user_orders_for_pair in user_orders.items():
+            for user_order_for_pair in user_orders_for_pair:
+                if (user_order_for_pair['order_id'] == stored_order['order_id']) and (user_order_for_pair['type'] == stored_order['order_type']):
+                    order_exists = True
+                    break
         if not order_exists:
             storage.order_delete(pair=stored_order['pair'], order_id=stored_order['order_id'], session_id=session_id)
 
@@ -95,6 +97,7 @@ def run(capi, logger, storage, conf=None, **params):
             storage.order_delete(own_order['order_id'], pair, session_id)
         else:
             logger.info('Ошибка отмены ордера %i "%s" на паре %s в сессии %s' % (own_order['order_id'], own_order['order_type'], own_order['pair'], own_order['session_id']), prefix)
+
 
     #удаляем все ордера по паре
     #capi.orders_cancel([pair])
@@ -119,7 +122,6 @@ def run(capi, logger, storage, conf=None, **params):
 
     #комиссия
     fee = capi.fee[pair]
-    logger.info('fee=%f' % fee)
 
     #если наращиваем вторую валюту в паре(игра на повышении)
     if mode == 0:
@@ -179,6 +181,8 @@ def run(capi, logger, storage, conf=None, **params):
             #выставляем ордер на покупку и запоминаем цену покупки
             try:
                 quantity = min(limit/new_bid, secondary_balance/new_bid)
+                print quantity
+                print new_bid
                 res = capi.order_create(pair=pair, quantity=quantity, price=new_bid, order_type='buy')
                 if not res['result']:
                     logger.info('1.Ошибка выставления ордера "buy": %s' % str(res['error']), prefix)
