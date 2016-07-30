@@ -279,7 +279,7 @@ class CommonAPI:
         min_price = self.pair_settings[pair]['min_price']
         max_price = self.pair_settings[pair]['max_price']
         min_amount = self.pair_settings[pair]['min_amount']
-        
+
         amount = price * quantity
         if amount < min_amount:
             raise Exception('amount expected greater %f!' % min_amount)

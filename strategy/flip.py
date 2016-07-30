@@ -114,14 +114,40 @@ def run(capi, logger, storage, conf=None, **params):
 
     #получаем наличие своих средств
     balance = capi.balance()
-    primary_balance = balance[pair.split('_')[0]]
-    secondary_balance = balance[pair.split('_')[1]]
+    primary_balance = min(balance[pair.split('_')[0]], limit/ask)
+    secondary_balance = min(balance[pair.split('_')[1]], limit)
 
-    #print 'usd=%f   eth=%f' % (fiat_balance, coin_balance)
-    logger.info('Balance: %s = %f; %s = %f' % (pair.split('_')[0], balance[pair.split('_')[0]], pair.split('_')[1], balance[pair.split('_')[1]]), prefix)
+    logger.info('Balance: %s = %f; %s = %f' % (pair.split('_')[0], primary_balance, pair.split('_')[1], secondary_balance), prefix)
 
     #комиссия
     fee = capi.fee[pair]
+
+    #минимальный шаг
+    if 'decimal_places' in capi.pair_settings[pair]:
+        min_price_step = 1.0/(10**(capi.pair_settings[pair]['decimal_places']))
+    else:
+        min_price_step = 0.000001
+
+    #logger.info(min_price_step)
+
+    #минимальный баланс первой валюты в паре для создания ордера
+    if 'min_quantity' in capi.pair_settings[pair] and capi.pair_settings[pair]['min_quantity'] != 0:
+        min_primary_balance = capi.pair_settings[pair]['min_quantity']
+    elif 'min_amount' in capi.pair_settings[pair]:
+        min_primary_balance = capi.pair_settings[pair]['min_amount']
+    else:
+        min_primary_balance = 0.0001
+
+    #минимальный баланс второй валюты в паре для создания ордера
+    if 'min_quantity' in capi.pair_settings[pair] and capi.pair_settings[pair]['min_quantity'] != 0:
+        min_secondary_balance = capi.pair_settings[pair]['min_quantity'] * ask
+    elif 'min_amount' in capi.pair_settings[pair]:
+        min_secondary_balance = capi.pair_settings[pair]['min_amount'] * ask
+    else:
+        min_secondary_balance = 0.0001
+
+    #logger.info(min_primary_balance)
+    #logger.info(min_secondary_balance)
 
     #если наращиваем вторую валюту в паре(игра на повышении)
     if mode == 0:
@@ -130,10 +156,10 @@ def run(capi, logger, storage, conf=None, **params):
         #logger.info('prev_price=%s' % str(prev_price), prefix)
 
         #если есть на балансе первая валюта
-        if primary_balance > 0:
+        if primary_balance > min_primary_balance:
             #новые цены продажи и покупки
-            new_ask = ask - 0.000001
-            new_bid = bid + 0.000001
+            new_ask = ask - min_price_step
+            new_bid = bid + min_price_step
             if prev_price is not None:
                 #если монеты уже покупались
                 #вычисляем профит на основе верхней цены продажи и цены покупки
@@ -151,14 +177,13 @@ def run(capi, logger, storage, conf=None, **params):
 
             #ставим ордер на продажу
             try:
-                quantity = min(limit/new_ask, primary_balance)
-                res = capi.order_create(pair=pair, quantity=quantity, price=new_ask, order_type='sell')
+                res = capi.order_create(pair=pair, quantity=primary_balance, price=new_ask, order_type='sell')
                 if not res['result']:
                     logger.info('Ошибка выставления ордера "buy": %s' % str(res['error']), prefix)
                 else:
                     logger.info('Ордер "sell": %s: price=%f' % (pair, new_ask), prefix)
                     #сохраняем данные по поставленному ордеру
-                    storage.order_add(res['order_id'], pair, quantity, new_ask, 'sell', session_id)
+                    storage.order_add(res['order_id'], pair, primary_balance, new_ask, 'sell', session_id)
             except Exception, ex:
                 logger.info('Ошибка выставления ордера "sell": %s' % ex.message, prefix)
 
@@ -169,10 +194,10 @@ def run(capi, logger, storage, conf=None, **params):
         time.sleep(2)
 
         #если есть на балансе вторая валюта
-        if secondary_balance > 0:
+        if secondary_balance > min_secondary_balance:
             #новые цены продажи и покупки
-            new_ask = ask - 0.000001
-            new_bid = bid + 0.000001
+            new_ask = ask - min_price_step
+            new_bid = bid + min_price_step
             #вычисляем профит на основе верхней цены и нижней цены
             profit = new_ask/new_bid*(1-fee)*(1-fee) - 1
             if profit <= 0:
@@ -180,27 +205,24 @@ def run(capi, logger, storage, conf=None, **params):
                 new_bid = new_ask * (1 - (2*fee + min_profit))
             #выставляем ордер на покупку и запоминаем цену покупки
             try:
-                quantity = min(limit/new_bid, secondary_balance/new_bid)
-                print quantity
-                print new_bid
-                res = capi.order_create(pair=pair, quantity=quantity, price=new_bid, order_type='buy')
+                res = capi.order_create(pair=pair, quantity=secondary_balance/new_bid, price=new_bid, order_type='buy')
                 if not res['result']:
                     logger.info('1.Ошибка выставления ордера "buy": %s' % str(res['error']), prefix)
                 else:
                     logger.info('Ордер "buy": %s: price=%f' % (pair, new_bid), prefix)
                     storage.save(pair.split('_')[0] + '_buy_price', new_bid, 'float', session_id)
                     #сохраняем данные по поставленному ордеру
-                    storage.order_add(res['order_id'], pair, quantity, new_bid, 'buy', session_id)
+                    storage.order_add(res['order_id'], pair, secondary_balance/new_bid, new_bid, 'buy', session_id)
             except Exception, ex:
                 logger.info('2.Ошибка выставления ордера "buy": %s' % ex.message, prefix)
 
     #если наращиваем первую валюту в паре (игра на понижении)
     elif mode == 1:
         #если есть на балансе первая валюта
-        if primary_balance > 0:
+        if primary_balance > min_primary_balance:
             #новые цены продажи и покупки
-            new_ask = ask - 0.000001
-            new_bid = bid + 0.000001
+            new_ask = ask - min_price_step
+            new_bid = bid + min_price_step
             #вычисляем профит на основе лучшей цены продажи и покупки
             profit = new_ask/new_bid*(1-fee)*(1-fee) - 1
             if profit <= 0:
@@ -208,15 +230,14 @@ def run(capi, logger, storage, conf=None, **params):
                 new_ask = new_bid * (1 + (2*fee + min_profit))
             #ставим ордер на продажу и запоминаем цену продажи
             try:
-                quantity = min(primary_balance, limit/new_ask)
-                res = capi.order_create(pair=pair, quantity=quantity, price=new_ask, order_type='sell')
+                res = capi.order_create(pair=pair, quantity=primary_balance, price=new_ask, order_type='sell')
                 if not res['result']:
                     logger.info('Ошибка выставления ордера "sell": %s' % str(res['error']), prefix)
                 else:
                     logger.info('Ордер "sell": %s: price=%f' % (pair, new_ask), prefix)
                     storage.save(pair.split('_')[0] + '_sell_price', new_ask, 'float', session_id)
                     #сохраняем данные по поставленному ордеру
-                    storage.order_add(res['order_id'], pair, quantity, new_ask, 'sell', session_id)
+                    storage.order_add(res['order_id'], pair, primary_balance, new_ask, 'sell', session_id)
             except Exception, ex:
                 logger.info('Ошибка выставления ордера "sell": %s' % ex.message, prefix)
 
@@ -224,14 +245,14 @@ def run(capi, logger, storage, conf=None, **params):
         time.sleep(2)
 
         #если есть на балансе вторая валюта
-        if secondary_balance > 0:
+        if secondary_balance > min_secondary_balance:
             #получаем цену предыдущей продажи
             prev_price = storage.load(pair.split('_')[0] + '_sell_price', session_id)
             #logger.info('prev_price=%s' % str(prev_price), prefix)
 
             #новые цены продажи и покупки
-            new_ask = ask - 0.000001
-            new_bid = bid + 0.000001
+            new_ask = ask - min_price_step
+            new_bid = bid + min_price_step
 
             if prev_price is not None:
                 #если монеты уже продавались
@@ -250,14 +271,13 @@ def run(capi, logger, storage, conf=None, **params):
 
             #выставляем ордер на покупку
             try:
-                quantity = min(secondary_balance/new_bid, limit/new_bid)
-                res = capi.order_create(pair=pair, quantity=quantity, price=new_bid, order_type='buy')
+                res = capi.order_create(pair=pair, quantity=secondary_balance/new_bid, price=new_bid, order_type='buy')
                 if not res['result']:
                     logger.info('Ошибка выставления ордера "buy": %s' % str(res['error']), prefix)
                 else:
                     logger.info('Ордер "buy": %s: price=%f' % (pair, new_bid), prefix)
                     #сохраняем данные по поставленному ордеру
-                    storage.order_add(res['order_id'], pair, quantity, new_bid, 'buy', session_id)
+                    storage.order_add(res['order_id'], pair, secondary_balance/new_bid, new_bid, 'buy', session_id)
             except Exception, ex:
                 logger.info('Ошибка выставления ордера "buy": %s' % ex.message, prefix)
 
