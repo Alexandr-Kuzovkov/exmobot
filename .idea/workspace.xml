@@ -3,18 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="caed98d7-9df3-486c-847b-196bfd55c276" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/store.sqlite" afterPath="$PROJECT_DIR$/db/store.sqlite" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conf/btce_test.conf" afterPath="$PROJECT_DIR$/conf/btce_test.conf" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/btce_eth_usd_flip.log" afterPath="$PROJECT_DIR$/log/btce_eth_usd_flip.log" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/.idea/workspace.xml" afterPath="$PROJECT_DIR$/web/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/html/css/style.css" afterPath="$PROJECT_DIR$/web/html/css/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/html/index.php" afterPath="$PROJECT_DIR$/web/html/index.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/include/functions.php" afterPath="$PROJECT_DIR$/web/include/functions.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/_footer.php" afterPath="$PROJECT_DIR$/web/pages/_footer.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/_header.php" afterPath="$PROJECT_DIR$/web/pages/_header.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/_topmenu.php" afterPath="$PROJECT_DIR$/web/pages/_topmenu.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/index.php" afterPath="$PROJECT_DIR$/web/pages/index.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/log.php" afterPath="$PROJECT_DIR$/web/pages/log.php" />
     </list>
     <ignored path="exmo_bot.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -609,7 +602,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="24" width="1920" height="1032" extended-state="0" />
+    <frame x="0" y="24" width="1920" height="1032" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
