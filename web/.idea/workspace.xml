@@ -25,10 +25,22 @@
       <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/html/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="22" column="51" selection-start-line="22" selection-start-column="51" selection-end-line="22" selection-end-column="51" />
+            <state relative-caret-position="414">
+              <caret line="23" column="45" selection-start-line="23" selection-start-column="45" selection-end-line="23" selection-end-column="45" />
               <folding>
                 <element signature="e#6#85#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="del_conf.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scripts/del_conf.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="342">
+              <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
+              <folding>
+                <element signature="e#6#84#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -59,28 +71,18 @@
       <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/html/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="747">
-              <caret line="147" column="11" selection-start-line="147" selection-start-column="11" selection-end-line="147" selection-end-column="11" />
+            <state relative-caret-position="693">
+              <caret line="155" column="19" selection-start-line="155" selection-start-column="19" selection-end-line="155" selection-end-column="19" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/index.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="270">
               <caret line="15" column="45" selection-start-line="15" selection-start-column="45" selection-end-line="15" selection-end-column="45" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_footer.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pages/_footer.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="4" column="12" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -99,18 +101,18 @@
       <file leaf-file-name="_topmenu.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/_topmenu.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="751">
-              <caret line="78" column="6" selection-start-line="78" selection-start-column="4" selection-end-line="78" selection-end-column="22" />
+            <state relative-caret-position="495">
+              <caret line="54" column="101" selection-start-line="54" selection-start-column="101" selection-end-line="54" selection-end-column="101" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="conf.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="conf.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pages/conf.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+            <state relative-caret-position="495">
+              <caret line="50" column="74" selection-start-line="50" selection-start-column="74" selection-end-line="50" selection-end-column="74" />
               <folding />
             </state>
           </provider>
@@ -119,8 +121,8 @@
       <file leaf-file-name="save_conf.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/save_conf.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="738">
-              <caret line="41" column="31" selection-start-line="41" selection-start-column="31" selection-end-line="41" selection-end-column="31" />
+            <state relative-caret-position="198">
+              <caret line="11" column="31" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="66" />
               <folding>
                 <element signature="e#6#85#0#PHP" expanded="true" />
                 <marker date="1469994324494" expanded="true" signature="1646:1676" ph="..." />
@@ -138,16 +140,17 @@
         <option value="$PROJECT_DIR$/include/common.inc.php" />
         <option value="$PROJECT_DIR$/include/functions.php" />
         <option value="$PROJECT_DIR$/pages/log.php" />
-        <option value="$PROJECT_DIR$/pages/_topmenu.php" />
         <option value="$PROJECT_DIR$/pages/_footer.php" />
         <option value="$PROJECT_DIR$/pages/add_conf.php" />
-        <option value="$PROJECT_DIR$/html/index.php" />
         <option value="$PROJECT_DIR$/scripts/get_log.php" />
-        <option value="$PROJECT_DIR$/pages/conf.php" />
         <option value="$PROJECT_DIR$/scripts/save_conf.php" />
         <option value="$PROJECT_DIR$/pages/_header.php" />
-        <option value="$PROJECT_DIR$/html/css/style.css" />
         <option value="$PROJECT_DIR$/pages/index.php" />
+        <option value="$PROJECT_DIR$/pages/_topmenu.php" />
+        <option value="$PROJECT_DIR$/html/index.php" />
+        <option value="$PROJECT_DIR$/scripts/del_conf.php" />
+        <option value="$PROJECT_DIR$/html/css/style.css" />
+        <option value="$PROJECT_DIR$/pages/conf.php" />
       </list>
     </option>
   </component>
@@ -342,12 +345,12 @@
       <option name="presentableId" value="Default" />
       <updated>1469958516585</updated>
       <workItem from="1469958518196" duration="8737000" />
-      <workItem from="1469981431182" duration="13115000" />
+      <workItem from="1469981431182" duration="14990000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21852000" />
+    <option name="totallyTimeSpent" value="23727000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="24" width="1920" height="1032" extended-state="0" />
@@ -536,14 +539,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pages/_topmenu.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="751">
-          <caret line="78" column="6" selection-start-line="78" selection-start-column="4" selection-end-line="78" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pages/_footer.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
@@ -570,25 +565,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pages/conf.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/save_conf.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="738">
-          <caret line="41" column="31" selection-start-line="41" selection-start-column="31" selection-end-line="41" selection-end-column="31" />
-          <folding>
-            <element signature="e#6#85#0#PHP" expanded="true" />
-            <marker date="1469994324494" expanded="true" signature="1646:1676" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pages/_header.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="666">
@@ -597,28 +573,65 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/pages/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="15" column="45" selection-start-line="15" selection-start-column="45" selection-end-line="15" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/_topmenu.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="54" column="101" selection-start-line="54" selection-start-column="101" selection-end-line="54" selection-end-column="101" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/html/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="22" column="51" selection-start-line="22" selection-start-column="51" selection-end-line="22" selection-end-column="51" />
+        <state relative-caret-position="414">
+          <caret line="23" column="45" selection-start-line="23" selection-start-column="45" selection-end-line="23" selection-end-column="45" />
           <folding>
             <element signature="e#6#85#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/save_conf.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="31" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="66" />
+          <folding>
+            <element signature="e#6#85#0#PHP" expanded="true" />
+            <marker date="1469994324494" expanded="true" signature="1646:1676" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/del_conf.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
+          <folding>
+            <element signature="e#6#84#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/html/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="747">
-          <caret line="147" column="11" selection-start-line="147" selection-start-column="11" selection-end-line="147" selection-end-column="11" />
+        <state relative-caret-position="693">
+          <caret line="155" column="19" selection-start-line="155" selection-start-column="19" selection-end-line="155" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pages/index.php">
+    <entry file="file://$PROJECT_DIR$/pages/conf.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="15" column="45" selection-start-line="15" selection-start-column="45" selection-end-line="15" selection-end-column="45" />
+        <state relative-caret-position="495">
+          <caret line="50" column="74" selection-start-line="50" selection-start-column="74" selection-end-line="50" selection-end-column="74" />
           <folding />
         </state>
       </provider>

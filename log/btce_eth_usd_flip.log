@@ -2566,3 +2566,165 @@ BTC-E FLIP_ETH_USD Sun Jul 31 23:28:04 2016: Удаляем ордера по ET
 BTC-E FLIP_ETH_USD Sun Jul 31 23:28:04 2016: pair ETH_USD: ask=11.743370  bid=11.657010
 BTC-E FLIP_ETH_USD Sun Jul 31 23:28:04 2016: Balance: ETH = 1.232726; USD = 0.000008
 BTC-E FLIP_ETH_USD Sun Jul 31 23:28:05 2016: Ордер "sell": ETH_USD: price=11.743360
+BTC-E FLIP_ETH_USD Sun Jul 31 23:30:03 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Sun Jul 31 23:30:03 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:30:03 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:30:04 2016: pair ETH_USD: ask=11.742350  bid=11.659010
+BTC-E FLIP_ETH_USD Sun Jul 31 23:30:05 2016: Balance: ETH = 1.232726; USD = 0.000008
+BTC-E FLIP_ETH_USD Sun Jul 31 23:30:05 2016: Ордер "sell": ETH_USD: price=11.742340
+BTC-E FLIP_ETH_USD Sun Jul 31 23:32:03 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Sun Jul 31 23:32:03 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:32:04 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:32:05 2016: pair ETH_USD: ask=11.741360  bid=11.660000
+BTC-E FLIP_ETH_USD Sun Jul 31 23:32:05 2016: Balance: ETH = 1.232726; USD = 0.000008
+BTC-E FLIP_ETH_USD Sun Jul 31 23:32:06 2016: Ордер "sell": ETH_USD: price=11.741350
+BTC-E FLIP_ETH_USD Sun Jul 31 23:34:03 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Sun Jul 31 23:34:03 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:34:03 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:34:04 2016: pair ETH_USD: ask=11.739360  bid=11.660000
+BTC-E FLIP_ETH_USD Sun Jul 31 23:34:04 2016: Balance: ETH = 1.232726; USD = 0.000008
+BTC-E FLIP_ETH_USD Sun Jul 31 23:34:04 2016: Ордер "sell": ETH_USD: price=11.739350
+BTC-E FLIP_ETH_USD Sun Jul 31 23:36:02 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Sun Jul 31 23:36:02 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:36:03 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:36:03 2016: pair ETH_USD: ask=11.739350  bid=11.660000
+BTC-E FLIP_ETH_USD Sun Jul 31 23:36:04 2016: Balance: ETH = 1.232726; USD = 0.000008
+BTC-E FLIP_ETH_USD Sun Jul 31 23:36:04 2016: Ордер "sell": ETH_USD: price=11.739340
+BTC-E FLIP_ETH_USD Sun Jul 31 23:38:04 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Sun Jul 31 23:38:04 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:38:04 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:38:05 2016: pair ETH_USD: ask=11.739340  bid=11.660000
+BTC-E FLIP_ETH_USD Sun Jul 31 23:38:05 2016: Balance: ETH = 1.232726; USD = 0.000008
+BTC-E FLIP_ETH_USD Sun Jul 31 23:38:05 2016: Ордер "sell": ETH_USD: price=11.739330
+BTC-E FLIP_ETH_USD Sun Jul 31 23:40:03 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Sun Jul 31 23:40:03 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:40:03 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:40:04 2016: pair ETH_USD: ask=11.762800  bid=11.666000
+BTC-E FLIP_ETH_USD Sun Jul 31 23:40:05 2016: Balance: ETH = 1.232726; USD = 0.000008
+BTC-E FLIP_ETH_USD Sun Jul 31 23:40:05 2016: Ордер "sell": ETH_USD: price=11.762790
+BTC-E FLIP_ETH_USD Sun Jul 31 23:42:03 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Sun Jul 31 23:42:03 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:42:03 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:42:04 2016: pair ETH_USD: ask=11.755000  bid=11.660000
+BTC-E FLIP_ETH_USD Sun Jul 31 23:42:04 2016: Balance: ETH = 1.232726; USD = 0.000008
+BTC-E FLIP_ETH_USD Sun Jul 31 23:42:05 2016: Ордер "sell": ETH_USD: price=11.754990
+BTC-E FLIP_ETH_USD Sun Jul 31 23:44:04 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Sun Jul 31 23:44:04 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:44:05 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:44:06 2016: pair ETH_USD: ask=11.754000  bid=11.660000
+BTC-E FLIP_ETH_USD Sun Jul 31 23:44:06 2016: Balance: ETH = 1.232726; USD = 0.000008
+BTC-E FLIP_ETH_USD Sun Jul 31 23:44:06 2016: Ордер "sell": ETH_USD: price=11.753990
+BTC-E FLIP_ETH_USD Sun Jul 31 23:46:05 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Sun Jul 31 23:46:05 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:46:05 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:46:06 2016: pair ETH_USD: ask=11.744000  bid=11.660000
+BTC-E FLIP_ETH_USD Sun Jul 31 23:46:06 2016: Balance: ETH = 1.232726; USD = 0.000008
+BTC-E FLIP_ETH_USD Sun Jul 31 23:46:07 2016: Ордер "sell": ETH_USD: price=11.743990
+BTC-E FLIP_ETH_USD Sun Jul 31 23:48:03 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Sun Jul 31 23:48:03 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:48:04 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:48:04 2016: pair ETH_USD: ask=11.743000  bid=11.660000
+BTC-E FLIP_ETH_USD Sun Jul 31 23:48:04 2016: Balance: ETH = 1.232726; USD = 0.000008
+BTC-E FLIP_ETH_USD Sun Jul 31 23:48:05 2016: Ордер "sell": ETH_USD: price=11.742990
+BTC-E FLIP_ETH_USD Sun Jul 31 23:50:03 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Sun Jul 31 23:50:03 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:50:03 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:50:04 2016: pair ETH_USD: ask=11.742000  bid=11.660000
+BTC-E FLIP_ETH_USD Sun Jul 31 23:50:04 2016: Balance: ETH = 1.232726; USD = 0.000008
+BTC-E FLIP_ETH_USD Sun Jul 31 23:50:04 2016: Ордер "sell": ETH_USD: price=11.741990
+BTC-E FLIP_ETH_USD Sun Jul 31 23:52:05 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Sun Jul 31 23:52:05 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:52:05 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:52:06 2016: pair ETH_USD: ask=11.740000  bid=11.660000
+BTC-E FLIP_ETH_USD Sun Jul 31 23:52:07 2016: Balance: ETH = 1.232726; USD = 0.000008
+BTC-E FLIP_ETH_USD Sun Jul 31 23:52:07 2016: Ордер "sell": ETH_USD: price=11.739990
+BTC-E FLIP_ETH_USD Sun Jul 31 23:54:02 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Sun Jul 31 23:54:02 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:54:03 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:54:04 2016: pair ETH_USD: ask=11.739990  bid=11.660000
+BTC-E FLIP_ETH_USD Sun Jul 31 23:54:04 2016: Balance: ETH = 1.098706; USD = 1.570255
+BTC-E FLIP_ETH_USD Sun Jul 31 23:54:04 2016: Ордер "sell": ETH_USD: price=11.739980
+BTC-E FLIP_ETH_USD Sun Jul 31 23:54:07 2016: Ордер "buy": ETH_USD: price=11.660010
+BTC-E FLIP_ETH_USD Sun Jul 31 23:56:03 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Sun Jul 31 23:56:03 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:56:04 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:56:05 2016: pair ETH_USD: ask=11.739980  bid=11.660010
+BTC-E FLIP_ETH_USD Sun Jul 31 23:56:06 2016: Balance: ETH = 1.098706; USD = 1.570255
+BTC-E FLIP_ETH_USD Sun Jul 31 23:56:06 2016: Ордер "sell": ETH_USD: price=11.739970
+BTC-E FLIP_ETH_USD Sun Jul 31 23:56:08 2016: Ордер "buy": ETH_USD: price=11.660020
+BTC-E FLIP_ETH_USD Sun Jul 31 23:58:03 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Sun Jul 31 23:58:03 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:58:04 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Sun Jul 31 23:58:05 2016: pair ETH_USD: ask=11.739970  bid=11.660020
+BTC-E FLIP_ETH_USD Sun Jul 31 23:58:05 2016: Balance: ETH = 1.098706; USD = 1.570255
+BTC-E FLIP_ETH_USD Sun Jul 31 23:58:05 2016: Ордер "sell": ETH_USD: price=11.739960
+BTC-E FLIP_ETH_USD Sun Jul 31 23:58:08 2016: Ордер "buy": ETH_USD: price=11.660030
+BTC-E FLIP_ETH_USD Mon Aug  1 00:00:08 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Mon Aug  1 00:00:08 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:00:08 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:00:10 2016: pair ETH_USD: ask=11.739960  bid=11.660010
+BTC-E FLIP_ETH_USD Mon Aug  1 00:00:10 2016: Balance: ETH = 1.233106; USD = 0.000011
+BTC-E FLIP_ETH_USD Mon Aug  1 00:00:10 2016: Ордер "sell": ETH_USD: price=11.739950
+BTC-E FLIP_ETH_USD Mon Aug  1 00:02:03 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Mon Aug  1 00:02:03 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:02:03 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:02:04 2016: pair ETH_USD: ask=11.739950  bid=11.660010
+BTC-E FLIP_ETH_USD Mon Aug  1 00:02:04 2016: Balance: ETH = 1.233106; USD = 0.000011
+BTC-E FLIP_ETH_USD Mon Aug  1 00:02:05 2016: Ордер "sell": ETH_USD: price=11.739940
+BTC-E FLIP_ETH_USD Mon Aug  1 00:04:03 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Mon Aug  1 00:04:03 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:04:03 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:04:05 2016: pair ETH_USD: ask=11.739930  bid=11.660010
+BTC-E FLIP_ETH_USD Mon Aug  1 00:04:05 2016: Balance: ETH = 1.233106; USD = 0.000011
+BTC-E FLIP_ETH_USD Mon Aug  1 00:04:05 2016: Ордер "sell": ETH_USD: price=11.739920
+BTC-E FLIP_ETH_USD Mon Aug  1 00:06:03 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Mon Aug  1 00:06:03 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:06:03 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:06:03 2016: pair ETH_USD: ask=11.739930  bid=11.739920
+BTC-E FLIP_ETH_USD Mon Aug  1 00:06:04 2016: Balance: ETH = 0.000001; USD = 14.447611
+BTC-E FLIP_ETH_USD Mon Aug  1 00:06:06 2016: Ордер "buy": ETH_USD: price=11.681220
+BTC-E FLIP_ETH_USD Mon Aug  1 00:08:04 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Mon Aug  1 00:08:04 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:08:04 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:08:05 2016: pair ETH_USD: ask=11.739930  bid=11.681220
+BTC-E FLIP_ETH_USD Mon Aug  1 00:08:05 2016: Balance: ETH = 0.493911; USD = 8.666576
+BTC-E FLIP_ETH_USD Mon Aug  1 00:08:06 2016: Ордер "sell": ETH_USD: price=11.739920
+BTC-E FLIP_ETH_USD Mon Aug  1 00:08:08 2016: Ордер "buy": ETH_USD: price=11.681230
+BTC-E FLIP_ETH_USD Mon Aug  1 00:10:03 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Mon Aug  1 00:10:03 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:10:04 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:10:05 2016: pair ETH_USD: ask=11.739920  bid=11.681230
+BTC-E FLIP_ETH_USD Mon Aug  1 00:10:05 2016: Balance: ETH = 1.234350; USD = 0.000002
+BTC-E FLIP_ETH_USD Mon Aug  1 00:10:05 2016: Ордер "sell": ETH_USD: price=11.739910
+BTC-E FLIP_ETH_USD Mon Aug  1 00:12:02 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Mon Aug  1 00:12:02 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:12:03 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:12:04 2016: pair ETH_USD: ask=11.739910  bid=11.681230
+BTC-E FLIP_ETH_USD Mon Aug  1 00:12:04 2016: Balance: ETH = 1.033850; USD = 2.349147
+BTC-E FLIP_ETH_USD Mon Aug  1 00:12:04 2016: Ордер "sell": ETH_USD: price=11.739900
+BTC-E FLIP_ETH_USD Mon Aug  1 00:12:06 2016: Ордер "buy": ETH_USD: price=11.681240
+BTC-E FLIP_ETH_USD Mon Aug  1 00:14:02 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Mon Aug  1 00:14:02 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:14:03 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:14:04 2016: pair ETH_USD: ask=11.739930  bid=11.681230
+BTC-E FLIP_ETH_USD Mon Aug  1 00:14:05 2016: Balance: ETH = 1.033850; USD = 2.349147
+BTC-E FLIP_ETH_USD Mon Aug  1 00:14:05 2016: Ордер "sell": ETH_USD: price=11.739920
+BTC-E FLIP_ETH_USD Mon Aug  1 00:14:08 2016: Ордер "buy": ETH_USD: price=11.681240
+BTC-E FLIP_ETH_USD Mon Aug  1 00:16:03 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Mon Aug  1 00:16:03 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:16:04 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:16:04 2016: pair ETH_USD: ask=11.738930  bid=11.660010
+BTC-E FLIP_ETH_USD Mon Aug  1 00:16:05 2016: Balance: ETH = 1.234552; USD = 0.000003
+BTC-E FLIP_ETH_USD Mon Aug  1 00:16:05 2016: Ордер "sell": ETH_USD: price=11.738920
+BTC-E FLIP_ETH_USD Mon Aug  1 00:18:02 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Mon Aug  1 00:18:02 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:18:03 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:18:04 2016: pair ETH_USD: ask=11.738920  bid=11.660010
+BTC-E FLIP_ETH_USD Mon Aug  1 00:18:04 2016: Balance: ETH = 1.234552; USD = 0.000003
+BTC-E FLIP_ETH_USD Mon Aug  1 00:18:05 2016: Ордер "sell": ETH_USD: price=11.738910
+BTC-E FLIP_ETH_USD Mon Aug  1 00:20:03 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Mon Aug  1 00:20:03 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:20:03 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:20:04 2016: pair ETH_USD: ask=11.738890  bid=11.660010
+BTC-E FLIP_ETH_USD Mon Aug  1 00:20:04 2016: Balance: ETH = 1.234552; USD = 0.000003
+BTC-E FLIP_ETH_USD Mon Aug  1 00:20:05 2016: Ордер "sell": ETH_USD: price=11.738880

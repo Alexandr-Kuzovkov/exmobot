@@ -47,10 +47,19 @@ function prepResult($str){
         <input type="hidden" id="conf-content" name="conf_content">
         <button>Сохранить</button>
     </form>
+<p></p>
+    <form method="post" action="/del-conf" onsubmit="return confirm_del();">
+        <input type="hidden" value="<?php echo $fullname;?>" name="file">
+        <button class="red-btn">Удалить</button>
+    </form>
 
     <script type="text/javascript">
         function save_content(){
             $('#conf-content').val($('#conf').html());
+        }
+
+        function confirm_del(){
+            return confirm("Удалить файл?");
         }
     </script>
 

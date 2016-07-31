@@ -150,4 +150,10 @@ a#unselect-all-img
     text-decoration: none;
 }
 
+.red-btn
+{
+    background-color: #990000;
+    color: #f0f0f0;
+}
+
 
