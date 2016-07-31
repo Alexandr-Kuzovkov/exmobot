@@ -17,6 +17,10 @@ $routes = array(
     '/log' => $pages . 'log.php',
     '404' => $pages . '404.php',
     '/get-log' => $scripts . 'get_log.php',
+    '/conf' => $pages . 'conf.php',
+    '/save-conf' => $scripts . 'save_conf.php',
+    '/add-conf' => $pages . 'add_conf.php',
+    '/save-new-conf' => $scripts . 'save_conf.php',
 
     /*
     '/file' => $pages . 'file.php',

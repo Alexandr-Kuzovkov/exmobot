@@ -42,7 +42,24 @@
                     </ul>
                 </li>
 
+
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Конфигурации<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <?php $conf_files = get_conf_files();?>
+                    <?php foreach($conf_files as $file): ?>
+                        <li <?php check_active($file);?>><a href="/conf?file=<?php echo $file;?>"><?php echo $file;?></a></li>
+                    <?php endforeach;?>
+                    <li role="separator" class="divider"></li>
+                    <li <?php check_active('add-conf');?>><a href="/add-conf">Добавить новый</a></li>
+
+                </ul>
+            </li>
+
             </ul>
+
+
             <ul class="nav navbar-nav navbar-right">
                 <!--<li <?php check_active('settings');?>><a href="/settings">Настройки</a></li>-->
                 <li <?php check_active('login');?>><a href="/login"><?php if(!Auth::isAuth()):?>Войти<?php else:?>Выйти<?php endif;?></a></li>

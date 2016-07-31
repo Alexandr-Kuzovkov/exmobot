@@ -9,7 +9,7 @@ if (!Auth::isAuth()) { echo '<label>Требуется авторизация!</
 <?php
     $filename = isset($_GET['file'])? $_GET['file'] : '';
 ?>
-    <h3><?php echo $filename; ?></h3>
+    <h3>Лог файл <span class="filename"><?php echo $filename; ?></span> </h3>
     <div id="log" class="scroll"></div>
     <script type="text/javascript">
 

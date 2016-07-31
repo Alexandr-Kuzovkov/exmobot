@@ -74,5 +74,21 @@
         return $logs_files;
     }
 
+    /**
+     * возвращает список config-файлов
+     */
+    function get_conf_files(){
+        $path = '../../conf';
+        $conf_files = array();
+        $files = scandir($path);
+        if (is_array($files) && count($files)){
+            foreach ($files as $file){
+                if ($file == '.' || $file == '..') continue;
+                $conf_files[] = $file;
+            }
+        }
+        return $conf_files;
+    }
+
 
 ?>
