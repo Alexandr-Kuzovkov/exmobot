@@ -91,4 +91,23 @@
     }
 
 
+    /**
+     * возвращает список файлов со стратегиями
+     */
+    function get_strategy_files(){
+        $path = '../../strategy';
+        $strategy_files = array();
+        $files = scandir($path);
+        if (is_array($files) && count($files)){
+            foreach ($files as $file){
+                if ($file == '.' || $file == '..') continue;
+                if (pathinfo($file, PATHINFO_EXTENSION) !== 'py') continue;
+                if ($file === '__init__.py') continue;
+                $strategy_files[] = $file;
+            }
+        }
+        return $strategy_files;
+    }
+
+
 ?>

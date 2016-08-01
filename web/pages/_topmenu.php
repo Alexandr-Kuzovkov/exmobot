@@ -44,18 +44,27 @@
 
 
 
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Конфигурации<span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <?php $conf_files = get_conf_files();?>
-                    <?php foreach($conf_files as $file): ?>
-                        <li <?php check_active($file);?>><a href="/conf?file=<?php echo $file;?>"><?php echo $file;?></a></li>
-                    <?php endforeach;?>
-                    <li role="separator" class="divider"></li>
-                    <li <?php check_active('add-conf');?>><a href="/add-conf">Добавить новый</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Конфигурации<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <?php $conf_files = get_conf_files();?>
+                        <?php foreach($conf_files as $file): ?>
+                            <li <?php check_active($file);?>><a href="/conf?file=<?php echo $file;?>"><?php echo $file;?></a></li>
+                        <?php endforeach;?>
+                        <li role="separator" class="divider"></li>
+                        <li <?php check_active('add-conf');?>><a href="/add-conf">Добавить новый</a></li>
+                    </ul>
+                </li>
 
-                </ul>
-            </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Стратегии<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <?php $strategy_files = get_strategy_files();?>
+                        <?php foreach($strategy_files as $file): ?>
+                            <li <?php check_active($file);?>><a href="/strategy?file=<?php echo $file;?>"><?php echo $file;?></a></li>
+                        <?php endforeach;?>
+                    </ul>
+                </li>
 
             </ul>
 

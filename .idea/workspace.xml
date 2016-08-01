@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="caed98d7-9df3-486c-847b-196bfd55c276" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/store.sqlite" afterPath="$PROJECT_DIR$/db/store.sqlite" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/btce_eth_usd_flip.log" afterPath="$PROJECT_DIR$/log/btce_eth_usd_flip.log" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/.idea/workspace.xml" afterPath="$PROJECT_DIR$/web/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/html/css/style.css" afterPath="$PROJECT_DIR$/web/html/css/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/html/index.php" afterPath="$PROJECT_DIR$/web/html/index.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/include/functions.php" afterPath="$PROJECT_DIR$/web/include/functions.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/_topmenu.php" afterPath="$PROJECT_DIR$/web/pages/_topmenu.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/log.php" afterPath="$PROJECT_DIR$/web/pages/log.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/help.php" afterPath="$PROJECT_DIR$/web/pages/help.php" />
     </list>
     <ignored path="exmo_bot.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -744,9 +742,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="74" column="33" selection-start-line="74" selection-start-column="33" selection-end-line="74" selection-end-column="33" />
-          <folding>
-            <element signature="e#23#36#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -973,9 +969,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.3003337">
           <caret line="71" column="44" selection-start-line="71" selection-start-column="34" selection-end-line="71" selection-end-column="44" />
-          <folding>
-            <element signature="e#23#36#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
