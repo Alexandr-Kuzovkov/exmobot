@@ -61,7 +61,7 @@
 
 
             <ul class="nav navbar-nav navbar-right">
-                <!--<li <?php check_active('settings');?>><a href="/settings">Настройки</a></li>-->
+                <li <?php check_active('help');?>><a href="/help">Справка</a></li>
                 <li <?php check_active('login');?>><a href="/login"><?php if(!Auth::isAuth()):?>Войти<?php else:?>Выйти<?php endif;?></a></li>
             </ul>
         </div><!--/.nav-collapse -->

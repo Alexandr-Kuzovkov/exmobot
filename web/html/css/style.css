@@ -104,6 +104,13 @@ a#unselect-all-img
     padding-left: 10px;
 }
 
+
+#log img
+{
+    margin: 140px 0 0 400px;
+}
+
+
 #conf
 {
     width: 95%;

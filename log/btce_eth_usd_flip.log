@@ -2728,3 +2728,9 @@ BTC-E FLIP_ETH_USD Mon Aug  1 00:20:03 2016: Удаляем ордера по ET
 BTC-E FLIP_ETH_USD Mon Aug  1 00:20:04 2016: pair ETH_USD: ask=11.738890  bid=11.660010
 BTC-E FLIP_ETH_USD Mon Aug  1 00:20:04 2016: Balance: ETH = 1.234552; USD = 0.000003
 BTC-E FLIP_ETH_USD Mon Aug  1 00:20:05 2016: Ордер "sell": ETH_USD: price=11.738880
+BTC-E FLIP_ETH_USD Mon Aug  1 00:22:03 2016: ----------------------------------------
+BTC-E FLIP_ETH_USD Mon Aug  1 00:22:03 2016: pair: ETH_USD  mode: 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:22:03 2016: Удаляем ордера по ETH_USD в сессии 1
+BTC-E FLIP_ETH_USD Mon Aug  1 00:22:03 2016: pair ETH_USD: ask=11.738930  bid=11.662010
+BTC-E FLIP_ETH_USD Mon Aug  1 00:22:04 2016: Balance: ETH = 0.000001; USD = 14.463264
+BTC-E FLIP_ETH_USD Mon Aug  1 00:22:06 2016: Ордер "buy": ETH_USD: price=11.662020
