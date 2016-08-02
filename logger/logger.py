@@ -24,7 +24,7 @@ class Logger:
                 f.write(self._prep_message(msg, prefix))
                 f.close()
             except Exception, e:
-                print 'Error: ' + e.strerror
+                print 'Logger error: ' + e.strerror
                 return False
         else:
             print self._prep_message(msg, prefix)
@@ -35,6 +35,6 @@ class Logger:
             try:
                 os.remove(self.logfile)
             except Exception, e:
-                print 'Error: ' + e.strerror
+                print 'Logger error: ' + e.strerror
                 return False
 

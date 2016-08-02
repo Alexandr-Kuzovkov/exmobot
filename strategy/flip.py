@@ -115,9 +115,10 @@ def run(capi, logger, storage, conf=None, **params):
     #получаем наличие своих средств
     balance = capi.balance()
     primary_balance = min(balance[pair.split('_')[0]], limit/ask)
-    secondary_balance = min(balance[pair.split('_')[1]], limit)
+    secondary_balance = min(balance[pair.split('_')[1]], limit)git ad
 
-    logger.info('Balance: %s = %f; %s = %f' % (pair.split('_')[0], primary_balance, pair.split('_')[1], secondary_balance), prefix)
+    logger.info('Balance: %s = %f; %s = %f' % (pair.split('_')[0], balance[pair.split('_')[0]], pair.split('_')[1], balance[pair.split('_')[1]]), prefix)
+    logger.info('Balance with limit: %s = %f; %s = %f' % (pair.split('_')[0], primary_balance, pair.split('_')[1], secondary_balance), prefix)
 
     #комиссия
     fee = capi.fee[pair]
