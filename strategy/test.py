@@ -66,7 +66,7 @@ def run(capi, logger, storage, conf=None, **params):
     '''
 
     #pprint(capi.trades(['BTC_USD', 'ETH_USD'], limit=10))
-    #pprint(capi.orders(['BTC_USD', 'ETH_USD'], limit=10))
+    pprint(capi.orders(['BTC_USD', 'ETH_USD'], limit=5))
     #pprint(capi.ticker())
     #pprint(capi.balance())
     #pprint(capi.user_orders())
@@ -75,4 +75,6 @@ def run(capi, logger, storage, conf=None, **params):
     #pprint(capi.orders_cancel())
     #pprint(capi.orders_cancel())
     #pprint(capi.required_amount('USD_RUR', 10000))
-    pprint(capi.order_create(pair='ETH_USD', quantity=1.180682, price=12.484980, order_type='buy'))
+    #pprint(capi.order_create(pair='ETH_USD', quantity=capi.balance('ETH'), price=11.499, order_type='sell'))
+    print capi.balance()
+
