@@ -65,6 +65,7 @@
                         <?php endforeach;?>
                     </ul>
                 </li>
+                <li <?php check_active('hard');?>><a href="/hard">Оборудование</a></li>
 
             </ul>
 

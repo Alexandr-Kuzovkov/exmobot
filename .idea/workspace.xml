@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="caed98d7-9df3-486c-847b-196bfd55c276" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/store.sqlite" afterPath="$PROJECT_DIR$/db/store.sqlite" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/exchange/btce/btcelib.py" afterPath="$PROJECT_DIR$/exchange/btce/btcelib.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/exchange/btce/btcelib2.py" afterPath="$PROJECT_DIR$/exchange/btce/btcelib2.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/btce_eth_usd_flip.log" afterPath="$PROJECT_DIR$/log/btce_eth_usd_flip.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/logger/logger.py" afterPath="$PROJECT_DIR$/logger/logger.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/strategy/flip.py" afterPath="$PROJECT_DIR$/strategy/flip.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/.idea/workspace.xml" afterPath="$PROJECT_DIR$/web/.idea/workspace.xml" />
     </list>
     <ignored path="exmo_bot.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -47,7 +40,7 @@
         <entry file="file://$PROJECT_DIR$/strategy/flip.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.48">
-              <caret line="117" column="69" selection-start-line="117" selection-start-column="69" selection-end-line="117" selection-end-column="69" />
+              <caret line="117" column="63" selection-start-line="117" selection-start-column="63" selection-end-line="117" selection-end-column="63" />
               <folding>
                 <element signature="e#14#25#0" expanded="true" />
               </folding>
@@ -1056,7 +1049,7 @@
     <entry file="file://$PROJECT_DIR$/strategy/flip.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.48">
-          <caret line="117" column="69" selection-start-line="117" selection-start-column="69" selection-end-line="117" selection-end-column="69" />
+          <caret line="117" column="63" selection-start-line="117" selection-start-column="63" selection-end-line="117" selection-end-column="63" />
           <folding>
             <element signature="e#14#25#0" expanded="true" />
           </folding>

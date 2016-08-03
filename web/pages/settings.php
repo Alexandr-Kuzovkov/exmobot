@@ -17,11 +17,9 @@
 
 <?php require_once('_header.php') ?>
 <?php require_once('_topmenu.php')?>
-<?php
-/**авторизация**/
-if (!Auth::isAuth()) { echo '<label>Требуется авторизация!</label>'; exit();}
-/**авторизация**/
+<?php require_once('_auth.php')?>
 
+<?php
 $enable = Db::get_option('enable');
 $pause = Db::get_option('pause');
 $mail_per_once = Db::get_option('mail_per_once');
