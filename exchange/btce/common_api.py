@@ -410,6 +410,7 @@ class CommonAPI:
         except Exception, ex:
             return {}
         orders = {}
+
         for order_id, order in data.items():
             if order['pair'].upper() not in orders:
                 orders[order['pair'].upper()] = []

@@ -7,7 +7,7 @@ import os
 
 class Storage:
 
-    session_id = 0
+    session_id = '0'
     db_file = 'store.sqlite'
     root_dir = '/'
 
@@ -24,16 +24,16 @@ class Storage:
     def _get_connection(self):
         return sqlite3.connect(self.root_dir + '/db/' + self.db_file)
 
-    def save(self, key, value, type='string', session_id=None):
+    def save(self, key, value, value_type='string', session_id=None):
         conn = self._get_connection()
         if session_id is None:
             session_id = self.session_id
         cur = conn.cursor()
         cur.execute('SELECT * FROM session_data WHERE key=? AND session_id=?', (key, session_id,))
         if len(cur.fetchall()) == 0:
-            cur.execute('INSERT INTO session_data (key,value,type,session_id, utime) VALUES(?,?,?,?,?)',(key, value, type, session_id, int(time.time())))
+            cur.execute('INSERT INTO session_data (key,value,type,session_id, utime) VALUES(?,?,?,?,?)', (key, value, value_type, session_id, int(time.time())))
         else:
-            cur.execute('UPDATE session_data SET value=?, type=?, utime=? WHERE session_id=? AND key=?',(value, type, int(time.time()), session_id, key,))
+            cur.execute('UPDATE session_data SET value=?, type=?, utime=? WHERE session_id=? AND key=?', (value, value_type, int(time.time()), session_id, key,))
         conn.commit()
         cur.close()
         conn.close()
