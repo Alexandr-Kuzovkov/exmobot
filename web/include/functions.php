@@ -109,5 +109,58 @@
         return $strategy_files;
     }
 
+    /**
+     * возвращает имя фала базы данных в каталоге db 
+     * (первый попавшийся файл с раширением sqlite)
+     */
+    function get_database_file(){
+        $path = '../../db';
+        $db_file = false;
+        $files = scandir($path);
+        if (is_array($files) && count($files)){
+            foreach ($files as $file){
+                if ($file == '.' || $file == '..') continue;
+                if (pathinfo($file, PATHINFO_EXTENSION) !== 'sqlite') continue;
+                $db_file = $file;
+                break;
+            }
+        }
+        return $db_file;
+    }
+
+    /**
+     * возвращает содержимое всех таблиц базы данных sqlite
+     * либо конкретной таблицы если задано ее имя
+     *@param $db_name полное имя файла базы данных
+     *@param  $table_name имя таблицы БД
+     */
+    function get_database_data($db_name, $table_name = null){
+        try{
+            $db = new SQLite3($db_name);
+            $sql = "SELECT * FROM sqlite_master WHERE type = 'table'";
+            $result = array();
+            $tables = array();
+            $res = $db->query($sql);
+            while( $row = $res->fetchArray(SQLITE3_ASSOC)){
+                $tables[] = $row['name'];
+		    }
+            foreach($tables as $table){
+                if ($table_name !== null && $table_name !== $table) continue;
+                $sql = "SELECT * FROM $table";
+                $res = $db->query($sql);
+                $count = 0;
+                $result[$table] = array();
+                while( $row = $res->fetchArray(SQLITE3_ASSOC)){
+                    $result[$table][$count++] = $row;
+                }
+            }
+            $db->close();
+            return $result;
+
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+    }
+
 
 ?>

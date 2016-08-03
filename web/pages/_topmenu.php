@@ -12,7 +12,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <!--<li <?php check_active('');?>><a href="/">Статистика</a></li>-->
+                <li <?php check_active('');?>><a href="/">Биржи</a></li>
                 <!--
                 <li <?php check_active('file');?>><a href="/file">Загрузка из файла</a></li>
                 <li <?php check_active('images');?>><a href="/images">Изображения</a></li>-->
@@ -65,6 +65,8 @@
                         <?php endforeach;?>
                     </ul>
                 </li>
+                <li <?php check_active('hard');?>><a href="/hard">Оборудование</a></li>
+                <li <?php check_active('database');?>><a href="/database">База данных</a></li>
 
             </ul>
 

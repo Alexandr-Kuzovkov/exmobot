@@ -23,7 +23,11 @@ $routes = array(
     '/save-new-conf' => $scripts . 'save_conf.php',
     '/del-conf' => $scripts . 'del_conf.php',
     '/help' => $pages . 'help.php',
-    '/strategy' => $pages . 'strategy.php'
+    '/strategy' => $pages . 'strategy.php',
+    '/hard' => $pages . 'hard.php',
+    '/get_hard_info' => $scripts . 'get_hard_info.php',
+    '/database' => $pages . 'database.php',
+    '/get-data' => $scripts . 'get_data.php'
 
     /*
     '/file' => $pages . 'file.php',
