@@ -101,7 +101,7 @@ __credits__ = "Alan McIntyre <https://github.com/alanmcintyre>"
 
 
 API_REFRESH = 2            # time [sec]
-BTCE_HOST = 'btc-e.com'    # BTC-E host (SSL)
+BTCE_HOST = 'btc-e.nz'    # BTC-E host (SSL)
 CF_COOKIE = '__cfduid'     # CloudFlare security
 
 FloatParser = Decimal      # Parser for JSON values

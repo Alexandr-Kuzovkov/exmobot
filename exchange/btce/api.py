@@ -10,8 +10,8 @@ class API:
     tapi = None
 
     def __init__(self):
-        self.papi = btcelib2.PublicAPIv3()
-        self.tapi = btcelib2.TradeAPIv1(config.apikey, compr=True)
+        self.papi = btcelib.PublicAPIv3()
+        self.tapi = btcelib.TradeAPIv1(config.apikey, compr=True)
 
     '''
     Вызов метода PUBLIC API

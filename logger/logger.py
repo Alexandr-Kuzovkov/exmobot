@@ -20,11 +20,11 @@ class Logger:
     def info(self, msg, prefix=''):
         if self.logfile is not None:
             try:
-                f = open(self.logfile, 'a')
+		f = open(self.logfile, 'a')
                 f.write(self._prep_message(msg, prefix))
                 f.close()
             except Exception, e:
-                print 'Error: ' + e.strerror
+                print 'Logger error: ' + e.strerror
                 return False
         else:
             print self._prep_message(msg, prefix)
@@ -35,6 +35,6 @@ class Logger:
             try:
                 os.remove(self.logfile)
             except Exception, e:
-                print 'Error: ' + e.strerror
+                print 'Logger error: ' + e.strerror
                 return False
 
