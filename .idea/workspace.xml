@@ -3,6 +3,19 @@
   <component name="ChangeListManager">
     <list default="true" id="caed98d7-9df3-486c-847b-196bfd55c276" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/.idea/workspace.xml" afterPath="$PROJECT_DIR$/web/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/html/css/style.css" afterPath="$PROJECT_DIR$/web/html/css/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/html/index.php" afterPath="$PROJECT_DIR$/web/html/index.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/_topmenu.php" afterPath="$PROJECT_DIR$/web/pages/_topmenu.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/add_conf.php" afterPath="$PROJECT_DIR$/web/pages/add_conf.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/conf.php" afterPath="$PROJECT_DIR$/web/pages/conf.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/file.php" afterPath="$PROJECT_DIR$/web/pages/file.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/help.php" afterPath="$PROJECT_DIR$/web/pages/help.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/img.php" afterPath="$PROJECT_DIR$/web/pages/img.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/index.php" afterPath="$PROJECT_DIR$/web/pages/index.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/log.php" afterPath="$PROJECT_DIR$/web/pages/log.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/settings.php" afterPath="$PROJECT_DIR$/web/pages/settings.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/strategy.php" afterPath="$PROJECT_DIR$/web/pages/strategy.php" />
     </list>
     <ignored path="exmo_bot.iws" />
     <ignored path=".idea/workspace.xml" />
