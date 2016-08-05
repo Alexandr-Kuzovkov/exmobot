@@ -25,7 +25,7 @@ $data = get_database_data($fullname);
         <?php foreach($rows as $row):?>
             <tr>
                 <?php foreach ($row as $key=>$val):?>
-                    <td><?php echo $val?></td>
+                    <td><?php echo ($key == 'utime')? date('d.m.Y H:i:s', $val) : $val?></td>
                 <?php endforeach;?>
             </tr>
         <?php endforeach;?>

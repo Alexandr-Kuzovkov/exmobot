@@ -76,6 +76,8 @@ except Exception, e:
     logger.info('Startup Error: %s' % e)
     exit(1)
 
+strategy.run(capi, logger, storage, conf)
+'''
 try:
     strategy.run(capi, logger, storage, conf)
 except Exception, ex:
@@ -83,4 +85,4 @@ except Exception, ex:
     logger.info('Strategy.run: %s' % ex.message)
 
 
-
+'''
