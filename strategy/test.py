@@ -89,3 +89,9 @@ def run(capi, logger, storage, conf=None, **params):
     pprint(storage.get_last_balance('USD', 3, 'test'))
     '''
 
+
+    #user_trades = capi.user_trades(['ETH_USD'])
+    #storage.save_user_trades(user_trades['ETH_USD'], 'test')
+
+    #storage.delete_old_values(['user_trades'], time.time()-3, False, 'test')
+    pprint(storage.get_last_user_trades(pair=None, limit=5, session_id='test'))

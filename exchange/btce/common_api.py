@@ -467,7 +467,6 @@ class CommonAPI:
             data = self.api.btce_api('TradeHistory', pair='-'.join(pairs).lower(), count=limit)
         except Exception, ex:
             return {}
-        pprint(data)
         trades = {}
         for trade_id, trade in data.items():
            if int(trade['is_your_order']) != 1:

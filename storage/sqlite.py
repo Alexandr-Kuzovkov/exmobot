@@ -19,7 +19,7 @@ class Storage:
         cur.execute('CREATE TABLE IF NOT EXISTS session_data (key, value, type, session_id, utime INTEGER)')
         cur.execute('CREATE TABLE IF NOT EXISTS orders (order_id, pair, quantity REAL, price REAL, order_type, session_id, utime INTEGER)')
         cur.execute('CREATE TABLE IF NOT EXISTS balance (currency, amount REAL, session_id, utime INTEGER)')
-        cur.execute('CREATE TABLE IF NOT EXISTS user_trades (trade_id, order_id, pair, quantity REAL, price REAL, amount REAL, trade_type, session_id, order_date INTEGER, utime INTEGER)')
+        cur.execute('CREATE TABLE IF NOT EXISTS user_trades (trade_id, order_id, pair, quantity REAL, price REAL, amount REAL, trade_type, session_id, trade_date INTEGER, utime INTEGER)')
         cur.close()
         conn.close()
 
@@ -210,6 +210,60 @@ class Storage:
         cur.close()
         conn.close()
 
+    '''
+    запись в таблицу сделок пользователя
+    @param trades список словарей  вида
+        {
+          "trade_id": 3,
+          "date": 1435488248,
+          "type": "buy",
+          "pair": "BTC_USD",
+          "order_id": 7,
+          "quantity": 1,
+          "price": 100,
+          "amount": 100
+        }
+    '''
+    def save_user_trades(self, trades, session_id=None):
+        conn = self._get_connection()
+        if session_id is None:
+            session_id = self.session_id
+        cur = conn.cursor()
+        cur.execute('SELECT * FROM user_trades WHERE session_id=?', (session_id,))
+        rows = cur.fetchall()
+        for trade in trades:
+            if rows:
+                record_exists = False
+                for row in rows:
+                    if (row[0] == trade['trade_id']) and (row[1] == trade['order_id']) and(row[8] == trade['date']):
+                        record_exists = True
+                        break
+                if record_exists:
+                    continue
+            data = (trade['trade_id'], trade['order_id'], trade['pair'], trade['quantity'], trade['price'], trade['amount'], trade['type'], session_id, trade['date'], int(time.time()),)
+            cur.execute('INSERT INTO user_trades (trade_id, order_id, pair, quantity, price, amount, trade_type, session_id, trade_date, utime) VALUES (?,?,?,?,?,?,?,?,?,?)', data)
+        conn.commit()
+        cur.close()
+        conn.close()
 
+    '''
+    получение последних сделок limit пользователя по паре pair
+    '''
+    def get_last_user_trades(self, pair=None, limit=100, session_id=None):
+        conn = self._get_connection()
+        if session_id is None:
+            session_id = self.session_id
+        cur = conn.cursor()
+        if pair is None:
+            cur.execute('SELECT * FROM user_trades WHERE session_id=? ORDER BY trade_date DESC limit ?', (session_id, limit,))
+        else:
+            cur.execute('SELECT * FROM user_trades WHERE session_id=? AND pair=? ORDER BY trade_date DESC limit ?', (session_id, pair, limit,))
+        rows = cur.fetchall()
+        result = []
+        for row in rows:
+            result.append({'trade_id':row[0], 'order_id':row[1], 'pair':row[2], 'quantity':row[3], 'price':row[4], 'amount':row[5], 'type':row[6], 'session_id':row[7], 'date':row[8], 'utime':row[9]})
+        cur.close()
+        conn.close()
+        return result
 
 
