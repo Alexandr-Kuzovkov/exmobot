@@ -18,12 +18,17 @@ class Storage:
         cur = conn.cursor()
         cur.execute('CREATE TABLE IF NOT EXISTS session_data (key, value, type, session_id, utime INTEGER)')
         cur.execute('CREATE TABLE IF NOT EXISTS orders (order_id, pair, quantity REAL, price REAL, order_type, session_id, utime INTEGER)')
+        cur.execute('CREATE TABLE IF NOT EXISTS balance (currency, amount REAL, session_id, utime INTEGER)')
+        cur.execute('CREATE TABLE IF NOT EXISTS user_trades (trade_id, order_id, pair, quantity REAL, price REAL, amount REAL, trade_type, session_id, order_date INTEGER, utime INTEGER)')
         cur.close()
         conn.close()
 
     def _get_connection(self):
         return sqlite3.connect(self.root_dir + '/db/' + self.db_file)
 
+    '''
+    запись значения в сессию
+    '''
     def save(self, key, value, value_type='string', session_id=None):
         conn = self._get_connection()
         if session_id is None:
@@ -38,6 +43,9 @@ class Storage:
         cur.close()
         conn.close()
 
+    '''
+    чтение значения из сессии по ключу
+    '''
     def load(self, key, session_id=None):
         conn = self._get_connection()
         if session_id is None:
@@ -54,6 +62,9 @@ class Storage:
                 return row[1]
         return None
 
+    '''
+    получение времени обновления значения с заданным ключом
+    '''
     def get_utime(self, key, session_id=None):
         conn = self._get_connection()
         if session_id is None:
@@ -65,6 +76,9 @@ class Storage:
             return row[4]
         return None
 
+    '''
+    удаление значения в сессии
+    '''
     def delete(self, key, session_id=None):
         conn = self._get_connection()
         if session_id is None:
@@ -75,6 +89,9 @@ class Storage:
         cur.close()
         conn.close()
 
+    '''
+    запись данных ордера в таблицу
+    '''
     def order_add(self, order_id, pair, quantity, price, order_type, session_id=None):
         conn = self._get_connection()
         if session_id is None:
@@ -89,6 +106,9 @@ class Storage:
         cur.close()
         conn.close()
 
+    '''
+    удаление данных ордера из таблицы
+    '''
     def order_delete(self, order_id=None, pair=None, session_id=None):
         conn = self._get_connection()
         if session_id is None:
@@ -106,6 +126,9 @@ class Storage:
         cur.close()
         conn.close()
 
+    '''
+    удаление записей об ордерах с utime менее заданного
+    '''
     def old_orders_delete(self, utime, pair=None, session_id=None):
         conn = self._get_connection()
         if session_id is None:
@@ -119,6 +142,9 @@ class Storage:
         cur.close()
         conn.close()
 
+    '''
+    получение записей об ордерах из таблицы
+    '''
     def orders(self, pair=None, session_id=None):
         conn = self._get_connection()
         if session_id is None:
@@ -132,4 +158,58 @@ class Storage:
         result = []
         for row in rows:
             result.append({'order_id': row[0], 'pair': row[1], 'quantity': row[2], 'price': row[3], 'order_type': row[4], 'session_id': row[5], 'utime': row[6]})
+        cur.close()
+        conn.close()
         return result
+
+    '''
+    запись величины баланса в таблицу
+    '''
+    def save_balance(self, currency, amount, session_id=None):
+        conn = self._get_connection()
+        if session_id is None:
+            session_id = self.session_id
+        cur = conn.cursor()
+        cur.execute('INSERT INTO balance (currency, amount, session_id, utime) VALUES (?,?,?,?)', (currency, amount, session_id, int(time.time())))
+        conn.commit()
+        cur.close()
+        conn.close()
+
+    '''
+    получение последних записей о балансе из таблицы
+    '''
+    def get_last_balance(self, currency, limit=1, session_id=None):
+        conn = self._get_connection()
+        if session_id is None:
+            session_id = self.session_id
+        cur = conn.cursor()
+        cur.execute('SELECT * FROM balance WHERE session_id=? AND currency=? ORDER BY utime DESC LIMIT ?', (session_id, currency, limit))
+        rows = cur.fetchall()
+        result = []
+        for row in rows:
+            result.append({'currency': row[0], 'amount': row[1], 'session_id': row[2], 'utime': row[3]})
+        return result
+
+    '''
+    удаление записей из таблиц с utime менее заданного
+    @param tables список имен таблиц
+    @param full при равном True удаляются записи для всех сессий
+    '''
+    def delete_old_values(self, tables, utime, full=False, session_id=None):
+        conn = self._get_connection()
+        if session_id is None:
+            session_id = self.session_id
+        cur = conn.cursor()
+        if full:
+            for table in tables:
+                cur.execute('DELETE FROM '+table+' WHERE utime<?', (utime,))
+        else:
+            for table in tables:
+                cur.execute('DELETE FROM '+table+' WHERE session_id=? AND utime < ?', (session_id, utime))
+        conn.commit()
+        cur.close()
+        conn.close()
+
+
+
+

@@ -1,6 +1,7 @@
 #coding=utf-8
 import random
 from pprint import pprint
+import time
 
 
 def run(capi, logger, storage, conf=None, **params):
@@ -78,5 +79,13 @@ def run(capi, logger, storage, conf=None, **params):
     #pprint(capi.order_create(pair='ETH_USD', quantity=capi.balance('ETH'), price=11.499, order_type='sell'))
     #print capi.balance()
     #pprint(capi.user_orders())
-    pprint(capi.user_trades(['ETH_USD'],limit=3))
+    #pprint(capi.user_trades(['ETH_USD'],limit=3))
+
+    '''
+    storage.save_balance('USD', 1.25, 'test')
+    time.sleep(2)
+    storage.save_balance('USD', 1.34, 'test')
+    storage.delete_old_values(['balance'], time.time()-3, True)
+    pprint(storage.get_last_balance('USD', 3, 'test'))
+    '''
 
