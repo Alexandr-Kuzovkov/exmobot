@@ -87,6 +87,29 @@ class CommonAPI:
         number = float(number) / (10**prec)
         return number
 
+    '''
+    получение минимальных балансов по валютам в паре
+    необходимых для создания ордера
+    @return (min_primary_balance, min_secondary_balance)
+    '''
+    def get_min_balance(self, pair, price):
+        if 'min_quantity' in self.pair_settings[pair] and self.pair_settings[pair]['min_quantity'] != 0:
+            min_primary_balance = self.pair_settings[pair]['min_quantity']
+        elif 'min_amount' in self.pair_settings[pair]:
+            min_primary_balance = self.pair_settings[pair]['min_amount']
+        else:
+            min_primary_balance = 0.0001
+
+        if 'min_quantity' in self.pair_settings[pair] and self.pair_settings[pair]['min_quantity'] != 0:
+            min_secondary_balance = self.pair_settings[pair]['min_quantity'] * price
+        elif 'min_amount' in self.pair_settings[pair]:
+            min_secondary_balance = self.pair_settings[pair]['min_amount'] * price
+        else:
+            min_secondary_balance = 0.0001
+
+        return (min_primary_balance, min_secondary_balance)
+
+
 
     #PUBLIC API
 
@@ -467,22 +490,22 @@ class CommonAPI:
             data = self.api.btce_api('TradeHistory', pair='-'.join(pairs).lower(), count=limit)
         except Exception, ex:
             return {}
-
         trades = {}
         for trade_id, trade in data.items():
-           if trade['is_you_order'] == 0: continue
+           if int(trade['is_your_order']) != 1:
+               continue
            if trade['pair'].upper() not in trades:
                 trades[trade['pair'].upper()] = []
-                new_trade = {}
-                new_trade['order_id'] = int(trade_id)
-                new_trade['date'] = int(trade['timestamp'])
-                new_trade['type'] = trade['type']
-                new_trade['pair'] = trade['pair'].upper()
-                new_trade['trade_id'] = int(trade_id)
-                new_trade['price'] = float(trade['rate'])
-                new_trade['quantity'] = float(trade['amount'])
-                new_trade['amount'] = float(trade['rate']) * float(trade['amount'])
-                trades[trade['pair'].upper()].append(new_trade)
+           new_trade = {}
+           new_trade['order_id'] = int(trade['order_id'])
+           new_trade['date'] = int(trade['timestamp'])
+           new_trade['type'] = trade['type']
+           new_trade['pair'] = trade['pair'].upper()
+           new_trade['trade_id'] = int(trade_id)
+           new_trade['price'] = float(trade['rate'])
+           new_trade['quantity'] = float(trade['amount'])
+           new_trade['amount'] = float(trade['rate']) * float(trade['amount'])
+           trades[trade['pair'].upper()].append(new_trade)
 
         return trades
 

@@ -29,13 +29,13 @@ try:
     else:
         raise Exception('"strategy" option expected in config file!')
 
-    if conf.has_option('common', 'session-id'):
-        session_id = conf.get('common', 'session-id')
+    if conf.has_option('common', 'session_id'):
+        session_id = conf.get('common', 'session_id')
     else:
         session_id = 0
 
-    if conf.has_option('common', 'log-file'):
-        log_file = conf.get('common', 'log-file')
+    if conf.has_option('common', 'log_file'):
+        log_file = conf.get('common', 'log_file')
         logger = Logger(log_file)
     else:
         logger = Logger()
@@ -62,7 +62,7 @@ except Exception, ex:
     print ex.message
     exit(1)
 try:
-    strategy = __import__('strategy.' + strategy_name, globals(), locals(), ['run'], -1)
+    mod_strategy = __import__('strategy.' + strategy_name, globals(), locals(), ['run'], -1)
     mod_api = __import__('exchange.' + exchange_name + '.api', globals(), locals(), ['API'], -1)
     mod_common_api = __import__('exchange.' + exchange_name + '.common_api', globals(), locals(), ['CommonAPI'], -1)
     mod_storage = __import__('storage.' + storage_type, globals(), locals(), ['Storage'], -1)
@@ -70,18 +70,19 @@ try:
     capi = mod_common_api.CommonAPI(api)
     root_dir = os.path.dirname(os.path.realpath(__file__))
     storage = mod_storage.Storage(session_id, root_dir)
+    strategy = mod_strategy.Strategy(capi, logger, storage, conf)
 
 except Exception, e:
     print 'Startup Error: %s' % e
     logger.info('Startup Error: %s' % e)
     exit(1)
 
+#strategy.run()
+
+
 try:
-    strategy.run(capi, logger, storage, conf)
+    strategy.run()
 except Exception, ex:
     print 'Strategy.run: %s' % ex.message
     logger.info('Strategy.run: %s' % ex.message)
-
-
-
 

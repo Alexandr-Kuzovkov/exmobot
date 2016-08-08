@@ -27,7 +27,9 @@ $routes = array(
     '/hard' => $pages . 'hard.php',
     '/get_hard_info' => $scripts . 'get_hard_info.php',
     '/database' => $pages . 'database.php',
-    '/get-data' => $scripts . 'get_data.php'
+    '/get-data' => $scripts . 'get_data.php',
+    '/query' => $pages . 'query.php',
+    '/exec-query' => $scripts . 'exec_query.php',
 
     /*
     '/file' => $pages . 'file.php',

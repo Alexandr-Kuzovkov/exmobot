@@ -66,7 +66,13 @@
                     </ul>
                 </li>
                 <li <?php check_active('hard');?>><a href="/hard">Оборудование</a></li>
-                <li <?php check_active('database');?>><a href="/database">База данных</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">База данных<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li <?php check_active('database');?>><a href="/database">Все данные</a></li>
+                        <li <?php check_active('query');?>><a href="/query">Запрос</a></li>
+                    </ul>
+                </li>
 
             </ul>
 
