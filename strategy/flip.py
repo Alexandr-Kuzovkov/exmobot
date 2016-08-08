@@ -71,8 +71,8 @@ class Strategy:
         limit = self.limit
         min_profit = self.min_profit
 
-        print mode, pair, session_id
-        return
+        #print mode, pair, session_id
+        #return
 
         logger.info('-'*40, prefix)
         logger.info('pair: %s  mode: %i' % (pair, mode), prefix)

@@ -33,7 +33,7 @@ class Strategy:
 
 
     def run(self):
-        flip1 = flip.Strategy(self.capi, self.logger, self.storage, self.conf, mode=0)
+        flip1 = flip.Strategy(self.capi, self.logger, self.storage, self.conf)
         flip1.run()
-        flip2 = flip.Strategy(self.capi, self.logger, self.storage, self.conf, mode=1)
-        flip2.run()
+        #flip2 = flip.Strategy(self.capi, self.logger, self.storage, self.conf, mode=1)
+        #flip2.run()
