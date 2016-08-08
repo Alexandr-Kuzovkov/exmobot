@@ -73,6 +73,28 @@ class CommonAPI:
             fee[pair] = config.fee
         return fee
 
+    '''
+    получение минимальных балансов по валютам в паре
+    необходимых для создания ордера
+    @return (min_primary_balance, min_secondary_balance)
+    '''
+    def get_min_balance(self, pair, price):
+        if 'min_quantity' in self.pair_settings[pair] and self.pair_settings[pair]['min_quantity'] != 0:
+            min_primary_balance = self.pair_settings[pair]['min_quantity']
+        elif 'min_amount' in self.pair_settings[pair]:
+            min_primary_balance = self.pair_settings[pair]['min_amount']
+        else:
+            min_primary_balance = 0.0001
+
+        if 'min_quantity' in self.pair_settings[pair] and self.pair_settings[pair]['min_quantity'] != 0:
+            min_secondary_balance = self.pair_settings[pair]['min_quantity'] * price
+        elif 'min_amount' in self.pair_settings[pair]:
+            min_secondary_balance = self.pair_settings[pair]['min_amount'] * price
+        else:
+            min_secondary_balance = 0.0001
+
+        return (min_primary_balance, min_secondary_balance)
+
 
     #PUBLIC API
 

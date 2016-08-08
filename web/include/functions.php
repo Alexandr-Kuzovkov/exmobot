@@ -162,5 +162,19 @@
         }
     }
 
+    /**
+     * выполняет произвольный запрос к базе
+     */
+    function exec_query($db_name, $sql){
+        $db = new SQLite3($db_name);
+        $res = $db->query($sql);
+        $result = array();
+        $count = 0;
+        while( $row = $res->fetchArray(SQLITE3_ASSOC)){
+            $result[$count++] = $row;
+        }
+        return $result;
+    }
+
 
 ?>

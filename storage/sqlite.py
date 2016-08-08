@@ -267,3 +267,17 @@ class Storage:
         return result
 
 
+    '''
+    очистка всех таблиц
+    '''
+    def clear_all(self):
+        conn = self._get_connection()
+        cur = conn.cursor()
+        tables = ['orders', 'balance', 'session_data', 'user_trades']
+        for table in tables:
+            cur.execute('DELETE FROM ' + table)
+        conn.commit()
+        cur.close()
+        conn.close()
+
+

@@ -4,94 +4,133 @@ from pprint import pprint
 import time
 
 
-def run(capi, logger, storage, conf=None, **params):
-    #print capi.delete_orders(['BTC_USD'])
-    #print action.delete_orders_for_pair('ETH_USD')
-    #print capi.orders_balance()
+class Strategy:
 
-    '''
-    user_info = exmo.user_info()
-    eth_amount = user_info['balances']['ETH']
+    capi = None
+    logger = None
+    storage = None
+    conf = None
+    params = None
 
-    price =11.29897
-    pair = 'ETH_USD'
-    order_type = 'sell'
-    quantity = eth_amount
+    pair = None
+    name = 'unknown'
+    mode = 0
+    session_id = 'default'
+    min_profit = 0.005
+    limit = 1000000000.0
+    #префикс для логгера
+    prefix = ''
 
-    print exmo.order_create(pair=pair, price=price, order_type= order_type, quantity=eth_amount)
-
-    '''
-
-    #print capi.user_orders()
-    #print capi.ticker()
-    #print capi.user_trades(['BTC_USD'])
-    #print capi.user_cancelled_orders(100000, 1000)
-    #print capi.order_trades(48267083)
-    #print capi.required_amount('BTC_USD', 1)
-    #logger.info(res)
-    #print res
-    #print capi.
-    #print capi.order_trades()
-    #storage.save('key1', 'value1')
-    #storage.save('key2', 'value1')
-    #print storage.load('key2')
-    #print storage.get_utime('key2')
-    #storage.delete('key2')
-    #print capi.balance_full()
-    '''
-    ids = random.randrange(100000, 200000, 1)
-    storage.order_add(ids, 'ETH_USD', 10.5, 12.45, 'sell', '123')
-    storage.order_add(ids+1, 'BTC_USD', 1.1, 645.45, 'sell', '123')
-    print storage.orders(session_id='123')
-    print '-' * 40
-    print storage.orders(pair='LTC_USD', session_id='123')
-    storage.order_delete(pair='BTC_USD', session_id='123')
-    storage.old_orders_delete(utime=1469620306, pair='ETH_USD', session_id='123')
-    '''
-    #print capi.order_cancel(123)
-    #удаляем неактуальные записи об ордерах
-    '''
-    session_id='123'
-    user_orders = capi.user_orders()
-    print user_orders
-    stored_orders = storage.orders(session_id='123')
-    print stored_orders
-    for stored_order in stored_orders:
-        order_exists = False
-        for user_order_for_pair in user_orders[stored_order['pair']]:
-            if user_order_for_pair['order_id'] == stored_order['order_id'] and user_order_for_pair['type'] == stored_order['order_type']:
-                order_exists = True
-        print order_exists
-        if not order_exists:
-            storage.order_delete(pair=stored_order['pair'], order_id=stored_order['order_id'], session_id=session_id)
-    '''
-
-    #pprint(capi.trades(['BTC_USD', 'ETH_USD'], limit=10))
-    #pprint(capi.orders(['BTC_USD', 'ETH_USD'], limit=5))
-    #pprint(capi.ticker())
-    #pprint(capi.balance())
-    #pprint(capi.user_orders())
-    #pprint(capi.order_create(pair='USD_RUR', quantity=1, price=63.25, order_type='buy'))
-    #pprint(capi.order_cancel(1166872879))
-    #pprint(capi.orders_cancel())
-    #pprint(capi.orders_cancel())
-    #pprint(capi.required_amount('USD_RUR', 10000))
-    #pprint(capi.order_create(pair='ETH_USD', quantity=capi.balance('ETH'), price=11.499, order_type='sell'))
-    #print capi.balance()
-    #pprint(capi.user_orders())
-    #pprint(capi.user_trades(['ETH_USD'],limit=3))
-
-    '''
-    storage.save_balance('USD', 1.25, 'test')
-    time.sleep(2)
-    storage.save_balance('USD', 1.34, 'test')
-    storage.delete_old_values(['balance'], time.time()-3, True)
-    pprint(storage.get_last_balance('USD', 3, 'test'))
-    '''
+    def __init__(self, capi, logger, storage, conf=None, **params):
+        self.storage = storage
+        self.capi = capi
+        self.conf = conf
+        self.logger = logger
+        self.params = params
+        self.prefix = capi.name + ' ' + self.name
+        #ввод параметров
+        #параметры передаваемые при вызове функции имеют приоритет
+        #перед параметрами заданными в файле конфигурации
 
 
-    #user_trades = capi.user_trades(['ETH_USD'])
-    #storage.save_user_trades(user_trades['ETH_USD'], 'test')
+    def run(self):
 
-    #storage.delete_old_values(['user_trades'], time.time()-3, False, 'test')
-    pprint(storage.get_last_user_trades(pair=None, limit=5, session_id='test'))
+        capi = self.capi
+        storage = self.storage
+        logger = self.logger
+
+        #print capi.delete_orders(['BTC_USD'])
+        #print action.delete_orders_for_pair('ETH_USD')
+        #print capi.orders_balance()
+
+        '''
+        user_info = exmo.user_info()
+        eth_amount = user_info['balances']['ETH']
+
+        price =11.29897
+        pair = 'ETH_USD'
+        order_type = 'sell'
+        quantity = eth_amount
+
+        print exmo.order_create(pair=pair, price=price, order_type= order_type, quantity=eth_amount)
+
+        '''
+
+        #print capi.user_orders()
+        #print capi.ticker()
+        #print capi.user_trades(['BTC_USD'])
+        #print capi.user_cancelled_orders(100000, 1000)
+        #print capi.order_trades(48267083)
+        #print capi.required_amount('BTC_USD', 1)
+        #logger.info(res)
+        #print res
+        #print capi.
+        #print capi.order_trades()
+        #storage.save('key1', 'value1')
+        #storage.save('key2', 'value1')
+        #print storage.load('key2')
+        #print storage.get_utime('key2')
+        #storage.delete('key2')
+        #print capi.balance_full()
+        '''
+        ids = random.randrange(100000, 200000, 1)
+        storage.order_add(ids, 'ETH_USD', 10.5, 12.45, 'sell', '123')
+        storage.order_add(ids+1, 'BTC_USD', 1.1, 645.45, 'sell', '123')
+        print storage.orders(session_id='123')
+        print '-' * 40
+        print storage.orders(pair='LTC_USD', session_id='123')
+        storage.order_delete(pair='BTC_USD', session_id='123')
+        storage.old_orders_delete(utime=1469620306, pair='ETH_USD', session_id='123')
+        '''
+        #print capi.order_cancel(123)
+        #удаляем неактуальные записи об ордерах
+        '''
+        session_id='123'
+        user_orders = capi.user_orders()
+        print user_orders
+        stored_orders = storage.orders(session_id='123')
+        print stored_orders
+        for stored_order in stored_orders:
+            order_exists = False
+            for user_order_for_pair in user_orders[stored_order['pair']]:
+                if user_order_for_pair['order_id'] == stored_order['order_id'] and user_order_for_pair['type'] == stored_order['order_type']:
+                    order_exists = True
+            print order_exists
+            if not order_exists:
+                storage.order_delete(pair=stored_order['pair'], order_id=stored_order['order_id'], session_id=session_id)
+        '''
+
+        #pprint(capi.trades(['BTC_USD', 'ETH_USD'], limit=10))
+        #pprint(capi.orders(['BTC_USD', 'ETH_USD'], limit=5))
+        #pprint(capi.ticker())
+        #pprint(capi.balance())
+        #pprint(capi.user_orders())
+        #pprint(capi.order_create(pair='USD_RUR', quantity=1, price=63.25, order_type='buy'))
+        #pprint(capi.order_cancel(1166872879))
+        #pprint(capi.orders_cancel())
+        #pprint(capi.orders_cancel())
+        #pprint(capi.required_amount('USD_RUR', 10000))
+        #pprint(capi.order_create(pair='ETH_USD', quantity=capi.balance('ETH'), price=11.499, order_type='sell'))
+        #print capi.balance()
+        #pprint(capi.user_orders())
+        #pprint(capi.user_trades(['ETH_USD'],limit=3))
+
+
+        storage.save_balance('USD', 1.25, 'test')
+        time.sleep(2)
+        storage.save_balance('USD', 1.34, 'test')
+        storage.delete_old_values(['balance'], time.time()-3, True)
+        pprint(storage.get_last_balance('USD', 3, 'test'))
+
+
+
+        user_trades = capi.user_trades(['ETH_USD'])
+        storage.save_user_trades(user_trades['ETH_USD'], 'test')
+
+        #storage.delete_old_values(['user_trades'], time.time()-3, False, 'test')
+        #pprint(storage.get_last_user_trades(pair=None, limit=5, session_id='test'))
+
+        #min_primary_balance, min_secondary_balance = capi.get_min_balance('ETH_USD', 11.1)
+        #print min_primary_balance, min_secondary_balance
+
+        #storage.clear_all()
