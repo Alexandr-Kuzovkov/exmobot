@@ -34,7 +34,7 @@ class Strategy:
         self.conf = conf
         self.logger = logger
         self.params = params
-        self.prefix = capi.name + ' ' + self.name
+
         #ввод параметров
         #параметры передаваемые при вызове функции имеют приоритет
         #перед параметрами заданными в файле конфигурации
@@ -57,6 +57,8 @@ class Strategy:
         #лимит использования депозита по второй валюте в паре
         self.limit = self.set_param(key='limit', default_value=1000000000.0, param_type='float')
 
+        self.prefix = capi.name + ' ' + self.name
+
 
     def run(self):
 
@@ -71,8 +73,8 @@ class Strategy:
         limit = self.limit
         min_profit = self.min_profit
 
-        print mode, pair, session_id
-        return
+        #print mode, pair, session_id
+        #return
 
         logger.info('-'*40, prefix)
         logger.info('pair: %s  mode: %i' % (pair, mode), prefix)
