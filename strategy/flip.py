@@ -104,10 +104,6 @@ class Strategy:
         primary_balance = min(balance[pair.split('_')[0]], limit/ask)
         secondary_balance = min(balance[pair.split('_')[1]], limit)
 
-        #сохраняем изменения баланса в базу
-        self.save_change_balance(pair.split('_')[0], balance[pair.split('_')[0]])
-        self.save_change_balance(pair.split('_')[1], balance[pair.split('_')[1]])
-
         #сохраняем в базу последние сделки
         self.save_last_user_trades()
 
@@ -162,6 +158,8 @@ class Strategy:
             else:
                 #если первой валюты на балансе нет удаляем цену покупки
                 storage.delete(pair.split('_')[0] + '_buy_price', session_id)
+                #сохраняем баланс по второй валюте в базу
+                self.save_change_balance(pair.split('_')[1], balance[pair.split('_')[1]])
 
             time.sleep(2)
 
@@ -179,6 +177,9 @@ class Strategy:
                 if self.order_create('buy', new_bid, secondary_balance/new_bid):
                     storage.save(pair.split('_')[0] + '_buy_price', new_bid, 'float', session_id)
 
+            else:
+                #сохраняем баланс по первой валюте в базу
+                self.save_change_balance(pair.split('_')[0], balance[pair.split('_')[0]])
 
         #если наращиваем первую валюту в паре (игра на понижении)
         elif mode == 1:
@@ -213,6 +214,8 @@ class Strategy:
             else:
                 #если второй валюты на балансе нет, то удаляем цену продажи
                 storage.delete(pair.split('_')[0] + '_sell_price', session_id)
+                #сохраняем баланс по первой валюте в базу
+                self.save_change_balance(pair.split('_')[0], balance[pair.split('_')[0]])
 
             time.sleep(2)
 
@@ -229,6 +232,9 @@ class Strategy:
                 #ставим ордер на продажу и запоминаем цену продажи
                 if self.order_create('sell', new_ask, primary_balance):
                     storage.save(pair.split('_')[0] + '_sell_price', new_ask, 'float', session_id)
+            else:
+                #сохраняем баланс по второй валюте в базу
+                self.save_change_balance(pair.split('_')[1], balance[pair.split('_')[1]])
 
         else:
             #если неправильно задан mode
