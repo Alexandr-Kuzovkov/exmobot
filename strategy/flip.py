@@ -59,9 +59,10 @@ class Strategy:
 
         self.prefix = capi.name + ' ' + self.name
 
-
+    '''
+    функция реализующая торговую логику
+    '''
     def run(self):
-
 
         logger = self.logger
         prefix = self.prefix
@@ -150,17 +151,7 @@ class Strategy:
                         new_ask = new_bid * (1 + (2*fee + min_profit))
 
                 #ставим ордер на продажу
-                try:
-                    res = capi.order_create(pair=pair, quantity=primary_balance, price=new_ask, order_type='sell')
-                    if not res['result']:
-                        logger.info('Ошибка выставления ордера "sell": %s' % str(res['error']), prefix)
-                    else:
-                        logger.info('Ордер "sell": %s: price=%f' % (pair, new_ask), prefix)
-                        #сохраняем данные по поставленному ордеру
-                        storage.order_add(res['order_id'], pair, primary_balance, new_ask, 'sell', session_id)
-                except Exception, ex:
-                    logger.info('Ошибка выставления ордера "sell": %s' % ex.message, prefix)
-
+                self.order_create('sell', new_ask, primary_balance)
             else:
                 #если первой валюты на балансе нет удаляем цену покупки
                 storage.delete(pair.split('_')[0] + '_buy_price', session_id)
@@ -178,17 +169,9 @@ class Strategy:
                     #если профита нет выставляем цену покупки ниже, на основе цены продажи и профита
                     new_bid = new_ask * (1 - (2*fee + min_profit))
                 #выставляем ордер на покупку и запоминаем цену покупки
-                try:
-                    res = capi.order_create(pair=pair, quantity=secondary_balance/new_bid, price=new_bid, order_type='buy')
-                    if not res['result']:
-                        logger.info('Ошибка выставления ордера "buy": %s' % str(res['error']), prefix)
-                    else:
-                        logger.info('Ордер "buy": %s: price=%f' % (pair, new_bid), prefix)
-                        storage.save(pair.split('_')[0] + '_buy_price', new_bid, 'float', session_id)
-                        #сохраняем данные по поставленному ордеру
-                        storage.order_add(res['order_id'], pair, secondary_balance/new_bid, new_bid, 'buy', session_id)
-                except Exception, ex:
-                    logger.info('Ошибка выставления ордера "buy": %s' % ex.message, prefix)
+                if self.order_create('buy', new_bid, secondary_balance/new_bid):
+                    storage.save(pair.split('_')[0] + '_buy_price', new_bid, 'float', session_id)
+
 
         #если наращиваем первую валюту в паре (игра на понижении)
         elif mode == 1:
@@ -218,16 +201,7 @@ class Strategy:
                         new_bid = new_ask * (1 - (2*fee + min_profit))
 
                 #выставляем ордер на покупку
-                try:
-                    res = capi.order_create(pair=pair, quantity=secondary_balance/new_bid, price=new_bid, order_type='buy')
-                    if not res['result']:
-                        logger.info('Ошибка выставления ордера "buy": %s' % str(res['error']), prefix)
-                    else:
-                        logger.info('Ордер "buy": %s: price=%f' % (pair, new_bid), prefix)
-                        #сохраняем данные по поставленному ордеру
-                        storage.order_add(res['order_id'], pair, secondary_balance/new_bid, new_bid, 'buy', session_id)
-                except Exception, ex:
-                    logger.info('Ошибка выставления ордера "buy": %s' % ex.message, prefix)
+                self.order_create('buy', new_bid, secondary_balance/new_bid)
 
             else:
                 #если второй валюты на балансе нет, то удаляем цену продажи
@@ -246,18 +220,8 @@ class Strategy:
                     #если профита нет выставляем цену продажи выше, на основе цены покупки и профита
                     new_ask = new_bid * (1 + (2*fee + min_profit))
                 #ставим ордер на продажу и запоминаем цену продажи
-                try:
-                    res = capi.order_create(pair=pair, quantity=primary_balance, price=new_ask, order_type='sell')
-                    if not res['result']:
-                        logger.info('Ошибка выставления ордера "sell": %s' % str(res['error']), prefix)
-                    else:
-                        logger.info('Ордер "sell": %s: price=%f' % (pair, new_ask), prefix)
-                        storage.save(pair.split('_')[0] + '_sell_price', new_ask, 'float', session_id)
-                        #сохраняем данные по поставленному ордеру
-                        storage.order_add(res['order_id'], pair, primary_balance, new_ask, 'sell', session_id)
-                except Exception, ex:
-                    logger.info('Ошибка выставления ордера "sell": %s' % ex.message, prefix)
-
+                if self.order_create('sell', new_ask, primary_balance):
+                    storage.save(pair.split('_')[0] + '_sell_price', new_ask, 'float', session_id)
 
         else:
             #если неправильно задан mode
@@ -330,3 +294,23 @@ class Strategy:
 
 
 
+    '''
+    создание ордера
+    @param order_type ('sell'/'buy')
+    @price цена
+    @quantity количество
+    '''
+    def order_create(self, order_type, price, quantity):
+        try:
+            res = self.capi.order_create(pair=self.pair, quantity=quantity, price=price, order_type=order_type)
+            if not res['result']:
+                self.logger.info('Ошибка выставления ордера "sell": %s' % str(res['error']), self.prefix)
+                return False
+            else:
+                self.logger.info('Ордер "sell": %s: price=%f' % (self.pair, price), self.prefix)
+                #сохраняем данные по поставленному ордеру
+                self.storage.order_add(res['order_id'], self.pair, quantity, price, 'sell', self.session_id)
+                return True
+        except Exception, ex:
+            self.logger.info('Ошибка выставления ордера "sell": %s' % ex.message, self.prefix)
+            return False
