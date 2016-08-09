@@ -104,6 +104,13 @@ class Strategy:
         primary_balance = min(balance[pair.split('_')[0]], limit/ask)
         secondary_balance = min(balance[pair.split('_')[1]], limit)
 
+        #сохраняем изменения баланса в базу
+        self.save_change_balance(pair.split('_')[0], balance[pair.split('_')[0]])
+        self.save_change_balance(pair.split('_')[1], balance[pair.split('_')[1]])
+
+        #сохраняем в базу последние сделки
+        self.save_last_user_trades()
+
         logger.info('Balance: %s = %f; %s = %f' % (pair.split('_')[0], balance[pair.split('_')[0]], pair.split('_')[1], balance[pair.split('_')[1]]), prefix)
         logger.info('Balance with limit: %s = %f; %s = %f' % (pair.split('_')[0], primary_balance, pair.split('_')[1], secondary_balance), prefix)
 
@@ -314,3 +321,22 @@ class Strategy:
         except Exception, ex:
             self.logger.info('Ошибка выставления ордера "sell": %s' % ex.message, self.prefix)
             return False
+
+
+    '''
+    запись изменений баланса в базу
+    '''
+    def save_change_balance(self, currency, amount):
+        last = self.storage.get_last_balance(currency, 1, self.session_id)
+        if (len(last) > 0) and (last[0]['amount'] == amount):
+            pass
+        else:
+            self.storage.save_balance(currency, amount, self.session_id)
+
+
+    '''
+    запись последних сделок поьзователя в базу
+    '''
+    def save_last_user_trades(self, limit=100):
+        user_trades = self.capi.user_trades([self.pair], limit=limit)
+        self.storage.save_user_trades(user_trades[self.pair], self.session_id)
