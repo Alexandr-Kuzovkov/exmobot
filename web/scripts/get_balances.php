@@ -17,11 +17,11 @@ $data = get_balances_data($fullname);
 
 ?>
 
-<table class="table-bordered">
+<table class="table">
     <tr>
         <?php foreach($data as $session_id => $session_data): ?>
             <td>&nbsp;
-            <h3>Сессия: <?php echo $session_id;?></h3>
+            <h3> Сессия: <?php echo $session_id;?> </h3>
             <?php foreach ($session_data as $currency => $items):?>
                 <table class="table-bordered">
                 <tr><th colspan="2"><h4> Валюта: <?php echo $currency;?></h4></th></tr>
