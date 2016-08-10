@@ -212,4 +212,35 @@
 
     }
 
+    /**
+     * возвращает данные по сделкам
+     * сгруппированные по сессиям и валютным парам и отсортированные по времени
+     */
+    function get_trades_data($db_name){
+        $selector = array();
+        $rows = exec_query($db_name, 'SELECT session_id FROM user_trades GROUP BY session_id');
+        if (is_array($rows)){
+            foreach ($rows as $row){
+                $session_id = $row['session_id'];
+                $rows2 = exec_query($db_name, "SELECT pair FROM user_trades WHERE session_id='{$session_id}' GROUP BY pair");
+                if (is_array($rows2)){
+                    foreach($rows2 as $row2){
+                        $selector[$session_id][] = $row2['pair'];
+                    }
+                }
+
+            }
+        }
+        $result = array();
+        foreach($selector as $session_id => $pairs){
+            foreach($pairs as $pair){
+                $rows = exec_query($db_name, "SELECT * FROM user_trades WHERE pair='{$pair}' AND session_id='{$session_id}' ORDER BY trade_date DESC");
+                $result[$session_id][$pair] = $rows;
+            }
+        }
+
+        return $result;
+
+    }
+
 ?>

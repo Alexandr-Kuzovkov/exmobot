@@ -33,6 +33,7 @@ $routes = array(
     '/balances' => $pages . 'balances.php',
     '/trades' => $pages . 'trades.php',
     '/get-balances' => $scripts . 'get_balances.php',
+    '/get-trades' => $scripts . 'get_trades.php',
 
     /*
     '/file' => $pages . 'file.php',
