@@ -166,15 +166,50 @@
      * выполняет произвольный запрос к базе
      */
     function exec_query($db_name, $sql){
-        $db = new SQLite3($db_name);
-        $res = $db->query($sql);
-        $result = array();
-        $count = 0;
-        while( $row = $res->fetchArray(SQLITE3_ASSOC)){
-            $result[$count++] = $row;
+        try{
+            $db = new SQLite3($db_name);
+            $res = $db->query($sql);
+            $result = array();
+            $count = 0;
+            while( $row = $res->fetchArray(SQLITE3_ASSOC)){
+                $result[$count++] = $row;
+            }
+            return $result;
+        }catch(Exception $e){
+            return $e->getMessage();
         }
-        return $result;
+
     }
 
+    /**
+     * возвращает данные по изменению балансов
+     * сгруппированные по сессиям и валютам и отсортированные по времени
+     */
+    function get_balances_data($db_name){
+        $selector = array();
+        $rows = exec_query($db_name, 'SELECT session_id FROM balance GROUP BY session_id');
+        if (is_array($rows)){
+            foreach ($rows as $row){
+                $session_id = $row['session_id'];
+                $rows2 = exec_query($db_name, "SELECT currency FROM balance WHERE session_id='{$session_id}' GROUP BY currency");
+                if (is_array($rows2)){
+                    foreach($rows2 as $row2){
+                        $selector[$session_id][] = $row2['currency'];
+                    }
+                }
+
+            }
+        }
+        $result = array();
+        foreach($selector as $session_id => $currencies){
+            foreach($currencies as $currency){
+                $rows = exec_query($db_name, "SELECT utime, amount FROM balance WHERE currency='{$currency}' AND session_id='{$session_id}' ORDER BY utime ASC");
+                $result[$session_id][$currency] = $rows;
+            }
+        }
+
+        return $result;
+
+    }
 
 ?>
