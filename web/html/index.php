@@ -30,6 +30,9 @@ $routes = array(
     '/get-data' => $scripts . 'get_data.php',
     '/query' => $pages . 'query.php',
     '/exec-query' => $scripts . 'exec_query.php',
+    '/balances' => $pages . 'balances.php',
+    '/trades' => $pages . 'trades.php',
+    '/get-balances' => $scripts . 'get_balances.php',
 
     /*
     '/file' => $pages . 'file.php',

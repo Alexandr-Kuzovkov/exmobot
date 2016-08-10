@@ -115,13 +115,14 @@ class Strategy:
         #pprint(capi.user_orders())
         #pprint(capi.user_trades(['ETH_USD'],limit=3))
 
-        '''
-        storage.save_balance('USD', 1.25, 'test')
+
+        storage.save_balance('ETH', 0.25, 'test')
         time.sleep(2)
-        storage.save_balance('USD', 1.34, 'test')
-        storage.delete_old_values(['balance'], time.time()-3, True)
-        pprint(storage.get_last_balance('USD', 3, 'test'))
-        '''
+        storage.save_balance('ETH', 0.34, 'test')
+
+        #storage.delete_old_values(['balance'], time.time()-3, True)
+        #pprint(storage.get_last_balance('USD', 3, 'test'))
+
 
 
         #user_trades = capi.user_trades(['ETH_USD'])
