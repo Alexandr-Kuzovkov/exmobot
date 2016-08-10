@@ -26,14 +26,14 @@ $data = get_trades_data($fullname);
                     <table class="table-bordered stat-table">
                         <tr><th colspan="<?php echo count($items);?>"><h4> Пара: <?php echo $pair;?></h4></th></tr>
                         <tr>
-                        <?php if (isset($items[0])): foreach ($items[0] as $key => $val): if ($key == 'pair' || $key == 'utime') continue; ?>
+                        <?php if (isset($items[0])): foreach ($items[0] as $key => $val): if ($key == 'pair' || $key == 'utime' || $key == 'session_id') continue; ?>
                             <th> <?php echo $key; ?> </th>
                         <?php endforeach; endif;?>
                         </tr>
                         <?php foreach($items as $item):?>
                             <tr>
                                 <?php foreach($item as $key => $val):?>
-                                    <?php if ($key == 'pair' || $key == 'utime') continue; ?>
+                                    <?php if ($key == 'pair' || $key == 'utime' || $key == 'session_id') continue; ?>
                                     <td><?php echo ($key == 'trade_date')? date('d.m.Y H:i:s', $val) : $val;?></td>
                                 <?php endforeach;?>
                             </tr>
