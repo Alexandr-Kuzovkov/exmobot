@@ -1,3 +1,3 @@
-api_key = "K-5141d67a058280ff3d3d850ea229a73dee00ed52"
-api_secret = "S-9f38e73e3cd387356a64eae3ad312ec962703ca4"
+api_key = "K-6783f5cf569726ff8ce4dc8c642c7b5b2dcf1841"
+api_secret = "S-2d7846d517a64834b22232917d7266b3e9950c55"
 fee = 0.002
