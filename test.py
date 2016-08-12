@@ -45,6 +45,11 @@ try:
     else:
         storage_type = 'sqlite'
 
+    if conf.has_option('common', 'debug'):
+        debug = int(conf.get('common', 'debug'))
+    else:
+        debug = 0
+
 except Exception, ex:
     print '''
         Bot for cryptocurrency traiding
@@ -77,12 +82,13 @@ except Exception, e:
     logger.info('Startup Error: %s' % e)
     exit(1)
 
-#strategy.run()
 
-
-try:
+if debug:
     strategy.run()
-except Exception, ex:
-    print 'Strategy.run: %s' % ex.message
-    logger.info('Strategy.run: %s' % ex.message)
+else:
+    try:
+        strategy.run()
+    except Exception, ex:
+        print 'Strategy.run: %s' % ex.message
+        logger.info('Strategy.run: %s' % ex.message)
 
