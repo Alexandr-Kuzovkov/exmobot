@@ -35,7 +35,7 @@ def application(environ, start_response):
     storage = mod_storage.Storage(session_id, absbotpath)
 
 
-    response = 'Test wsgi!'
+    response = 'Test wsgi! <br>POST: ' + str(post) + '; <br>GET: ' + str(get)
     response_headers = [('Content-type', 'text/html; charset=utf-8'), ('Access-Control-Allow-Origin', '*')]
     start_response(status, response_headers)
     return [response]
