@@ -88,6 +88,7 @@ class Strategy:
         #удаляем ордера по валютной паре, поставленные в своей сессии
         logger.info('Удаляем ордера по %s в сессии %s' % (pair, session_id), prefix)
         self.delete_own_orders()
+        time.sleep(3)
 
         #удаляем все ордера по паре
         #capi.orders_cancel([pair])
