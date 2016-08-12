@@ -283,15 +283,15 @@ class Strategy:
         try:
             res = self.capi.order_create(pair=self.pair, quantity=quantity, price=price, order_type=order_type)
             if not res['result']:
-                self.logger.info('Ошибка выставления ордера "sell": %s' % str(res['error']), self.prefix)
+                self.logger.info('Ошибка выставления ордера "'+order_type+'": %s' % str(res['error']), self.prefix)
                 return False
             else:
-                self.logger.info('Ордер "sell": %s: price=%f' % (self.pair, price), self.prefix)
+                self.logger.info('Ордер "'+order_type+'": %s: price=%f' % (self.pair, price), self.prefix)
                 #сохраняем данные по поставленному ордеру
                 self.storage.order_add(res['order_id'], self.pair, quantity, price, 'sell', self.session_id)
                 return True
         except Exception, ex:
-            self.logger.info('Ошибка выставления ордера "sell": %s' % ex.message, self.prefix)
+            self.logger.info('Ошибка выставления ордера "'+order_type+'": %s' % ex.message, self.prefix)
             return False
 
 
