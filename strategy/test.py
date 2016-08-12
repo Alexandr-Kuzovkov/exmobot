@@ -107,7 +107,7 @@ class Strategy:
         #pprint(capi.user_orders())
         #pprint(capi.order_create(pair='USD_RUR', quantity=1, price=63.25, order_type='buy'))
         #pprint(capi.order_cancel(1166872879))
-        #pprint(capi.orders_cancel())
+        pprint(capi.orders_cancel())
         #pprint(capi.orders_cancel())
         #pprint(capi.required_amount('USD_RUR', 10000))
         #pprint(capi.order_create(pair='ETH_USD', quantity=capi.balance('ETH'), price=11.499, order_type='sell'))
@@ -116,9 +116,9 @@ class Strategy:
         #pprint(capi.user_trades(['ETH_USD'],limit=3))
 
 
-        storage.save_balance('ETH', 0.25, 'test')
-        time.sleep(2)
-        storage.save_balance('ETH', 0.34, 'test')
+        #storage.save_balance('ETH', 0.25, 'test')
+        #time.sleep(2)
+        #storage.save_balance('ETH', 0.34, 'test')
 
         #storage.delete_old_values(['balance'], time.time()-3, True)
         #pprint(storage.get_last_balance('USD', 3, 'test'))
