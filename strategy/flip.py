@@ -322,7 +322,7 @@ class Strategy:
             else:
                 self.logger.info('Ордер "'+order_type+'": %s: price=%f' % (self.pair, price), self.prefix)
                 #сохраняем данные по поставленному ордеру
-                self.storage.order_add(res['order_id'], self.pair, quantity, price, 'sell', self.session_id)
+                self.storage.order_add(res['order_id'], self.pair, quantity, price, order_type, self.session_id)
                 return True
         except Exception, ex:
             self.logger.info('Ошибка выставления ордера "'+order_type+'": %s' % ex.message, self.prefix)
