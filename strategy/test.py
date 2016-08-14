@@ -143,3 +143,7 @@ class Strategy:
         res = cli.send("+79877171421", u'miner fail')
         print res
         '''
+
+        #pprint(capi.pair_settings.keys())
+        #pprint(capi.get_min_balance('USDT_ETH', 11.2))
+        pprint(capi.trades(['USDT_ETH']))

@@ -1,11 +1,10 @@
 #coding=utf-8
 
-import exchange.exmo.config as config
 from pprint import pprint
 
 
 class CommonAPI:
-    name = 'BTC-E'
+    name = 'Poloniex'
     pair_settings = None
     currency = None
     fee = None
@@ -39,17 +38,18 @@ class CommonAPI:
     max_amount - максимальная сумма по ордеру
     '''
     def _get_pair_settings(self):
-        data = self.api.btce_public_api('info')['pairs']
+        data = self.api.public_api_query('returnTicker')
         result = {}
         for pair, settings in data.items():
-            result[pair.upper()] = settings
-            for key in settings.keys():
-                if key in ['decimal_places', 'hidden']:
-                    result[pair.upper()][key] = int(result[pair.upper()][key])
-                else:
-                    result[pair.upper()][key] = float(result[pair.upper()][key])
-                result[pair.upper()]['min_quantity'] = 0.0
-                result[pair.upper()]['max_quantity'] = 10000000.0
+            result[pair.upper()] = {}
+        for pair in result.keys():
+            result[pair]['fee'] = 0.15
+            result[pair]['min_quantity'] = 0.0
+            result[pair]['max_quantity'] = 100000000.0
+            result[pair]['min_price'] = 0.0
+            result[pair]['max_price'] = 100000000.0
+            result[pair]['min_amount'] = 0.0
+            result[pair]['max_amount'] = 100000000.0
         return result
 
     '''
@@ -142,7 +142,9 @@ class CommonAPI:
         for pair in pairs:
             if pair not in valid_pairs:
                 raise Exception('pairs expected subset %s' % str(self.pair_settings.keys()))
-        data = self.api.btce_public_api('trades', pairs='-'.join(pairs).lower(), limit=limit)
+        data = self.api.public_api_query('returnTradeHistory', currencyPair=pairs[0])
+        return data
+
         trades = {}
         for pair, items in data.items():
             trades[pair.upper()] = []

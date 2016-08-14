@@ -8,10 +8,10 @@ import exchange.poloniex.config as config
 def createTimeStamp(datestr, format="%Y-%m-%d %H:%M:%S"):
     return time.mktime(time.strptime(datestr, format))
 
-class poloniex:
-    def __init__(self, APIKey, Secret):
-        self.APIKey = APIKey
-        self.Secret = Secret
+class API:
+    def __init__(self):
+        self.APIKey = config.APIKey
+        self.Secret = config.Secret
 
     def post_process(self, before):
         after = before
@@ -51,6 +51,34 @@ class poloniex:
             ret = urllib2.urlopen(urllib2.Request('https://poloniex.com/tradingApi', post_data, headers))
             jsonRet = json.loads(ret.read())
             return self.post_process(jsonRet)
+
+
+
+    def public_api_query(self, method, **params):
+        if params is None:
+            params = {}
+        params['command'] = method
+        get_data = urllib.urlencode(params)
+        ret = urllib2.urlopen(urllib2.Request('https://poloniex.com/public?' + get_data))
+        return json.loads(ret.read())
+
+
+    def trade_api_query(self, method, **params):
+        if params is None:
+            params = {}
+        params['command'] = method
+        params['nonce'] = int(time.time()*1000)
+        post_data = urllib.urlencode(params)
+
+        sign = hmac.new(self.Secret, post_data, hashlib.sha512).hexdigest()
+        headers = {
+            'Sign': sign,
+            'Key': self.APIKey
+        }
+
+        ret = urllib2.urlopen(urllib2.Request('https://poloniex.com/tradingApi', post_data, headers))
+        jsonRet = json.loads(ret.read())
+        return self.post_process(jsonRet)
 
 
     def returnTicker(self):
