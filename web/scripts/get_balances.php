@@ -31,8 +31,8 @@ $data = get_balances_data($fullname);
                     <tr>
                         <td> <?php echo date('d.m.Y H:i:s', $item['utime']);?> </td>
                         <td> <?php echo $item['amount'];?> </td>
-                        <td> <?php echo ($prev_amount != 0)? ($item['amount'] - $prev_amount)/$prev_amount * 100.0 : '-';?> </td>
-                        <td> <?php echo ($first_amount != 0)? ($item['amount'] - $first_amount)/$first_amount * 100.0 : '-';?> </td>
+                        <td> <?php if ($prev_amount != 0) printf('%.4f',($item['amount'] - $prev_amount)/$prev_amount * 100.0); else echo '-';?> </td>
+                        <td> <?php if ($first_amount != 0) printf('%.4f',($item['amount'] - $first_amount)/$first_amount * 100.0); else echo '-';?> </td>
                         <?php $prev_amount = $item['amount']?>
                     </tr>
                 <?php endforeach;?>
