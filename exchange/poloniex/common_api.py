@@ -1,7 +1,9 @@
 #coding=utf-8
 
 from pprint import pprint
-
+from time import strptime
+from time import mktime
+from time import time
 
 class CommonAPI:
     name = 'Poloniex'
@@ -88,6 +90,20 @@ class CommonAPI:
         return number
 
     '''
+    преобразование строки вида 2016-08-15 13:04:52 в timestamp
+    '''
+    def _date2timestamp(self, date):
+        try:
+            timestamp = int(mktime(strptime(date, '%Y-%m-%d %H:%M:%S')))
+        except ValueError, ex:
+            print ex
+            return 0
+        else:
+            return timestamp
+
+
+
+    '''
     получение минимальных балансов по валютам в паре
     необходимых для создания ордера
     @return (min_primary_balance, min_secondary_balance)
@@ -139,23 +155,23 @@ class CommonAPI:
     '''
     def trades(self, pairs=[], limit=150):
         valid_pairs = self.pair_settings.keys()
+        if len(pairs) > 1:
+            raise Exception('Poloniex API support one pair only')
         for pair in pairs:
             if pair not in valid_pairs:
                 raise Exception('pairs expected subset %s' % str(self.pair_settings.keys()))
         data = self.api.public_api_query('returnTradeHistory', currencyPair=pairs[0])
-        return data
-
+        pair = pairs[0]
         trades = {}
-        for pair, items in data.items():
-            trades[pair.upper()] = []
-            for item in items:
-                date = int(item['timestamp'])
-                trade_id = int(item['tid'])
-                price = float(item['price'])
-                quantity = float(item['amount'])
-                amount = quantity * price
-                ttype = {'ask':'sell', 'bid':'buy'}[item['type']]
-                trades[pair.upper()].append({'date': date, 'trade_id': trade_id, 'price': price, 'amount': amount, 'quantity': quantity, 'type': ttype})
+        trades[pair] = []
+        for trade in data:
+            date = self._date2timestamp(trade['date'])
+            trade_id = int(trade['globalTradeID'])
+            price = float(trade['rate'])
+            quantity = float(trade['amount'])
+            amount = float(trade['total'])
+            ttype = trade['type']
+            trades[pair].append({'date': date, 'trade_id': trade_id, 'price': price, 'amount': amount, 'quantity': quantity, 'type': ttype})
         return trades
 
 
@@ -209,16 +225,31 @@ class CommonAPI:
         for pair in pairs:
             if pair not in valid_pairs:
                 raise Exception('pairs expected subset %s' % str(self.pair_settings.keys()))
-        data = self.api.btce_public_api('depth', pairs='-'.join(pairs).lower(), limit=limit)
         orders = {}
-        for pair, orders_for_pair in data.items():
-            orders[pair.upper()] = {}
-            orders[pair.upper()]['ask'] = []
-            orders[pair.upper()]['bid'] = []
-            for order in orders_for_pair['asks']:
-                orders[pair.upper()]['ask'].append([float(order[0]), float(order[1]), float(order[0])*float(order[1])])
-            for order in orders_for_pair['bids']:
-                orders[pair.upper()]['bid'].append([float(order[0]), float(order[1]), float(order[0])*float(order[1])])
+
+        if len(pairs) == 1:
+            orders[pairs[0]] = {}
+            orders[pairs[0]]['ask'] = []
+            orders[pairs[0]]['bid'] = []
+            data = self.api.public_api_query('returnOrderBook', currencyPair=pairs[0], depth=limit)
+
+            for order in data['asks']:
+                orders[pairs[0]]['ask'].append([float(order[0]), float(order[1]), float(order[0]) * float(order[1])])
+            for order in data['bids']:
+                orders[pairs[0]]['bid'].append([float(order[0]), float(order[1]), float(order[0]) * float(order[1])])
+
+        else:
+            data = self.api.public_api_query('returnOrderBook', currencyPair='all', depth=limit)
+            for pair, orders_for_pair in data.items():
+                if pair not in pairs:
+                    continue
+                orders[pair] = {}
+                orders[pair]['ask'] = []
+                orders[pair]['bid'] = []
+                for order in orders_for_pair['asks']:
+                    orders[pair]['ask'].append([float(order[0]), float(order[1]), float(order[0])*float(order[1])])
+                for order in orders_for_pair['bids']:
+                    orders[pair]['bid'].append([float(order[0]), float(order[1]), float(order[0])*float(order[1])])
 
         return orders
 
@@ -252,20 +283,22 @@ class CommonAPI:
     updated - дата и время обновления данных
     '''
     def ticker(self):
-        data = self.api.btce_public_api('ticker')
+        data = self.api.public_api_query('returnTicker')
         tickers = {}
         for pair, params in data.items():
-            tickers[pair.upper()] = {}
-            tickers[pair.upper()]['high'] = float(params['high'])
-            tickers[pair.upper()]['low'] = float(params['low'])
-            tickers[pair.upper()]['avg'] = float(params['avg'])
-            tickers[pair.upper()]['vol'] = float(params['vol'])
-            tickers[pair.upper()]['vol_curr'] = float(params['vol_cur'])
-            tickers[pair.upper()]['last_trade'] = float(params['last'])
-            tickers[pair.upper()]['buy_price'] = float(params['buy'])
-            tickers[pair.upper()]['sell_price'] = float(params['sell'])
-            tickers[pair.upper()]['updated'] = int(params['updated'])
-
+            tickers[pair] = {}
+            tickers[pair]['high'] = float(params['high24hr'])
+            tickers[pair]['low'] = float(params['low24hr'])
+            tickers[pair]['vol'] = float(params['baseVolume'])
+            tickers[pair]['vol_curr'] = float(params['quoteVolume'])
+            tickers[pair]['last_trade'] = float(params['last'])
+            tickers[pair]['buy_price'] = float(params['highestBid'])
+            tickers[pair]['sell_price'] = float(params['lowestAsk'])
+            tickers[pair]['updated'] = int(time())
+            if tickers[pair]['vol_curr'] > 0:
+                tickers[pair]['avg'] = tickers[pair]['vol']/tickers[pair]['vol_curr']
+            else:
+                tickers[pair]['avg'] = 0.0
         return tickers
 
 

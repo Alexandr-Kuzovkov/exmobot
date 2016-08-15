@@ -146,4 +146,8 @@ class Strategy:
 
         #pprint(capi.pair_settings.keys())
         #pprint(capi.get_min_balance('USDT_ETH', 11.2))
-        pprint(capi.trades(['USDT_ETH']))
+        #pprint(capi.trades(['USDT_ETH']))
+        #pprint(capi._date2timestamp('2016-08-15 13:04:53'))
+        #pprint(capi.orders(['USDT_ETH', 'BTC_ETH'], 5))
+        pprint(capi.ticker())
+
