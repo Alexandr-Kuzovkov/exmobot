@@ -405,16 +405,15 @@ class CommonAPI:
     или число
     '''
     def balance(self, currency=None):
-        try:
-            data = self.api.btce_api('getInfo')
-        except Exception, ex:
-            return {'error': ex.message}
+        data = self.api.trade_api_query('returnBalances')
+        if 'error' in data:
+            raise Exception(data['error'])
         if currency is not None and currency in self.currency:
-            balances = float(data['funds'][currency.lower()])
+            balances = float(data[currency])
         else:
             balances = {}
-            for pair, amount in data['funds'].items():
-                balances[pair.upper()] = float(amount)
+            for currency, amount in data.items():
+                balances[currency] = float(amount)
         return balances
 
     '''
@@ -424,7 +423,16 @@ class CommonAPI:
     или число
     '''
     def orders_balance(self, currency=None):
-        raise Exception('"orders_balance" now not realise!')
+        data = self.api.trade_api_query('returnCompleteBalances')
+        if 'error' in data:
+            raise Exception(data['error'])
+        if currency is not None and currency in self.currency:
+            balances = float(data[currency]['onOrders'])
+        else:
+            balances = {}
+            for currency, all_balances in data.items():
+                balances[currency] = float(all_balances['onOrders'])
+        return balances
 
 
     '''
@@ -434,7 +442,16 @@ class CommonAPI:
     или число
     '''
     def balance_full(self):
-        raise Exception('"balance_full" now not realise!')
+        data = self.api.trade_api_query('returnCompleteBalances')
+        if 'error' in data:
+            raise Exception(data['error'])
+        balances = {}
+        balances['balances'] = {}
+        balances['orders'] = {}
+        for currency, all_balances in data.items():
+            balances['balances'][currency] = all_balances['available']
+            balances['orders'][currency] = all_balances['onOrders']
+        return balances
 
 
     '''
@@ -463,25 +480,23 @@ class CommonAPI:
     amount - сумма по ордеру
     '''
     def user_orders(self):
-        try:
-            data = self.api.btce_api('ActiveOrders')
-        except Exception, ex:
-            return {}
+        data = self.api.trade_api_query('returnOpenOrders', currencyPair='all')
+        if 'error' in data:
+            raise Exception(data['error'])
         orders = {}
-
-        for order_id, order in data.items():
-            if order['pair'].upper() not in orders:
-                orders[order['pair'].upper()] = []
-            new_order = {}
-            new_order['order_id'] = int(order_id)
-            new_order['created'] = int(order['timestamp_created'])
-            new_order['type'] = order['type']
-            new_order['pair'] = order['pair'].upper()
-            new_order['price'] = float(order['rate'])
-            new_order['quantity'] = float(order['amount'])
-            new_order['amount'] = float(order['rate']) * float(order['amount'])
-            orders[order['pair'].upper()].append(new_order)
-
+        for pair, orders_for_pair in data.items():
+            if pair not in orders:
+                orders[pair] = []
+            for order in orders_for_pair:
+                new_order = {}
+                new_order['order_id'] = int(order['orderNumber'])
+                new_order['created'] = 0
+                new_order['type'] = order['type']
+                new_order['pair'] = pair
+                new_order['price'] = float(order['rate'])
+                new_order['quantity'] = float(order['amount'])
+                new_order['amount'] = float(order['total'])
+                orders[pair].append(new_order)
         return orders
 
     '''
@@ -521,27 +536,50 @@ class CommonAPI:
         for pair in pairs:
             if pair not in valid_pairs:
                 raise Exception('pair expected in ' + str(valid_pairs))
-        try:
-            data = self.api.btce_api('TradeHistory', pair='-'.join(pairs).lower(), count=limit)
-        except Exception, ex:
-            return {}
         trades = {}
-        for trade_id, trade in data.items():
-           if int(trade['is_your_order']) != 1:
-               continue
-           if trade['pair'].upper() not in trades:
-                trades[trade['pair'].upper()] = []
-           new_trade = {}
-           new_trade['order_id'] = int(trade['order_id'])
-           new_trade['date'] = int(trade['timestamp'])
-           new_trade['type'] = trade['type']
-           new_trade['pair'] = trade['pair'].upper()
-           new_trade['trade_id'] = int(trade_id)
-           new_trade['price'] = float(trade['rate'])
-           new_trade['quantity'] = float(trade['amount'])
-           new_trade['amount'] = float(trade['rate']) * float(trade['amount'])
-           trades[trade['pair'].upper()].append(new_trade)
+        if len(pairs) == 1:
+            data = self.api.trade_api_query('returnTradeHistory', currencyPair=pairs[0])
+            if 'error' in data:
+                raise Exception(data['error'])
+            trades[pairs[0]] = []
+            for trade in data:
+                new_trade = {}
+                new_trade['order_id'] = int(trade['orderNumber'])
+                new_trade['date'] = self._date2timestamp(trade['globalTradeID'])
+                new_trade['type'] = trade['type']
+                new_trade['pair'] = pairs[0]
+                new_trade['trade_id'] = int(trade['globalTradeID'])
+                new_trade['price'] = float(trade['rate'])
+                new_trade['quantity'] = float(trade['amount'])
+                new_trade['amount'] = float(trade['total'])
+                trades[pairs[0]].append(new_trade)
 
+        elif len(pairs) > 1:
+            data = self.api.trade_api_query('returnTradeHistory', currencyPair='all')
+            if 'error' in data:
+                raise Exception(data['error'])
+            if isinstance(data, list) and len(data) == 0:
+                for pair in pairs:
+                    trades[pair] = []
+                return trades
+            for pair, trades_for_pair in data.items():
+                if pair not in pairs:
+                   continue
+                if pair not in trades:
+                    trades[pair] = []
+                for trade in trades_for_pair:
+                    new_trade = {}
+                    new_trade['order_id'] = int(trade['orderNumber'])
+                    new_trade['date'] = self._date2timestamp(trade['globalTradeID'])
+                    new_trade['type'] = trade['type']
+                    new_trade['pair'] = pairs[0]
+                    new_trade['trade_id'] = int(trade['globalTradeID'])
+                    new_trade['price'] = float(trade['rate'])
+                    new_trade['quantity'] = float(trade['amount'])
+                    new_trade['amount'] = float(trade['total'])
+                    trades[pair].append(new_trade)
+        else:
+            pass
         return trades
 
 
