@@ -2,6 +2,7 @@
 import random
 from pprint import pprint
 import time
+from sms import smsru
 
 
 class Strategy:
@@ -107,7 +108,7 @@ class Strategy:
         #pprint(capi.user_orders())
         #pprint(capi.order_create(pair='USD_RUR', quantity=1, price=63.25, order_type='buy'))
         #pprint(capi.order_cancel(1166872879))
-        pprint(capi.orders_cancel())
+        #pprint(capi.orders_cancel())
         #pprint(capi.orders_cancel())
         #pprint(capi.required_amount('USD_RUR', 10000))
         #pprint(capi.order_create(pair='ETH_USD', quantity=capi.balance('ETH'), price=11.499, order_type='sell'))
@@ -135,3 +136,23 @@ class Strategy:
         #print min_primary_balance, min_secondary_balance
 
         #storage.clear_all()
+
+        '''
+        отправка СМС
+        cli = smsru.Client()
+        res = cli.send("+79877171421", u'miner fail')
+        print res
+        '''
+
+        #pprint(capi.pair_settings.keys())
+        #pprint(capi.get_min_balance('USDT_ETH', 11.2))
+        #pprint(capi.trades(['USDT_ETH']))
+        #pprint(capi._date2timestamp('2016-08-15 13:04:53'))
+        #pprint(capi.orders(['USDT_ETH', 'BTC_ETH'], 5))
+        #pprint(capi.ticker())
+        #pprint(capi.balance('ETH'))
+        #pprint(capi.orders_balance('ETH'))
+        #pprint(capi.balance_full())
+        #pprint(capi.required_amount('USDT_ETH', 10))
+        pprint(capi.user_trades(['USDT_ETH','BTC_ETH']))
+
