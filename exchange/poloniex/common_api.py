@@ -351,14 +351,20 @@ class CommonAPI:
             raise Exception('type expected in ' + str(valid_types))
 
         quantity = self._round(quantity, 6)
-        price = self._round(price, self.pair_settings[pair]['decimal_places'])
 
-        try:
-            data = self.api.btce_api('Trade', pair=pair.lower(), type=order_type, rate=price, amount=quantity)
-        except Exception, ex:
-            return {'result': False, 'error': ex.message}
+        if order_type == 'buy':
+            data = self.api.trade_api_query('buy', currencyPair=pair, rate=price, amount=quantity)
+            if 'error' in data:
+                return {'result': False, 'error': data['error']}
+            else:
+                return {'result': True, 'error': '', 'order_id': data['orderNumber']}
         else:
-            return {'result': True, 'error': '', 'order_id': int(data['order_id'])}
+            data = self.api.trade_api_query('sell', currencyPair=pair, rate=price, amount=quantity)
+            if 'error' in data:
+                return {'result': False, 'error': data['error']}
+            else:
+                return {'result': True, 'error': '', 'order_id': data['orderNumber']}
+
 
     '''
     Отмена ордера
@@ -374,12 +380,13 @@ class CommonAPI:
     error - содержит текст ошибки
     '''
     def order_cancel(self, order_id):
-        try:
-            data = self.api.btce_api('CancelOrder', order_id=order_id)
-        except Exception, ex:
-            return {'result': False, 'error': ex.message}
-        else:
+        data = self.api.btce_api('cancelOrder', orderNumber=order_id)
+        if 'error' in data:
+            return {'result': False, 'error': data['error']}
+        elif 'success' in data and data['success'] == 1:
             return {'result': True, 'error': ''}
+        else:
+            return {'result': False, 'error': 'unknown error'}
 
     '''
     отмена всех ордеров по валютным парам(задаются в виде списка), если не задана то по всем парам
