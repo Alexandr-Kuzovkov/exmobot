@@ -50,7 +50,7 @@ class CommonAPI:
             result[pair]['max_quantity'] = 100000000.0
             result[pair]['min_price'] = 0.0
             result[pair]['max_price'] = 100000000.0
-            result[pair]['min_amount'] = 0.0
+            result[pair]['min_amount'] = 0.0001
             result[pair]['max_amount'] = 100000000.0
         return result
 
@@ -102,6 +102,31 @@ class CommonAPI:
             return timestamp
 
 
+    '''
+    Проверка валютной пары и при необходимости
+    изменение порядка валют в паре
+    '''
+    def _check_pair(self, pair):
+        valid_pairs = self.pair_settings.keys()
+        if pair in valid_pairs:
+            return pair
+        elif '_'.join([pair.split('_')[1], pair.split('_')[0]]) in valid_pairs:
+            return '_'.join([pair.split('_')[1], pair.split('_')[0]])
+        else:
+            raise Exception('pair expected in %s' % str(valid_pairs))
+
+
+    '''
+    Проверка валютной пары в списке и при необходимости
+    изменение порядка валют в паре
+    '''
+    def _check_pairs(self, pairs):
+        valid_pairs = self.pair_settings.keys()
+        new_pairs = []
+        for pair in pairs:
+            new_pairs.append(self._check_pair(pair))
+        return new_pairs
+
 
     '''
     получение минимальных балансов по валютам в паре
@@ -109,6 +134,7 @@ class CommonAPI:
     @return (min_primary_balance, min_secondary_balance)
     '''
     def get_min_balance(self, pair, price):
+        pair = self._check_pair(pair)
         if 'min_quantity' in self.pair_settings[pair] and self.pair_settings[pair]['min_quantity'] != 0:
             min_primary_balance = self.pair_settings[pair]['min_quantity']
         elif 'min_amount' in self.pair_settings[pair]:
@@ -157,11 +183,8 @@ class CommonAPI:
         valid_pairs = self.pair_settings.keys()
         if len(pairs) > 1:
             raise Exception('Poloniex API support one pair only')
-        for pair in pairs:
-            if pair not in valid_pairs:
-                raise Exception('pairs expected subset %s' % str(self.pair_settings.keys()))
-        data = self.api.public_api_query('returnTradeHistory', currencyPair=pairs[0])
-        pair = pairs[0]
+        pair = self._check_pair(pairs[0])
+        data = self.api.public_api_query('returnTradeHistory', currencyPair=pair)
         trades = {}
         trades[pair] = []
         for trade in data:
@@ -222,9 +245,7 @@ class CommonAPI:
     '''
     def orders(self, pairs=[], limit=150):
         valid_pairs = self.pair_settings.keys()
-        for pair in pairs:
-            if pair not in valid_pairs:
-                raise Exception('pairs expected subset %s' % str(self.pair_settings.keys()))
+        pairs = self._check_pairs(pairs)
         orders = {}
 
         if len(pairs) == 1:
@@ -331,6 +352,7 @@ class CommonAPI:
     '''
     def order_create(self, pair, quantity, price, order_type):
         valid_types = ['buy', 'sell']
+        pair = self._check_pair(pair)
         valid_pairs = self.pair_settings.keys()
         min_quantity = self.pair_settings[pair]['min_quantity']
         max_quantity = self.pair_settings[pair]['max_quantity']
@@ -540,9 +562,7 @@ class CommonAPI:
     '''
     def user_trades(self, pairs, offset=0, limit=100):
         valid_pairs = self.pair_settings.keys()
-        for pair in pairs:
-            if pair not in valid_pairs:
-                raise Exception('pair expected in ' + str(valid_pairs))
+        pairs = self._check_pairs(pairs)
         trades = {}
         if len(pairs) == 1:
             data = self.api.trade_api_query('returnTradeHistory', currencyPair=pairs[0])
@@ -683,8 +703,7 @@ class CommonAPI:
     '''
     def required_amount(self, pair, quantity):
         valid_pairs = self.pair_settings.keys()
-        if pair not in valid_pairs:
-            raise Exception('pair expected in ' + str(valid_pairs))
+        pair = self._check_pair(pair)
         orders = self.orders([pair], limit=1000)
         amount = 0.0
         curr_quantity = 0.0
