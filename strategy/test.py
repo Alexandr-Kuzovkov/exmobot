@@ -150,9 +150,13 @@ class Strategy:
         #pprint(capi._date2timestamp('2016-08-15 13:04:53'))
         #pprint(capi.orders(['USDT_ETH', 'BTC_ETH'], 5))
         #pprint(capi.ticker())
-        #pprint(capi.balance('ETH'))
+        #pprint(capi.balance('BTC'))
         #pprint(capi.orders_balance('ETH'))
         #pprint(capi.balance_full())
         #pprint(capi.required_amount('USDT_ETH', 10))
-        pprint(capi.user_trades(['USDT_ETH','BTC_ETH']))
+        #pprint(capi.user_trades(['USDT_ETH','BTC_ETH']))
+        #pprint(capi.user_orders())
+        #pprint(capi.orders_cancel(['BTC_ETH']))
+        #pprint(capi.order_create('BTC_ETH',1.15863329, 0.01857750, 'buy'))
+
 

@@ -380,7 +380,7 @@ class CommonAPI:
     error - содержит текст ошибки
     '''
     def order_cancel(self, order_id):
-        data = self.api.btce_api('cancelOrder', orderNumber=order_id)
+        data = self.api.trade_api_query('cancelOrder', orderNumber=order_id)
         if 'error' in data:
             return {'result': False, 'error': data['error']}
         elif 'success' in data and data['success'] == 1:
