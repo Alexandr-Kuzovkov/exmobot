@@ -7,8 +7,8 @@ import math
 с целью увеличить количество одной из валют,
 названной базовой. Базовая определяется параметром
 mode.
-Модификация стратегии flip.
-Убираем использование сохраненной цены покупки
+Модификация стратегии flip2.
+Добавлена автоматическая смена порядка валют в паре при несооответсвии
 0 - увеличиваем вторую валюту в паре: покупаем дешевле, продаем дороже
 1 - увеличиваем первую валюту в паре: продаем дороже, покупаем дешевле
 '''
@@ -98,8 +98,13 @@ class Strategy:
         #print orders
 
         #получаем лучшие цены покупки и продажи
-        ask = orders[pair]['ask'][0][0]
-        bid = orders[pair]['bid'][0][0]
+        try:
+            ask = orders[pair]['ask'][0][0]
+            bid = orders[pair]['bid'][0][0]
+        except KeyError:
+            ask = orders['_'.join([pair.split('_')[1], pair.split('_')[0]])]['ask'][0][0]
+            bid = orders['_'.join([pair.split('_')[1], pair.split('_')[0]])]['bid'][0][0]
+
         logger.info('pair %s: ask=%f  bid=%f' % (pair, ask, bid), prefix)
 
         #получаем наличие своих средств
@@ -114,13 +119,22 @@ class Strategy:
         logger.info('Balance with limit: %s = %f; %s = %f' % (pair.split('_')[0], primary_balance, pair.split('_')[1], secondary_balance), prefix)
 
         #комиссия
-        fee = capi.fee[pair]
+        try:
+            fee = capi.fee[pair]
+        except KeyError:
+            fee = capi.fee['_'.join([pair.split('_')[1], pair.split('_')[0]])]
 
         #минимальный шаг
-        if 'decimal_places' in capi.pair_settings[pair]:
-            min_price_step = 1.0/(10**(capi.pair_settings[pair]['decimal_places']))
-        else:
-            min_price_step = 0.000001
+        try:
+            if 'decimal_places' in capi.pair_settings[pair]:
+                min_price_step = 1.0/(10**(capi.pair_settings[pair]['decimal_places']))
+            else:
+                min_price_step = 0.000001
+        except KeyError:
+            if 'decimal_places' in capi.pair_settings['_'.join([pair.split('_')[1], pair.split('_')[0]])]:
+                min_price_step = 1.0/(10**(capi.pair_settings['_'.join([pair.split('_')[1], pair.split('_')[0]])]['decimal_places']))
+            else:
+                min_price_step = 0.000001
 
         #logger.info(min_price_step)
 
@@ -245,7 +259,7 @@ class Strategy:
             order_exists = False
             for curr_pair, user_orders_for_pair in user_orders.items():
                 for user_order_for_pair in user_orders_for_pair:
-                    if (user_order_for_pair['order_id'] == stored_order['order_id']) and (user_order_for_pair['type'] == stored_order['order_type']):
+                    if (user_order_for_pair['order_id'] == int(stored_order['order_id'])) and (user_order_for_pair['type'] == stored_order['order_type']):
                         order_exists = True
                         break
             if not order_exists:
@@ -311,4 +325,7 @@ class Strategy:
     '''
     def save_last_user_trades(self, limit=100):
         user_trades = self.capi.user_trades([self.pair], limit=limit)
-        self.storage.save_user_trades(user_trades[self.pair], self.session_id)
+        try:
+            self.storage.save_user_trades(user_trades[self.pair], self.session_id)
+        except KeyError:
+            self.storage.save_user_trades(user_trades['_'.join([self.pair.split('_')[1], self.pair.split('_')[0]])], self.session_id)
