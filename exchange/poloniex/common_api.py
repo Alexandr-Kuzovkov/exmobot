@@ -572,7 +572,7 @@ class CommonAPI:
             for trade in data:
                 new_trade = {}
                 new_trade['order_id'] = int(trade['orderNumber'])
-                new_trade['date'] = self._date2timestamp(trade['globalTradeID'])
+                new_trade['date'] = self._date2timestamp(trade['date'])
                 new_trade['type'] = trade['type']
                 new_trade['pair'] = pairs[0]
                 new_trade['trade_id'] = int(trade['globalTradeID'])
