@@ -14,5 +14,12 @@
         <p>BTC-E</p>
     </a>
 </div>
+<div class="exchange">
+    <a href="https://poloniex.com" target="_blank">
+        <img src="img/poloniex.png" />
+        <p>Poloniex</p>
+    </a>
+</div>
+
 <div class="clr"></div>
 <?php require_once('_footer.php')?>
