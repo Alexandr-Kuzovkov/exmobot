@@ -11,7 +11,12 @@ require_once ('../include/functions.php');
 $path = '../../db/';
 $file = get_database_file();
 $fullname = realpath($path . $file);
-$data = get_trades_data($fullname);
+$db = (isset($_GET['db']))? $_GET['db'] : 'sqlite';
+if ($db == 'sqlite'){
+    $data = get_trades_data_sqlite($fullname);
+}elseif($db == 'mysql'){
+    $data = get_trades_data_mysql();
+}
 //print_r($data);
 //exit();
 

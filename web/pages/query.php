@@ -4,8 +4,12 @@
 
 <?php
 $path = '../../db/';
-$file = get_database_file();
-
+$db = (isset($_GET['db']))? $_GET['db'] : 'sqlite';
+if($db == 'sqlite'){
+    $file = get_database_file();
+}else{
+    $file = DB_NAME;
+}
 ?>
     <h3>Результаты запроса к базе <span class="filename"><?php echo $file; ?></span> </h3>
     <pre  id="db" class="db scroll2"><img src="/img/preload.gif"/></pre>
@@ -14,14 +18,14 @@ $file = get_database_file();
     <button id="run-reset" class="red-btn">Сброс</button>
 
     <script type="text/javascript">
-        $('#db').load('/get-data');
+        $('#db').load('/get-data?db=<?php echo $db;?>');
 
         $('#run-query').click(function(){
-            $('#db').load('/exec-query', {query:$('#query').text()});
+            $('#db').load('/exec-query?db=<?php echo $db;?>', {query:$('#query').text()});
         });
 
         $('#run-reset').click(function(){
-            $('#db').load('/get-data');
+            $('#db').load('/get-data?db=<?php echo $db;?>');
         });
     </script>
 
