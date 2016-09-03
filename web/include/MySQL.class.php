@@ -255,7 +255,7 @@ class MySQL implements Db{
     public function get_db_name(){
         return $this->db_name;
     }
-    
+
 
     /**
      * инициализация схемы БД
@@ -303,7 +303,7 @@ class MySQL implements Db{
         );
 
         $this->tables['balances'] = array(
-            'schema' => "CREATE TABLE IF NOT EXISTS balances 
+            'schema' => "CREATE TABLE IF NOT EXISTS balance 
                   (
                    currency varchar(30), 
                    amount float(20), 
