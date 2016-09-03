@@ -12,7 +12,13 @@ $path = '../../db/';
 $file = get_database_file();
 $fullname = realpath($path . $file);
 $query = (isset($_POST['query']))? $_POST['query'] : '';
-$data = exec_query($fullname, $query);
+echo $query;
+$db = (isset($_GET['db']))? $_GET['db'] : 'sqlite';
+if ($db == 'sqlite'){
+    $data = exec_query_sqlite($fullname, $query);
+}elseif($db == 'mysql'){
+    $data = exec_query_mysql($query);
+}
 ?>
 
 

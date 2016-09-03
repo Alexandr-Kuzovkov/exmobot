@@ -13,9 +13,6 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li <?php check_active('');?>><a href="/">Биржи</a></li>
-                <!--
-                <li <?php check_active('file');?>><a href="/file">Загрузка из файла</a></li>
-                <li <?php check_active('images');?>><a href="/images">Изображения</a></li>-->
                 <?php $log_files = get_log_files();?>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Логи<span class="caret"></span></a>
@@ -23,22 +20,6 @@
                         <?php foreach($log_files as $file): ?>
                         <li <?php check_active($file);?>><a href="/log?file=<?php echo $file;?>"><?php echo $file;?></a></li>
                         <?php endforeach;?>
-
-                        <!--<li <?php check_active('sended');?>><a href="/sended">Отправленные</a></li>
-                        <li <?php check_active('nosended');?>><a href="/nosended">Неотправленные</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li <?php check_active('del-all');?>><a href="/del-all">Удалить все</a></li>
-                        <li <?php check_active('mark-as-nosend');?>><a href="/mark-as-nosend">Пометить все как неотправленные</a></li>
-                        <li <?php check_active('mark-as-send');?>><a href="/mark-as-send">Пометить все как отправленные</a></li>
-                        <li <?php check_active('del-sended');?>><a href="/del-sended">Удалить отправленные</a></li>
-                        <li <?php check_active('set-data');?>><a href="/set-data">Задать тему/текст</a></li>-->
-
-                        <!--
-
-                        <li class="dropdown-header">Nav header</li>
-                        <li><a href="#">Separated link</a></li>
-                        <li><a href="#">One more separated link</a></li>
-                        -->
                     </ul>
                 </li>
 
@@ -68,18 +49,23 @@
                 <li <?php check_active('hard');?>><a href="/hard">Оборудование</a></li>
                 
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">База данных<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Состояние<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li <?php check_active('database');?>><a href="/database">Все данные</a></li>
-                        <li <?php check_active('query');?>><a href="/query">Запрос</a></li>
-                    </ul>
-                </li>
+                        <li <?php check_active('database');?>><a href="/database?db=sqlite">Все данные(SQLite)</a></li>
+                        <li <?php check_active('query');?>><a href="/query?db=sqlite">Запрос(SQLite)</a></li>
+                        <li <?php check_active('balances');?>><a href="/balances?db=sqlite">Балансы(SQLite)</a></li>
+                        <li <?php check_active('trades');?>><a href="/trades?db=sqlite">Сделки(SQLite)</a></li>
+                        <li <?php check_active('copy');?>><a href="/copy?db=sqlite_mysql">Копирование SQLite -> MySQL</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li <?php check_active('database');?>><a href="/database?db=mysql">Все данные(MySQL)</a></li>
+                        <li <?php check_active('query');?>><a href="/query?db=mysql">Запрос(MySQL)</a></li>
+                        <li <?php check_active('balances');?>><a href="/balances?db=mysql">Балансы(MySQL)</a></li>
+                        <li <?php check_active('trades');?>><a href="/trades?db=mysql">Сделки(MySQL)</a></li>
+                        <li <?php check_active('copy');?>><a href="/copy?db=mysql_sqlite">Копирование MySQL -> SQLite</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li <?php check_active('backup');?>><a href="/backup?db=sqlite" target="_blank">Скачать файл базы SQLite</a></li>
+                        <li <?php check_active('backup');?>><a href="/backup?db=mysql" target="_blank">Скачать дамп базы MySQL</a></li>
 
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Статистика<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li <?php check_active('balances');?>><a href="/balances">Балансы</a></li>
-                        <li <?php check_active('trades');?>><a href="/trades">Сделки</a></li>
                     </ul>
                 </li>
 

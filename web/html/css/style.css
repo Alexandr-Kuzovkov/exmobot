@@ -185,4 +185,10 @@ a#unselect-all-img
     padding: 3px 8px 3px 8px;
 }
 
+#copy_result
+{
+    width: 128px;
+    margin: auto;
+}
+
 
