@@ -53,7 +53,12 @@ if ($db == 'sqlite'){
 <script>
     <?php foreach($data as $session_id => $session_data): ?>
     <?php foreach ($session_data as $currency => $items):?>
-    $("#<?php echo $session_id.$currency;?>").dataTable();
+    $("#<?php echo $session_id.$currency;?>").dataTable({"aoColumnDefs":[
+            {
+				"aTargets":[ 0 ],
+                "sType": "date"
+
+		  }]});
     <?php endforeach;?>
     <?php endforeach;?>
 </script>
