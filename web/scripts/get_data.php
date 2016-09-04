@@ -18,15 +18,17 @@ if ($db == 'sqlite'){
     $data = get_database_data_mysql();
 }
 ?>
-
+<link rel="stylesheet" type="text/css" href="vendor/datatables/jquery.dataTables.css">
 <?php foreach ($data as $table => $rows):?>
     <h3><?php echo $table;?></h3>
-    <table class="table">
+    <table class="table" id="<?php echo $table;?>">
+        <thead>
         <tr>
         <?php if(isset($rows[0])): foreach ($rows[0] as $col=> $val):?>
             <th><?php echo $col;?></th>
         <?php endforeach; endif;?>
         </tr>
+        </thead>
         <?php foreach($rows as $row):?>
             <tr>
                 <?php foreach ($row as $key=>$val):?>
@@ -37,3 +39,10 @@ if ($db == 'sqlite'){
     </table>
 
 <?php endforeach;?>
+
+<script type="text/javascript" charset="utf8" src="vendor/datatables/jquery.dataTables.min.js"></script>
+<script>
+   <?php foreach ($data as $table => $rows):?>
+        $("#<?php echo $table;?>").dataTable();
+    <?php endforeach;?>
+</script>
