@@ -21,7 +21,7 @@ if ($db == 'sqlite'){
 //exit();
 
 ?>
-
+<link rel="stylesheet" type="text/css" href="vendor/datatables/jquery.dataTables.css">
 <table class="table">
     <tr>
         <?php foreach($data as $session_id => $session_data): ?>
@@ -29,9 +29,10 @@ if ($db == 'sqlite'){
             <h3> Сессия: <?php echo $session_id;?> </h3>
             <?php foreach ($session_data as $currency => $items):?>
                 <?php $first_amount = (count($items))? $items[0]['amount'] : 1; $prev_amount = $first_amount;?>
-                <table class="table-bordered">
-                <tr><th colspan="4"><h4> Валюта: <?php echo $currency;?></h4></th></tr>
-                    <tr><td> Дата </td><td> Сумма </td><td>Профит(%)</td><td>Итого(%)</td></tr>
+                <table class="table-bordered" id="<?php echo $session_id.$currency;?>">
+                <thead>
+                    <tr><th colspan="4"><h4> Валюта: <?php echo $currency;?></h4></th></tr>
+                    <tr><td> Дата </td><td> Сумма </td><td>Профит(%)</td><td>Итого(%)</td></tr></thead>
                 <?php foreach($items as $item):?>
                     <tr>
                         <td> <?php echo date('d.m.Y H:i:s', $item['utime']);?> </td>
@@ -47,3 +48,12 @@ if ($db == 'sqlite'){
         <?php endforeach;?>
     </tr>
 </table>
+
+<script type="text/javascript" charset="utf8" src="vendor/datatables/jquery.dataTables.min.js"></script>
+<script>
+    <?php foreach($data as $session_id => $session_data): ?>
+    <?php foreach ($session_data as $currency => $items):?>
+    $("#<?php echo $session_id.$currency;?>").dataTable();
+    <?php endforeach;?>
+    <?php endforeach;?>
+</script>

@@ -20,7 +20,9 @@ if($db == 'sqlite'){
         function update_data(){
             $('#db').load('/get-data?db=<?php echo $db;?>');
         }
-        var interval =setInterval(update_data, 2000);
+        //var interval =setInterval(update_data, 2000);
+        update_data();
+
     </script>
 
 <?php require_once('_footer.php')?>
