@@ -56,7 +56,15 @@ if ($db == 'sqlite'){
 <script>
     <?php foreach($data as $session_id => $session_data): ?>
         <?php foreach ($session_data as $pair => $items):?>
-            $("#<?php echo $session_id.$pair;?>").dataTable();
+            $("#<?php echo $session_id.$pair;?>").dataTable({"aoColumnDefs":[
+            {
+				"aTargets": [ 0,1,2,3 ],
+			   "bSortable": false
+		    },{
+				"aTargets":[ 6 ]
+			  , "sType": "date"
+
+		  }]});
         <?php endforeach;?>
     <?php endforeach;?>
 </script>
