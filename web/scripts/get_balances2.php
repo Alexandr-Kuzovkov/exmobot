@@ -65,7 +65,7 @@ if ($db == 'sqlite'){
     <?php foreach ($session_data as $currency => $items):?>
     $("#<?php echo $session_id.$currency;?>").dataTable({"aoColumnDefs":[
         {
-            "aTargets": [ 4 ],
+            "aTargets": [ 1,2,3,4 ],
             "bSortable": false
         },
         {

@@ -66,7 +66,7 @@ if ($db == 'sqlite'){
         <?php foreach ($session_data as $pair => $items):?>
             $("#<?php echo $session_id.$pair;?>").dataTable({"aoColumnDefs":[
             {
-				"aTargets": [ 0,1,2,3,7 ],
+				"aTargets": [ 1,2,3,4,5,7 ],
 			   "bSortable": false
 		    },{
 				"aTargets":[ 6 ]
