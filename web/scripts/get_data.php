@@ -42,7 +42,7 @@ if ($db == 'sqlite'){
 
 <script type="text/javascript" charset="utf8" src="vendor/datatables/jquery.dataTables.min.js"></script>
 <script>
-   <?php foreach ($data as $table => $rows):?>
+   <?php foreach ($data as $table => $rows):if (count($rows)):?>
         $("#<?php echo $table;?>").dataTable();
-    <?php endforeach;?>
+    <?php endif; endforeach;?>
 </script>
