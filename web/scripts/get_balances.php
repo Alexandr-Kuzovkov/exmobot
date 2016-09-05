@@ -34,8 +34,9 @@ if ($db == 'sqlite'){
                     <tr><th colspan="4"><h4> Валюта: <?php echo $currency;?></h4></th></tr>
                     <tr><td> Дата </td><td> Сумма </td><td>Профит(%)</td><td>Итого(%)</td></tr></thead>
                 <?php foreach($items as $item):?>
+
                     <tr>
-                        <td> <?php echo date('d.m.Y H:i:s', $item['utime']);?> </td>
+                        <td><?php $curr_date = date('d.m.Y H:i:s', $item['utime']); echo $curr_date; ?></td>
                         <td> <?php echo $item['amount'];?> </td>
                         <td> <?php if ($prev_amount != 0) printf('%.4f',($item['amount'] - $prev_amount)/$prev_amount * 100.0); else echo '-';?> </td>
                         <td> <?php if ($first_amount != 0) printf('%.4f',($item['amount'] - $first_amount)/$first_amount * 100.0); else echo '-';?> </td>

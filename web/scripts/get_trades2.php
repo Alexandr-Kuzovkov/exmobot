@@ -30,19 +30,27 @@ if ($db == 'sqlite'){
                 <?php foreach ($session_data as $pair => $items):?>
                     <table class="table-bordered stat-table" id="<?php echo $session_id.$pair;?>">
                         <thead>
-                        <tr><th colspan="<?php echo count($items);?>"><h4> Пара: <?php echo $pair;?></h4></th></tr>
+                        <tr><th colspan="<?php echo count($items)+1;?>"><h4> Пара: <?php echo $pair;?></h4></th></tr>
                         <tr>
                             <?php if (isset($items[0])): foreach ($items[0] as $key => $val): if ($key == 'pair' || $key == 'utime' || $key == 'session_id') continue; ?>
                                 <th> <?php echo $key; ?> </th>
                             <?php endforeach; endif;?>
+                            <th>Количество за дату</th>
                         </tr>
                         </thead>
-                        <?php foreach($items as $item):?>
+                        <?php  $prev_date = date('d.m.Y', time()); $count_date = 0; foreach($items as $item):?>
+                            <?php
+                            $curr_date = date('d.m.Y', $item['trade_date']);
+                            if ($curr_date == $prev_date){ $count_date++; $itog = '-';} else{
+                                $itog =  "Итого за $prev_date: $count_date";
+                                $count_date = 1; $prev_date = $curr_date;
+                            } ?>
                             <tr>
                                 <?php foreach($item as $key => $val):?>
                                     <?php if ($key == 'pair' || $key == 'utime' || $key == 'session_id') continue; ?>
                                     <td><?php echo ($key == 'trade_date')? date('d.m.Y H:i:s', $val) : $val;?></td>
                                 <?php endforeach;?>
+                                <td> <?php echo $itog;?> </td>
                             </tr>
                         <?php endforeach;?>
                     </table>
@@ -58,7 +66,7 @@ if ($db == 'sqlite'){
         <?php foreach ($session_data as $pair => $items):?>
             $("#<?php echo $session_id.$pair;?>").dataTable({"aoColumnDefs":[
             {
-				"aTargets": [ 0,1,2,3 ],
+				"aTargets": [ 0,1,2,3,7 ],
 			   "bSortable": false
 		    },{
 				"aTargets":[ 6 ]
