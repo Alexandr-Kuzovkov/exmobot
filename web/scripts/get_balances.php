@@ -32,7 +32,8 @@ if ($db == 'sqlite'){
                 <table class="table-bordered" id="<?php echo $session_id.$currency;?>">
                 <thead>
                     <tr><th colspan="4"><h4> Валюта: <?php echo $currency;?></h4></th></tr>
-                    <tr><td> Дата </td><td> Сумма </td><td>Профит(%)</td><td>Итого(%)</td></tr></thead>
+                    <tr><td> Дата </td><td> Сумма </td><td>Профит(%)</td><td>Итого(%)</td></tr>
+                </thead>
                 <?php foreach($items as $item):?>
 
                     <tr>
