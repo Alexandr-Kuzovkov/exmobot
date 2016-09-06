@@ -317,8 +317,8 @@ class Strategy:
     '''
     def _calc_prices(self, orders, price_step, fee = 0.002):
         try:
-            ask = orders[self.pair]['ask'][0][0]
-            bid = orders[self.pair]['bid'][0][0]
+            ask = orders[self.pair]['ask'][0][0] - price_step
+            bid = orders[self.pair]['bid'][0][0] + price_step
         except KeyError:
             ask = orders['_'.join([self.pair.split('_')[1], self.pair.split('_')[0]])]['ask'][0][0]
             bid = orders['_'.join([self.pair.split('_')[1], self.pair.split('_')[0]])]['bid'][0][0]
