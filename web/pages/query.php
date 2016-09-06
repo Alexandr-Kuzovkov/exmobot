@@ -21,10 +21,12 @@ if($db == 'sqlite'){
         $('#db').load('/get-data?db=<?php echo $db;?>');
 
         $('#run-query').click(function(){
+            $('#db').html('<img src="/img/preload.gif"/>');
             $('#db').load('/exec-query?db=<?php echo $db;?>', {query:$('#query').text()});
         });
 
         $('#run-reset').click(function(){
+            $('#db').html('<img src="/img/preload.gif"/>');
             $('#db').load('/get-data?db=<?php echo $db;?>');
         });
     </script>
