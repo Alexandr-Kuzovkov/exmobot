@@ -53,6 +53,8 @@ if ($db == 'sqlite'){
                             </tr>
                         <?php endforeach;?>
                     </table>
+                    <a href="#" id="title_<?php echo $session_id.$currency;?>" class="chart">График</a>
+                    <canvas class="canvas" id="chart_<?php echo $session_id.$currency;?>"></canvas>
                 <?php endforeach;?>
                 &nbsp;</td>
         <?php endforeach;?>
@@ -75,4 +77,32 @@ if ($db == 'sqlite'){
         }]});
     <?php endforeach;?>
     <?php endforeach;?>
+</script>
+<script type="text/javascript" src="/js/canvas.js"></script>
+<script type="text/javascript" src="/js/mychart.js"></script>
+<script>
+    <?php foreach($data as $session_id => $session_data): ?>
+    <?php foreach ($session_data as $currency => $items):?>
+    var options = {width: 700, height: 400, max_labels: 6, dates: [], curses: [], margin: 20};
+    <?php foreach($items as $item):?>
+    var date = '<?php echo date('d.m.Y H:i:s', $item['utime']);?>';
+        options.dates.push(date);
+        options.curses.push(<?php echo $item['amount'];?>);
+    <?php endforeach;?>
+    draw_chart("chart_<?php echo $session_id.$currency;?>", options);
+    <?php endforeach;?>
+    <?php endforeach;?>
+</script>
+<script>
+    $('.canvas').hide();
+    $('.chart').click(function(){
+        var id = 'chart_' + this.id.split('_').pop();
+        if (this.innerHTML == 'График'){
+            $('#' + id).show(500);
+            this.innerHTML = 'Скрыть график';
+        }else{
+            $('#' + id).hide(500);
+            this.innerHTML = 'График';
+        }
+    });
 </script>
