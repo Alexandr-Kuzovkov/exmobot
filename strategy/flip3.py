@@ -124,6 +124,8 @@ class Strategy:
         except KeyError:
             fee = capi.fee['_'.join([pair.split('_')[1], pair.split('_')[0]])]
 
+        logger.info('fee=%f' % fee, prefix)
+
         #минимальный шаг
         try:
             if 'decimal_places' in capi.pair_settings[pair]:
