@@ -67,6 +67,7 @@ class Strategy:
         #print res
         #print capi.
         #print capi.order_trades()
+        '''
         storage.save('key1', 'value1')
         storage.save('key2', 'value1')
         print storage.load('key2')
@@ -82,7 +83,7 @@ class Strategy:
         print storage.orders(pair='LTC_USD', session_id='123')
         storage.order_delete(pair='BTC_USD', session_id='123')
         storage.old_orders_delete(utime=1469620306, pair='ETH_USD', session_id='123')
-
+        '''
         #print capi.order_cancel(123)
         #удаляем неактуальные записи об ордерах
         '''
@@ -117,20 +118,20 @@ class Strategy:
         #pprint(capi.user_trades(['ETH_USD'],limit=3))
 
 
-        storage.save_balance('ETH', 0.25, 'test')
+        #storage.save_balance('ETH', 0.25, 'test')
         #time.sleep(2)
-        storage.save_balance('ETH', 0.34, 'test')
+        #storage.save_balance('ETH', 0.34, 'test')
 
         #storage.delete_old_values(['balance'], time.time()-3, True)
-        pprint(storage.get_last_balance('USD', 3, 'test'))
+        #pprint(storage.get_last_balance('USD', 3, 'test'))
 
 
 
         user_trades = capi.user_trades(['ETH_USD'])
-        storage.save_user_trades(user_trades['ETH_USD'], 'test')
+        storage.save_user_trades(user_trades['ETH_USD'])
 
         #storage.delete_old_values(['user_trades'], time.time()-3, False, 'test')
-        pprint(storage.get_last_user_trades(pair=None, limit=5, session_id='test'))
+        #pprint(storage.get_last_user_trades(pair=None, limit=5, session_id='test'))
 
         #min_primary_balance, min_secondary_balance = capi.get_min_balance('ETH_USD', 11.1)
         #print min_primary_balance, min_secondary_balance

@@ -14,8 +14,10 @@ $fullname = realpath($path . $file);
 $db = (isset($_GET['db']))? $_GET['db'] : 'sqlite';
 if ($db == 'sqlite'){
     $data = get_trades_data_sqlite($fullname);
+    $analize = analize_user_trades_sqlite($fullname);
 }elseif($db == 'mysql'){
     $data = get_trades_data_mysql();
+    $analize = analize_user_trades_mysql();
 }
 //print_r($data);
 //exit();
@@ -54,6 +56,9 @@ if ($db == 'sqlite'){
                             </tr>
                         <?php endforeach;?>
                     </table>
+                    <?php foreach($analize[$session_id][$pair] as $key => $val):?>
+                        <b><?php echo $key?></b> = <i><?php echo $val;?></i>; &nbsp;
+                    <?php endforeach;?>
                 <?php endforeach;?>
                 &nbsp;</td>
         </tr>

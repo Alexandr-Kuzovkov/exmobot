@@ -492,4 +492,176 @@
     }
 
 
+    /**
+     * Возвращает результаты анализа торгов в сессии
+     * по заданной паре в виде массива
+     * данные из базы sqlite
+     * @param $db_name
+     * @return array|bool массив вида
+     * Array(
+     *
+     *  'session_id' =>
+     *      Array(
+     *          'pair' => Array(
+     *          'amount_profit' => $amount_profit,
+     *          'quantity_profit' => $quantity_profit,
+     *          'amount_sum' => $amount_sum,
+     *          'quantity_sum' => $quantity_sum,
+     *          'count_sell' => $count_sell,
+     *          'count_buy' => $count_buy
+     *         )
+     *
+     *
+     *      )
+     * )
+     *
+     */
+    function analize_user_trades_sqlite($db_name){
+        $data = get_trades_data_sqlite($db_name);
+        $result = array();
+        $fee = 0.998;
+        foreach($data as $session_id => $session_data){
+            $result[$session_id] = array();
+            foreach($session_data as $pair => $trades){
+                $trades = array_reverse($trades);
+                $count_sell = 0;
+                $count_buy = 0;
+                $amount_start = 0.0;
+                $amount_curr = 0.0;
+                $amount_sum = 0.0;
+                $quantity_start = 0.0;
+                $quantity_curr = 0.0;
+                $quantity_sum = 0.0;
+                $sell_sum = 0.0;
+                $buy_sum = 0.0;
+                foreach($trades as $trade){
+                    if ($trade['trade_type'] == 'sell'){
+                        $count_sell++;
+                        if ($amount_start == 0){
+                            $amount_start = $trade['amount'];
+                        }
+                        $amount_curr += $trade['amount'] * $fee;
+                        $quantity_curr -= $trade['quantity'];
+                        $sell_sum += $trade['amount'];
+
+                    }elseif ($trade['trade_type'] == 'buy'){
+                        $count_buy++;
+                        if ($quantity_start == 0){
+                            $quantity_start = $trade['quantity'];
+                        }
+                        $amount_curr -= $trade['amount'];
+                        $quantity_curr += $trade['quantity'] * $fee;
+                        $buy_sum += $trade['amount'];
+                    }
+                    $amount_sum += $trade['amount'];
+                    $quantity_sum += $trade['quantity'];
+                }
+                $amount_profit = $amount_curr - $amount_start;
+                $quantity_profit = $quantity_curr - $quantity_start;
+                $result[$session_id][$pair] = array(
+                    'amount_start' => $amount_start,
+                    'quantity_start' => $quantity_start,
+                    'amount_profit' => $amount_profit,
+                    'quantity_profit' => $quantity_profit,
+                    'amount_sum' => $amount_sum,
+                    'quantity_sum' => $quantity_sum,
+                    'count_sell' => $count_sell,
+                    'count_buy' => $count_buy,
+                    'sell_sum' => $sell_sum,
+                    'buy_sum' => $buy_sum
+                );
+
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Возвращает результаты анализа торгов в сессии
+     * по заданной паре в виде массива
+     * данные из базы mysql
+     * @param $db_name
+     * @return array|bool массив вида
+     * Array(
+     *
+     *  'session_id' =>
+     *      Array(
+     *          'pair' => Array(
+     *          'amount_profit' => $amount_profit,
+     *          'quantity_profit' => $quantity_profit,
+     *          'amount_sum' => $amount_sum,
+     *          'quantity_sum' => $quantity_sum,
+     *          'count_sell' => $count_sell,
+     *          'count_buy' => $count_buy
+     *         )
+     *
+     *
+     *      )
+     * )
+     *
+     */
+    function analize_user_trades_mysql(){
+        $data = get_trades_data_mysql();
+        $result = array();
+        $fee = 0.998;
+        foreach($data as $session_id => $session_data){
+            $result[$session_id] = array();
+            foreach($session_data as $pair => $trades){
+                $trades = array_reverse($trades);
+                $count_sell = 0;
+                $count_buy = 0;
+                $amount_start = 0.0;
+                $amount_curr = 0.0;
+                $amount_sum = 0.0;
+                $quantity_start = 0.0;
+                $quantity_curr = 0.0;
+                $quantity_sum = 0.0;
+                $sell_sum = 0.0;
+                $buy_sum = 0.0;
+                foreach($trades as $trade){
+                    if ($trade['trade_type'] == 'sell'){
+                        $count_sell++;
+                        if ($amount_start == 0){
+                            $amount_start = $trade['amount'];
+                        }
+                        $amount_curr += $trade['amount'] * $fee;
+                        $quantity_curr -= $trade['quantity'];
+                        $sell_sum += $trade['amount'];
+
+                    }elseif ($trade['trade_type'] == 'buy'){
+                        $count_buy++;
+                        if ($quantity_start == 0){
+                            $quantity_start = $trade['quantity'];
+                        }
+                        $amount_curr -= $trade['amount'];
+                        $quantity_curr += $trade['quantity'] * $fee;
+                        $buy_sum += $trade['amount'];
+                    }
+                    $amount_sum += $trade['amount'];
+                    $quantity_sum += $trade['quantity'];
+                }
+                $amount_profit = $amount_curr - $amount_start;
+                $quantity_profit = $quantity_curr - $quantity_start;
+                $result[$session_id][$pair] = array(
+                    'amount_start' => $amount_start,
+                    'quantity_start' => $quantity_start,
+                    'amount_profit' => $amount_profit,
+                    'quantity_profit' => $quantity_profit,
+                    'amount_sum' => $amount_sum,
+                    'quantity_sum' => $quantity_sum,
+                    'count_sell' => $count_sell,
+                    'count_buy' => $count_buy,
+                    'sell_sum' => $sell_sum,
+                    'buy_sum' => $buy_sum
+                );
+
+            }
+        }
+        return $result;
+    }
+
+
+
+
+
 ?>
