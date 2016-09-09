@@ -305,9 +305,13 @@
             $result = array();
             $count = 0;
             $res = mysqli_query($db, $sql);
-            while($row = mysqli_fetch_assoc($res))
-                $result[$count++] = $row;
-            mysqli_free_result($res);
+            if (is_object($res)){
+                while($row = mysqli_fetch_assoc($res))
+                    $result[$count++] = $row;
+                mysqli_free_result($res);
+            }else{
+                $result = $res;
+            }
             mysqli_close($db);
             return $result;
 

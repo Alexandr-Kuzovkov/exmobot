@@ -73,6 +73,7 @@ class Strategy:
         print storage.load('key2')
         print storage.get_utime('key2')
         storage.delete('key2')
+
         #print capi.balance_full()
 
         ids = random.randrange(100000, 200000, 1)
@@ -127,7 +128,7 @@ class Strategy:
 
 
 
-        user_trades = capi.user_trades(['ETH_USD'])
+        user_trades = capi.user_trades(['ETH_USD'], limit=1)
         storage.save_user_trades(user_trades['ETH_USD'])
 
         #storage.delete_old_values(['user_trades'], time.time()-3, False, 'test')

@@ -29,13 +29,13 @@ if ($db == 'sqlite'){
                 <th><?php echo $col;?></th>
             <?php endforeach; endif;?>
         </tr></thead>
-        <?php foreach($data as $row):?>
+        <?php if (is_array($data)): foreach($data as $row):?>
             <tr>
                 <?php foreach ($row as $key=>$val):?>
                     <td><?php echo ($key == 'utime' || $key == 'trade_date')? date('d.m.Y H:i:s', $val) : $val?></td>
                 <?php endforeach;?>
             </tr>
-        <?php endforeach;?>
+        <?php endforeach; endif;?>
     </table>
 
     <script type="text/javascript" charset="utf8" src="vendor/datatables/jquery.dataTables.min.js"></script>
