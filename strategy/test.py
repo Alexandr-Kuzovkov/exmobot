@@ -29,9 +29,47 @@ class Strategy:
         self.logger = logger
         self.params = params
         self.prefix = capi.name + ' ' + self.name
+
         #ввод параметров
+        #id сессии
+        self.session_id = self.set_param(key='session_id', default_value='0')
         #параметры передаваемые при вызове функции имеют приоритет
         #перед параметрами заданными в файле конфигурации
+
+
+    '''
+    установка значения параметра
+    @param key имя параметра
+    @param default_value значение по умолчанию
+    @param param_type тип
+    @return значение параметра
+    '''
+    def set_param(self, key, default_value, param_type=None):
+        if key in self.params:
+            param = self.params[key]
+        elif self.conf.has_option('common', key):
+            param = self.conf.get('common', key)
+        else:
+            param = default_value
+        if param_type is not None:
+            if param_type == 'int':
+                param = int(param)
+            elif param_type == 'float':
+                param = float(param)
+            else:
+                param = str(param)
+        return param
+
+
+    '''
+    запись изменений баланса в базу
+    '''
+    def save_change_balance(self, currency, amount):
+        last = self.storage.get_last_balance(currency, 1, self.session_id)
+        if (len(last) > 0) and (last[0]['amount'] == amount):
+            pass
+        else:
+            self.storage.save_balance(currency, amount, self.session_id)
 
 
     def run(self):
@@ -119,17 +157,19 @@ class Strategy:
         #pprint(capi.user_trades(['ETH_USD'],limit=3))
 
 
-        #storage.save_balance('ETH', 0.25, 'test')
+        #storage.save_balance('ETH', 0.25)
+        self.save_change_balance('ETH', 0.25)
         #time.sleep(2)
-        #storage.save_balance('ETH', 0.34, 'test')
+        #storage.save_balance('ETH', 0.34)
 
         #storage.delete_old_values(['balance'], time.time()-3, True)
         #pprint(storage.get_last_balance('USD', 3, 'test'))
 
 
 
-        user_trades = capi.user_trades(['ETH_USD'], limit=1)
-        storage.save_user_trades(user_trades['ETH_USD'])
+        #user_trades = capi.user_trades(['ETH_USD'], limit=2)
+        #pprint(user_trades)
+        #storage.save_user_trades(user_trades['ETH_USD'])
 
         #storage.delete_old_values(['user_trades'], time.time()-3, False, 'test')
         #pprint(storage.get_last_user_trades(pair=None, limit=5, session_id='test'))
@@ -162,5 +202,7 @@ class Strategy:
         #pprint(capi.orders_cancel(['BTC_ETH']))
         #pprint(capi.order_create('BTC_ETH',1.15863329, 0.01857750, 'buy'))
         #pprint(capi._check_pair('ETH_BTC'))
+
+
 
 
