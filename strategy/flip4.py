@@ -294,11 +294,12 @@ class Strategy:
     '''
     def save_last_user_trades(self, limit=100):
         user_trades = self.capi.user_trades([self.pair], limit=limit)
-        try:
-            self.storage.save_user_trades(user_trades[self.pair], self.session_id)
-        except KeyError:
-            self.storage.save_user_trades(user_trades['_'.join([self.pair.split('_')[1], self.pair.split('_')[0]])], self.session_id)
-
+        print user_trades, self.pair
+        if self.pair in user_trades or '_'.join([self.pair.split('_')[1], self.pair.split('_')[0]]) in user_trades:
+            try:
+                self.storage.save_user_trades(user_trades[self.pair], self.session_id)
+            except KeyError:
+                self.storage.save_user_trades(user_trades['_'.join([self.pair.split('_')[1], self.pair.split('_')[0]])], self.session_id)
 
     '''
     вычисление профита на основе цены покупки, продажи и комиссии

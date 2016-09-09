@@ -345,4 +345,5 @@ class Strategy:
     '''
     def save_last_user_trades(self, limit=100):
         user_trades = self.capi.user_trades([self.pair], limit=limit)
-        self.storage.save_user_trades(user_trades[self.pair], self.session_id)
+        if self.pair in user_trades:
+            self.storage.save_user_trades(user_trades[self.pair], self.session_id)
