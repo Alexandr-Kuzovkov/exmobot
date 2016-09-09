@@ -233,7 +233,7 @@ class Storage:
             if rows:
                 record_exists = False
                 for row in rows:
-                    if (row[0] == trade['trade_id']) and (row[1] == trade['order_id']) and(row[8] == trade['date']):
+                    if (int(row[0]) == trade['trade_id']) and (int(row[1]) == trade['order_id']) and(row[8] == trade['date']):
                         record_exists = True
                         break
                 if record_exists:
