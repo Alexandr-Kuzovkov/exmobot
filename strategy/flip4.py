@@ -283,8 +283,7 @@ class Strategy:
     '''
     def save_change_balance(self, currency, amount):
         last = self.storage.get_last_balance(currency, 1, self.session_id)
-        self.logger.info(str(last))
-        if (len(last) > 0) and (last[0]['amount'] == amount):
+        if (len(last) > 0) and (self._round(last[0]['amount'],5) == self._round(amount, 5)):
             pass
         else:
             self.storage.save_balance(currency, amount, self.session_id)
@@ -295,7 +294,6 @@ class Strategy:
     '''
     def save_last_user_trades(self, limit=100):
         user_trades = self.capi.user_trades([self.pair], limit=limit)
-        print user_trades, self.pair
         if self.pair in user_trades or '_'.join([self.pair.split('_')[1], self.pair.split('_')[0]]) in user_trades:
             try:
                 self.storage.save_user_trades(user_trades[self.pair], self.session_id)
@@ -332,4 +330,14 @@ class Strategy:
             profit = self._calc_profit(ask, bid, fee)
 
         return {'ask': ask, 'bid': bid}
+
+
+    '''
+    Округление числа
+    '''
+    def _round(self, number, prec):
+        number = number * (10**prec)
+        number = int(number)
+        number = float(number) / (10**prec)
+        return number
 
