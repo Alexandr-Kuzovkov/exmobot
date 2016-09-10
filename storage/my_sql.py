@@ -15,9 +15,9 @@ class Storage:
         conn = self._get_connection()
         cur = conn.cursor()
         cur.execute('CREATE TABLE IF NOT EXISTS session_data (`key` varchar(255), `value` varchar(255), `type` varchar(255), session_id varchar(255), utime INT(11))ENGINE=InnoDB DEFAULT CHARSET=utf8;')
-        cur.execute('CREATE TABLE IF NOT EXISTS `orders` (order_id varchar(30), pair varchar(20), quantity float(20), price float(20), order_type varchar(10), session_id varchar(255), utime INT(11))ENGINE=InnoDB DEFAULT CHARSET=utf8;')
-        cur.execute('CREATE TABLE IF NOT EXISTS balance (currency varchar(30), amount float(20), session_id varchar(255), utime INT(11))ENGINE=InnoDB DEFAULT CHARSET=utf8;')
-        cur.execute('CREATE TABLE IF NOT EXISTS user_trades (trade_id varchar(255), order_id varchar(30), pair varchar(20), quantity float(20), price float(20), amount float(20), trade_type varchar(10), session_id varchar(255), trade_date INT(11), utime INT(11))ENGINE=InnoDB DEFAULT CHARSET=utf8;')
+        cur.execute('CREATE TABLE IF NOT EXISTS `orders` (order_id varchar(30), pair varchar(20), quantity REAL(20,6), price REAL(20,6), order_type varchar(10), session_id varchar(255), utime INT(11))ENGINE=InnoDB DEFAULT CHARSET=utf8;')
+        cur.execute('CREATE TABLE IF NOT EXISTS balance (currency varchar(30), amount REAL(20,6), session_id varchar(255), utime INT(11))ENGINE=InnoDB DEFAULT CHARSET=utf8;')
+        cur.execute('CREATE TABLE IF NOT EXISTS user_trades (trade_id varchar(255), order_id varchar(30), pair varchar(20), quantity REAL(20,6), price REAL(20,6), amount REAL(20,6), trade_type varchar(10), session_id varchar(255), trade_date INT(11), utime INT(11))ENGINE=InnoDB DEFAULT CHARSET=utf8;')
         cur.close()
         conn.close()
 
