@@ -158,7 +158,7 @@ class Strategy:
 
 
         #storage.save_balance('ETH', 0.25)
-        self.save_change_balance('ETH', 0.25)
+        self.save_change_balance('ETH', 0.26)
         #time.sleep(2)
         #storage.save_balance('ETH', 0.34)
 
