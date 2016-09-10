@@ -316,7 +316,7 @@ class Strategy:
      @param price_step шаг изменения цены
      @return {'ask':ask, 'bid': bid} словарь содержащий цены
     '''
-    def _calc_prices(self, orders, price_step, fee = 0.002):
+    def _calc_prices(self, orders, price_step, fee=0.002):
         try:
             ask = orders[self.pair]['ask'][0][0] - price_step
             bid = orders[self.pair]['bid'][0][0] + price_step
@@ -324,10 +324,10 @@ class Strategy:
             ask = orders['_'.join([self.pair.split('_')[1], self.pair.split('_')[0]])]['ask'][0][0]
             bid = orders['_'.join([self.pair.split('_')[1], self.pair.split('_')[0]])]['bid'][0][0]
 
-        profit = self._calc_profit(ask, bid, fee);
+        profit = self._calc_profit(ask, bid, fee)
         while(profit < self.min_profit):
-            ask += price_step;
-            bid -= price_step;
+            ask += price_step
+            bid -= price_step
             profit = self._calc_profit(ask, bid, fee)
 
         return {'ask': ask, 'bid': bid}
