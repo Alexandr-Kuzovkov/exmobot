@@ -283,6 +283,7 @@ class Strategy:
     '''
     def save_change_balance(self, currency, amount):
         last = self.storage.get_last_balance(currency, 1, self.session_id)
+        self.logger.info(str(last))
         if (len(last) > 0) and (last[0]['amount'] == amount):
             pass
         else:
