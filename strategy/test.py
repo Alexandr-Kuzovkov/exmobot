@@ -158,7 +158,7 @@ class Strategy:
 
 
         #storage.save_balance('ETH', 0.25)
-        self.save_change_balance('ETH', 0.26)
+        #self.save_change_balance('ETH', 0.26)
         #time.sleep(2)
         #storage.save_balance('ETH', 0.34)
 
@@ -203,6 +203,13 @@ class Strategy:
         #pprint(capi.order_create('BTC_ETH',1.15863329, 0.01857750, 'buy'))
         #pprint(capi._check_pair('ETH_BTC'))
 
+        #pprint(capi.possable_amount('USDT','BTC', 600.0))
+        #pprint(capi.possable_amount('BTC', 'USDT', 1.0))
+        #pprint(capi.possable_amount('ETH', 'USDT', 34.13))
 
+
+        pprint(capi.possable_amount('USDT','BTC', 600.0))
+        pprint(capi.possable_amount('BTC', 'USDT', 1.0))
+        pprint(capi.possable_amount('ETH', 'USDT', 34.13))
 
 
