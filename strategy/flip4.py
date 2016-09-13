@@ -283,7 +283,7 @@ class Strategy:
     '''
     def save_change_balance(self, currency, amount):
         last = self.storage.get_last_balance(currency, 1, self.session_id)
-        if (len(last) > 0) and (self._round(last[0]['amount'],5) == self._round(amount, 5)):
+	if (len(last) > 0) and (self._round(last[0]['amount'],3) == self._round(amount, 3)):
             pass
         else:
             self.storage.save_balance(currency, amount, self.session_id)
