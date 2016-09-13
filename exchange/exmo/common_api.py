@@ -5,7 +5,7 @@ import exchange.exmo.config as config
 
 class CommonAPI:
     api = None
-    name = 'EXMO'
+    name = 'exmo'
     pair_settings = None
     currency = None
     fee = None

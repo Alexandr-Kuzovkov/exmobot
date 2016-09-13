@@ -5,7 +5,7 @@ from pprint import pprint
 
 
 class CommonAPI:
-    name = 'BTC-E'
+    name = 'btce'
     pair_settings = None
     currency = None
     fee = None
@@ -672,3 +672,22 @@ class CommonAPI:
                     break
 
         return amount_to
+
+
+    '''
+    поиск цепочек обмена
+    возвращает список циклических
+    цепочек обмена начиная с валюты currency_start
+    '''
+    def search_exchains(self, currency_start):
+        currencies = self._get_currency()
+        pairs = self._get_pair_settings().keys()
+        if currency_start not in currencies:
+            raise Exception('currency_start expected in ' + str(currencies))
+        used_edge = [] #пройденные дуги
+        curr_edge = [] #текущие дуги из узла
+        used_node = [] #посещенные вершины
+        stack = [currency_start]
+
+
+

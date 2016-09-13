@@ -6,7 +6,7 @@ from time import mktime
 from time import time
 
 class CommonAPI:
-    name = 'Poloniex'
+    name = 'poloniex'
     pair_settings = None
     currency = None
     fee = None
