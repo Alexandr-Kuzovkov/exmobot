@@ -5,7 +5,7 @@ from pprint import pprint
 
 
 class CommonAPI:
-    name = 'BTC-E'
+    name = 'btce'
     pair_settings = None
     currency = None
     fee = None
@@ -623,3 +623,71 @@ class CommonAPI:
             return {'quantity': quantity, 'amount': amount, 'avg_price': amount/quantity}
         else:
             raise Exception('Еhe requested quantity can not be bought!')
+
+
+    '''
+    Подсчет на какое количество валюты currency_to можно
+    обменять количество amount_from валюты currency_from
+    '''
+    def possable_amount(self, currency_from, currency_to, amount_from):
+        currencies = self._get_currency();
+        if currency_from not in currencies or currency_to not in currencies:
+            raise Exception('currencies expected in ' + str(currencies))
+        valid_pairs = self.pair_settings.keys()
+        if currency_from + '_' + currency_to in valid_pairs:
+            pair = currency_from + '_' + currency_to
+            order_type = 'bid'
+        elif currency_to + '_' + currency_from in valid_pairs:
+            pair = currency_to + '_' + currency_from
+            order_type = 'ask'
+        else:
+            raise Exception('pair expected in ' + str(valid_pairs))
+
+        orders = self.orders([pair], limit=1000)
+        amount_to = 0.0
+        if order_type == 'bid':
+            quantity_curr = 0.0
+            for order in orders[pair][order_type]:
+                order_price = order[0]
+                order_quantity = order[1]
+                order_amount = order[2]
+                if (order_quantity < (amount_from - quantity_curr)):
+                    quantity_curr = quantity_curr + order_quantity
+                    amount_to = amount_to + order_amount
+                else:
+                    amount_to = amount_to + (amount_from - quantity_curr) * order_price
+                    break
+
+        elif order_type == 'ask':
+            amount_curr = 0.0
+            for order in orders[pair][order_type]:
+                order_price = order[0]
+                order_quantity = order[1]
+                order_amount = order[2]
+                if (order_amount < (amount_from - amount_curr)):
+                    amount_curr += order_amount
+                    amount_to += order_quantity
+                else:
+                    amount_to += (amount_from - amount_curr) / order_price
+                    break
+
+        return amount_to
+
+
+    '''
+    поиск цепочек обмена
+    возвращает список циклических
+    цепочек обмена начиная с валюты currency_start
+    '''
+    def search_exchains(self, currency_start):
+        currencies = self._get_currency()
+        pairs = self._get_pair_settings().keys()
+        if currency_start not in currencies:
+            raise Exception('currency_start expected in ' + str(currencies))
+        used_edge = [] #пройденные дуги
+        curr_edge = [] #текущие дуги из узла
+        used_node = [] #посещенные вершины
+        stack = [currency_start]
+
+
+

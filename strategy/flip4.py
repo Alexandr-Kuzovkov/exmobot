@@ -22,7 +22,7 @@ class Strategy:
     params = None
 
     pair = None
-    name = 'unknown'
+    name = 'flip4'
     mode = 0
     session_id = 'default'
     min_profit = 0.005
