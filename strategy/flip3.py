@@ -305,6 +305,7 @@ class Strategy:
     @quantity количество
     '''
     def order_create(self, order_type, price, quantity):
+        self.logger.info('Order create: pair=%s quantity=%f price=%f type=%s' % (self.pair, quantity, price, order_type),self.prefix)
         try:
             res = self.capi.order_create(pair=self.pair, quantity=quantity, price=price, order_type=order_type)
             if not res['result']:
