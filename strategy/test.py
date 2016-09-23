@@ -1,4 +1,4 @@
-#coding=utf-8
+git add .#coding=utf-8
 import random
 from pprint import pprint
 import time

@@ -1,0 +1,8 @@
+[23-Sep-2016 20:07:11 Europe/Moscow] PHP Warning:  scandir(../../log): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/include/functions.php on line 71
+[23-Sep-2016 20:07:11 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/include/functions.php on line 71
+[23-Sep-2016 20:09:06 Europe/Moscow] PHP Warning:  scandir(../../db): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/include/functions.php on line 123
+[23-Sep-2016 20:09:06 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/include/functions.php on line 123
+[23-Sep-2016 20:09:06 Europe/Moscow] PHP Warning:  mysqli_connect(): (42000/1049): Unknown database 'exmobot' in /var/www/vhosts/exmo_bot/web/include/functions.php on line 243
+[23-Sep-2016 20:10:29 Europe/Moscow] PHP Fatal error:  Class 'SQLite3' not found in /var/www/vhosts/exmo_bot/web/include/functions.php on line 209
+[23-Sep-2016 20:12:02 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/scripts/get_data.php on line 22
+[23-Sep-2016 20:12:02 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/scripts/get_data.php on line 45
