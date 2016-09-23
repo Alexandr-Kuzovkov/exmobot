@@ -14,9 +14,13 @@ class API:
     api_secret = ''
     pairs = []
 
-    def __init__(self):
-        self.api_key = config.api_key
-        self.api_secret = config.api_secret
+    def __init__(self, key=None, secret=None):
+        if (key is None) or (secret is None):
+            self.api_key = config.api_key
+            self.api_secret = config.api_secret
+        else:
+            self.api_key = key
+            self.api_secret = secret
 
     '''
     Вызов метода AUTH API

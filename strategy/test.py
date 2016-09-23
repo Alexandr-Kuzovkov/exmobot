@@ -214,6 +214,7 @@ class Strategy:
 
         #поиск пар для профитной торговли
 
+
         fees = capi._get_fee()
         ticker = capi.ticker()
         base_valute = {'exmo': 0, 'btce':1, 'poloniex':0}

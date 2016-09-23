@@ -9,9 +9,13 @@ def createTimeStamp(datestr, format="%Y-%m-%d %H:%M:%S"):
     return time.mktime(time.strptime(datestr, format))
 
 class API:
-    def __init__(self):
-        self.APIKey = config.APIKey
-        self.Secret = config.Secret
+    def __init__(self, key=None, secret=None):
+        if (key is None) or (secret is None):
+            self.APIKey = config.APIKey
+            self.Secret = config.Secret
+        else:
+            self.APIKey = key
+            self.Secret = secret
 
     def post_process(self, before):
         after = before

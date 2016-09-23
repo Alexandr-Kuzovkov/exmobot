@@ -50,6 +50,16 @@ try:
     else:
         debug = 0
 
+    if conf.has_option('account', 'key'):
+        api_key = conf.get('account', 'key')
+    else:
+        api_key = None
+
+    if conf.has_option('account', 'secret'):
+        api_secret = conf.get('account', 'secret')
+    else:
+        api_secret = None
+
 except Exception, ex:
     print '''
         Bot for cryptocurrency traiding
@@ -72,7 +82,7 @@ if debug:
     mod_api = __import__('exchange.' + exchange_name + '.api', globals(), locals(), ['API'], -1)
     mod_common_api = __import__('exchange.' + exchange_name + '.common_api', globals(), locals(), ['CommonAPI'], -1)
     mod_storage = __import__('storage.' + storage_type, globals(), locals(), ['Storage'], -1)
-    api = mod_api.API()
+    api = mod_api.API(api_key, api_secret)
     capi = mod_common_api.CommonAPI(api)
     root_dir = os.path.dirname(os.path.realpath(__file__))
     storage = mod_storage.Storage(session_id, root_dir)
@@ -83,7 +93,7 @@ else:
         mod_api = __import__('exchange.' + exchange_name + '.api', globals(), locals(), ['API'], -1)
         mod_common_api = __import__('exchange.' + exchange_name + '.common_api', globals(), locals(), ['CommonAPI'], -1)
         mod_storage = __import__('storage.' + storage_type, globals(), locals(), ['Storage'], -1)
-        api = mod_api.API()
+        api = mod_api.API(api_key, api_secret)
         capi = mod_common_api.CommonAPI(api)
         root_dir = os.path.dirname(os.path.realpath(__file__))
         storage = mod_storage.Storage(session_id, root_dir)
