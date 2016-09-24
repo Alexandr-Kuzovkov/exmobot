@@ -267,4 +267,14 @@ class Strategy:
             print 'pair=%s   profit=%f   volume=%f(%s) = %f BTC   sell_price=%.10f   buy_price=%.10f' % (item['pair'], item['profit'], item['vol'], item['vol_currency'], item['vol_btc'], item['sell_price'], item['buy_price'])
 
         '''
-        pprint(capi.balance_full())
+        #pprint(capi.balance())
+        #pprint(capi.orders_balance())
+        #pprint(capi.balance_full())
+
+        #pprint(capi.currency)
+        print '-' * 50
+        pprint(capi.balance_full_usd())
+        print '-' * 50
+        pprint(capi.balance_full_btc())
+
+

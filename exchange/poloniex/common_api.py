@@ -474,13 +474,11 @@ class CommonAPI:
         data = self.api.trade_api_query('returnCompleteBalances')
         if 'error' in data:
             raise Exception(data['error'])
-        balances = {}
-        balances['balances'] = {}
-        balances['orders'] = {}
+        balance = {}
         for currency, all_balances in data.items():
-            balances['balances'][currency] = all_balances['available']
-            balances['orders'][currency] = all_balances['onOrders']
-        return balances
+            balance[currency] = float(all_balances['available'])
+            balance[currency] += float(all_balances['onOrders'])
+        return balance
 
 
     '''
@@ -771,3 +769,76 @@ class CommonAPI:
                     break
 
         return amount_to
+
+
+    '''
+    определение полного баланса в USD
+    '''
+    def balance_full_usd(self):
+        balance_full = self.balance_full()
+        ticker = self.ticker()
+        currency_ratio = {}
+        currency_ratio_usd = {}
+        for pair, data in ticker.items():
+            if data['sell_price'] > data['buy_price']:
+                currency_ratio[pair] = data['buy_price']
+            else:
+                currency_ratio[pair] = data['sell_price']
+
+        for curr in self.currency:
+            if curr + '_USDT' in currency_ratio:
+                currency_ratio_usd[curr] = 1/currency_ratio[curr + '_USDT']
+                continue
+            elif 'USDT_' + curr in currency_ratio:
+                currency_ratio_usd[curr] = currency_ratio['USDT_' + curr]
+                continue
+            elif curr + '_BTC' in currency_ratio and 'USDT_BTC' in currency_ratio:
+                currency_ratio_usd[curr] = 1/currency_ratio[curr + '_BTC'] * currency_ratio['USDT_BTC']
+                continue
+            elif 'BTC_' + curr in currency_ratio and 'USDT_BTC' in currency_ratio:
+                currency_ratio_usd[curr] = currency_ratio['USDT_BTC'] * currency_ratio['BTC_' + curr]
+
+        # pprint(currency_ratio_usd)
+        balance_usd = 0.0
+        for curr, amount in balance_full.items():
+            if curr not in self.currency or curr not in currency_ratio_usd:
+                continue
+            balance_usd += amount * currency_ratio_usd[curr]
+
+        return balance_usd
+
+    '''
+    определение полного баланса в BTC
+    '''
+    def balance_full_btc(self):
+        balance_full = self.balance_full()
+        ticker = self.ticker()
+        currency_ratio = {}
+        currency_ratio_btc = {}
+        for pair, data in ticker.items():
+            if data['sell_price'] > data['buy_price']:
+                currency_ratio[pair] = data['buy_price']
+            else:
+                currency_ratio[pair] = data['sell_price']
+
+        for curr in self.currency:
+            if curr + '_BTC' in currency_ratio:
+                currency_ratio_btc[curr] = 1/currency_ratio[curr + '_BTC']
+                continue
+            elif 'BTC_' + curr in currency_ratio:
+                currency_ratio_btc[curr] = currency_ratio['BTC_' + curr]
+                continue
+            elif curr + '_USDT' in currency_ratio and 'BTC_USDT' in currency_ratio:
+                currency_ratio_btc[curr] = currency_ratio[curr + '_USDT'] / currency_ratio['BTC_USDT']
+                continue
+            elif 'USDT_' + curr in currency_ratio and 'BTC_USDT' in currency_ratio:
+                currency_ratio_btc[curr] = currency_ratio['BTC_USDT'] * currency_ratio['USDT_' + curr]
+
+        # pprint(currency_ratio_btc)
+        balance_btc = 0.0
+        for curr, amount in balance_full.items():
+            if curr not in self.currency or curr not in currency_ratio_btc:
+                continue
+            balance_btc += amount * currency_ratio_btc[curr]
+
+        return balance_btc
