@@ -214,7 +214,7 @@ class Strategy:
 
         #поиск пар для профитной торговли
 
-
+        '''
         fees = capi._get_fee()
         ticker = capi.ticker()
         base_valute = {'exmo': 0, 'btce':1, 'poloniex':0}
@@ -266,4 +266,5 @@ class Strategy:
         for item in profits_pair:
             print 'pair=%s   profit=%f   volume=%f(%s) = %f BTC   sell_price=%.10f   buy_price=%.10f' % (item['pair'], item['profit'], item['vol'], item['vol_currency'], item['vol_btc'], item['sell_price'], item['buy_price'])
 
-
+        '''
+        pprint(capi.balance_full())

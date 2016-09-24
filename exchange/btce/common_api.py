@@ -389,8 +389,24 @@ class CommonAPI:
     или число
     '''
     def orders_balance(self, currency=None):
-        raise Exception('"orders_balance" now not realise!')
+        user_orders = self.user_orders()
+        balance = {}
+        for currency in self.currency:
+            balance[currency] = 0.0
+        for pair, orders in user_orders.items():
+            for order in orders:
+                if order['type'] == 'sell':
+                    curr = pair.split('_')[0]
+                    sum = order['quantity']
+                    balance[curr] += sum
+                elif order['type'] == 'buy':
+                    curr = pair.split('_')[1]
+                    sum = order['amount']
+                    balance[curr] += sum
+                else:
+                    pass
 
+        return balance
 
     '''
     получение баланса по выбранной валюте или по всем
@@ -399,7 +415,11 @@ class CommonAPI:
     или число
     '''
     def balance_full(self):
-        raise Exception('"balance_full" now not realise!')
+        balance = self.balance()
+        orders_balance = self.orders_balance()
+        for curr, amount in orders_balance.items():
+            balance[curr] += amount
+        return balance
 
 
     '''
