@@ -9,9 +9,13 @@ class API:
     papi = None
     tapi = None
 
-    def __init__(self):
+    def __init__(self, key=None, secret=None):
         self.papi = btcelib.PublicAPIv3()
-        self.tapi = btcelib.TradeAPIv1(config.apikey, compr=True)
+        if (key is None) or (secret is None):
+            apikey = config.apikey
+        else:
+            apikey = {'Key': key, 'Secret': secret}
+        self.tapi = btcelib.TradeAPIv1(apikey, compr=True)
 
     '''
     Вызов метода PUBLIC API

@@ -9,6 +9,7 @@ import math
 mode.
 Модификация стратегии flip2.
 Добавлена автоматическая смена порядка валют в паре при несооответсвии
+(актуально для Poloniex.com)
 0 - увеличиваем вторую валюту в паре: покупаем дешевле, продаем дороже
 1 - увеличиваем первую валюту в паре: продаем дороже, покупаем дешевле
 '''
@@ -145,12 +146,6 @@ class Strategy:
 
         #logger.info(min_primary_balance)
         #logger.info(min_secondary_balance)
-
-        #сохраняем балансы в базу для сбора статистики
-        if primary_balance < min_primary_balance:
-            self.save_change_balance(pair.split('_')[1], balance[pair.split('_')[1]])
-        if secondary_balance < min_secondary_balance:
-            self.save_change_balance(pair.split('_')[0], balance[pair.split('_')[0]])
 
         #если наращиваем вторую валюту в паре(игра на повышении)
         if mode == 0:

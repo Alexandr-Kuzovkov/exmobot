@@ -34,6 +34,15 @@ class Strategy:
 
 
     '''
+    Округление числа
+    '''
+    def _round(self, number, prec):
+        number = number * (10 ** prec)
+        number = int(number)
+        number = float(number) / (10 ** prec)
+        return number
+
+    '''
     функция реализующая торговую логику
     '''
     def run(self):
@@ -42,6 +51,13 @@ class Strategy:
         profit_pairs = self.get_profit_pairs()
         pairs = self.select_pairs(profit_pairs, min_volume)
         #pprint(pairs)
+
+        # сохраняем балансы в базу для сбора статистики
+        balance_usd = self.capi.balance_full_usd()
+        if self.capi.name == 'poloniex':
+            self.save_change_balance('USDT', balance_usd)
+        else:
+            self.save_change_balance('USD', balance_usd)
 
         for pair in pairs:
             flip = flip3.Strategy(self.capi, self.logger, self.storage, self.conf, pair=pair['pair'])
@@ -140,3 +156,14 @@ class Strategy:
             else:
                 param = str(param)
         return param
+
+
+    '''
+    запись изменений баланса в базу
+    '''
+    def save_change_balance(self, currency, amount):
+        last = self.storage.get_last_balance(currency, 1, self.session_id)
+        if (len(last) > 0) and (self._round(last[0]['amount'], 6) == self._round(amount, 6)):
+            pass
+        else:
+            self.storage.save_balance(currency, amount, self.session_id)
