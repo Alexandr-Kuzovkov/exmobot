@@ -36,7 +36,9 @@ $routes = array(
     '/get-trades' => $scripts . 'get_trades2.php',
     '/copy' => $pages . 'copy.php',
     '/copy-data' => $scripts . 'copy_data.php',
-    '/backup' => $scripts . 'backup.php'
+    '/backup' => $scripts . 'backup.php',
+    '/upload' => $pages . 'upload.php',
+    '/upload-dump' => $scripts . 'upload_dump.php'
 
     /*
     '/file' => $pages . 'file.php',

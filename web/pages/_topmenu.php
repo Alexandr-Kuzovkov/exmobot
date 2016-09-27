@@ -65,6 +65,9 @@
                         <li role="separator" class="divider"></li>
                         <li <?php check_active('backup');?>><a href="/backup?db=sqlite" target="_blank">Скачать файл базы SQLite</a></li>
                         <li <?php check_active('backup');?>><a href="/backup?db=mysql" target="_blank">Скачать дамп базы MySQL</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li <?php check_active('backup');?>><a href="/upload?db=sqlite">Залить файл базы SQLite</a></li>
+                        <li <?php check_active('backup');?>><a href="/upload?db=mysql">Залить базу MySQL</a></li>
 
                     </ul>
                 </li>
