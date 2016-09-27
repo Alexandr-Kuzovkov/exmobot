@@ -28,6 +28,7 @@ class Strategy:
         self.logger = logger
         self.params = params
         self.prefix = capi.name + ' ' + self.name
+        self.session_id = capi.name + '-' + self.name
         #ввод параметров
         #параметры передаваемые при вызове функции имеют приоритет
         #перед параметрами заданными в файле конфигурации
