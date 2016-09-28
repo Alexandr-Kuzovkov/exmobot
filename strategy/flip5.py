@@ -172,4 +172,4 @@ class Strategy:
         if abs(curr_amount - last_amount)/last_amount < 0.001:
             pass
         else:
-            self.storage.save_balance(currency, amount, self.session_id)
+            self.storage.save_balance(currency, curr_amount, self.session_id)
