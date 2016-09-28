@@ -124,15 +124,16 @@ class Strategy:
     выбор пар для торговли из массива заданных пар
     @param profit_pairs список пар вида: [{'pair':pair, 'profit':profit, 'vol': data['vol'], 'vol_btc': 0.0, 'vol_currency': vol_currency, 'sell_price':sell_price, 'buy_price':buy_price}, ...]
     @param  vol_min минимальный объем торгов в BTC
+    @param max_number максимальное количество пар в списке
     '''
-    def select_pairs(self, profit_pairs, vol_min):
+    def select_pairs(self, profit_pairs, vol_min, max_number=10):
         result = []
         black_list = ['USD_RUR', 'EUR_USD', 'EUR_RUR']
         for pair_info in profit_pairs:
             if pair_info['vol_btc'] >= vol_min and pair_info['pair'] not in black_list:
                 result.append(pair_info)
         result = sorted(result, key=lambda row: 1/row['profit'])
-        return result
+        return result[0:max_number]
 
 
     '''
