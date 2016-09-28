@@ -66,7 +66,8 @@ class Strategy:
 
         #валюта которую нельзя выставлять на продажу (hold), может быть не одна
         self.hold_currency = self.set_param(key='hold_currency', default_value=None)
-        self.hold_currency = map(lambda s: s.strip(), self.hold_currency.split(','))
+        if self.hold_currency is not None:
+            self.hold_currency = map(lambda s: s.strip(), self.hold_currency.split(','))
 
         self.prefix = capi.name + ' ' + self.name
 
