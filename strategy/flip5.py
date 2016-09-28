@@ -164,12 +164,10 @@ class Strategy:
     '''
     def save_change_balance(self, currency, amount):
         last = self.storage.get_last_balance(currency, 1, self.session_id)
+        curr_amount = self._round(amount, 6)
         if len(last) > 0:
             last_amount = self._round(last[0]['amount'], 6)
-        else:
-            last_amount = 0
-        curr_amount = self._round(amount, 6)
-        if abs(curr_amount - last_amount)/last_amount < 0.001:
-            pass
+            if abs(curr_amount - last_amount) / last_amount > 0.001:
+                self.storage.save_balance(currency, curr_amount, self.session_id)
         else:
             self.storage.save_balance(currency, curr_amount, self.session_id)
