@@ -65,9 +65,6 @@ class Strategy:
             flip.run()
 
 
-        #flip2 = flip.Strategy(self.capi, self.logger, self.storage, self.conf, mode=1)
-        #flip2.run()
-
     '''
     поиск пар для профитной торговли
     '''

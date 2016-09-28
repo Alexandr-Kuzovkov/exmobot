@@ -12,6 +12,8 @@ mode.
 (актуально для Poloniex.com)
 0 - увеличиваем вторую валюту в паре: покупаем дешевле, продаем дороже
 1 - увеличиваем первую валюту в паре: продаем дороже, покупаем дешевле
+
+добавлено hold_currency
 '''
 
 class Strategy:
@@ -30,6 +32,8 @@ class Strategy:
     limit = 1000000000.0
     #префикс для логгера
     prefix = ''
+    #валюта которую нельзя выставлять на продажу
+    hold_currency = None
 
     def __init__(self, capi, logger, storage, conf=None, **params):
         self.storage = storage
@@ -60,6 +64,10 @@ class Strategy:
         #лимит использования депозита по второй валюте в паре
         self.limit = self.set_param(key='limit', default_value=1000000000.0, param_type='float')
 
+        #валюта которую нельзя выставлять на продажу (hold), может быть не одна
+        self.hold_currency = self.set_param(key='hold_currency', default_value=None)
+        self.hold_currency = map(lambda s: s.strip(), self.hold_currency.split(','))
+
         self.prefix = capi.name + ' ' + self.name
 
     '''
@@ -81,7 +89,7 @@ class Strategy:
         #return
 
         logger.info('-'*40, prefix)
-        logger.info('pair: %s  mode: %i' % (pair, mode), prefix)
+        logger.info('pair: %s  mode: %i hold_currency %s' % (pair, mode, str(self.hold_currency)), prefix)
 
         #удаляем неактуальные записи об ордерах
         self.delete_orders_not_actual()
@@ -161,8 +169,12 @@ class Strategy:
                     #вычисляем цену продажи исходя из текущей цены покупки и небольшого профита
                     new_ask = new_bid * (1 + (2*fee + min_profit))
 
-                #ставим ордер на продажу
-                self.order_create('sell', new_ask, primary_balance)
+                #если первая валюта не является hold
+                if (self.hold_currency is not None) and (self.pair.split('_')[0] not in self.hold_currency):
+                    self.logger.info('Currency %s is hold!' % self.pair.split('_')[0], self.prefix)
+                else:
+                    #ставим ордер на продажу
+                    self.order_create('sell', new_ask, primary_balance)
 
             time.sleep(2)
 
@@ -176,8 +188,13 @@ class Strategy:
                 if profit <= min_profit:
                     #если профита нет выставляем цену покупки ниже, на основе цены продажи и профита
                     new_bid = new_ask * (1 - (2*fee + min_profit))
-                #выставляем ордер на покупку
-                self.order_create('buy', new_bid, secondary_balance/new_bid)
+
+                #если вторая валюта не является hold
+                if (self.hold_currency is not None) and (self.pair.split('_')[1] not in self.hold_currency):
+                    self.logger.info('Currency %s is hold!' % self.pair.split('_')[1], self.prefix)
+                else:
+                    #выставляем ордер на покупку
+                    self.order_create('buy', new_bid, secondary_balance/new_bid)
 
 
         #если наращиваем первую валюту в паре (игра на понижении)
@@ -195,8 +212,12 @@ class Strategy:
                     #вычисляем цену покупки исходя из текущей цены продажи и небольшого профита
                     new_bid = new_ask * (1 - (2*fee + min_profit))
 
-                #выставляем ордер на покупку
-                self.order_create('buy', new_bid, secondary_balance/new_bid)
+                # если вторая валюта не является hold
+                if (self.hold_currency is not None) and (self.pair.split('_')[1] not in self.hold_currency):
+                    self.logger.info('Currency %s is hold!' % self.pair.split('_')[1], self.prefix)
+                else:
+                    #выставляем ордер на покупку
+                    self.order_create('buy', new_bid, secondary_balance/new_bid)
 
             time.sleep(2)
 
@@ -210,8 +231,13 @@ class Strategy:
                 if profit <= min_profit:
                     #если профита нет выставляем цену продажи выше, на основе цены покупки и профита
                     new_ask = new_bid * (1 + (2*fee + min_profit))
-                #ставим ордер на продажу
-                self.order_create('sell', new_ask, primary_balance)
+
+                #если первая валюта не является hold
+                if (self.hold_currency is not None) and (self.pair.split('_')[0] not in self.hold_currency):
+                    self.logger.info('Currency %s is hold!' % self.pair.split('_')[0], self.prefix)
+                else:
+                    #ставим ордер на продажу
+                    self.order_create('sell', new_ask, primary_balance)
 
         else:
             #если неправильно задан mode
