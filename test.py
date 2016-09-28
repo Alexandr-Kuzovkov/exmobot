@@ -50,6 +50,16 @@ try:
     else:
         debug = 0
 
+    if conf.has_option('account', 'key'):
+        api_key = conf.get('account', 'key')
+    else:
+        api_key = None
+
+    if conf.has_option('account', 'secret'):
+        api_secret = conf.get('account', 'secret')
+    else:
+        api_secret = None
+
 except Exception, ex:
     print '''
         Bot for cryptocurrency traiding
@@ -66,21 +76,33 @@ except Exception, ex:
     '''
     print ex.message
     exit(1)
-try:
+
+if debug:
     mod_strategy = __import__('strategy.' + strategy_name, globals(), locals(), ['run'], -1)
     mod_api = __import__('exchange.' + exchange_name + '.api', globals(), locals(), ['API'], -1)
     mod_common_api = __import__('exchange.' + exchange_name + '.common_api', globals(), locals(), ['CommonAPI'], -1)
     mod_storage = __import__('storage.' + storage_type, globals(), locals(), ['Storage'], -1)
-    api = mod_api.API()
+    api = mod_api.API(api_key, api_secret)
     capi = mod_common_api.CommonAPI(api)
     root_dir = os.path.dirname(os.path.realpath(__file__))
     storage = mod_storage.Storage(session_id, root_dir)
     strategy = mod_strategy.Strategy(capi, logger, storage, conf)
+else:
+    try:
+        mod_strategy = __import__('strategy.' + strategy_name, globals(), locals(), ['run'], -1)
+        mod_api = __import__('exchange.' + exchange_name + '.api', globals(), locals(), ['API'], -1)
+        mod_common_api = __import__('exchange.' + exchange_name + '.common_api', globals(), locals(), ['CommonAPI'], -1)
+        mod_storage = __import__('storage.' + storage_type, globals(), locals(), ['Storage'], -1)
+        api = mod_api.API(api_key, api_secret)
+        capi = mod_common_api.CommonAPI(api)
+        root_dir = os.path.dirname(os.path.realpath(__file__))
+        storage = mod_storage.Storage(session_id, root_dir)
+        strategy = mod_strategy.Strategy(capi, logger, storage, conf)
 
-except Exception, e:
-    print 'Startup Error: %s' % e
-    logger.info('Startup Error: %s' % e)
-    exit(1)
+    except Exception, e:
+        print 'Startup Error: %s' % e
+        logger.info('Startup Error: %s' % e)
+        exit(1)
 
 
 if debug:
