@@ -49,9 +49,6 @@ class Strategy:
         #с какой валютной парой работаем
         self.pair = self.set_param(key='pair', default_value='BTC_USD')
 
-        #имя стратегии
-        self.name = self.set_param(key='name', default_value='FLIP_' + self.pair)
-
         #режим обмена
         self.mode = self.set_param(key='mode', default_value=0, param_type='int')
 
@@ -60,6 +57,9 @@ class Strategy:
 
         #id сессии
         self.session_id = self.set_param(key='session_id', default_value='0')
+
+        # имя стратегии
+        self.name = self.set_param(key='name', default_value=self.session_id + '->' + self.name)
 
         #лимит использования депозита по второй валюте в паре
         self.limit = self.set_param(key='limit', default_value=1000000000.0, param_type='float')
@@ -327,6 +327,13 @@ class Strategy:
     @quantity количество
     '''
     def order_create(self, order_type, price, quantity):
+        if self.capi.name in ['poloniex']:
+            if order_type == 'sell':
+                order_type = 'buy'
+            elif order_type == 'buy':
+                order_type = 'sell'
+            else:
+                pass
         self.logger.info('Order create: pair=%s quantity=%f price=%f type=%s' % (self.pair, quantity, price, order_type),self.prefix)
         try:
             res = self.capi.order_create(pair=self.pair, quantity=quantity, price=price, order_type=order_type)
