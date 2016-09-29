@@ -695,22 +695,6 @@ class CommonAPI:
 
 
     '''
-    поиск цепочек обмена
-    возвращает список циклических
-    цепочек обмена начиная с валюты currency_start
-    '''
-    def search_exchains(self, currency_start):
-        currencies = self._get_currency()
-        pairs = self._get_pair_settings().keys()
-        if currency_start not in currencies:
-            raise Exception('currency_start expected in ' + str(currencies))
-        used_edge = [] #пройденные дуги
-        curr_edge = [] #текущие дуги из узла
-        used_node = [] #посещенные вершины
-        stack = [currency_start]
-
-
-    '''
     определение полного баланса в USD
     '''
     def balance_full_usd(self):
@@ -776,5 +760,65 @@ class CommonAPI:
             balance_btc += amount * currency_ratio_btc[curr]
 
         return balance_btc
+
+    '''
+    поиск цепочек обмена
+    возвращает список циклических
+    цепочек обмена начиная с валюты currency_start
+    '''
+    def search_exchains(self, currency_start, chain_len=3):
+        currencies = self._get_currency()
+        pairs = self._get_pair_settings().keys()
+        if currency_start not in currencies:
+            raise Exception('currency_start expected in ' + str(currencies))
+        used_edge = []  # пройденные дуги
+        curr_edge = []  # текущие дуги из узла
+        used_node = []  # посещенные вершины
+        stack = [currency_start]
+        tree = [{'id':0, 'parent':None, 'currency': currency_start, 'used':False}]
+        for i in range(chain_len):
+            tree = self.next_step(tree, pairs)
+
+        chains = []
+        for node in filter(lambda node: not node['used'], tree):
+            if node['currency'] != currency_start:
+                continue
+            chain = [node['currency']]
+            parent_id = node['parent']
+            while parent_id != 0:
+                parent_node = tree[parent_id]
+                parent_id = parent_node['parent']
+                chain.append(parent_node['currency'])
+            chain.append(currency_start)
+            chain.reverse()
+            chains.append(chain)
+        return chains
+
+
+    def get_adjacents(self, start, pairs):
+        adjacent_pairs = filter(lambda pair: start in pair.split('_'), pairs)
+        adjacent = []
+        for pair in adjacent_pairs:
+            if pair.split('_')[0] == start:
+                adjacent.append(pair.split('_')[1])
+            else:
+                adjacent.append(pair.split('_')[0])
+        return adjacent
+
+    def next_step(self, tree, pairs):
+        start_currency = None
+        for node in tree:
+            if node['parent'] is None:
+                start_currency = node['currency']
+                break
+        length = len(tree)
+        for i in range(length):
+            if tree[i]['used'] or (tree[i]['currency'] == start_currency and length > 1):
+                continue
+            adjacents = self.get_adjacents(tree[i]['currency'], pairs)
+            for currency in adjacents:
+                tree.append({'id':len(tree), 'parent':tree[i]['id'], 'currency':currency, 'used':False})
+            tree[i]['used'] = True
+        return tree
 
 
