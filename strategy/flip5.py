@@ -51,6 +51,7 @@ class Strategy:
         min_volume = self.set_param(key='min_volume', default_value=10.0, param_type='float')
         profit_pairs = self.get_profit_pairs()
         pairs = self.select_pairs(profit_pairs, min_volume)
+        self.logger.info('Pairs for trading: %s' % str(map(lambda e: e['pair'], pairs)), self.prefix)
         #pprint(pairs)
 
         # сохраняем балансы в базу для сбора статистики

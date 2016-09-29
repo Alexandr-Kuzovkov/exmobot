@@ -171,7 +171,7 @@ class Strategy:
                     new_ask = new_bid * (1 + (2*fee + min_profit))
 
                 #если первая валюта не является hold
-                if (self.hold_currency is not None) and (self.pair.split('_')[0] not in self.hold_currency):
+                if (self.hold_currency is not None) and (self.pair.split('_')[0] in self.hold_currency):
                     self.logger.info('Currency %s is hold!' % self.pair.split('_')[0], self.prefix)
                 else:
                     #ставим ордер на продажу
@@ -191,7 +191,7 @@ class Strategy:
                     new_bid = new_ask * (1 - (2*fee + min_profit))
 
                 #если вторая валюта не является hold
-                if (self.hold_currency is not None) and (self.pair.split('_')[1] not in self.hold_currency):
+                if (self.hold_currency is not None) and (self.pair.split('_')[1] in self.hold_currency):
                     self.logger.info('Currency %s is hold!' % self.pair.split('_')[1], self.prefix)
                 else:
                     #выставляем ордер на покупку
@@ -214,7 +214,7 @@ class Strategy:
                     new_bid = new_ask * (1 - (2*fee + min_profit))
 
                 # если вторая валюта не является hold
-                if (self.hold_currency is not None) and (self.pair.split('_')[1] not in self.hold_currency):
+                if (self.hold_currency is not None) and (self.pair.split('_')[1] in self.hold_currency):
                     self.logger.info('Currency %s is hold!' % self.pair.split('_')[1], self.prefix)
                 else:
                     #выставляем ордер на покупку
@@ -234,7 +234,7 @@ class Strategy:
                     new_ask = new_bid * (1 + (2*fee + min_profit))
 
                 #если первая валюта не является hold
-                if (self.hold_currency is not None) and (self.pair.split('_')[0] not in self.hold_currency):
+                if (self.hold_currency is not None) and (self.pair.split('_')[0] in self.hold_currency):
                     self.logger.info('Currency %s is hold!' % self.pair.split('_')[0], self.prefix)
                 else:
                     #ставим ордер на продажу
