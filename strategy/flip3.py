@@ -156,8 +156,8 @@ class Strategy:
         #logger.info(min_primary_balance)
         #logger.info(min_secondary_balance)
 
-        #если наращиваем вторую валюту в паре(игра на повышении)
-        if mode == 0:
+        #биржа с нормальным названием пар
+        if self.capi.name not in ['poloniex']:
             #если есть на балансе первая валюта
             if primary_balance > min_primary_balance:
                 #новые цены продажи и покупки
@@ -198,10 +198,10 @@ class Strategy:
                     self.order_create('buy', new_bid, secondary_balance/new_bid)
 
 
-        #если наращиваем первую валюту в паре (игра на понижении)
-        elif mode == 1:
+        #биржа с обратным название пар
+        elif self.capi.name in ['poloniex']:
              #если есть на балансе вторая валюта
-            if secondary_balance > min_secondary_balance:
+            if primary_balance > min_primary_balance:
 
                 #новые цены продажи и покупки
                 new_ask = ask - min_price_step
@@ -213,17 +213,17 @@ class Strategy:
                     #вычисляем цену покупки исходя из текущей цены продажи и небольшого профита
                     new_bid = new_ask * (1 - (2*fee + min_profit))
 
-                # если вторая валюта не является hold
-                if (self.hold_currency is not None) and (self.pair.split('_')[1] in self.hold_currency):
-                    self.logger.info('Currency %s is hold!' % self.pair.split('_')[1], self.prefix)
+                # если первая валюта не является hold
+                if (self.hold_currency is not None) and (self.pair.split('_')[0] in self.hold_currency):
+                    self.logger.info('Currency %s is hold!' % self.pair.split('_')[0], self.prefix)
                 else:
                     #выставляем ордер на покупку
-                    self.order_create('buy', new_bid, secondary_balance/new_bid)
+                    self.order_create('buy', new_bid, primary_balance/new_bid)
 
             time.sleep(2)
 
             #если есть на балансе первая валюта
-            if primary_balance > min_primary_balance:
+            if secondary_balance > min_secondary_balance:
                 #новые цены продажи и покупки
                 new_ask = ask - min_price_step
                 new_bid = bid + min_price_step
@@ -233,16 +233,16 @@ class Strategy:
                     #если профита нет выставляем цену продажи выше, на основе цены покупки и профита
                     new_ask = new_bid * (1 + (2*fee + min_profit))
 
-                #если первая валюта не является hold
-                if (self.hold_currency is not None) and (self.pair.split('_')[0] in self.hold_currency):
-                    self.logger.info('Currency %s is hold!' % self.pair.split('_')[0], self.prefix)
+                #если вторая валюта не является hold
+                if (self.hold_currency is not None) and (self.pair.split('_')[1] in self.hold_currency):
+                    self.logger.info('Currency %s is hold!' % self.pair.split('_')[1], self.prefix)
                 else:
                     #ставим ордер на продажу
-                    self.order_create('sell', new_ask, primary_balance)
+                    self.order_create('sell', new_ask, secondary_balance)
 
         else:
             #если неправильно задан mode
-            raise Exception('incorrect mode value: expected 0 or 1!')
+            raise Exception('incorrect capi.name value!')
 
 
 
@@ -327,13 +327,6 @@ class Strategy:
     @quantity количество
     '''
     def order_create(self, order_type, price, quantity):
-        if self.capi.name in ['poloniex']:
-            if order_type == 'sell':
-                order_type = 'buy'
-            elif order_type == 'buy':
-                order_type = 'sell'
-            else:
-                pass
         self.logger.info('Order create: pair=%s quantity=%f price=%f type=%s' % (self.pair, quantity, price, order_type),self.prefix)
         try:
             res = self.capi.order_create(pair=self.pair, quantity=quantity, price=price, order_type=order_type)
