@@ -279,4 +279,5 @@ class Strategy:
 
         pprint(capi.search_exchains('USD', 4))
 
-
+        #Для poloniex.com
+        #pprint(capi.search_exchains('USDT', 4))
