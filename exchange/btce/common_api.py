@@ -775,7 +775,7 @@ class CommonAPI:
         curr_edge = []  # текущие дуги из узла
         used_node = []  # посещенные вершины
         stack = [currency_start]
-        tree = [{'id':0, 'parent':None, 'currency': currency_start, 'used':False}]
+        tree = [{'id':0, 'parent':None, 'currency': currency_start, 'used':False, 'pair':None, 'order_type':None}]
         for i in range(chain_len):
             tree = self.next_step(tree, pairs)
 
@@ -783,13 +783,13 @@ class CommonAPI:
         for node in filter(lambda node: not node['used'], tree):
             if node['currency'] != currency_start:
                 continue
-            chain = [node['currency']]
+            chain = [node]
             parent_id = node['parent']
             while parent_id != 0:
                 parent_node = tree[parent_id]
                 parent_id = parent_node['parent']
-                chain.append(parent_node['currency'])
-            chain.append(currency_start)
+                chain.append(parent_node)
+            chain.append(tree[0])
             chain.reverse()
             chains.append(chain)
         return chains
@@ -800,9 +800,9 @@ class CommonAPI:
         adjacent = []
         for pair in adjacent_pairs:
             if pair.split('_')[0] == start:
-                adjacent.append(pair.split('_')[1])
+                adjacent.append({'currency': pair.split('_')[1], 'prev': start, 'order_type': 'sell', 'pair': pair})
             else:
-                adjacent.append(pair.split('_')[0])
+                adjacent.append({'currency': pair.split('_')[0], 'prev': start, 'order_type': 'buy', 'pair': pair})
         return adjacent
 
     def next_step(self, tree, pairs):
@@ -816,8 +816,8 @@ class CommonAPI:
             if tree[i]['used'] or (tree[i]['currency'] == start_currency and length > 1):
                 continue
             adjacents = self.get_adjacents(tree[i]['currency'], pairs)
-            for currency in adjacents:
-                tree.append({'id':len(tree), 'parent':tree[i]['id'], 'currency':currency, 'used':False})
+            for item in adjacents:
+                tree.append({'id':len(tree), 'parent':tree[i]['id'], 'currency':item['currency'], 'used':False, 'pair':item['pair'], 'order_type': item['order_type']})
             tree[i]['used'] = True
         return tree
 
