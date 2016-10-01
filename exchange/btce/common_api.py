@@ -695,22 +695,6 @@ class CommonAPI:
 
 
     '''
-    поиск цепочек обмена
-    возвращает список циклических
-    цепочек обмена начиная с валюты currency_start
-    '''
-    def search_exchains(self, currency_start):
-        currencies = self._get_currency()
-        pairs = self._get_pair_settings().keys()
-        if currency_start not in currencies:
-            raise Exception('currency_start expected in ' + str(currencies))
-        used_edge = [] #пройденные дуги
-        curr_edge = [] #текущие дуги из узла
-        used_node = [] #посещенные вершины
-        stack = [currency_start]
-
-
-    '''
     определение полного баланса в USD
     '''
     def balance_full_usd(self):
@@ -776,5 +760,158 @@ class CommonAPI:
             balance_btc += amount * currency_ratio_btc[curr]
 
         return balance_btc
+
+    '''
+    поиск прибыльных цепочек обмена
+    возвращает список циклических
+    цепочек обмена начиная с валюты currency_start
+    обмен по которым будет прибыльным
+    @param currency_start начальная валюта
+    @param chain_len длина цепочки обмена (количество обменов)
+    @return chains список цепочек обмена вида
+    [{'chain':chain, 'profit': profit},...], где
+    chain - цепочка обмена в виде списка путей обмена, вида:
+    [{'currency': 'USD',
+             'id': 0,
+             'order_type': None,
+             'pair': None,
+             'parent': None,
+             'used': True},
+            {'currency': u'RUR',
+             'id': 9,
+             'order_type': 'sell',
+             'pair': u'USD_RUR',
+             'parent': 0,
+             'used': True},
+            {'currency': u'LTC',
+             'id': 45,
+             'order_type': 'buy',
+             'pair': u'LTC_RUR',
+             'parent': 9,
+             'used': True},
+            {'currency': u'USD',
+             'id': 206,
+             'order_type': 'sell',
+             'pair': u'LTC_USD',
+             'parent': 45,
+             'used': False}]
+    '''
+    def search_exchains(self, currency_start, chain_len=3):
+        currencies = self._get_currency()
+        pairs = self._get_pair_settings().keys()
+        if currency_start not in currencies:
+            raise Exception('currency_start expected in ' + str(currencies))
+        tree = [{'id':0, 'parent':None, 'currency': currency_start, 'used':False, 'pair':None, 'order_type':None}]
+        for i in range(chain_len):
+            tree = self._next_step(tree, pairs)
+
+        chains = []
+        for node in filter(lambda node: not node['used'], tree):
+            if node['currency'] != currency_start:
+                continue
+            chain = [node]
+            parent_id = node['parent']
+            while parent_id != 0:
+                parent_node = tree[parent_id]
+                parent_id = parent_node['parent']
+                chain.append(parent_node)
+            chain.append(tree[0])
+            chain.reverse()
+            chains.append({'chain': chain, 'profit':0.0})
+        return filter(lambda chain: chain['profit'] > 0, self._search_profit(chains))
+
+
+    '''
+    возвращает список путей обмена заданной валюты start
+    в виде списка словарей вида
+    {'currency': currency, 'prev': prev_currency, 'order_type': 'sell/buy', 'pair': pair}
+    @param start начальная валюта
+    @param pairs список пар биржи
+    @return adjacent список путей обмена
+    '''
+    def _get_adjacents(self, start, pairs):
+        adjacent_pairs = filter(lambda pair: start in pair.split('_'), pairs)
+        adjacent = []
+        for pair in adjacent_pairs:
+            if pair.split('_')[0] == start:
+                adjacent.append({'currency': pair.split('_')[1], 'prev': start, 'order_type': 'sell', 'pair': pair})
+            else:
+                adjacent.append({'currency': pair.split('_')[0], 'prev': start, 'order_type': 'buy', 'pair': pair})
+        return adjacent
+
+
+    '''
+    выполняет цикл построения дерева путей обмена
+    @param tree дерево путей обмена
+    @param pairs список пар биржи
+    @return tree дерево путей обмена
+    '''
+    def _next_step(self, tree, pairs):
+        start_currency = None
+        for node in tree:
+            if node['parent'] is None:
+                start_currency = node['currency']
+                break
+        length = len(tree)
+        for i in range(length):
+            if tree[i]['used'] or (tree[i]['currency'] == start_currency and length > 1):
+                continue
+            adjacents = self._get_adjacents(tree[i]['currency'], pairs)
+            for item in adjacents:
+                tree.append({'id':len(tree), 'parent':tree[i]['id'], 'currency':item['currency'], 'used':False, 'pair':item['pair'], 'order_type': item['order_type']})
+            tree[i]['used'] = True
+        return tree
+
+
+    '''
+    просчет цепочек обмена с целью поиска цепочек с профитом
+    @param chains список цепочек обмена вида:
+     [{'chain': [{'currency': 'USD',
+             'id': 0,
+             'order_type': None,
+             'pair': None,
+             'parent': None,
+             'used': True},
+            {'currency': u'RUR',
+             'id': 9,
+             'order_type': 'sell',
+             'pair': u'USD_RUR',
+             'parent': 0,
+             'used': True},
+            {'currency': u'LTC',
+             'id': 45,
+             'order_type': 'buy',
+             'pair': u'LTC_RUR',
+             'parent': 9,
+             'used': True},
+            {'currency': u'USD',
+             'id': 206,
+             'order_type': 'sell',
+             'pair': u'LTC_USD',
+             'parent': 45,
+             'used': False}],
+    'profit': 0.0}, ...]
+    @return список цепочек обмена c заполненным полем profit
+    '''
+    def _search_profit(self, chains):
+        ticker = self.ticker()
+        fees = self._get_fee()
+        for chain in chains:
+            amount = 1.0
+            amount_begin = amount
+            for path in chain['chain']:
+                if path['pair'] is not None:
+                    fee = fees[path['pair']]
+                if path['order_type'] == 'buy':
+                    price = max(ticker[path['pair']]['buy_price'], ticker[path['pair']]['sell_price'])
+                    amount = amount / price * (1 - fee)
+                elif path['order_type'] == 'sell':
+                    price = min(ticker[path['pair']]['buy_price'], ticker[path['pair']]['sell_price'])
+                    amount = amount * price * (1 - fee)
+                else:
+                    continue
+            chain['profit'] = (amount - amount_begin)/amount_begin
+        return chains
+
 
 

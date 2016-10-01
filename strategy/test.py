@@ -214,7 +214,7 @@ class Strategy:
 
         #поиск пар для профитной торговли
 
-
+        '''
         fees = capi._get_fee()
         ticker = capi.ticker()
         base_valute = {'exmo': 0, 'btce':1, 'poloniex':0}
@@ -265,7 +265,7 @@ class Strategy:
         print 'Биржа: %s всего пар: %i пар с профитом: %i' % (capi.name, len(ticker), len(profit_pairs))
         for item in profits_pair:
             print 'pair=%s   profit=%f   volume=%f(%s) = %f BTC   sell_price=%.10f   buy_price=%.10f' % (item['pair'], item['profit'], item['vol'], item['vol_currency'], item['vol_btc'], item['sell_price'], item['buy_price'])
-
+        '''
 
         #pprint(capi.balance())
         #pprint(capi.orders_balance())
@@ -277,4 +277,7 @@ class Strategy:
         #print '-' * 50
         #pprint(capi.balance_full_btc())
 
+        pprint(capi.search_exchains('USD', 4))
 
+        #Для poloniex.com
+        #pprint(capi.search_exchains('USDT', 4))
