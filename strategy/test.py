@@ -203,14 +203,18 @@ class Strategy:
         #pprint(capi.order_create('BTC_ETH',1.15863329, 0.01857750, 'buy'))
         #pprint(capi._check_pair('ETH_BTC'))
 
-        #pprint(capi.possable_amount('USD','BTC', 600.0))
-        #pprint(capi.possable_amount('BTC', 'USD', 1.0))
-        #pprint(capi.possable_amount('ETH', 'USD', 34.85))
+        '''
+        if capi.name in ['poloniex']:
+            # Для poloniex.com
+            pprint(capi.possable_amount('USDT','BTC', 600.0))
+            pprint(capi.possable_amount('BTC', 'USDT', 1.0))
+            pprint(capi.possable_amount('ETH', 'USDT', 42.085))
+        else:
+            pprint(capi.possable_amount('USD','BTC', 600.0))
+            pprint(capi.possable_amount('BTC', 'USD', 1.0))
+            pprint(capi.possable_amount('ETH', 'USD', 42.085))
 
-        #Для poloniex.com
-        #pprint(capi.possable_amount('USDT','BTC', 600.0))
-        #pprint(capi.possable_amount('BTC', 'USDT', 1.0))
-        #pprint(capi.possable_amount('ETH', 'USDT', 34.13))
+        '''
 
         #поиск пар для профитной торговли
 
@@ -277,7 +281,25 @@ class Strategy:
         #print '-' * 50
         #pprint(capi.balance_full_btc())
 
-        pprint(capi.search_exchains('USD', 4))
+        '''
+        if capi.name in ['poloniex']:
+            # Для poloniex.com
+            pprint(capi.search_exchains('USDT', 4))
+        else:
+            pprint(capi.search_exchains('USD', 4))
 
-        #Для poloniex.com
-        #pprint(capi.search_exchains('USDT', 4))
+        '''
+
+        #тестирование подробного просчета цепочек
+        if capi.name in ['poloniex']:
+            # Для poloniex.com
+            chain = capi.search_exchains('USDT', 4, False)[0]
+            pprint(chain)
+            chain['profit'] = capi.calc_chain_profit_real(chain, 10.0)
+            pprint(chain)
+        else:
+            chain = capi.search_exchains('USD', 4, False)[0]
+            pprint(chain)
+            chain['profit'] = capi.calc_chain_profit_real(chain, 10.0)
+            pprint(chain)
+
