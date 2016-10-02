@@ -293,13 +293,21 @@ class Strategy:
         #тестирование подробного просчета цепочек
         if capi.name in ['poloniex']:
             # Для poloniex.com
-            chain = capi.search_exchains('USDT', 4, False)[0]
+            chains = sorted(capi.search_exchains('USDT', 4, False), key=lambda item: 1/item['profit'])
+            chain = chains[0]
             pprint(chain)
             chain['profit'] = capi.calc_chain_profit_real(chain, 10.0)
             pprint(chain)
         else:
-            chain = capi.search_exchains('USD', 4, False)[0]
+            chains = sorted(capi.search_exchains('USD', 4, False), key=lambda item: 1/item['profit'])
+            chain = chains[0]
             pprint(chain)
             chain['profit'] = capi.calc_chain_profit_real(chain, 10.0)
             pprint(chain)
+
+        res = raw_input('Execute chain: (y/n)')
+        if res == 'y':
+            capi.execute_exchange_chain(chain, 5.0)
+        else:
+            print 'you has canceled execute chain'
 

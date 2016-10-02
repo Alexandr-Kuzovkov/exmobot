@@ -1,6 +1,7 @@
 #coding=utf-8
 
 import exchange.exmo.config as config
+from time import sleep
 
 
 class CommonAPI:
@@ -900,3 +901,50 @@ class CommonAPI:
             currency_from = currency_to
         profit = (amount - amount_begin) / amount_begin
         return profit
+
+
+
+    '''
+    выполнение цепочки обменов
+    @param chain - цепочка обмена вида:
+    {'chain': [{'currency': 'USD',
+            'id': 0,
+            'order_type': None,
+            'pair': None,
+            'parent': None,
+            'used': True},
+           {'currency': u'RUR',
+            'id': 9,
+            'order_type': 'sell',
+            'pair': u'USD_RUR',
+            'parent': 0,
+            'used': True},
+           {'currency': u'LTC',
+            'id': 45,
+            'order_type': 'buy',
+            'pair': u'LTC_RUR',
+            'parent': 9,
+            'used': True},
+           {'currency': u'USD',
+            'id': 206,
+            'order_type': 'sell',
+            'pair': u'LTC_USD',
+            'parent': 45,
+            'used': False}],
+    'profit': 0.0}
+    @param amount сумма входной валюты
+    '''
+    def execute_exchange_chain(self, chain, amount):
+        current_quantity = amount
+        for path in chain['chain']:
+            if path['pair'] is None:
+                continue
+            params = {'pair': path['pair'], 'quantity': current_quantity, 'price': 0, 'type': 'market_' + path['order_type']}
+            res = self.api.exmo_api('order_create', params)
+            if not res['result']:
+                return res['error']
+            current_currency = path['currency']
+            current_quantity = self.balance(current_currency)
+        return True
+
+
