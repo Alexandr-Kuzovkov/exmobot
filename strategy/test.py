@@ -291,6 +291,7 @@ class Strategy:
         '''
 
         #тестирование подробного просчета цепочек
+        #и выполнения обмена по цепочке
         if capi.name in ['poloniex']:
             # Для poloniex.com
             chains = sorted(capi.search_exchains('USDT', 4, False), key=lambda item: 1/item['profit'])
@@ -307,7 +308,7 @@ class Strategy:
 
         res = raw_input('Execute chain: (y/n)')
         if res == 'y':
-            capi.execute_exchange_chain(chain, 5.0)
+            pprint(capi.execute_exchange_chain(chain, 9.0))
         else:
             print 'you has canceled execute chain'
 

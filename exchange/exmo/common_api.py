@@ -942,9 +942,9 @@ class CommonAPI:
             params = {'pair': path['pair'], 'quantity': current_quantity, 'price': 0, 'type': 'market_' + path['order_type']}
             res = self.api.exmo_api('order_create', params)
             if not res['result']:
-                return res['error']
+                return {'result':False, 'error': res['error']}
             current_currency = path['currency']
             current_quantity = self.balance(current_currency)
-        return True
+        return {'result': True, 'amount': current_quantity}
 
 

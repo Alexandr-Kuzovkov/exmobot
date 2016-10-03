@@ -5,6 +5,7 @@
 
 import errno
 import warnings
+import time
 
 from zlib import MAX_WBITS as _MAX_WBITS
 from Cookie import SimpleCookie
@@ -296,6 +297,9 @@ class PublicAPIv3(BTCEConnection):
 
 class TradeAPIv1(BTCEConnection):
     "BTC-E Trade API v1 <https://btc-e.com/tapi/docs>."
+
+    __wait_for_nonce = False
+
     def __init__(self, apikey, **connkw):
         """Initialization of the BTC-E Trade API v1.
         @raise APIError: where no 'invalid nonce' in error
@@ -318,6 +322,11 @@ class TradeAPIv1(BTCEConnection):
         @return: next nonce parameter <type 'int'>"""
         self._nonce += 1
         return self._nonce
+
+    def __nonce(self):
+        if self.__wait_for_nonce:
+            time.sleep(1)
+        return str(time.time()).split('.')[0]
 
     def call(self, method, **params):
         """Create query to the BTC-E Trade API v1.
