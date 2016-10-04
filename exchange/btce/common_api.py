@@ -2,7 +2,7 @@
 
 import exchange.exmo.config as config
 from pprint import pprint
-
+import time
 
 class CommonAPI:
     name = 'btce'
@@ -768,6 +768,7 @@ class CommonAPI:
     обмен по которым будет прибыльным
     @param currency_start начальная валюта
     @param chain_len длина цепочки обмена (количество обменов)
+    @param profit_only возвращать только прибыльные цепочки
     @return chains список цепочек обмена вида
     [{'chain':chain, 'profit': profit},...], где
     chain - цепочка обмена в виде списка путей обмена, вида:
@@ -796,7 +797,7 @@ class CommonAPI:
              'parent': 45,
              'used': False}]
     '''
-    def search_exchains(self, currency_start, chain_len=3):
+    def search_exchains(self, currency_start, chain_len=3, profit_only=True):
         currencies = self._get_currency()
         pairs = self._get_pair_settings().keys()
         if currency_start not in currencies:
@@ -818,7 +819,10 @@ class CommonAPI:
             chain.append(tree[0])
             chain.reverse()
             chains.append({'chain': chain, 'profit':0.0})
-        return filter(lambda chain: chain['profit'] > 0, self._search_profit(chains))
+        if profit_only:
+            return filter(lambda chain: chain['profit'] > 0, self._search_profit(chains))
+        else:
+            return self._search_profit(chains)
 
 
     '''
@@ -897,7 +901,7 @@ class CommonAPI:
         ticker = self.ticker()
         fees = self._get_fee()
         for chain in chains:
-            amount = 1.0
+            amount = 10.0
             amount_begin = amount
             for path in chain['chain']:
                 if path['pair'] is not None:
@@ -910,8 +914,135 @@ class CommonAPI:
                     amount = amount * price * (1 - fee)
                 else:
                     continue
+
             chain['profit'] = (amount - amount_begin)/amount_begin
         return chains
 
 
+    '''
+    более подробный просчет прибыльности обмена по цепочке с учетом
+    реально существующих ордеров
+    @param chain - цепочка обмена вида:
+    {'chain': [{'currency': 'USD',
+             'id': 0,
+             'order_type': None,
+             'pair': None,
+             'parent': None,
+             'used': True},
+            {'currency': u'RUR',
+             'id': 9,
+             'order_type': 'sell',
+             'pair': u'USD_RUR',
+             'parent': 0,
+             'used': True},
+            {'currency': u'LTC',
+             'id': 45,
+             'order_type': 'buy',
+             'pair': u'LTC_RUR',
+             'parent': 9,
+             'used': True},
+            {'currency': u'USD',
+             'id': 206,
+             'order_type': 'sell',
+             'pair': u'LTC_USD',
+             'parent': 45,
+             'used': False}],
+    'profit': 0.0}
+    @param amount сумма входной валюты
+    @return  profit уточненный профит
+    '''
+    def calc_chain_profit_real(self, chain, amount):
+        amount_begin = amount
+        currency_from = None
+        fees = self._get_fee()
+        for path in chain['chain']:
+            if path['pair'] is None:
+                currency_from = path['currency']
+                continue
+            fee = fees[path['pair']]
+            currency_to = path['currency']
+            amount = self.possable_amount(currency_from, currency_to, amount) * (1 - fee)
+            currency_from = currency_to
+        profit = (amount - amount_begin)/amount_begin
+        return profit
+
+
+    '''
+    выполнение цепочки обменов
+    @param chain - цепочка обмена вида:
+    {'chain': [{'currency': 'USD',
+            'id': 0,
+            'order_type': None,
+            'pair': None,
+            'parent': None,
+            'used': True},
+           {'currency': u'RUR',
+            'id': 9,
+            'order_type': 'sell',
+            'pair': u'USD_RUR',
+            'parent': 0,
+            'used': True},
+           {'currency': u'LTC',
+            'id': 45,
+            'order_type': 'buy',
+            'pair': u'LTC_RUR',
+            'parent': 9,
+            'used': True},
+           {'currency': u'USD',
+            'id': 206,
+            'order_type': 'sell',
+            'pair': u'LTC_USD',
+            'parent': 45,
+            'used': False}],
+    'profit': 0.0}
+    @param amount сумма входной валюты
+    '''
+    def execute_exchange_chain(self, chain, amount):
+        current_quantity = amount
+        pairs = []
+        for path in chain['chain']:
+            if path['pair'] is None:
+                continue
+            pairs.append(path['pair'])
+        pairs = set(pairs)
+        pairs = list(pairs)
+        orders = self.orders(pairs, limit=1000)
+
+        for path in chain['chain']:
+            if path['pair'] is None:
+                continue
+            if path['order_type'] == 'sell':
+                order_type = 'bid'
+                rate = self.pair_settings[path['pair']]['min_price']
+            elif path['order_type'] == 'buy':
+                order_type = 'ask'
+                rate = self.pair_settings[path['pair']]['max_price']
+            amount_to = 0.0
+            if order_type == 'bid':
+                amount_to = current_quantity
+            elif order_type == 'ask':
+                amount_curr = 0.0
+                for order in orders[path['pair']][order_type]:
+                    order_price = order[0]
+                    order_quantity = order[1]
+                    order_amount = order[2]
+                    if (order_amount < (current_quantity - amount_curr)):
+                        amount_curr += order_amount
+                        amount_to += order_quantity
+                    else:
+                        amount_to += (current_quantity - amount_curr) / order_price
+                        break
+            try:
+                amount_to = self._round(amount_to, 6)
+                data = self.api.btce_api('Trade', pair=path['pair'].lower(), type=path['order_type'], rate=rate, amount=amount_to)
+            except Exception, ex:
+                print rate, amount_to
+                return {'result': False, 'error': ex.message}
+            else:
+                if int(data['order_id']) == 0:
+                    current_currency = path['currency']
+                    current_quantity = float(data['funds'][current_currency.lower()])
+                else:
+                    return {'result': False, 'order_id': int(data['order_id'])}
+        return {'result': True, 'amount': current_quantity}
 
