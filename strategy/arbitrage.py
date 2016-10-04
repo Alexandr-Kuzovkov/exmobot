@@ -52,20 +52,20 @@ class Strategy:
         start_amount = self.set_param(key='start_amount', default_value=10.0, param_type='float')
         #валюта на входе цепочки
         start_currency = self.set_param(key='start_currency', default_value='USD')
-
         try:
-            chains = self.capi.search_exchains(start_currency, max_chain_len)
+            chains = self.capi.search_exchains(start_currency, max_chain_len, False)
         except Exception, ex:
             self.logger.info('Error while search_exchains: %s' % ex)
         else:
             if len(chains) > 0:
                 self.logger.info('%i profitable chains found, begin complete checking...' % len(chains), self.prefix)
                 for i in range(len(chains)):
+                    print i
                     chains[i]['profit'] = self.capi.calc_chain_profit_real(chains[i], start_amount)
-                str_chains = str(filter(chains, lambda chain: chain['profit'] > 0))
+                str_chains = str(filter(lambda chain: chain['profit'] > 0, chains))
                 str_time = time.strftime("%a, %d %b %Y %H:%M:%S", time.gmtime())
                 self.storage.save(str_time, str_chains)
-                self.logger('Profitable chains: %s' % str_chains)
+                self.logger.info('Profitable chains: %s' % str_chains)
             else:
                 self.logger.info('Profitable chains not found...', self.prefix)
 
