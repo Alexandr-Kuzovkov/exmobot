@@ -48,8 +48,8 @@ class CommonAPI:
             result[pair]['fee'] = 0.15
             result[pair]['min_quantity'] = 0.0
             result[pair]['max_quantity'] = 100000000.0
-            result[pair]['min_price'] = 0.0
-            result[pair]['max_price'] = 100000000.0
+            result[pair]['min_price'] = 0.0001
+            result[pair]['max_price'] = 4999.0
             result[pair]['min_amount'] = 0.0001
             result[pair]['max_amount'] = 100000000.0
         return result
@@ -1048,3 +1048,87 @@ class CommonAPI:
             currency_from = currency_to
         profit = (amount - amount_begin) / amount_begin
         return profit
+
+
+    '''
+    выполнение цепочки обменов
+    @param chain - цепочка обмена вида:
+    {'chain': [{'currency': 'USD',
+            'id': 0,
+            'order_type': None,
+            'pair': None,
+            'parent': None,
+            'used': True},
+           {'currency': u'RUR',
+            'id': 9,
+            'order_type': 'sell',
+            'pair': u'USD_RUR',
+            'parent': 0,
+            'used': True},
+           {'currency': u'LTC',
+            'id': 45,
+            'order_type': 'buy',
+            'pair': u'LTC_RUR',
+            'parent': 9,
+            'used': True},
+           {'currency': u'USD',
+            'id': 206,
+            'order_type': 'sell',
+            'pair': u'LTC_USD',
+            'parent': 45,
+            'used': False}],
+    'profit': 0.0}
+    @param amount сумма входной валюты
+    '''
+    def execute_exchange_chain(self, chain, amount):
+        current_quantity = amount
+        pairs = []
+        for path in chain['chain']:
+            if path['pair'] is None:
+                continue
+            pairs.append(path['pair'])
+        pairs = set(pairs)
+        pairs = list(pairs)
+        orders = self.orders(pairs, limit=1000)
+
+        for path in chain['chain']:
+            if path['pair'] is None:
+                continue
+            if path['order_type'] == 'sell':
+                order_type = 'bid'
+                rate = self.pair_settings[path['pair']]['min_price']
+            elif path['order_type'] == 'buy':
+                order_type = 'ask'
+                rate = self.pair_settings[path['pair']]['max_price']
+            amount_to = 0.0
+            if order_type == 'bid':
+                amount_to = current_quantity
+                if rate * amount_to < self.pair_settings[path['pair']]['min_amount']:
+                    rate = self.pair_settings[path['pair']]['min_amount']/amount_to * 2
+            elif order_type == 'ask':
+                amount_curr = 0.0
+                for order in orders[path['pair']][order_type]:
+                    order_price = order[0]
+                    order_quantity = order[1]
+                    order_amount = order[2]
+                    if (order_amount < (current_quantity - amount_curr)):
+                        amount_curr += order_amount
+                        amount_to += order_quantity
+                    else:
+                        amount_to += (current_quantity - amount_curr) / order_price
+                        break
+            amount_to = self._round(amount_to, 6)
+            #print 'before req order rate=%f amount_to=%f' % (rate, amount_to)
+            data = self.api.trade_api_query(path['order_type'], currencyPair=path['pair'], rate=rate, amount=amount_to, immediateOrCancel=1)
+            #pprint(data)
+            if 'error' in data:
+                #print 'rate=%f amount_to=%f' % (rate, amount_to)
+                return {'result': False, 'error': data['error']}
+            else:
+                if float(data['amountUnfilled']) == 0.0:
+                    current_currency = path['currency']
+                    current_quantity = self.balance(current_currency)
+                else:
+                    return {'result': False, 'order_id': int(data['orderNumber'])}
+        return {'result': True, 'amount': current_quantity}
+

@@ -308,7 +308,7 @@ class Strategy:
 
         res = raw_input('Execute chain: (y/n)')
         if res == 'y':
-            pprint(capi.execute_exchange_chain(chain, 9.0))
+            pprint(capi.execute_exchange_chain(chain, 8.0))
         else:
             print 'you has canceled execute chain'
 
