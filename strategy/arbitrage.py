@@ -52,7 +52,7 @@ class Strategy:
         start_amount = self.set_param(key='start_amount', default_value=10.0, param_type='float')
         #валюта на входе цепочки
         start_currency = self.set_param(key='start_currency', default_value='USD')
-
+        print start_currency
         try:
             chains = self.capi.search_exchains(start_currency, max_chain_len)
         except Exception, ex:
