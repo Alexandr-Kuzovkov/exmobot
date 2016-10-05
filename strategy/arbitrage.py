@@ -48,10 +48,19 @@ class Strategy:
     def run(self):
         #максимальная длина цепочки
         max_chain_len = self.set_param(key='max_chain_len', default_value=4, param_type='int')
-        #сумма на входе цепочки
-        start_amount = self.set_param(key='start_amount', default_value=10.0, param_type='float')
+        #лимит использования средств для обмена
+        limit = self.set_param(key='limit', default_value=10.0, param_type='float')
         #валюта на входе цепочки
         start_currency = self.set_param(key='start_currency', default_value='USD')
+        #производить ли обмен
+        do_exchange = self.set_param(key='do_exchange', default_value=0, param_type='int')
+
+        # получаем текущий баланс по стартовой валюте
+        current_balance = self.capi.balance(start_currency)
+        #записываем изменения баланса в базу
+        self.save_change_balance(start_currency, current_balance)
+        start_amount = min(limit, current_balance)
+
         try:
             chains = self.capi.search_exchains(start_currency, max_chain_len)
         except Exception, ex:
@@ -62,12 +71,31 @@ class Strategy:
                 for i in range(len(chains)):
                     print i
                     chains[i]['profit'] = self.capi.calc_chain_profit_real(chains[i], start_amount)
-                str_chains = str(filter(lambda chain: chain['profit'] > 0, chains))
-                str_time = time.strftime("%a, %d %b %Y %H:%M:%S", time.gmtime())
-                self.storage.save(str_time, str_chains)
-                self.logger.info('Profitable chains: %s' % str_chains)
+                    #если задано проводить обмен, то проводим
+                    if do_exchange > 0 and chains[i]['profit'] > 0:
+                        self.logger.info('begin exchange by chain %i, balance=%f' % (i, current_balance))
+                        result = self.capi.execute_exchange_chain(chains[i], start_amount)
+                        if result['result']:
+                            self.logger.info('Exchange by chain %i executed succesfully! balance=%f' % (i, result['amount']))
+                            start_amount = min(limit, result['amount'])
+                        else:
+                            self.logger.info('Exchange by chain %i fail' % i)
+                            start_amount = min(limit, self.capi.balance(start_currency))
+
+                #записываем результаты в лог
+                profitable_chains = filter(lambda chain: chain['profit'] > 0, chains)
+                str_profitable_chains = str(profitable_chains)
+                self.logger.info('Profitable chains: %s' % str_profitable_chains)
+
+                # записываем результаты в базу
+                if len(profitable_chains) > 0:
+                    str_time = time.strftime("%a, %d %b %Y %H:%M:%S", time.gmtime())
+                    self.storage.save(str_time, str_profitable_chains)
+
             else:
+                #записываем результаты в лог
                 self.logger.info('Profitable chains not found...', self.prefix)
+
 
 
     '''
@@ -93,3 +121,16 @@ class Strategy:
                 param = str(param)
         return param
 
+
+    '''
+    запись изменений баланса в базу
+    '''
+    def save_change_balance(self, currency, amount):
+        last = self.storage.get_last_balance(currency, 1, self.session_id)
+        curr_amount = self._round(amount, 6)
+        if len(last) > 0:
+            last_amount = self._round(last[0]['amount'], 6)
+            if abs(curr_amount - last_amount) / last_amount > 0.0001:
+                self.storage.save_balance(currency, curr_amount, self.session_id)
+        else:
+            self.storage.save_balance(currency, curr_amount, self.session_id)
