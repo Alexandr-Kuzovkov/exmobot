@@ -46,6 +46,7 @@ class CommonAPI:
             result[pair.upper()] = {}
         for pair in result.keys():
             result[pair]['fee'] = 0.15
+            result[pair]['fee_taker'] = 0.25
             result[pair]['min_quantity'] = 0.0
             result[pair]['max_quantity'] = 100000000.0
             result[pair]['min_price'] = 0.0001
@@ -983,13 +984,12 @@ class CommonAPI:
     '''
     def _search_profit(self, chains):
         ticker = self.ticker()
-        fees = self._get_fee()
         for chain in chains:
             amount = 1.0
             amount_begin = amount
             for path in chain['chain']:
                 if path['pair'] is not None:
-                    fee = fees[path['pair']]
+                    fee = self.pair_settings[path['pair']]['fee_taker'] / 100
                 if path['order_type'] == 'buy':
                     price = max(ticker[path['pair']]['buy_price'], ticker[path['pair']]['sell_price'])
                     amount = amount / price * (1 - fee)
@@ -1037,12 +1037,11 @@ class CommonAPI:
     def calc_chain_profit_real(self, chain, amount):
         amount_begin = amount
         currency_from = None
-        fees = self._get_fee()
         for path in chain['chain']:
             if path['pair'] is None:
                 currency_from = path['currency']
                 continue
-            fee = fees[path['pair']]
+            fee = self.pair_settings[path['pair']]['fee_taker'] /100
             currency_to = path['currency']
             amount = self.possable_amount(currency_from, currency_to, amount) * (1 - fee)
             currency_from = currency_to
