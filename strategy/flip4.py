@@ -45,7 +45,7 @@ class Strategy:
         self.pair = self.set_param(key='pair', default_value='BTC_USD')
 
         #имя стратегии
-        self.name = self.set_param(key='name', default_value='FLIP_' + self.pair)
+        self.name = self.set_param(key='name', default_value=self.name)
 
         #режим обмена
         self.mode = self.set_param(key='mode', default_value=0, param_type='int')
@@ -80,7 +80,7 @@ class Strategy:
         #return
 
         logger.info('-'*40, prefix)
-        logger.info('pair: %s  mode: %i' % (pair, mode), prefix)
+        logger.info('Run strategy %s, pair: %s  mode: %i hold_currency %s' % (self.name, pair, mode, str(self.hold_currency)), prefix)
 
         #удаляем неактуальные записи об ордерах
         self.delete_orders_not_actual()
