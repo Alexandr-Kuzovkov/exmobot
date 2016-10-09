@@ -4,12 +4,9 @@ import math
 
 '''
 Циклический обмен одной валюты на другую
-с целью увеличить количество одной из валют.
-Модификация стратегии flip2.
-Добавлена автоматическая смена порядка валют в паре при несоответствии
-(актуально для Poloniex.com)
-
-добавлено hold_currency
+с целью увеличить количество одной из валют (как правило обоих).
+Модификация стратегии flip3.
+Добавлена возможность настраивать запрет продажи в убыток
 '''
 
 class Strategy:
@@ -22,6 +19,7 @@ class Strategy:
 
     pair = None
     name = 'flip3'
+    mode = 0
     session_id = 'default'
     min_profit = 0.005
     limit = 1000000000.0
@@ -43,6 +41,9 @@ class Strategy:
 
         #с какой валютной парой работаем
         self.pair = self.set_param(key='pair', default_value='BTC_USD')
+
+        #режим обмена
+        self.mode = self.set_param(key='mode', default_value=0, param_type='int')
 
         #минимальный профит при выставлении ордера не по верху стакана
         self.min_profit = self.set_param(key='min_profit', default_value=0.005, param_type='float')

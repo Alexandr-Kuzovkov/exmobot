@@ -1,5 +1,10 @@
 #coding=utf-8
 
+'''
+Стратегия поиска валютных пар на которых есть профитный спред
+и запуск на них стратегии циклического обмена flip3
+'''
+
 import strategy.flip3 as flip3
 from pprint import pprint
 
@@ -12,7 +17,7 @@ class Strategy:
     params = None
 
     pair = None
-    name = 'flip5'
+    name = 'multiflip1'
     mode = 0
     session_id = 'default'
     min_profit = 0.005
@@ -47,6 +52,8 @@ class Strategy:
     функция реализующая торговую логику
     '''
     def run(self):
+        self.logger.info('-' * 40, self.prefix)
+        self.logger.info('Run strategy %s' % self.name, self.prefix)
         #минимальный объем торгов криптовалюты
         min_volume = self.set_param(key='min_volume', default_value=10.0, param_type='float')
         profit_pairs = self.get_profit_pairs()
