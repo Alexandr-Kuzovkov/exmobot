@@ -7,6 +7,8 @@ import math
 с целью увеличить количество одной из валют (как правило обоих).
 Модификация стратегии flip3.
 Добавлена возможность настраивать запрет продажи в убыток
+Отмена снятия ордеров на продажу при малом количестве валюты на нем
+для предотвращения скопления малых количеств валют на балансах
 '''
 
 class Strategy:
@@ -18,8 +20,10 @@ class Strategy:
     params = None
 
     pair = None
+    fee = 0.002
     name = 'flip3'
-    mode = 0
+    #флаг что не продавать в убыток
+    not_loss = 1
     session_id = 'default'
     min_profit = 0.005
     limit = 1000000000.0
@@ -57,6 +61,9 @@ class Strategy:
         #лимит использования депозита по второй валюте в паре
         self.limit = self.set_param(key='limit', default_value=1000000000.0, param_type='float')
 
+        #флаг что не продавать в убыток
+        not_loss = self.set_param(key='not_loss', default_value=1, param_type='int')
+
         #валюта которую нельзя выставлять на продажу (hold), может быть не одна
         self.hold_currency = self.set_param(key='hold_currency', default_value=None)
         if self.hold_currency is not None:
@@ -88,11 +95,6 @@ class Strategy:
         #удаляем неактуальные записи об ордерах
         self.delete_orders_not_actual()
 
-        #удаляем ордера по валютной паре, поставленные в своей сессии
-        logger.info('Remove orders for pair %s in session %s' % (pair, session_id), prefix)
-        self.delete_own_orders()
-        time.sleep(3)
-
         #удаляем все ордера по паре
         #capi.orders_cancel([pair])
 
@@ -110,24 +112,33 @@ class Strategy:
 
         logger.info('pair %s: ask=%f  bid=%f' % (pair, ask, bid), prefix)
 
+        # минимальный баланс первой и второй валют в паре для создания ордера
+        min_primary_balance, min_secondary_balance = capi.get_min_balance(pair, ask)
+
+        # удаляем ордера по валютной паре, поставленные в своей сессии
+        logger.info('Remove orders for pair %s in session %s' % (pair, session_id), prefix)
+        self.delete_own_orders(min_primary_balance)
+        time.sleep(3)
+
         #получаем наличие своих средств
         balance = capi.balance()
         primary_balance = min(balance[pair.split('_')[0]], limit/ask)
         secondary_balance = min(balance[pair.split('_')[1]], limit)
 
-        #сохраняем в базу последние сделки
-        self.save_last_user_trades()
+        # сохраняем в базу последние сделки
+        user_trades = self.capi.user_trades([self.pair], limit=100)
+        self.save_last_user_trades(user_trades)
 
         logger.info('Balance: %s = %f; %s = %f' % (pair.split('_')[0], balance[pair.split('_')[0]], pair.split('_')[1], balance[pair.split('_')[1]]), prefix)
         logger.info('Balance with limit: %s = %f; %s = %f' % (pair.split('_')[0], primary_balance, pair.split('_')[1], secondary_balance), prefix)
 
         #комиссия
         try:
-            fee = capi.fee[pair]
+            self.fee = capi.fee[pair]
         except KeyError:
-            fee = capi.fee['_'.join([pair.split('_')[1], pair.split('_')[0]])]
+            self.fee = capi.fee['_'.join([pair.split('_')[1], pair.split('_')[0]])]
 
-        logger.info('fee=%f' % fee, prefix)
+        logger.info('fee=%f' % self.fee, prefix)
 
         #минимальный шаг
         try:
@@ -143,8 +154,7 @@ class Strategy:
 
         #logger.info(min_price_step)
 
-        #минимальный баланс первой и второй валют в паре для создания ордера
-        min_primary_balance, min_secondary_balance = capi.get_min_balance(pair, ask)
+
 
         #logger.info(min_primary_balance)
         #logger.info(min_secondary_balance)
@@ -157,11 +167,16 @@ class Strategy:
                 new_ask = ask - min_price_step
                 new_bid = bid + min_price_step
 
-                #вычисляем профит на основе верхней цены и нижней цены
-                profit = new_ask/new_bid*(1-fee)*(1-fee) - 1
-                if profit <= min_profit:
-                    #вычисляем цену продажи исходя из текущей цены покупки и небольшого профита
-                    new_ask = new_bid * (1 + (2*fee + min_profit))
+                #еcли разрешено продавать в убыток
+                if self.not_loss == 0:
+                    #вычисляем профит на основе верхней цены и нижней цены
+                    profit = new_ask/new_bid*(1-self.fee)*(1-self.fee) - 1
+                    if profit <= min_profit:
+                        #вычисляем цену продажи исходя из текущей цены покупки и небольшого профита
+                        new_ask = new_bid * (1 + (2*self.fee + min_profit))
+                #иначе ставим цену чтоб была прибыль
+                else:
+                    new_ask = self.calc_price_sell(primary_balance, user_trades)
 
                 #если первая валюта не является hold
                 if (self.hold_currency is not None) and (self.pair.split('_')[0] in self.hold_currency):
@@ -178,10 +193,10 @@ class Strategy:
                 new_ask = ask - min_price_step
                 new_bid = bid + min_price_step
                 #вычисляем профит на основе верхней цены и нижней цены
-                profit = new_ask/new_bid*(1-fee)*(1-fee) - 1
+                profit = new_ask/new_bid*(1-self.fee)*(1-self.fee) - 1
                 if profit <= min_profit:
                     #если профита нет выставляем цену покупки ниже, на основе цены продажи и профита
-                    new_bid = new_ask * (1 - (2*fee + min_profit))
+                    new_bid = new_ask * (1 - (2*self.fee + min_profit))
 
                 #если вторая валюта не является hold
                 if (self.hold_currency is not None) and (self.pair.split('_')[1] in self.hold_currency):
@@ -201,10 +216,10 @@ class Strategy:
                 new_bid = bid + min_price_step
 
                 #вычисляем профит на основе верхней цены и нижней цены
-                profit = new_ask/new_bid*(1-fee)*(1-fee) - 1
+                profit = new_ask/new_bid*(1-self.fee)*(1-self.fee) - 1
                 if profit <= min_profit:
                     #вычисляем цену покупки исходя из текущей цены продажи и небольшого профита
-                    new_bid = new_ask * (1 - (2*fee + min_profit))
+                    new_bid = new_ask * (1 - (2*self.fee + min_profit))
 
                 # если первая валюта не является hold
                 if (self.hold_currency is not None) and (self.pair.split('_')[0] in self.hold_currency):
@@ -220,11 +235,17 @@ class Strategy:
                 #новые цены продажи и покупки
                 new_ask = ask - min_price_step
                 new_bid = bid + min_price_step
-                #вычисляем профит на основе лучшей цены продажи и покупки
-                profit = new_ask/new_bid*(1-fee)*(1-fee) - 1
-                if profit <= min_profit:
-                    #если профита нет выставляем цену продажи выше, на основе цены покупки и профита
-                    new_ask = new_bid * (1 + (2*fee + min_profit))
+
+                #еcли разрешено продавать в убыток
+                if self.not_loss == 0:
+                    #вычисляем профит на основе лучшей цены продажи и покупки
+                    profit = new_ask/new_bid*(1-self.fee)*(1-self.fee) - 1
+                    if profit <= min_profit:
+                        #если профита нет выставляем цену продажи выше, на основе цены покупки и профита
+                        new_ask = new_bid * (1 + (2*self.fee + min_profit))
+                #иначе ставим цену чтоб была прибыль
+                else:
+                    new_ask = self.calc_price_sell(secondary_balance, user_trades)
 
                 #если вторая валюта не является hold
                 if (self.hold_currency is not None) and (self.pair.split('_')[1] in self.hold_currency):
@@ -274,9 +295,6 @@ class Strategy:
 
     '''
     удаляем неактуальные записи об ордерах в базе данных
-    @param capi объект CommonAPI
-    @param storage объект Storage
-    @param session_id ID сессии
     '''
     def delete_orders_not_actual(self):
         user_orders = self.capi.user_orders()
@@ -293,18 +311,16 @@ class Strategy:
 
 
     '''
-    отменяем ордера поставленные в своей сессии
-    по заданной валютной паре
-    @param capi объект CommonAPI
-    @param storage объект Storage
-    @param session_id ID сессии
-    @param pair валютная пара
-    @param logger объект Logger
-    @param prefix префикс для логгера
+    отменяем ордера поставленные в своей сессии по заданной валютной паре
+    если в ордере на продажу валюты меньше чем нужно на ордер, то
+    такой ордер не отменяем
+    @param min_balance мимнимальное количество валюты на ордер
     '''
-    def delete_own_orders(self):
+    def delete_own_orders(self, min_balance):
         own_orders = self.storage.orders(self.pair, self.session_id)
         for own_order in own_orders:
+            if own_order['type'] == 'sell' and own_order['quantity'] <= min_balance:
+                continue
             res = self.capi.order_cancel(own_order['order_id'])
             if res['result']:
                 self.storage.order_delete(own_order['order_id'], self.pair, self.session_id)
@@ -350,10 +366,32 @@ class Strategy:
     '''
     запись последних сделок пользователя в базу
     '''
-    def save_last_user_trades(self, limit=100):
-        user_trades = self.capi.user_trades([self.pair], limit=limit)
+    def save_last_user_trades(self, user_trades=None, limit=100):
+        if user_trades is None:
+            user_trades = self.capi.user_trades([self.pair], limit=limit)
         if self.pair in user_trades or '_'.join([self.pair.split('_')[1], self.pair.split('_')[0]]) in user_trades:
             try:
                 self.storage.save_user_trades(user_trades[self.pair], self.session_id)
             except KeyError:
                 self.storage.save_user_trades(user_trades['_'.join([self.pair.split('_')[1], self.pair.split('_')[0]])], self.session_id)
+
+
+    '''
+    получение минимальной цены продажи для обеспечения
+    продажи не в убыток на основе истории сделок
+    @param quantity количество первой валюты в паре
+    '''
+    def calc_price_sell(self, quantity, user_trades=None, limit=100):
+        if user_trades is None:
+            user_trades = self.capi.user_trades([self.pair], limit=limit)
+        curr_quantity = 0.0
+        curr_amount = 0.0
+        for trade in user_trades[self.pair]:
+            if trade['type'] == 'sell' or trade['pair'] != self.pair:
+                continue
+            curr_quantity += trade['quantity']
+            curr_amount += trade['amount']
+            if curr_quantity >= quantity:
+                break
+        price = curr_amount/curr_quantity * (1 + (2*self.fee + self.min_profit))
+        return price
