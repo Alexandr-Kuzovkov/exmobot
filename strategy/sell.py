@@ -3,12 +3,7 @@ import time
 import math
 
 '''
-Циклический обмен одной валюты на другую
-с целью увеличить количество одной из валют (как правило обоих).
-Модификация стратегии flip3.
-Добавлена возможность настраивать запрет продажи в убыток
-Отмена снятия ордеров на продажу при малом количестве валюты на нем
-для предотвращения скопления малых количеств валют на балансах
+Продажа валюты если она есть на балансе и ранее покупалась
 '''
 
 class Strategy:
@@ -21,11 +16,9 @@ class Strategy:
 
     pair = None
     fee = 0.002
-    name = 'flip3_1'
+    name = 'sell'
     #флаг что не продавать в убыток
-    not_loss = 1
     session_id = 'default'
-    min_profit = 0.005
     limit = 1000000000.0
     #префикс для логгера
     prefix = ''
@@ -46,23 +39,11 @@ class Strategy:
         #с какой валютной парой работаем
         self.pair = self.set_param(key='pair', default_value='BTC_USD')
 
-        #режим обмена
-        self.mode = self.set_param(key='mode', default_value=0, param_type='int')
-
-        #минимальный профит при выставлении ордера не по верху стакана
-        self.min_profit = self.set_param(key='min_profit', default_value=0.005, param_type='float')
-
         #id сессии
         self.session_id = self.set_param(key='session_id', default_value='0')
 
         # имя стратегии
         self.name = self.set_param(key='name', default_value=self.session_id + '->' + self.name)
-
-        #лимит использования депозита по второй валюте в паре
-        self.limit = self.set_param(key='limit', default_value=1000000000.0, param_type='float')
-
-        #флаг что не продавать в убыток
-        self.not_loss = self.set_param(key='not_loss', default_value=1, param_type='int')
 
         #валюта которую нельзя выставлять на продажу (hold), может быть не одна
         self.hold_currency = self.set_param(key='hold_currency', default_value=None)
@@ -90,7 +71,7 @@ class Strategy:
         #return
 
         logger.info('-'*40, prefix)
-        logger.info('Run strategy %s, pair: %s  mode: %i hold_currency %s' % (self.name, pair, mode, str(self.hold_currency)), prefix)
+        logger.info('Run strategy %s, pair: %s  hold_currency %s' % (self.name, pair, str(self.hold_currency)), prefix)
 
         #удаляем неактуальные записи об ордерах
         self.delete_orders_not_actual()
@@ -115,21 +96,14 @@ class Strategy:
         # минимальный баланс первой и второй валют в паре для создания ордера
         min_primary_balance, min_secondary_balance = capi.get_min_balance(pair, ask)
 
-        # удаляем ордера по валютной паре, поставленные в своей сессии
-        logger.info('Remove orders for pair %s in session %s' % (pair, session_id), prefix)
-        self.delete_own_orders(min_primary_balance)
-        time.sleep(3)
-
         #получаем наличие своих средств
         balance = capi.balance()
-        primary_balance = min(balance[pair.split('_')[0]], limit/ask)
-        secondary_balance = min(balance[pair.split('_')[1]], limit)
+        primary_balance = balance[pair.split('_')[0]]
+        secondary_balance = balance[pair.split('_')[1]]
 
         # сохраняем в базу последние сделки
         user_trades = self.capi.user_trades([self.pair], limit=100)
-        self.save_last_user_trades(user_trades)
 
-        logger.info('Balance: %s = %f; %s = %f' % (pair.split('_')[0], balance[pair.split('_')[0]], pair.split('_')[1], balance[pair.split('_')[1]]), prefix)
         logger.info('Balance with limit: %s = %f; %s = %f' % (pair.split('_')[0], primary_balance, pair.split('_')[1], secondary_balance), prefix)
 
         #комиссия
@@ -154,8 +128,6 @@ class Strategy:
 
         #logger.info(min_price_step)
 
-
-
         #logger.info(min_primary_balance)
         #logger.info(min_secondary_balance)
 
@@ -163,23 +135,10 @@ class Strategy:
         if self.capi.name not in ['poloniex']:
             #если есть на балансе первая валюта
             if primary_balance > min_primary_balance:
-                #новые цены продажи и покупки
-                new_ask = ask - min_price_step
-                new_bid = bid + min_price_step
-
-                #еcли разрешено продавать в убыток
-                if self.not_loss == 0:
-                    #вычисляем профит на основе верхней цены и нижней цены
-                    profit = new_ask/new_bid*(1-self.fee)*(1-self.fee) - 1
-                    if profit <= min_profit:
-                        #вычисляем цену продажи исходя из текущей цены покупки и небольшого профита
-                        new_ask = new_bid * (1 + (2*self.fee + min_profit))
-                #иначе ставим цену чтоб была прибыль
-                else:
-                    new_ask = self.calc_price_sell(primary_balance, user_trades)
+                new_ask = self.calc_price_sell(primary_balance, user_trades)
 
                 if new_ask is None:
-                    new_ask = new_bid * (1 + (2*self.fee + min_profit))
+                    return False
 
                 #если первая валюта не является hold
                 if (self.hold_currency is not None) and (self.pair.split('_')[0] in self.hold_currency):
@@ -190,68 +149,16 @@ class Strategy:
 
             time.sleep(2)
 
-            #если есть на балансе вторая валюта
-            if secondary_balance > min_secondary_balance:
-                #новые цены продажи и покупки
-                new_ask = ask - min_price_step
-                new_bid = bid + min_price_step
-                #вычисляем профит на основе верхней цены и нижней цены
-                profit = new_ask/new_bid*(1-self.fee)*(1-self.fee) - 1
-                if profit <= min_profit:
-                    #если профита нет выставляем цену покупки ниже, на основе цены продажи и профита
-                    new_bid = new_ask * (1 - (2*self.fee + min_profit))
-
-                #если вторая валюта не является hold
-                if (self.hold_currency is not None) and (self.pair.split('_')[1] in self.hold_currency):
-                    self.logger.info('Currency %s is hold!' % self.pair.split('_')[1], self.prefix)
-                else:
-                    #выставляем ордер на покупку
-                    self.order_create('buy', new_bid, secondary_balance/new_bid)
-
-
         #биржа с обратным название пар
         elif self.capi.name in ['poloniex']:
-             #если есть на балансе вторая валюта
-            if primary_balance > min_primary_balance:
-
-                #новые цены продажи и покупки
-                new_ask = ask - min_price_step
-                new_bid = bid + min_price_step
-
-                #вычисляем профит на основе верхней цены и нижней цены
-                profit = new_ask/new_bid*(1-self.fee)*(1-self.fee) - 1
-                if profit <= min_profit:
-                    #вычисляем цену покупки исходя из текущей цены продажи и небольшого профита
-                    new_bid = new_ask * (1 - (2*self.fee + min_profit))
-
-                # если первая валюта не является hold
-                if (self.hold_currency is not None) and (self.pair.split('_')[0] in self.hold_currency):
-                    self.logger.info('Currency %s is hold!' % self.pair.split('_')[0], self.prefix)
-                else:
-                    #выставляем ордер на покупку
-                    self.order_create('buy', new_bid, primary_balance/new_bid)
-
-            time.sleep(2)
 
             #если есть на балансе первая валюта
             if secondary_balance > min_secondary_balance:
-                #новые цены продажи и покупки
-                new_ask = ask - min_price_step
-                new_bid = bid + min_price_step
 
-                #еcли разрешено продавать в убыток
-                if self.not_loss == 0:
-                    #вычисляем профит на основе лучшей цены продажи и покупки
-                    profit = new_ask/new_bid*(1-self.fee)*(1-self.fee) - 1
-                    if profit <= min_profit:
-                        #если профита нет выставляем цену продажи выше, на основе цены покупки и профита
-                        new_ask = new_bid * (1 + (2*self.fee + min_profit))
-                #иначе ставим цену чтоб была прибыль
-                else:
-                    new_ask = self.calc_price_sell(secondary_balance, user_trades)
+                new_ask = self.calc_price_sell(secondary_balance, user_trades)
 
                 if new_ask is None:
-                    new_ask = new_bid * (1 + (2*self.fee + min_profit))
+                    return False
 
                 #если вторая валюта не является hold
                 if (self.hold_currency is not None) and (self.pair.split('_')[1] in self.hold_currency):
