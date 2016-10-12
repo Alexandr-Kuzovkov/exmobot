@@ -307,6 +307,8 @@ class Strategy:
                 curr_amount += trade['amount']
                 if curr_quantity >= quantity:
                     break
+            if curr_quantity == 0:
+                return None
             price = curr_amount/curr_quantity * (1 + (2*self.fee + self.min_profit))
             return price
         else:
