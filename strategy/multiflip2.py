@@ -3,6 +3,7 @@
 '''
 Стратегия поиска валютных пар на которых есть профитный спред
 и запуск на них стратегии циклического обмена flip3_1
+На непрофитных парах создаем ордера на продажу ранее купленной валюты
 '''
 
 import strategy.flip3_1 as flip3
@@ -55,8 +56,10 @@ class Strategy:
     def run(self):
         self.logger.info('-' * 40, self.prefix)
         self.logger.info('Run strategy %s' % self.name, self.prefix)
+        ticker = self.capi.ticker()
+        balance = self.capi.balance()
         #минимальный объем торгов криптовалюты
-        profit_pairs = self.get_profit_pairs()
+        profit_pairs = self.get_profit_pairs(ticker, balance)
         self.logger.info('Pairs for trading: %s' % str(map(lambda e: e['pair'], profit_pairs)), self.prefix)
         #pprint(profit_pairs)
 
@@ -67,13 +70,19 @@ class Strategy:
         else:
             self.save_change_balance('USD', balance_usd)
 
+        #запускаем торговлю для всех профитных пар
+        pairs_with_profit = []
         for pair in profit_pairs:
+            pairs_with_profit.append(pair['pair'])
             flip = flip3.Strategy(self.capi, self.logger, self.storage, self.conf, pair=pair['pair'])
             flip.run()
 
+        #ставим ордера на продажу на непрофитных парах
         balance = self.capi.balance()
         pairs_with_balance = filter(lambda pair: balance[pair.split('_')[0]] > 0 or balance[pair.split('_')[1]] > 0, self.capi.pair_settings.keys())
         for pair in pairs_with_balance:
+            if pair in pairs_with_profit:
+                continue
             sell = sell3.Strategy(self.capi, self.logger, self.storage, self.conf, pair=pair['pair'])
             sell.run()
 
@@ -82,10 +91,12 @@ class Strategy:
     выбираем пары с наличием баланса валюты в паре и с профитом, сортируем по произведению величины спреда и объема торгов
     @return profit_pairs список пар вида: [{'pair':pair, 'profit':profit, 'vol': data['vol'], 'vol_btc': 0.0, 'vol_currency': vol_currency, 'sell_price':sell_price, 'buy_price':buy_price}, ...]
     '''
-    def get_profit_pairs(self):
+    def get_profit_pairs(self, ticker=None, balance=None):
         fees = self.capi._get_fee()
-        ticker = self.capi.ticker()
-        balance = self.capi.balance()
+        if ticker is None:
+            ticker = self.capi.ticker()
+        if balance is None:
+            balance = self.capi.balance()
         pairs_with_balance = filter(lambda pair: balance[pair.split('_')[0]] > 0 or balance[pair.split('_')[1]] > 0, self.capi.pair_settings.keys())
         black_list = ['USD_RUR', 'EUR_USD', 'EUR_RUR']
         base_valute = {'exmo': 0, 'btce':1, 'poloniex':0}

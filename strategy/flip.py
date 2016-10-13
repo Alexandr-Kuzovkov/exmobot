@@ -332,7 +332,7 @@ class Strategy:
 
 
     '''
-    запись последних сделок поьзователя в базу
+    запись последних сделок пользователя в базу
     '''
     def save_last_user_trades(self, limit=100):
         user_trades = self.capi.user_trades([self.pair], limit=limit)
