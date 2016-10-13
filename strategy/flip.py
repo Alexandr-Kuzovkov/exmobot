@@ -268,9 +268,6 @@ class Strategy:
 
     '''
     удаляем неактуальные записи об ордерах в базе данных
-    @param capi объект CommonAPI
-    @param storage объект Storage
-    @param session_id ID сессии
     '''
     def delete_orders_not_actual(self):
         user_orders = self.capi.user_orders()
@@ -289,12 +286,6 @@ class Strategy:
     '''
     отменяем ордера поставленные в своей сессии
     по заданной валютной паре
-    @param capi объект CommonAPI
-    @param storage объект Storage
-    @param session_id ID сессии
-    @param pair валютная пара
-    @param logger объект Logger
-    @param prefix префикс для логгера
     '''
     def delete_own_orders(self):
         own_orders = self.storage.orders(self.pair, self.session_id)

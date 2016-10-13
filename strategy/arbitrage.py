@@ -128,7 +128,6 @@ class Strategy:
             if len(chains) > 0:
                 self.logger.info('%i profitable chains found, begin complete checking...' % len(chains), self.prefix)
                 for i in range(len(chains)):
-                    print i
                     chains[i]['profit'] = self.capi.calc_chain_profit_real(chains[i], start_amount)
                     # если задано проводить обмен, то проводим
                     if do_exchange > 0 and chains[i]['profit'] > 0:
