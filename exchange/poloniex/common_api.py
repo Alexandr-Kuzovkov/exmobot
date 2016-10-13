@@ -134,8 +134,10 @@ class CommonAPI:
     необходимых для создания ордера
     @return (min_primary_balance, min_secondary_balance)
     '''
-    def get_min_balance(self, pair, price):
-        pair = self._check_pair(pair)
+    def get_min_balance(self, pair, ticker=None):
+        if ticker is None:
+            ticker = self.ticker()
+        price = max(ticker[pair]['buy_price'], ticker[pair]['sell_price'])
         if 'min_quantity' in self.pair_settings[pair] and self.pair_settings[pair]['min_quantity'] != 0:
             min_primary_balance = self.pair_settings[pair]['min_quantity']
         elif 'min_amount' in self.pair_settings[pair]:
@@ -775,9 +777,10 @@ class CommonAPI:
     '''
     определение полного баланса в USD
     '''
-    def balance_full_usd(self):
+    def balance_full_usd(self, ticker=None):
         balance_full = self.balance_full()
-        ticker = self.ticker()
+        if ticker is None:
+            ticker = self.ticker()
         currency_ratio = {}
         currency_ratio_usd = {}
         for pair, data in ticker.items():
@@ -811,9 +814,10 @@ class CommonAPI:
     '''
     определение полного баланса в BTC
     '''
-    def balance_full_btc(self):
+    def balance_full_btc(self, ticker=None):
         balance_full = self.balance_full()
-        ticker = self.ticker()
+        if ticker is None:
+            ticker = self.ticker()
         currency_ratio = {}
         currency_ratio_btc = {}
         for pair, data in ticker.items():

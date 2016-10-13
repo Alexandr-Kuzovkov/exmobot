@@ -64,7 +64,7 @@ class Strategy:
         #pprint(profit_pairs)
 
         # сохраняем балансы в базу для сбора статистики
-        balance_usd = self.capi.balance_full_usd()
+        balance_usd = self.capi.balance_full_usd(ticker)
         if self.capi.name == 'poloniex':
             self.save_change_balance('USDT', balance_usd)
         else:
@@ -79,7 +79,7 @@ class Strategy:
 
         #ставим ордера на продажу на непрофитных парах
         balance = self.capi.balance()
-        pairs_with_balance = filter(lambda pair: balance[pair.split('_')[0]] > 0 or balance[pair.split('_')[1]] > 0, self.capi.pair_settings.keys())
+        pairs_with_balance = filter(lambda pair: balance[pair.split('_')[0]] > self.capi.get_min_balance(pair, ticker)[0] or balance[pair.split('_')[1]] > self.capi.get_min_balance(pair, ticker)[1], self.capi.pair_settings.keys())
         for pair in pairs_with_balance:
             if pair in pairs_with_profit:
                 continue
@@ -97,7 +97,8 @@ class Strategy:
             ticker = self.capi.ticker()
         if balance is None:
             balance = self.capi.balance()
-        pairs_with_balance = filter(lambda pair: balance[pair.split('_')[0]] > 0 or balance[pair.split('_')[1]] > 0, self.capi.pair_settings.keys())
+        pairs_with_balance = filter(lambda pair: balance[pair.split('_')[0]] > self.capi.get_min_balance(pair, ticker)[0] or balance[pair.split('_')[1]] > self.capi.get_min_balance(pair, ticker)[1], self.capi.pair_settings.keys())
+
         black_list = ['USD_RUR', 'EUR_USD', 'EUR_RUR']
         base_valute = {'exmo': 0, 'btce':1, 'poloniex':0}
         #pprint(ticker)
