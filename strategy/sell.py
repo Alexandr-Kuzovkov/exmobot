@@ -66,22 +66,8 @@ class Strategy:
 
         user_trades = self.capi.user_trades([self.pair])
 
-        #получаем существующие ордера по валютной паре
-        orders = capi.orders([pair])
-        #print orders
-
-        #получаем лучшие цены покупки и продажи
-        try:
-            ask = orders[pair]['ask'][0][0]
-            bid = orders[pair]['bid'][0][0]
-        except KeyError:
-            ask = orders['_'.join([pair.split('_')[1], pair.split('_')[0]])]['ask'][0][0]
-            bid = orders['_'.join([pair.split('_')[1], pair.split('_')[0]])]['bid'][0][0]
-
-        logger.info('pair %s: ask=%f  bid=%f' % (pair, ask, bid), prefix)
-
         # минимальный баланс первой и второй валют в паре для создания ордера
-        min_primary_balance, min_secondary_balance = capi.get_min_balance(pair, ask)
+        min_primary_balance, min_secondary_balance = capi.get_min_balance(pair)
 
         #получаем наличие своих средств
         balance = capi.balance()

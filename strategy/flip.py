@@ -122,7 +122,7 @@ class Strategy:
         #logger.info(min_price_step)
 
         #минимальный баланс первой и второй валют в паре для создания ордера
-        min_primary_balance, min_secondary_balance = capi.get_min_balance(pair, ask)
+        min_primary_balance, min_secondary_balance = capi.get_min_balance(pair)
 
         #logger.info(min_primary_balance)
         #logger.info(min_secondary_balance)

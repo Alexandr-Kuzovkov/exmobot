@@ -71,6 +71,122 @@ class Strategy:
         else:
             self.storage.save_balance(currency, amount, self.session_id)
 
+    #поиск пар для профитной торговли
+    def print_profit_pairs(self, ticker=None):
+
+        fees = self.capi._get_fee()
+        if ticker is None:
+            ticker = self.capi.ticker()
+        base_valute = {'exmo': 0, 'btce':1, 'poloniex':0}
+
+        #pprint(ticker)
+        profit_pairs = []
+        currency_ratio = {}
+        for pair, data in ticker.items():
+            if data['buy_price'] < data['sell_price']:
+                buy_price = data['buy_price']
+                sell_price = data['sell_price']
+            else:
+                buy_price = data['sell_price']
+                sell_price = data['buy_price']
+            fee = fees[pair]
+            profit = sell_price / buy_price * (1-fee) * (1-fee) - 1
+            currency_ratio[pair] = (sell_price + buy_price)/2
+            vol_currency = pair.split('_')[base_valute[self.capi.name]]
+            pair_info = {'pair':pair, 'profit':profit, 'vol': data['vol'], 'vol_btc': 0.0, 'vol_currency': vol_currency, 'sell_price':sell_price, 'buy_price':buy_price}
+
+            if profit > 0:
+                profit_pairs.append(pair_info)
+
+        profits_pair = sorted(profit_pairs, key=lambda row: 1/row['profit'])
+
+        #pprint(currency_ratio)
+        if self.capi.name == 'poloniex':
+            for i in range(len(profit_pairs)):
+                if profit_pairs[i]['vol_currency'] == 'BTC':
+                    profit_pairs[i]['vol_btc'] = profit_pairs[i]['vol']
+                elif ('BTC_' + profit_pairs[i]['vol_currency']) in currency_ratio:
+                    profit_pairs[i]['vol_btc'] = profit_pairs[i]['vol'] * currency_ratio[('BTC_' + profit_pairs[i]['vol_currency'])]
+                elif (profit_pairs[i]['vol_currency'] + '_BTC') in currency_ratio:
+                    profit_pairs[i]['vol_btc'] = profit_pairs[i]['vol'] / currency_ratio[(profit_pairs[i]['vol_currency'] + '_BTC')]
+                else:
+                    profit_pairs[i]['vol_btc'] = 0.0
+        else:
+            for i in range(len(profit_pairs)):
+                if profit_pairs[i]['vol_currency'] == 'BTC':
+                    profit_pairs[i]['vol_btc'] = profit_pairs[i]['vol']
+                elif ('BTC_' + profit_pairs[i]['vol_currency']) in currency_ratio:
+                    profit_pairs[i]['vol_btc'] = profit_pairs[i]['vol'] / currency_ratio[('BTC_' + profit_pairs[i]['vol_currency'])]
+                elif (profit_pairs[i]['vol_currency'] + '_BTC') in currency_ratio:
+                    profit_pairs[i]['vol_btc'] = profit_pairs[i]['vol'] * currency_ratio[(profit_pairs[i]['vol_currency'] + '_BTC')]
+                else:
+                    profit_pairs[i]['vol_btc'] = 0.0
+
+        print 'Биржа: %s всего пар: %i пар с профитом: %i' % (self.capi.name, len(ticker), len(profit_pairs))
+        for item in profits_pair:
+            print 'pair=%s   profit=%f   volume=%f(%s) = %f BTC   sell_price=%.10f   buy_price=%.10f' % (item['pair'], item['profit'], item['vol'], item['vol_currency'], item['vol_btc'], item['sell_price'], item['buy_price'])
+
+
+
+
+    #поиск профитных пар для торговли
+    def get_profit_pairs(self, ticker=None, balance=None):
+        fees = self.capi._get_fee()
+        if ticker is None:
+            ticker = self.capi.ticker()
+        if balance is None:
+            balance = self.capi.balance()
+
+        pairs_with_balance = filter(lambda pair: balance[pair.split('_')[0]] > self.capi.get_min_balance(pair, ticker)[0] or balance[pair.split('_')[1]] > self.capi.get_min_balance(pair, ticker)[1], self.capi.pair_settings.keys())
+        print 'pair_with_balance %s' % str(pairs_with_balance)
+        black_list = ['USD_RUR', 'EUR_USD', 'EUR_RUR']
+        base_valute = {'exmo': 0, 'btce': 1, 'poloniex': 0}
+        # pprint(ticker)
+        profit_pairs = []
+        currency_ratio = {}
+        for pair, data in ticker.items():
+            buy_price = min(data['buy_price'], data['sell_price'])
+            sell_price = max(data['buy_price'], data['sell_price'])
+            fee = fees[pair]
+            profit = sell_price / buy_price * (1 - fee) * (1 - fee) - 1
+            currency_ratio[pair] = (sell_price + buy_price) / 2
+            vol_currency = pair.split('_')[base_valute[self.capi.name]]
+            pair_info = {'pair': pair, 'profit': profit, 'vol': data['vol'], 'vol_btc': 0.0,
+                         'vol_currency': vol_currency, 'sell_price': sell_price, 'buy_price': buy_price}
+            if profit > 0 and pair in pairs_with_balance and pair not in black_list:
+                profit_pairs.append(pair_info)
+
+        profits_pair = sorted(profit_pairs, key=lambda row: 1 / row['profit'])
+
+        # pprint(currency_ratio)
+        if self.capi.name == 'poloniex':
+            for i in range(len(profit_pairs)):
+                if profit_pairs[i]['vol_currency'] == 'BTC':
+                    profit_pairs[i]['vol_btc'] = profit_pairs[i]['vol']
+                elif ('BTC_' + profit_pairs[i]['vol_currency']) in currency_ratio:
+                    profit_pairs[i]['vol_btc'] = profit_pairs[i]['vol'] * currency_ratio[
+                        ('BTC_' + profit_pairs[i]['vol_currency'])]
+                elif (profit_pairs[i]['vol_currency'] + '_BTC') in currency_ratio:
+                    profit_pairs[i]['vol_btc'] = profit_pairs[i]['vol'] / currency_ratio[
+                        (profit_pairs[i]['vol_currency'] + '_BTC')]
+                else:
+                    profit_pairs[i]['vol_btc'] = 0.0
+        else:
+            for i in range(len(profit_pairs)):
+                if profit_pairs[i]['vol_currency'] == 'BTC':
+                    profit_pairs[i]['vol_btc'] = profit_pairs[i]['vol']
+                elif ('BTC_' + profit_pairs[i]['vol_currency']) in currency_ratio:
+                    profit_pairs[i]['vol_btc'] = profit_pairs[i]['vol'] / currency_ratio[
+                        ('BTC_' + profit_pairs[i]['vol_currency'])]
+                elif (profit_pairs[i]['vol_currency'] + '_BTC') in currency_ratio:
+                    profit_pairs[i]['vol_btc'] = profit_pairs[i]['vol'] * currency_ratio[
+                        (profit_pairs[i]['vol_currency'] + '_BTC')]
+                else:
+                    profit_pairs[i]['vol_btc'] = 0.0
+
+        return sorted(profit_pairs, key=lambda row: 1 / (row['profit'] * row['vol_btc']))
+
+
 
     def run(self):
 
@@ -216,60 +332,7 @@ class Strategy:
 
         '''
 
-        #поиск пар для профитной торговли
 
-        '''
-        fees = capi._get_fee()
-        ticker = capi.ticker()
-        base_valute = {'exmo': 0, 'btce':1, 'poloniex':0}
-
-        #pprint(ticker)
-        profit_pairs = []
-        currency_ratio = {}
-        for pair, data in ticker.items():
-            if data['buy_price'] < data['sell_price']:
-                buy_price = data['buy_price']
-                sell_price = data['sell_price']
-            else:
-                buy_price = data['sell_price']
-                sell_price = data['buy_price']
-            fee = fees[pair]
-            profit = sell_price / buy_price * (1-fee) * (1-fee) - 1
-            currency_ratio[pair] = (sell_price + buy_price)/2
-            vol_currency = pair.split('_')[base_valute[capi.name]]
-            pair_info = {'pair':pair, 'profit':profit, 'vol': data['vol'], 'vol_btc': 0.0, 'vol_currency': vol_currency, 'sell_price':sell_price, 'buy_price':buy_price}
-
-            if profit > 0:
-                profit_pairs.append(pair_info)
-
-        profits_pair = sorted(profit_pairs, key=lambda row: 1/row['profit'])
-
-        #pprint(currency_ratio)
-        if capi.name == 'poloniex':
-            for i in range(len(profit_pairs)):
-                if profit_pairs[i]['vol_currency'] == 'BTC':
-                    profit_pairs[i]['vol_btc'] = profit_pairs[i]['vol']
-                elif ('BTC_' + profit_pairs[i]['vol_currency']) in currency_ratio:
-                    profit_pairs[i]['vol_btc'] = profit_pairs[i]['vol'] * currency_ratio[('BTC_' + profit_pairs[i]['vol_currency'])]
-                elif (profit_pairs[i]['vol_currency'] + '_BTC') in currency_ratio:
-                    profit_pairs[i]['vol_btc'] = profit_pairs[i]['vol'] / currency_ratio[(profit_pairs[i]['vol_currency'] + '_BTC')]
-                else:
-                    profit_pairs[i]['vol_btc'] = 0.0
-        else:
-            for i in range(len(profit_pairs)):
-                if profit_pairs[i]['vol_currency'] == 'BTC':
-                    profit_pairs[i]['vol_btc'] = profit_pairs[i]['vol']
-                elif ('BTC_' + profit_pairs[i]['vol_currency']) in currency_ratio:
-                    profit_pairs[i]['vol_btc'] = profit_pairs[i]['vol'] / currency_ratio[('BTC_' + profit_pairs[i]['vol_currency'])]
-                elif (profit_pairs[i]['vol_currency'] + '_BTC') in currency_ratio:
-                    profit_pairs[i]['vol_btc'] = profit_pairs[i]['vol'] * currency_ratio[(profit_pairs[i]['vol_currency'] + '_BTC')]
-                else:
-                    profit_pairs[i]['vol_btc'] = 0.0
-
-        print 'Биржа: %s всего пар: %i пар с профитом: %i' % (capi.name, len(ticker), len(profit_pairs))
-        for item in profits_pair:
-            print 'pair=%s   profit=%f   volume=%f(%s) = %f BTC   sell_price=%.10f   buy_price=%.10f' % (item['pair'], item['profit'], item['vol'], item['vol_currency'], item['vol_btc'], item['sell_price'], item['buy_price'])
-        '''
 
         #pprint(capi.balance())
         #pprint(capi.orders_balance())
@@ -292,6 +355,7 @@ class Strategy:
 
         #тестирование подробного просчета цепочек
         #и выполнения обмена по цепочке
+        '''
         if capi.name in ['poloniex']:
             # Для poloniex.com
             chains = sorted(capi.search_exchains('USDT', 4, False), key=lambda item: 1/item['profit'])
@@ -312,3 +376,22 @@ class Strategy:
         else:
             print 'you has canceled execute chain'
 
+        '''
+
+
+        ticker = self.capi.ticker()
+        self.print_profit_pairs(ticker)
+        profit_pairs = self.get_profit_pairs(ticker)
+        for pair in profit_pairs:
+            print '%s ' % pair['pair']
+        print 'всего: %i' % len(profit_pairs)
+        pprint(profit_pairs)
+
+
+        '''
+        #тестирование функции возвращающей минимальные балансы
+        ticker = self.capi.ticker()
+        for pair, data in ticker.items():
+            min_primary_balance, min_secondary_balance = self.capi.get_min_balance(pair, ticker)
+            print 'pair=%s min_primary_balance=%f min_secondary_balance=%f' % (pair, min_primary_balance, min_secondary_balance)
+        '''
