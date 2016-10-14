@@ -124,10 +124,12 @@ class Strategy:
             chains = self.capi.search_exchains(start_currency, max_chain_len)
         except Exception, ex:
             self.logger.info('Error while search_exchains: %s' % ex)
+            raise Exception('Error while search_exchains: %s' % ex)
         else:
             if len(chains) > 0:
                 self.logger.info('%i profitable chains found, begin complete checking...' % len(chains), self.prefix)
                 for i in range(len(chains)):
+                    #просчитываем реальный профит по цепочке
                     chains[i]['profit'] = self.capi.calc_chain_profit_real(chains[i], start_amount)
                     # если задано проводить обмен, то проводим
                     if do_exchange > 0 and chains[i]['profit'] > 0:

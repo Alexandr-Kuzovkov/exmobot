@@ -945,6 +945,7 @@ class CommonAPI:
             if path['pair'] is None:
                 continue
             params = {'pair': path['pair'], 'quantity': current_quantity, 'price': 0, 'type': 'market_' + path['order_type']}
+            sleep(1)
             res = self.api.exmo_api('order_create', params)
             if not res['result']:
                 return {'result':False, 'error': res['error']}
