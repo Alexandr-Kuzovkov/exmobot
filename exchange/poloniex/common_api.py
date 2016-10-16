@@ -148,7 +148,7 @@ class CommonAPI:
         if 'min_quantity' in self.pair_settings[pair] and self.pair_settings[pair]['min_quantity'] != 0:
             min_secondary_balance = self.pair_settings[pair]['min_quantity'] * price
         elif 'min_amount' in self.pair_settings[pair]:
-            min_secondary_balance = self.pair_settings[pair]['min_amount'] * price
+            min_secondary_balance = self.pair_settings[pair]['min_amount']
         else:
             min_secondary_balance = 0.0001
 
