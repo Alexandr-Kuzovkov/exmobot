@@ -46,9 +46,6 @@ class Strategy:
         #с какой валютной парой работаем
         self.pair = self.set_param(key='pair', default_value='BTC_USD')
 
-        #режим обмена
-        self.mode = self.set_param(key='mode', default_value=0, param_type='int')
-
         #минимальный профит при выставлении ордера не по верху стакана
         self.min_profit = self.set_param(key='min_profit', default_value=0.005, param_type='float')
 
@@ -79,7 +76,6 @@ class Strategy:
         logger = self.logger
         prefix = self.prefix
         pair = self.pair
-        mode = self.mode
         session_id = self.session_id
         capi = self.capi
         storage = self.storage
@@ -90,7 +86,7 @@ class Strategy:
         #return
 
         logger.info('-'*40, prefix)
-        logger.info('Run strategy %s, pair: %s  mode: %i hold_currency %s' % (self.name, pair, mode, str(self.hold_currency)), prefix)
+        logger.info('Run strategy %s, pair: %s hold_currency %s' % (self.name, pair, str(self.hold_currency)), prefix)
 
         #удаляем неактуальные записи об ордерах
         self.delete_orders_not_actual()
@@ -114,6 +110,7 @@ class Strategy:
 
         # минимальный баланс первой и второй валют в паре для создания ордера
         min_primary_balance, min_secondary_balance = capi.get_min_balance(pair)
+        print min_primary_balance, min_secondary_balance
 
         # удаляем ордера по валютной паре, поставленные в своей сессии
         logger.info('Remove orders for pair %s in session %s' % (pair, session_id), prefix)

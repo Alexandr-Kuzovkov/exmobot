@@ -299,7 +299,7 @@ class Strategy:
         отправка СМС
         cli = smsru.Client()
         res = cli.send("+79877171421", u'miner fail')
-        print res
+        print res0
         '''
 
         #pprint(capi.pair_settings.keys())

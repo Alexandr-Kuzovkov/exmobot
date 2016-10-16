@@ -58,7 +58,7 @@ class Strategy:
         self.logger.info('Run strategy %s' % self.name, self.prefix)
         ticker = self.capi.ticker()
         balance = self.capi.balance()
-        #минимальный объем торгов криптовалюты
+        #получаем профитные пары
         profit_pairs = self.get_profit_pairs(ticker, balance)
         self.logger.info('Pairs for trading: %s' % str(map(lambda e: e['pair'], profit_pairs)), self.prefix)
         #pprint(profit_pairs)
@@ -83,7 +83,7 @@ class Strategy:
         for pair in pairs_with_balance:
             if pair in pairs_with_profit:
                 continue
-            sell = sell3.Strategy(self.capi, self.logger, self.storage, self.conf, pair=pair['pair'])
+            sell = sell3.Strategy(self.capi, self.logger, self.storage, self.conf, pair=pair)
             sell.run()
 
     '''
