@@ -111,6 +111,6 @@ else:
     try:
         strategy.run()
     except Exception, ex:
-        print 'Strategy.run: %s' % ex.message
-        logger.info('Strategy.run: %s' % ex.message)
+        print 'Strategy.run: %s' % ex
+        logger.info('Strategy.run: %s' % ex)
 
