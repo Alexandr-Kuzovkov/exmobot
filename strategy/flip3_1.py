@@ -102,7 +102,7 @@ class Strategy:
 
         # минимальный баланс первой и второй валют в паре для создания ордера
         min_primary_balance, min_secondary_balance = self.capi.get_min_balance(self.pair)
-        print min_primary_balance, min_secondary_balance
+        #print min_primary_balance, min_secondary_balance
 
         # удаляем ордера по валютной паре, поставленные в своей сессии
         self.logger.info('Remove orders for pair %s in session %s' % (self.pair, self.session_id), self.prefix)
@@ -165,7 +165,7 @@ class Strategy:
                         new_ask = new_bid * (1 + (2*self.fee + self.min_profit))
                 #иначе ставим цену чтоб была прибыль
                 else:
-                    new_ask = self.calc_price_sell(primary_balance, user_trades)
+                    new_ask = Lib.calc_price_sell(self, primary_balance, user_trades)
 
                 if new_ask is None:
                     new_ask = new_bid * (1 + (2*self.fee + self.min_profit))
@@ -237,7 +237,7 @@ class Strategy:
                         new_ask = new_bid * (1 + (2*self.fee + self.min_profit))
                 #иначе ставим цену чтоб была прибыль
                 else:
-                    new_ask = self.calc_price_sell(secondary_balance, user_trades)
+                    new_ask = Lib.calc_price_sell(self, secondary_balance, user_trades)
 
                 if new_ask is None:
                     new_ask = new_bid * (1 + (2*self.fee + self.min_profit))

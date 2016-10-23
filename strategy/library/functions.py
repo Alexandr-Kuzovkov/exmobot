@@ -233,7 +233,7 @@ def delete_orders_not_actual(strategy):
 def delete_own_orders(strategy, min_balance):
     own_orders = strategy.storage.orders(strategy.pair, strategy.session_id)
     for own_order in own_orders:
-        if own_order['type'] == 'sell' and own_order['quantity'] <= min_balance:
+        if own_order['order_type'] == 'sell' and own_order['quantity'] <= min_balance:
             continue
         res = strategy.capi.order_cancel(own_order['order_id'])
         if res['result']:

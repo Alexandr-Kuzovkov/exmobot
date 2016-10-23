@@ -33,7 +33,7 @@ class Strategy:
 
         #ввод параметров
         #id сессии
-        self.session_id = self.set_param(key='session_id', default_value='0')
+        self.session_id = Lib.set_param(self, key='session_id', default_value='0')
         #параметры передаваемые при вызове функции имеют приоритет
         #перед параметрами заданными в файле конфигурации
 
@@ -248,6 +248,7 @@ class Strategy:
 
 
         #тестирование функции вычисления цены безубыточной продажи
+        '''
         quantity = 1.0
         if self.capi.name not in ['poloniex']:
             self.pair = 'ETH_USD'
@@ -259,3 +260,6 @@ class Strategy:
         except KeyError:
             self.fee = capi.fee['_'.join([self.pair.split('_')[1], self.pair.split('_')[0]])]
         pprint(Lib.calc_price_sell(self, quantity))
+        '''
+
+        pprint(self.capi.user_orders())
