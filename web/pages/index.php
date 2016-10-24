@@ -7,21 +7,24 @@
         <img src="img/exmo.png" />
         <p>EXMO</p>
     </a>
-    <a id="exmo-balance" class="api-data">Баланс</a>
+    <a id="exmo-balance" class="api-data">Баланс</a> |
+    <a id="exmo-user_orders" class="api-data">Ордера</a>
 </div>
 <div class="exchange">
     <a href="https://btc-e.nz" target="_blank">
         <img src="img/btce.png" />
         <p>BTC-E</p>
     </a>
-    <a id="btce-balance" class="api-data">Баланс</a>
+    <a id="btce-balance" class="api-data">Баланс</a> |
+    <a id="btce-user_orders" class="api-data">Ордера</a>
 </div>
 <div class="exchange">
     <a href="https://poloniex.com" target="_blank">
         <img src="img/poloniex.png" />
         <p>Poloniex</p>
     </a>
-    <a id="poloniex-balance" class="api-data">Баланс</a>
+    <a id="poloniex-balance" class="api-data">Баланс</a> |
+    <a id="poloniex-user_orders" class="api-data">Ордера</a>
 </div>
 
 <div class="clr"></div>
@@ -57,6 +60,7 @@
 	});
 
     function showData(data){
+        console.log(data);
         $( "#api-data" ).dialog({'title':dict[api_data.exchange] + ' - ' + dict[api_data.method]});
         document.getElementById("api-data").innerHTML = '';
         document.getElementById("api-data").appendChild(createTable(data));
