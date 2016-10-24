@@ -34,10 +34,10 @@ def application(environ, start_response):
     params = parseRequest(get)
     capi = params['capi']
     method = getattr(capi, params['method'])
-    if len(params['params']) > 0:
-        result = method(params['params'])
-    else:
+    if len(params['params']) == 0:
         result = method()
+    else:
+        result = callMethod(params)
     response = json.dumps(result)
     response_headers = [('Content-type', 'text/html; charset=utf-8'), ('Access-Control-Allow-Origin', '*')]
     start_response(status, response_headers)
@@ -81,3 +81,12 @@ def parseRequest(get):
             params[key] = val[0]
     return {'capi': capi, 'method': method, 'params': params}
 
+def callMethod(params):
+    capi = params['capi']
+    method = getattr(capi, params['method'])
+
+    if params['method'] == 'balance':
+        if 'currency' in params['params']:
+            return method(params['params']['currency'])
+
+    return method()
