@@ -1,6 +1,6 @@
 <?php
 
-    require_once ('../include/const.php');
+    require_once('../include/const.php');
 
     foreach($_POST as $name => $val){
         $name = trim(str_replace('_','.',$name));
