@@ -38,7 +38,8 @@ $routes = array(
     '/copy-data' => $scripts . 'copy_data.php',
     '/backup' => $scripts . 'backup.php',
     '/upload' => $pages . 'upload.php',
-    '/upload-dump' => $scripts . 'upload_dump.php'
+    '/upload-dump' => $scripts . 'upload_dump.php',
+    '/api-data' => $pages . 'api_data.php'
 
     /*
     '/file' => $pages . 'file.php',

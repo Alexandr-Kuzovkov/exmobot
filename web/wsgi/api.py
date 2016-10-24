@@ -11,7 +11,7 @@ from ConfigParser import *
 import sys
 abspath = os.path.dirname(__file__)
 ABSBOTPATH = '/'.join(abspath.split('/')[0:len(abspath.split('/')) - 2])
-config_file = ABSBOTPATH + '/wsgi/accounts.conf'
+config_file = ABSBOTPATH + '/web/wsgi/accounts.conf'
 sys.path.append(ABSBOTPATH)
 os.chdir(ABSBOTPATH)
 #storage_type = 'sqlite'
@@ -80,6 +80,7 @@ def parseRequest(get):
         if key not in ['exchange', 'method']:
             params[key] = val[0]
     return {'capi': capi, 'method': method, 'params': params}
+
 
 def callMethod(params):
     capi = params['capi']
