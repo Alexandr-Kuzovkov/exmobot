@@ -163,6 +163,8 @@ class Strategy:
         #pprint(capi.balance_full())
         #pprint(capi.required_amount('USDT_ETH', 10))
         #pprint(capi.user_trades(['USDT_ETH','BTC_ETH']))
+        #pprint(capi.user_trades(['BTC_USD']))
+        #pprint(capi.user_trades())
         #self.session_id = 'poloniex-1'
         #pprint(capi.user_orders())
         #pprint(capi.orders_cancel(['BTC_ETH']))
@@ -262,4 +264,4 @@ class Strategy:
         pprint(Lib.calc_price_sell(self, quantity))
         '''
 
-        pprint(self.capi.balance())
+        #pprint(self.capi.user_orders())

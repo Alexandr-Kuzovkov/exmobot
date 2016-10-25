@@ -95,6 +95,7 @@ class CommonAPI:
     '''
     def _date2timestamp(self, date):
         try:
+            print date
             timestamp = int(mktime(strptime(date, '%Y-%m-%d %H:%M:%S')))
         except ValueError, ex:
             print ex
@@ -515,7 +516,7 @@ class CommonAPI:
             raise Exception(data['error'])
         orders = {}
         for pair, orders_for_pair in data.items():
-            if pair not in orders:
+            if pair not in orders and len(orders_for_pair) > 0:
                 orders[pair] = []
             for order in orders_for_pair:
                 new_order = {}
@@ -561,8 +562,10 @@ class CommonAPI:
     price - цена сделки
     amount - сумма сделки
     '''
-    def user_trades(self, pairs, offset=0, limit=100):
+    def user_trades(self, pairs=None, offset=0, limit=100):
         valid_pairs = self.pair_settings.keys()
+        if pairs is None:
+            pairs = valid_pairs
         pairs = self._check_pairs(pairs)
         trades = {}
         if len(pairs) == 1:
@@ -598,7 +601,7 @@ class CommonAPI:
                 for trade in trades_for_pair:
                     new_trade = {}
                     new_trade['order_id'] = int(trade['orderNumber'])
-                    new_trade['date'] = self._date2timestamp(trade['globalTradeID'])
+                    new_trade['date'] = self._date2timestamp(trade['date'])
                     new_trade['type'] = trade['type']
                     new_trade['pair'] = pairs[0]
                     new_trade['trade_id'] = int(trade['globalTradeID'])

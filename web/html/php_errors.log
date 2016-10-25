@@ -6,3 +6,46 @@
 [23-Sep-2016 20:10:29 Europe/Moscow] PHP Fatal error:  Class 'SQLite3' not found in /var/www/vhosts/exmo_bot/web/include/functions.php on line 209
 [23-Sep-2016 20:12:02 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/scripts/get_data.php on line 22
 [23-Sep-2016 20:12:02 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/scripts/get_data.php on line 45
+[25-Oct-2016 22:23:20 Europe/Moscow] PHP Warning:  file_get_contents(http://exmo_bot.loc:8080/api?exchange=exmo&amp;method=balance): failed to open stream: HTTP request failed! HTTP/1.1 500 Internal Server Error
+ in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 16
+[25-Oct-2016 22:32:16 Europe/Moscow] PHP Notice:  Array to string conversion in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 26
+[25-Oct-2016 22:32:41 Europe/Moscow] PHP Notice:  Array to string conversion in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 25
+[25-Oct-2016 23:00:10 Europe/Moscow] PHP Warning:  file_get_contents(http://exmo_bot.loc:8080/api?exchange=btce&amp;method=balance_full_usd): failed to open stream: HTTP request failed! HTTP/1.1 500 Internal Server Error
+ in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 34
+[25-Oct-2016 23:23:53 Europe/Moscow] PHP Fatal error:  Call to undefined function int_val() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 84
+[25-Oct-2016 23:25:25 Europe/Moscow] PHP Notice:  Undefined offset: 0 in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 72
+[25-Oct-2016 23:25:25 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 72
+[25-Oct-2016 23:25:54 Europe/Moscow] PHP Notice:  Undefined offset: 0 in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 72
+[25-Oct-2016 23:25:54 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 72
+[25-Oct-2016 23:27:05 Europe/Moscow] PHP Notice:  Undefined offset: 0 in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 73
+[25-Oct-2016 23:27:05 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 73
+[25-Oct-2016 23:28:18 Europe/Moscow] PHP Notice:  Undefined offset: 0 in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 73
+[25-Oct-2016 23:28:18 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 73
+[25-Oct-2016 23:32:25 Europe/Moscow] PHP Notice:  Undefined offset: 0 in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 73
+[25-Oct-2016 23:32:25 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 73
+[25-Oct-2016 23:34:53 Europe/Moscow] PHP Notice:  Undefined offset: 0 in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 73
+[25-Oct-2016 23:34:53 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 73
+[25-Oct-2016 23:38:35 Europe/Moscow] PHP Notice:  Undefined offset: 0 in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 73
+[25-Oct-2016 23:38:35 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 73
+[26-Oct-2016 00:20:02 Europe/Moscow] PHP Notice:  Undefined offset: 0 in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 108
+[26-Oct-2016 00:20:02 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 108
+[26-Oct-2016 00:20:49 Europe/Moscow] PHP Warning:  file_get_contents(http://exmo_bot.loc:8080/api?exchange=btce&amp;method=user_trades): failed to open stream: HTTP request failed! HTTP/1.1 500 Internal Server Error
+ in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 16
+[26-Oct-2016 00:20:50 Europe/Moscow] PHP Warning:  file_get_contents(http://exmo_bot.loc:8080/api?exchange=btce&amp;method=user_trades): failed to open stream: HTTP request failed! HTTP/1.1 500 Internal Server Error
+ in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 101
+[26-Oct-2016 00:21:25 Europe/Moscow] PHP Warning:  file_get_contents(http://exmo_bot.loc:8080/api?exchange=btce&amp;method=user_trades): failed to open stream: HTTP request failed! HTTP/1.1 500 Internal Server Error
+ in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 16
+[26-Oct-2016 00:21:26 Europe/Moscow] PHP Warning:  file_get_contents(http://exmo_bot.loc:8080/api?exchange=btce&amp;method=user_trades): failed to open stream: HTTP request failed! HTTP/1.1 500 Internal Server Error
+ in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 101
+[26-Oct-2016 00:21:34 Europe/Moscow] PHP Warning:  file_get_contents(http://exmo_bot.loc:8080/api?exchange=btce&amp;method=user_trades): failed to open stream: HTTP request failed! HTTP/1.1 500 Internal Server Error
+ in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 16
+[26-Oct-2016 00:21:34 Europe/Moscow] PHP Warning:  file_get_contents(http://exmo_bot.loc:8080/api?exchange=btce&amp;method=user_trades): failed to open stream: HTTP request failed! HTTP/1.1 500 Internal Server Error
+ in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 101
+[26-Oct-2016 00:22:14 Europe/Moscow] PHP Warning:  file_get_contents(http://exmo_bot.loc:8080/api?exchange=btce&amp;method=user_trades): failed to open stream: HTTP request failed! HTTP/1.1 500 Internal Server Error
+ in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 99
+[26-Oct-2016 00:23:12 Europe/Moscow] PHP Notice:  Undefined offset: 0 in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 106
+[26-Oct-2016 00:23:12 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 106
+[26-Oct-2016 00:23:16 Europe/Moscow] PHP Warning:  file_get_contents(http://exmo_bot.loc:8080/api?exchange=poloniex&amp;method=user_trades): failed to open stream: HTTP request failed! HTTP/1.1 500 Internal Server Error
+ in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 99
+[26-Oct-2016 00:25:03 Europe/Moscow] PHP Notice:  Undefined offset: 0 in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 106
+[26-Oct-2016 00:25:03 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 106
