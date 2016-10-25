@@ -49,7 +49,7 @@
                 <li <?php check_active('hard');?>><a href="/hard">Оборудование</a></li>
                 
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Состояние<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Базы данных<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li <?php check_active('database');?>><a href="/database?db=sqlite">Все данные(SQLite)</a></li>
                         <li <?php check_active('query');?>><a href="/query?db=sqlite">Запрос(SQLite)</a></li>

@@ -450,8 +450,10 @@ class CommonAPI:
     price - цена сделки
     amount - сумма сделки
     '''
-    def user_trades(self, pairs, offset=0, limit=100):
+    def user_trades(self, pairs=None, offset=0, limit=100):
         valid_pairs = self.pair_settings.keys()
+        if pairs is None:
+            pairs = valid_pairs
         for pair in pairs:
             if pair not in valid_pairs:
                 raise Exception('pair expected in ' + str(valid_pairs))

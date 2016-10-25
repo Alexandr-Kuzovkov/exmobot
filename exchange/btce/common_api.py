@@ -504,13 +504,17 @@ class CommonAPI:
     price - цена сделки
     amount - сумма сделки
     '''
-    def user_trades(self, pairs, offset=0, limit=100):
+    def user_trades(self, pairs=None, offset=0, limit=100):
         valid_pairs = self.pair_settings.keys()
-        for pair in pairs:
-            if pair not in valid_pairs:
-                raise Exception('pair expected in ' + str(valid_pairs))
+        if pairs is not None:
+            for pair in pairs:
+                if pair not in valid_pairs:
+                    raise Exception('pair expected in ' + str(valid_pairs))
         try:
-            data = self.api.btce_api('TradeHistory', pair='-'.join(pairs).lower(), count=limit)
+            if pairs is None:
+                data = self.api.btce_api('TradeHistory', count=limit)
+            else:
+                data = self.api.btce_api('TradeHistory', pair='-'.join(pairs).lower(), count=limit)
         except Exception, ex:
             return {}
         trades = {}

@@ -119,19 +119,23 @@ a#unselect-all-img
 {
     float: left;
     margin-right: 100px;
+    margin-bottom: 100px;
     width: 40%;
     text-align: center;
+    /*border:1px solid red;*/
 }
 
 .exchange img
 {
     width: 60%;
     height: 60%;
+    cursor: pointer;
 }
 
 .exchange p
 {
     text-align: center;
+    cursor: pointer;
 }
 
 .exchange a
@@ -191,6 +195,18 @@ a#unselect-all-img
     margin: auto;
 }
 
+
+.api-data
+{
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#api-data img
+{
+    display: block;
+    margin: 100px auto 0 auto ;
+}
 
 
 
