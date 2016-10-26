@@ -521,7 +521,7 @@ class CommonAPI:
             for order in orders_for_pair:
                 new_order = {}
                 new_order['order_id'] = int(order['orderNumber'])
-                new_order['created'] = 0
+                new_order['created'] = self._date2timestamp(order['date'])
                 new_order['type'] = order['type']
                 new_order['pair'] = pair
                 new_order['price'] = float(order['rate'])
