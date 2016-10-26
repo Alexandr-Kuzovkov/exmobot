@@ -34,7 +34,7 @@
 	});
 
     function showData(data){
-        //console.log(data);
+        console.log(data);
         $( "#api-data" ).dialog({'title':dict[api_data.exchange] + ' - ' + dict[api_data.method]});
         document.getElementById("api-data").innerHTML = '';
         document.getElementById("api-data").innerHTML = data;
