@@ -956,3 +956,44 @@ class CommonAPI:
         return {'result': True, 'amount': current_quantity}
 
 
+    '''
+    обмен по рынку всех валют на USD
+    '''
+    def exchange_all_to_usd(self):
+        self.orders_cancel()
+        sleep(1)
+        balance = self.balance()
+        for currency, amount in balance.items():
+            if amount == 0 or currency in ['USD']:
+                continue
+            if currency + '_USD' in self.pair_settings.keys():
+                res = self.api.exmo_api('order_create', {'pair': currency + '_USD', 'quantity': amount, 'price': 0, 'type': 'market_sell'})
+                if not res['result']:
+                    print res['error']
+                else:
+                    sleep(1)
+
+            elif 'USD_' + currency in self.pair_settings.keys():
+                res = self.api.exmo_api('order_create', {'pair': 'USD_' + currency, 'quantity': amount, 'price': 0,'type': 'market_buy'})
+                if not res['result']:
+                    print res['error']
+                else:
+                    sleep(1)
+            else:
+                if currency + '_BTC' in self.pair_settings.keys():
+                    res = self.api.exmo_api('order_create',{'pair': currency + '_BTC', 'quantity': amount, 'price': 0,'type': 'market_sell'})
+                    if not res['result']:
+                        print res['error']
+                    else:
+                        sleep(1)
+                elif 'BTC_' + currency in self.pair_settings.keys():
+                    res = self.api.exmo_api('order_create',{'pair': 'BTC_' + currency, 'quantity': amount, 'price': 0,'type': 'market_buy'})
+                    if not res['result']:
+                        print res['error']
+                    else:
+                        sleep(1)
+                else:
+                    pass
+        return self.balance()
+
+

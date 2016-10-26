@@ -264,4 +264,5 @@ class Strategy:
         pprint(Lib.calc_price_sell(self, quantity))
         '''
 
-        pprint(self.capi.user_orders())
+        #pprint(self.capi.balance())
+        pprint(self.capi.exchange_all_to_usd())

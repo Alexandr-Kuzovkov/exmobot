@@ -102,7 +102,7 @@ def print_profit_pairs(strategy, ticker=None):
         if profit > 0:
             profit_pairs.append(pair_info)
 
-    profits_pair = sorted(profit_pairs, key=lambda row: 1 / row['profit'])
+    profit_pairs = sorted(profit_pairs, key=lambda row: 1 / row['profit'])
 
     # pprint(currency_ratio)
     if strategy.capi.name == 'poloniex':
@@ -131,7 +131,7 @@ def print_profit_pairs(strategy, ticker=None):
                 profit_pairs[i]['vol_btc'] = 0.0
 
     print 'Биржа: %s всего пар: %i пар с профитом: %i' % (strategy.capi.name, len(ticker), len(profit_pairs))
-    for item in profits_pair:
+    for item in profit_pairs:
         print 'pair=%s   profit=%f   volume=%f(%s) = %f BTC   sell_price=%.10f   buy_price=%.10f' % (item['pair'], item['profit'], item['vol'], item['vol_currency'], item['vol_btc'], item['sell_price'],item['buy_price'])
 
 
