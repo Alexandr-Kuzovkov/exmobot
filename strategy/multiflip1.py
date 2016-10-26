@@ -7,6 +7,7 @@
 
 import strategy.flip3 as flip3
 from pprint import pprint
+import strategy.library.functions as Lib
 
 class Strategy:
 
@@ -40,22 +41,13 @@ class Strategy:
 
 
     '''
-    Округление числа
-    '''
-    def _round(self, number, prec):
-        number = number * (10 ** prec)
-        number = int(number)
-        number = float(number) / (10 ** prec)
-        return number
-
-    '''
     функция реализующая торговую логику
     '''
     def run(self):
         self.logger.info('-' * 40, self.prefix)
         self.logger.info('Run strategy %s' % self.name, self.prefix)
         #минимальный объем торгов криптовалюты
-        min_volume = self.set_param(key='min_volume', default_value=10.0, param_type='float')
+        min_volume = Lib.set_param(self, key='min_volume', default_value=10.0, param_type='float')
         profit_pairs = self.get_profit_pairs()
         pairs = self.select_pairs(profit_pairs, min_volume)
         self.logger.info('Pairs for trading: %s' % str(map(lambda e: e['pair'], pairs)), self.prefix)
@@ -98,7 +90,7 @@ class Strategy:
             if profit > 0:
                 profit_pairs.append(pair_info)
 
-        profits_pair = sorted(profit_pairs, key=lambda row: 1/row['profit'])
+        profit_pairs = sorted(profit_pairs, key=lambda row: 1/row['profit'])
 
         #pprint(currency_ratio)
         if self.capi.name == 'poloniex':
@@ -140,40 +132,3 @@ class Strategy:
         result = sorted(result, key=lambda row: 1/row['profit'])
         return result[0:max_number]
 
-
-    '''
-    установка значения параметра
-    @param key имя параметра
-    @param default_value значение по умолчанию
-    @param param_type тип
-    @return значение параметра
-    '''
-    def set_param(self, key, default_value, param_type=None):
-        if key in self.params:
-            param = self.params[key]
-        elif self.conf.has_option('common', key):
-            param = self.conf.get('common', key)
-        else:
-            param = default_value
-        if param_type is not None:
-            if param_type == 'int':
-                param = int(param)
-            elif param_type == 'float':
-                param = float(param)
-            else:
-                param = str(param)
-        return param
-
-
-    '''
-    запись изменений баланса в базу
-    '''
-    def save_change_balance(self, currency, amount):
-        last = self.storage.get_last_balance(currency, 1, self.session_id)
-        curr_amount = self._round(amount, 6)
-        if len(last) > 0:
-            last_amount = self._round(last[0]['amount'], 6)
-            if abs(curr_amount - last_amount) / last_amount > 0.001:
-                self.storage.save_balance(currency, curr_amount, self.session_id)
-        else:
-            self.storage.save_balance(currency, curr_amount, self.session_id)

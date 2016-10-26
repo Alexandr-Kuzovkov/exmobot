@@ -277,3 +277,36 @@ def save_last_user_trades(strategy, user_trades=None, limit=100):
             strategy.storage.save_user_trades(user_trades[strategy.pair], strategy.session_id)
         except KeyError:
             strategy.storage.save_user_trades(user_trades['_'.join([strategy.pair.split('_')[1], strategy.pair.split('_')[0]])], strategy.session_id)
+
+
+'''
+вычисление профита на основе цены покупки, продажи и комиссии
+'''
+def _calc_profit(ask, bid, fee):
+    return ask / bid * (1 - fee) * (1 - fee) - 1
+
+
+'''
+Рассчет цен ордеров на обмен
+@param orders ордера на прямой обмен
+@param min_profit минимальный профит
+@param fee комиссия
+@param price_step шаг изменения цены
+@return {'ask':ask, 'bid': bid} словарь содержащий цены
+'''
+def calc_prices(strategy, orders, price_step, fee=0.002):
+    try:
+        ask = orders[strategy.pair]['ask'][0][0] - price_step
+        bid = orders[strategy.pair]['bid'][0][0] + price_step
+    except KeyError:
+        ask = orders['_'.join([strategy.pair.split('_')[1], strategy.pair.split('_')[0]])]['ask'][0][0]
+        bid = orders['_'.join([strategy.pair.split('_')[1], strategy.pair.split('_')[0]])]['bid'][0][0]
+
+    profit = _calc_profit(ask, bid, fee)
+    while (profit < strategy.min_profit):
+        ask += price_step
+        bid -= price_step
+        profit = strategy._calc_profit(ask, bid, fee)
+
+    return {'ask': ask, 'bid': bid}
+
