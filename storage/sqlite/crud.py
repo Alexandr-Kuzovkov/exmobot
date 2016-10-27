@@ -23,33 +23,6 @@ class Crud:
         self.db_file = '/'.join([root_dir, self.rel_path_db_file])
         self.schema_file = '/'.join([root_dir, self.rel_path_schema])
         self.create_tables()
-        '''
-        conf = ConfigParser()
-        conf.read(self.schema_file)
-        conn = self._get_connection()
-        cur = conn.cursor()
-        for table in conf.sections():
-            self.schema[table] = []
-            fls = []
-            for field in conf.options(table):
-                ftype = conf.get(table, field).split('|')[0]
-                fsize = conf.get(table, field).split('|')[1]
-                self.schema[table].append({'name':field, 'type':ftype})
-                if ftype == 'int':
-                    fls.append(field + ' INTEGER')
-                elif ftype == 'float':
-                    fls.append(field + ' REAL')
-                else:
-                     fls.append(field)
-            q = ' '.join(['CREATE TABLE IF NOT EXISTS ', table,'(', ','.join(fls), ')'])
-            #print q
-            try:
-                cur.execute(q)
-            except sqlite3.OperationalError, ex:
-                print ex
-        cur.close()
-        conn.close()
-        '''
         #pprint(self.schema)
 
     def _get_connection(self):
