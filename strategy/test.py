@@ -265,4 +265,4 @@ class Strategy:
         '''
 
         #pprint(self.capi.balance())
-        pprint(self.capi.exchange_all_to_usd())
+        #pprint(self.capi.exchange_all_to_usd())
