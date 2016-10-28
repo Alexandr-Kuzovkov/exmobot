@@ -2,8 +2,10 @@
 
 import os
 
-print '-'*80
-print 'Test storage.sqlite.crud'
-command = 'storage/sqlite/test.py'
-os.system(command)
-print '-'*80
+commands = []
+commands.append('storage/sqlite/test.py')
+commands.append('storage/mysql/test.py')
+
+
+for command in commands:
+    os.system(command)

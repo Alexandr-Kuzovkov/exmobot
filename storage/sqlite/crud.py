@@ -243,15 +243,26 @@ class Crud:
             self.schema[table] = []
             fls = []
             for field in conf.options(table):
-                ftype = conf.get(table, field).split('|')[0]
-                fsize = conf.get(table, field).split('|')[1]
+                fparams = conf.get(table, field).split('|')
+                ftype = fparams[0]
+                fsize = fparams[1]
                 self.schema[table].append({'name':field, 'type':ftype})
-                if ftype == 'int':
-                    fls.append(field + ' INTEGER')
-                elif ftype == 'float':
-                    fls.append(field + ' REAL')
+                if len(fparams) > 2:
+                    fdef = fparams[2].strip()
+                    if fdef in ['null', 'NULL', 'None', 'NONE']:
+                        fdef = ' DEFAULT NULL'
+                    elif fdef:
+                        fdef = ' DEFAULT ' + fparams[2]
+                    else:
+                        fdef = ' DEFAULT ' + "'" + fdef + "'"
                 else:
-                     fls.append(field)
+                    fdef = ''
+                if ftype == 'int':
+                    fls.append(' '.join([field, ' INTEGER', fdef]))
+                elif ftype == 'float':
+                    fls.append(' '.join([field, ' REAL', fdef]))
+                else:
+                    fls.append(field)
             q = ' '.join(['CREATE TABLE IF NOT EXISTS ', table,'(', ','.join(fls), ')'])
             #print q
             try:

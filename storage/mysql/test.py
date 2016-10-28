@@ -4,9 +4,11 @@ import crud
 from pprint import pprint
 
 print '-'*80
-print 'BEGIN Testing storage.sqlite.crud...'
+print 'BEGIN Testing storage.mysql.crud...'
+
 
 crud = crud.Crud()
+
 crud.query('SELECT * FROM session_data')
 crud.insert('session_data', [('key1', 'val1', 'str', 'sess1', 1234567890), ('key1', 'val1', 'str', 'sess1', 1234567890), ('key1', 'val1', 'str', 'sess1', 1234567890)])
 crud.insert('session_data2', [('key1', 'val1', 'str', 'sess1', 1234567890), ('key1', 'val1', 'str', 'sess1', 1234567890), ('key1', 'val1', 'str', 'sess1', 1234567890)])
@@ -24,5 +26,7 @@ crud.insert('session_data', [('key2', 'val1', 'str', 'sess1', 1234567890)])
 crud.update('session_data2', {'value': 'val3'}, {'session_id=': "'sess1'", 'utime=':str(1234567890)})
 crud.update('session_data', {'value': 'val3'}, {'session_id=': "'sess1'", 'utime=':str(1234567890)})
 
-print 'END Testing storage.sqlite.crud...'
+
+
+print 'END Testing storage.mysql.crud...'
 print '-'*80
