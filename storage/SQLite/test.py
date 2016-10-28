@@ -15,14 +15,14 @@ pprint(crud.get('session_data', {'session_id=': "'sess1'", '`key`=': "'key2'"}))
 crud.delete('session_data2')
 crud.delete('session_data')
 
-crud.insert('session_data', [('key2', 'val1', 'str', 'sess1', 1234567890)])
+crud.insert('session_data', data=[('key2', 'val1', 'str', 'sess1', 1234567890)])
 
 
 crud.drop_tables()
 crud.create_tables()
-crud.insert('session_data', [('key2', 'val1', 'str', 'sess1', 1234567890)])
-crud.update('session_data2', {'value': 'val3'}, {'session_id=': "'sess1'", 'utime=':str(1234567890)})
-crud.update('session_data', {'value': 'val3'}, {'session_id=': "'sess1'", 'utime=':str(1234567890)})
+crud.insert('session_data', data=[('key2', 'val1', 'str', 'sess1', 1234567890)])
+crud.update('session_data2', data={'value': 'val3'}, conditions=[{'session_id=': "'sess1'"}, {'utime=':str(1234567890)}])
+crud.update('session_data', data={'value': 'val3'}, conditions=[{'session_id=': "'sess1'"}, {'utime=':str(1234567890)}])
 
 print 'END Testing storage.SQLite.crud...'
 print '-'*80

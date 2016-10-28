@@ -133,12 +133,12 @@ class Strategy:
 
 
 
-        #user_trades = capi.user_trades(['ETH_USD'], limit=2)
+        user_trades = capi.user_trades(['ETH_USD'], limit=2)
         #pprint(user_trades)
-        #storage.save_user_trades(user_trades['ETH_USD'])
+        storage.save_user_trades(user_trades['ETH_USD'])
 
         #storage.delete_old_values(['user_trades'], time.time()-3, False, 'test')
-        #pprint(storage.get_last_user_trades(pair=None, limit=5, session_id='test'))
+        pprint(storage.get_last_user_trades(pair=None, limit=5))
 
         #min_primary_balance, min_secondary_balance = capi.get_min_balance('ETH_USD', 11.1)
         #print min_primary_balance, min_secondary_balance

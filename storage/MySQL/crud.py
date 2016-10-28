@@ -87,7 +87,7 @@ class Crud:
     @param table имя таблицы
     @param data_rows список кортежей с данными
     '''
-    def insert(self, table, data_rows):
+    def insert(self, table, data):
         conn = self._get_connection()
         cur = conn.cursor()
         success = True
@@ -105,8 +105,8 @@ class Crud:
             return success
         #print query
         try:
-            for data in data_rows:
-                cur.execute(query, data)
+            for data_row in data:
+                cur.execute(query, data_row)
             conn.commit()
         except Exception, ex:
             success = False
@@ -120,7 +120,7 @@ class Crud:
     '''
     получение данных из таблицы
     @param table имя таблицы
-    @param conditions словарь с условиями запроса (то что после where)
+    @param conditions список словарей с условиями запроса (то что после where)
     '''
     def get(self, table, conditions=None):
         conn = self._get_connection()
@@ -129,8 +129,13 @@ class Crud:
         q = ['SELECT * FROM', table, 'WHERE']
         tail = []
         if conditions is not None:
-            for key,val in conditions.items():
-                tail.append(''.join([key,str(val)]))
+            if type(conditions) is list:
+                for condition in conditions:
+                    key, val = condition.items()[0]
+                    tail.append(''.join([key, str(val)]))
+            elif type(conditions) is dict:
+                for key, val in conditions.items():
+                    tail.append(''.join([key, str(val)]))
             q.append(' AND '.join(tail))
         else:
             q.append('1')
@@ -153,7 +158,7 @@ class Crud:
     '''
     удаление данных из таблицы
     @param table имя таблицы
-    @param conditions словарь с условиями запроса (то что после where)
+    @param conditions список словарей с условиями запроса (то что после where)
     '''
     def delete(self, table, conditions=None):
         conn = self._get_connection()
@@ -162,8 +167,13 @@ class Crud:
         q = ['DELETE FROM', table, 'WHERE']
         tail = []
         if conditions is not None:
-            for key, val in conditions.items():
-                tail.append(''.join([key, str(val)]))
+            if type(conditions) is list:
+                for condition in conditions:
+                    key, val = condition.items()[0]
+                    tail.append(''.join([key, str(val)]))
+            elif type(conditions) is dict:
+                for key, val in conditions.items():
+                    tail.append(''.join([key, str(val)]))
             q.append(' AND '.join(tail))
         else:
             q.append('1')
@@ -185,7 +195,7 @@ class Crud:
     обновление данных в таблице
     @param table имя таблицы
     @param data словарь с данными {field_name: value}
-    @param conditions словарь с условиями запроса (то что после where)
+    @param conditions список словарей с условиями запроса (то что после where)
     '''
     def update(self, table, data, conditions=None):
         conn = self._get_connection()
@@ -196,15 +206,20 @@ class Crud:
         for fld, val in data.items():
             sets.append(''.join(['`', fld, '`', '=%s']))
         sets = ','.join(sets)
-        query = ['UPDATE', table, 'SET', sets, 'WHERE']
+        q = ['UPDATE', table, 'SET', sets, 'WHERE']
         tail = []
         if conditions is not None:
-            for key, val in conditions.items():
-                tail.append(''.join([key, str(val)]))
-            query.append(' AND '.join(tail))
+            if type(conditions) is list:
+                for condition in conditions:
+                    key, val = condition.items()[0]
+                    tail.append(''.join([key, str(val)]))
+            elif type(conditions) is dict:
+                for key, val in conditions.items():
+                    tail.append(''.join([key, str(val)]))
+            q.append(' AND '.join(tail))
         else:
-            query.append('1')
-        query = ' '.join(query)
+            q.append('1')
+        query = ' '.join(q)
         #print query
         try:
             cur.execute(query, values)
