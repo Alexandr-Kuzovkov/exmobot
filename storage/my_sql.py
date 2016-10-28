@@ -2,7 +2,7 @@
 
 import time
 import os
-import mysql.connector
+import MySQL.connector
 
 class Storage:
 
@@ -22,7 +22,7 @@ class Storage:
         conn.close()
 
     def _get_connection(self):
-        return mysql.connector.connect(host='localhost', database='exmobot', user='root', password='rootroot', charset='utf8')
+        return MySQL.connector.connect(host='localhost', database='exmobot', user='root', password='rootroot', charset='utf8')
 
     '''
     запись значения в сессию

@@ -4,7 +4,7 @@ import crud
 from pprint import pprint
 
 print '-'*80
-print 'BEGIN Testing storage.mysql.crud...'
+print 'BEGIN Testing storage.MySQL.crud...'
 
 
 crud = crud.Crud()
@@ -28,5 +28,5 @@ crud.update('session_data', {'value': 'val3'}, {'session_id=': "'sess1'", 'utime
 
 
 
-print 'END Testing storage.mysql.crud...'
+print 'END Testing storage.MySQL.crud...'
 print '-'*80

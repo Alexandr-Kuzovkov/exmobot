@@ -43,7 +43,7 @@ try:
     if conf.has_option('common', 'storage'):
         storage_type = conf.get('common', 'storage')
     else:
-        storage_type = 'sqlite'
+        storage_type = 'SQLite'
 
     if conf.has_option('common', 'debug'):
         debug = int(conf.get('common', 'debug'))

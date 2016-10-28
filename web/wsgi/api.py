@@ -14,7 +14,7 @@ ABSBOTPATH = '/'.join(abspath.split('/')[0:len(abspath.split('/')) - 2])
 config_file = ABSBOTPATH + '/web/wsgi/accounts.conf'
 sys.path.append(ABSBOTPATH)
 os.chdir(ABSBOTPATH)
-#storage_type = 'sqlite'
+#storage_type = 'SQLIte'
 #session_id = 'test'
 
 

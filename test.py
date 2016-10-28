@@ -3,8 +3,8 @@
 import os
 
 commands = []
-commands.append('storage/sqlite/test.py')
-commands.append('storage/mysql/test.py')
+commands.append('storage/SQLite/test.py')
+commands.append('storage/MySQL/test.py')
 
 
 for command in commands:

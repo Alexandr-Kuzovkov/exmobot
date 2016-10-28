@@ -8,7 +8,7 @@ import os
 class Storage:
 
     session_id = '0'
-    db_file = 'store.sqlite'
+    db_file = 'store.SQLite'
     root_dir = '/'
 
     def __init__(self, session_id, root_dir):

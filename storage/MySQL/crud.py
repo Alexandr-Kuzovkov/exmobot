@@ -1,6 +1,6 @@
 #coding=utf-8
 
-import sqlite3
+import mysql.connector
 import time
 import os
 from ConfigParser import *
@@ -10,23 +10,25 @@ from pprint import pprint
 class Crud:
 
     session_id = '0'
-    rel_path_db_file = 'db/store_test.sqlite' #относительный путь до файла базы данных относительно корня скрипта
-    db_file = ''
+    dbhost = 'localhost'
+    dbname = 'store_test'
+    dbuser = 'root'
+    dbpass = 'rootroot'
+    dbcharset = 'utf8'
     rel_path_schema = '/storage/schema.ini'
     schema_file = ''
     schema = {} #словарь в котором хранится схема БД
 
     #конструктор, создание таблиц
     def __init__(self):
-        self.curr_dir = os.path.dirname(os.path.realpath(__file__))
-        root_dir = '/'.join(self.curr_dir.split('/')[0:len(self.curr_dir.split('/')) - 2])
-        self.db_file = '/'.join([root_dir, self.rel_path_db_file])
+        curr_dir = os.path.dirname(os.path.realpath(__file__))
+        root_dir = '/'.join(curr_dir.split('/')[0:len(curr_dir.split('/')) - 2])
         self.schema_file = '/'.join([root_dir, self.rel_path_schema])
         self.create_tables()
         #pprint(self.schema)
 
     def _get_connection(self):
-        return sqlite3.connect(self.db_file)
+        return mysql.connector.connect(host=self.dbhost, database=self.dbname, user=self.dbuser, password=self.dbpass, charset=self.dbcharset)
 
     '''
     выполнение запроса с возвратом результата
@@ -36,6 +38,7 @@ class Crud:
     def query(self, query, data=None):
         conn = self._get_connection()
         cur = conn.cursor()
+        query = query.replace('?', '%')
         success = True
         try:
             if data is not None:
@@ -43,7 +46,7 @@ class Crud:
             else:
                 cur.execute(query)
             res = cur.fetchall()
-        except sqlite3.OperationalError, ex:
+        except Exception, ex:
             print ex
             success = False
         finally:
@@ -62,6 +65,7 @@ class Crud:
     def execute(self, query, data=None):
         conn = self._get_connection()
         cur = conn.cursor()
+        query = query.replace('?', '%')
         success = True
         try:
             if data is not None:
@@ -69,7 +73,7 @@ class Crud:
             else:
                 cur.execute(query)
             conn.commit()
-        except sqlite3.OperationalError, ex:
+        except Exception, ex:
             success = False
             print ex
         finally:
@@ -90,21 +94,21 @@ class Crud:
         place_holders = []
         try:
             for i in range(len(self.schema[table])):
-                place_holders.append('?')
+                place_holders.append('%s')
             fln = []
             for field in self.schema[table]:
-                fln.append(field['name'])
+                fln.append(''.join(['`', field['name'], '`']))
             query = ' '.join(['INSERT INTO', table, '(', ','.join(fln), ') VALUES (', ','.join(place_holders),')'])
         except Exception, ex:
             print ex
             success = False
             return success
-        print query
+        #print query
         try:
             for data in data_rows:
                 cur.execute(query, data)
             conn.commit()
-        except sqlite3.OperationalError, ex:
+        except Exception, ex:
             success = False
             print ex
         finally:
@@ -126,7 +130,7 @@ class Crud:
         tail = []
         if conditions is not None:
             for key,val in conditions.items():
-                tail.append(''.join([key,val]))
+                tail.append(''.join([key,str(val)]))
             q.append(' AND '.join(tail))
         else:
             q.append('1')
@@ -135,7 +139,7 @@ class Crud:
         try:
             cur.execute(query)
             res = cur.fetchall()
-        except sqlite3.OperationalError, ex:
+        except Exception, ex:
             print ex
             success = False
         finally:
@@ -159,7 +163,7 @@ class Crud:
         tail = []
         if conditions is not None:
             for key, val in conditions.items():
-                tail.append(''.join([key, val]))
+                tail.append(''.join([key, str(val)]))
             q.append(' AND '.join(tail))
         else:
             q.append('1')
@@ -168,7 +172,7 @@ class Crud:
         try:
             cur.execute(query)
             conn.commit()
-        except sqlite3.OperationalError, ex:
+        except Exception, ex:
             print ex
             success = False
         finally:
@@ -190,22 +194,22 @@ class Crud:
         values = data.values()
         sets = []
         for fld, val in data.items():
-            sets.append(''.join([fld, '=?']))
+            sets.append(''.join(['`', fld, '`', '=%s']))
         sets = ','.join(sets)
         query = ['UPDATE', table, 'SET', sets, 'WHERE']
         tail = []
         if conditions is not None:
             for key, val in conditions.items():
-                tail.append(''.join([key, val]))
+                tail.append(''.join([key, str(val)]))
             query.append(' AND '.join(tail))
         else:
             query.append('1')
         query = ' '.join(query)
-        print query
+        #print query
         try:
             cur.execute(query, values)
             conn.commit()
-        except sqlite3.OperationalError, ex:
+        except Exception, ex:
             success = False
             print ex
         finally:
@@ -218,10 +222,10 @@ class Crud:
     удаление таблиц БД
     '''
     def drop_tables(self):
-        rows = self.query("SELECT * FROM sqlite_master WHERE type = 'table'")
+        rows = self.query("SHOW TABLES")
         tables = []
         for row in rows:
-            tables.append(row[1])
+            tables.append(row[0])
         for table in tables:
             query = ['DROP TABLE IF EXISTS', table]
             query = ' '.join(query)
@@ -233,7 +237,6 @@ class Crud:
     создание таблиц базы данных
     '''
     def create_tables(self):
-        root_dir = '/'.join(self.curr_dir.split('/')[0:len(self.curr_dir.split('/')) - 2])
         conf = ConfigParser()
         conf.read(self.schema_file)
         conn = self._get_connection()
@@ -244,9 +247,9 @@ class Crud:
             fls = []
             for field in conf.options(table):
                 fparams = conf.get(table, field).split('|')
-                ftype = fparams[0]
-                fsize = fparams[1]
-                self.schema[table].append({'name':field, 'type':ftype})
+                ftype = fparams[0].strip()
+                fsize = fparams[1].strip()
+                self.schema[table].append({'name': field, 'type': ftype})
                 if len(fparams) > 2:
                     fdef = fparams[2].strip()
                     if fdef in ['null', 'NULL', 'None', 'NONE']:
@@ -258,16 +261,16 @@ class Crud:
                 else:
                     fdef = ''
                 if ftype == 'int':
-                    fls.append(' '.join([field, ' INTEGER', fdef]))
+                    fls.append(''.join(['`',field, '`', ' INT(', fsize, ')', fdef]))
                 elif ftype == 'float':
-                    fls.append(' '.join([field, ' REAL', fdef]))
+                    fls.append(''.join(['`', field, '`', ' REAL(', fsize, ')', fdef]))
                 else:
-                    fls.append(field)
-            q = ' '.join(['CREATE TABLE IF NOT EXISTS ', table,'(', ','.join(fls), ')'])
+                    fls.append(''.join(['`', field, '`', ' varchar(', fsize, ')', fdef]))
+            q = ' '.join(['CREATE TABLE IF NOT EXISTS ', table,'(', ','.join(fls), ')', ' ENGINE=InnoDB DEFAULT CHARSET=utf8'])
             #print q
             try:
                 cur.execute(q)
-            except sqlite3.OperationalError, ex:
+            except Exception, ex:
                 success = False
                 print ex
         cur.close()
