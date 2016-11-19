@@ -96,7 +96,7 @@ class CommonAPI:
     '''
     def _date2timestamp(self, date):
         try:
-            print date
+            #print date
             timestamp = int(mktime(strptime(date, '%Y-%m-%d %H:%M:%S')))
         except ValueError, ex:
             print ex
@@ -139,6 +139,7 @@ class CommonAPI:
     def get_min_balance(self, pair, ticker=None):
         if ticker is None:
             ticker = self.ticker()
+        pair = self._check_pair(pair)
         price = max(ticker[pair]['buy_price'], ticker[pair]['sell_price'])
         if 'min_quantity' in self.pair_settings[pair] and self.pair_settings[pair]['min_quantity'] != 0:
             min_primary_balance = self.pair_settings[pair]['min_quantity']
@@ -733,7 +734,7 @@ class CommonAPI:
     Подсчет на какое количество валюты currency_to можно
     обменять количество amount_from валюты currency_from
     '''
-    def possable_amount(self, currency_from, currency_to, amount_from):
+    def possable_amount(self, currency_from, currency_to, amount_from, orders=None):
         currencies = self._get_currency();
         if currency_from not in currencies or currency_to not in currencies:
             raise Exception('currencies expected in ' + str(currencies))
@@ -747,7 +748,8 @@ class CommonAPI:
         else:
             raise Exception('pair expected in ' + str(valid_pairs))
 
-        orders = self.orders([pair], limit=1000)
+        if orders is None:
+            orders = self.orders([pair], limit=1000)
         amount_to = 0.0
         if order_type == 'bid':
             quantity_curr = 0.0

@@ -2,7 +2,7 @@
 '''
 получение минимальной цены продажи для обеспечения
 продажи не в убыток на основе истории сделок
-@param quantity количество первой валюты в паре
+@param quantity количество первой валюты (ранее купленной а сейчас продаваемой)в паре
 '''
 def calc_price_sell(strategy, quantity, user_trades=None, limit=100):
     if user_trades is None:
@@ -310,3 +310,10 @@ def calc_prices(strategy, orders, price_step, fee=0.002):
 
     return {'ask': ask, 'bid': bid}
 
+
+
+'''
+возвращает название пары с обратным порядком валют
+'''
+def reverse_pair(pair):
+    return '_'.join([pair.split('_')[1], pair.split('_')[0]])
