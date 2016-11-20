@@ -525,9 +525,9 @@ class CommonAPI:
                     raise Exception('pair expected in ' + str(valid_pairs))
         try:
             if pairs is None:
-                data = self.api.btce_api('TradeHistory', count=limit)
+                data = self.api.btce_api('TradeHistory', order='DESC', count=limit)
             else:
-                data = self.api.btce_api('TradeHistory', pair='-'.join(pairs).lower(), count=limit)
+                data = self.api.btce_api('TradeHistory', pair='-'.join(pairs).lower(), order='DESC', count=limit)
         except Exception, ex:
             return {}
         trades = {}

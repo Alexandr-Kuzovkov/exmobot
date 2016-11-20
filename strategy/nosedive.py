@@ -89,7 +89,7 @@ class Strategy:
         self.logger.info('balance: %s=%f; %s=%f' % (self.pair.split('_')[0], primary_balance, self.pair.split('_')[1], secondary_balance), self.prefix)
 
         #если баланс по 2 валюте достаточен
-        if False: #secondary_balance >= min_secondary_balance:
+        if secondary_balance >= min_secondary_balance:
             self.logger.info('buing %s' % self.pair.split('_')[0], self.prefix)
             #цена покупки по процентам
             buy_price_percent = buy_orders[0][0]*(1 - self.margin_down_percent/100.0)
@@ -116,7 +116,6 @@ class Strategy:
             #получаем историю торгов по паре и сортируем по времени
             user_trades = self.capi.user_trades([self.pair])
             user_trades = sorted(user_trades[self.capi.check_pair(self.pair)], key=lambda row: -row['date'])
-            pprint(user_trades[0:5])
             #вычисляем сколько мы потратили  второй валюты на покупку имеющегося количества первой валюты (amount1)
             curr_quantity = 0.0
             amount1 = 0.0
@@ -132,7 +131,7 @@ class Strategy:
             #вычисляем из ордеров на покупку за сколько можно продать по рынку имеющееся количество первой валюты (amount2)
             amount2 = self.capi.possable_amount(self.pair.split('_')[0], self.pair.split('_')[1], primary_balance, orders)
             self.logger.info('amount1=%f; amount2=%f' % (amount1, amount2), self.prefix)
-            if False: #amount2 * (1 - self.fee) > amount1: #если цена восстановилась
+            if amount2 * (1 - self.fee) > amount1: #если цена восстановилась
                 self.logger.info('selling %s by market' % self.pair.split('_')[0], self.prefix)
                 #продаем по рынку первую валюту
                 pair = self.capi.check_pair(self.pair)
