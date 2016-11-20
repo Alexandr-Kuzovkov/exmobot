@@ -109,7 +109,7 @@ class CommonAPI:
     Проверка валютной пары и при необходимости
     изменение порядка валют в паре
     '''
-    def _check_pair(self, pair):
+    def check_pair(self, pair):
         valid_pairs = self.pair_settings.keys()
         if pair in valid_pairs:
             return pair
@@ -123,11 +123,11 @@ class CommonAPI:
     Проверка валютной пары в списке и при необходимости
     изменение порядка валют в паре
     '''
-    def _check_pairs(self, pairs):
+    def check_pairs(self, pairs):
         valid_pairs = self.pair_settings.keys()
         new_pairs = []
         for pair in pairs:
-            new_pairs.append(self._check_pair(pair))
+            new_pairs.append(self.check_pair(pair))
         return new_pairs
 
 
@@ -139,7 +139,7 @@ class CommonAPI:
     def get_min_balance(self, pair, ticker=None):
         if ticker is None:
             ticker = self.ticker()
-        pair = self._check_pair(pair)
+        pair = self.check_pair(pair)
         price = max(ticker[pair]['buy_price'], ticker[pair]['sell_price'])
         if 'min_quantity' in self.pair_settings[pair] and self.pair_settings[pair]['min_quantity'] != 0:
             min_primary_balance = self.pair_settings[pair]['min_quantity']
@@ -189,7 +189,7 @@ class CommonAPI:
         valid_pairs = self.pair_settings.keys()
         if len(pairs) > 1:
             raise Exception('Poloniex API support one pair only')
-        pair = self._check_pair(pairs[0])
+        pair = self.check_pair(pairs[0])
         data = self.api.public_api_query('returnTradeHistory', currencyPair=pair)
         trades = {}
         trades[pair] = []
@@ -251,7 +251,7 @@ class CommonAPI:
     '''
     def orders(self, pairs=[], limit=150):
         valid_pairs = self.pair_settings.keys()
-        pairs = self._check_pairs(pairs)
+        pairs = self.check_pairs(pairs)
         orders = {}
 
         if len(pairs) == 1:
@@ -358,7 +358,7 @@ class CommonAPI:
     '''
     def order_create(self, pair, quantity, price, order_type):
         valid_types = ['buy', 'sell']
-        pair = self._check_pair(pair)
+        pair = self.check_pair(pair)
         valid_pairs = self.pair_settings.keys()
         min_quantity = self.pair_settings[pair]['min_quantity']
         max_quantity = self.pair_settings[pair]['max_quantity']
@@ -568,7 +568,7 @@ class CommonAPI:
         valid_pairs = self.pair_settings.keys()
         if pairs is None:
             pairs = valid_pairs
-        pairs = self._check_pairs(pairs)
+        pairs = self.check_pairs(pairs)
         trades = {}
         if len(pairs) == 1:
             data = self.api.trade_api_query('returnTradeHistory', currencyPair=pairs[0])
@@ -709,7 +709,7 @@ class CommonAPI:
     '''
     def required_amount(self, pair, quantity):
         valid_pairs = self.pair_settings.keys()
-        pair = self._check_pair(pair)
+        pair = self.check_pair(pair)
         orders = self.orders([pair], limit=1000)
         amount = 0.0
         curr_quantity = 0.0

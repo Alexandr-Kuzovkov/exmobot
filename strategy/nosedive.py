@@ -52,7 +52,7 @@ class Strategy:
         #отступ цены вниз от верха стакана в процентах
         self.margin_down_percent = Lib.set_param(self, key='margin_down_percent', default_value=3, param_type='float')
 
-        # объем ордеров от верха стакана в биткоинах, после которого будем ставитить ордер
+        #объем ордеров от верха стакана в единицах второй валюты, после которого будем ставитить ордер
         self.margin_down_volume = Lib.set_param(self, key='margin_down_volume', default_value=10, param_type='float')
 
 
@@ -76,7 +76,7 @@ class Strategy:
         min_primary_balance, min_secondary_balance = self.capi.get_min_balance(self.pair, ticker)
 
         #получаем комиссию
-        self.fee = self.capi.pair_settings[self.pair]['fee']
+        self.fee = self.capi.fee[self.capi.check_pair(self.pair)]
 
         #удаляем все ордера по паре
         self.capi.orders_cancel([self.pair])
@@ -86,8 +86,11 @@ class Strategy:
         primary_balance = balance[self.pair.split('_')[0]]
         secondary_balance = min(balance[self.pair.split('_')[1]], self.limit)
 
+        self.logger.info('balance: %s=%f; %s=%f' % (self.pair.split('_')[0], primary_balance, self.pair.split('_')[1], secondary_balance), self.prefix)
+
         #если баланс по 2 валюте достаточен
-        if secondary_balance >= min_secondary_balance:
+        if False: #secondary_balance >= min_secondary_balance:
+            self.logger.info('buing %s' % self.pair.split('_')[0], self.prefix)
             #цена покупки по процентам
             buy_price_percent = buy_orders[0][0]*(1 - self.margin_down_percent/100.0)
 
@@ -102,33 +105,37 @@ class Strategy:
                     buy_price_amount = order_price
                     break
             buy_price = min(buy_price_percent, buy_price_amount)
-            #print buy_price_percent, buy_price_amount, buy_price
+
+            self.logger.info('top_buy_price=%f; buy_price_percent=%f; buy_price_amount=%f' % (buy_orders[0][0], buy_price_percent, buy_price_amount), self.prefix)
+            buy_price_percent, buy_price_amount, buy_price
             Lib.order_create(self, 'buy', buy_price, secondary_balance/buy_price)
 
         #если баланс по первой валюте достаточен
         if primary_balance >= min_primary_balance:
+            self.logger.info('checking selling %s profitness' % self.pair.split('_')[0], self.prefix)
             #получаем историю торгов по паре и сортируем по времени
             user_trades = self.capi.user_trades([self.pair])
-            user_trades = sorted(user_trades[self.pair], key=lambda row: -row['date'])
+            user_trades = sorted(user_trades[self.capi.check_pair(self.pair)], key=lambda row: -row['date'])
+            pprint(user_trades[0:5])
             #вычисляем сколько мы потратили  второй валюты на покупку имеющегося количества первой валюты (amount1)
             curr_quantity = 0.0
-            curr_amount = 0.0
+            amount1 = 0.0
             for trade in user_trades:
-                if trade['type'] == 'sell' or trade['pair'] != self.pair:
+                if trade['type'] == 'sell' or trade['pair'] != self.capi.check_pair(self.pair):
                     continue
+                print 'quantity=%f; amount=%f' % (trade['quantity'], trade['amount'])
                 curr_quantity += trade['quantity']
-                curr_amount += trade['amount']
+                amount1 += trade['amount']
                 #print 'q=%f a=%f time=%s' % (trade['quantity'], trade['amount'], time.ctime(trade['date']))
-                if curr_quantity * (1 - self.fee) >= primary_balance:
-                    amount1 = curr_amount
+                if Lib._round(curr_quantity * (1 - self.fee), 5) >= Lib._round(primary_balance, 5):
                     break
-            #вычисляем из ордеров на покупку за сколько можно продать по рынку имеющееся кличество первой валюты (amount2)
+            #вычисляем из ордеров на покупку за сколько можно продать по рынку имеющееся количество первой валюты (amount2)
             amount2 = self.capi.possable_amount(self.pair.split('_')[0], self.pair.split('_')[1], primary_balance, orders)
-            if amount2 > amount1: #если цена восстановилась
+            self.logger.info('amount1=%f; amount2=%f' % (amount1, amount2), self.prefix)
+            if False: #amount2 * (1 - self.fee) > amount1: #если цена восстановилась
+                self.logger.info('selling %s by market' % self.pair.split('_')[0], self.prefix)
                 #продаем по рынку первую валюту
-                pair = self.pair
-                if self.capi.name in ['poloniex']:
-                    pair = Lib.reverse_pair(pair)
+                pair = self.capi.check_pair(self.pair)
                 chain = {'chain': [{'pair': pair, 'currency': self.pair.split('_')[0], 'order_type': 'sell'}]}
                 res = self.capi.execute_exchange_chain(chain, primary_balance)
                 self.logger.info(str(res), self.prefix)

@@ -75,6 +75,19 @@ class CommonAPI:
         return fee
 
     '''
+    Проверка валютной пары и при необходимости
+    изменение порядка валют в паре
+    '''
+    def check_pair(self, pair):
+        valid_pairs = self.pair_settings.keys()
+        if pair in valid_pairs:
+            return pair
+        elif '_'.join([pair.split('_')[1], pair.split('_')[0]]) in valid_pairs:
+            return '_'.join([pair.split('_')[1], pair.split('_')[0]])
+        else:
+            raise Exception('pair expected in %s' % str(valid_pairs))
+
+    '''
     получение минимальных балансов по валютам в паре
     необходимых для создания ордера
     @return (min_primary_balance, min_secondary_balance)
@@ -583,7 +596,7 @@ class CommonAPI:
     Подсчет на какое количество валюты currency_to можно
     обменять количество amount_from валюты currency_from
     '''
-    def possable_amount(self, currency_from, currency_to, amount_from):
+    def possable_amount(self, currency_from, currency_to, amount_from, orders=None):
         currencies = self._get_currency();
         if currency_from not in currencies or currency_to not in currencies:
             raise Exception('currencies expected in ' + str(currencies))
@@ -597,7 +610,8 @@ class CommonAPI:
         else:
             raise Exception('pair expected in ' + str(valid_pairs))
 
-        orders = self.orders([pair], limit=1000)
+        if orders is None:
+            orders = self.orders([pair], limit=1000)
         amount_to = 0.0
         if order_type == 'bid':
             quantity_curr = 0.0

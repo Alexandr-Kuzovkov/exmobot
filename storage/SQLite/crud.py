@@ -10,7 +10,7 @@ from pprint import pprint
 class Crud:
 
     session_id = '0'
-    rel_path_db_file = 'db/store_test.sqlite' #относительный путь до файла базы данных относительно корня скрипта
+    rel_path_db_file = 'db/store.sqlite' #относительный путь до файла базы данных относительно корня скрипта
     db_file = ''
     rel_path_schema = '/storage/schema.ini'
     schema_file = ''
