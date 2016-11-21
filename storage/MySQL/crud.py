@@ -11,7 +11,7 @@ class Crud:
 
     session_id = '0'
     dbhost = 'localhost'
-    dbname = 'store_test'
+    dbname = 'exmobot'
     dbuser = 'root'
     dbpass = 'rootroot'
     dbcharset = 'utf8'

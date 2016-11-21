@@ -5,6 +5,16 @@ import SQLite.crud
 import MySQL.crud
 from pprint import pprint
 import time
+import os
+import sys
+abspath = os.path.abspath(__file__)
+rootpath = '/'.join(abspath.split('/')[0:len(abspath.split('/'))-2])
+sys.path.append(rootpath)
+os.chdir(rootpath)
+import exchange.poloniex.api as mod_api
+import exchange.poloniex.common_api as mod_capi
+capi = mod_capi.CommonAPI(mod_api.API())
+
 
 
 print '-'*80
@@ -40,7 +50,9 @@ for dbase in dbases:
     pprint(strg.delete_old_values(['balance'], time.time()-3000, full=False))
     pprint(strg.get_last_balance('ETH', 3))
 
-
+    user_trades = capi.user_trades(['ETH_USDT'], limit=10)
+    pprint(user_trades)
+    strg.save_user_trades(user_trades['USDT_ETH'])
 
 
 
