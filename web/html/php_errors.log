@@ -49,3 +49,20 @@
  in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 99
 [26-Oct-2016 00:25:03 Europe/Moscow] PHP Notice:  Undefined offset: 0 in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 106
 [26-Oct-2016 00:25:03 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 106
+[22-Nov-2016 22:52:37 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[22-Nov-2016 22:58:10 Europe/Moscow] PHP Warning:  require_once(_auth.php): failed to open stream: No such file or directory in /var/www/vhosts/exmo_bot/web/html/index.php on line 4
+[22-Nov-2016 22:58:10 Europe/Moscow] PHP Fatal error:  require_once(): Failed opening required '_auth.php' (include_path='.:/usr/share/php:/usr/share/pear') in /var/www/vhosts/exmo_bot/web/html/index.php on line 4
+[22-Nov-2016 22:58:53 Europe/Moscow] PHP Warning:  require_once(_auth.php): failed to open stream: No such file or directory in /var/www/vhosts/exmo_bot/web/html/index.php on line 4
+[22-Nov-2016 22:58:53 Europe/Moscow] PHP Fatal error:  require_once(): Failed opening required '_auth.php' (include_path='.:/usr/share/php:/usr/share/pear') in /var/www/vhosts/exmo_bot/web/html/index.php on line 4
+[22-Nov-2016 22:58:54 Europe/Moscow] PHP Warning:  require_once(_auth.php): failed to open stream: No such file or directory in /var/www/vhosts/exmo_bot/web/html/index.php on line 4
+[22-Nov-2016 22:58:54 Europe/Moscow] PHP Fatal error:  require_once(): Failed opening required '_auth.php' (include_path='.:/usr/share/php:/usr/share/pear') in /var/www/vhosts/exmo_bot/web/html/index.php on line 4
+[22-Nov-2016 22:58:55 Europe/Moscow] PHP Warning:  require_once(_auth.php): failed to open stream: No such file or directory in /var/www/vhosts/exmo_bot/web/html/index.php on line 4
+[22-Nov-2016 22:58:55 Europe/Moscow] PHP Fatal error:  require_once(): Failed opening required '_auth.php' (include_path='.:/usr/share/php:/usr/share/pear') in /var/www/vhosts/exmo_bot/web/html/index.php on line 4
+[22-Nov-2016 23:06:06 Europe/Moscow] PHP Warning:  require_once(_login_footer.php): failed to open stream: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/login.php on line 17
+[22-Nov-2016 23:06:06 Europe/Moscow] PHP Fatal error:  require_once(): Failed opening required '_login_footer.php' (include_path='.:/usr/share/php:/usr/share/pear') in /var/www/vhosts/exmo_bot/web/pages/login.php on line 17
+[22-Nov-2016 23:09:35 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[22-Nov-2016 23:09:51 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[22-Nov-2016 23:09:51 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[22-Nov-2016 23:09:57 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[22-Nov-2016 23:10:03 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[22-Nov-2016 23:57:39 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2

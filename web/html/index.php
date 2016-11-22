@@ -1,11 +1,8 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: user1
- * Date: 22.05.16
- * Time: 21:18
- */
+<?php if(session_status() !== PHP_SESSION_ACTIVE ) session_start();?>
+<?php require_once('../include/common.inc.php');?>
 
+
+<?php
 $pages = 'pages/';
 $scripts = 'scripts/';
 $root_dir = ''; /*если скрипт не в корневом каталоге сервера*/
@@ -63,6 +60,8 @@ if (isset($_SERVER['REQUEST_URI'])){
         $uri = substr($uri, strlen($root_dir));
     }
 
+    if (!Auth::isAuth() && $uri != '/login' && $uri != '/auth') { header('Location: /login'); exit(); }
+
     if (isset($routes[$uri])){
         if(is_array($routes[$uri])){
             if (isset($routes[$uri][1]) && is_array($routes[$uri][1]))
@@ -76,6 +75,7 @@ if (isset($_SERVER['REQUEST_URI'])){
     }else{
         $require = '../' . $routes['404'];
     }
+
 
     require_once ($require);
 

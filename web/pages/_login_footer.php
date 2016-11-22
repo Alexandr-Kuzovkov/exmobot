@@ -1,10 +1,4 @@
 </div>
-<div class="jumbotron">
-    <div class="footer">
-        <h3>Панель управления ботами</h3>
-        <p>&copy; Kuzovkov A.V. 2016</p>
-    </div>
-</div>
 
 </div> <!-- /container -->
 

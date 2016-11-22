@@ -56,7 +56,6 @@ class API:
         nonce = int(round(time.time() * 1000))
         params["nonce"] = nonce
         params = urllib.urlencode(params)
-
         headers = {"Content-type": "application/x-www-form-urlencoded"}
         conn = httplib.HTTPSConnection("api.exmo.com")
         conn.request("POST", "/v1/" + method, params, headers)

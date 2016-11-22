@@ -7,7 +7,7 @@ print '-'*80
 print 'BEGIN Testing storage.MySQL.crud...'
 
 
-crud = crud.Crud()
+crud = crud.Crud('store_test')
 
 crud.query('SELECT * FROM session_data')
 crud.insert('session_data', [('key1', 'val1', 'str', 'sess1', 1234567890), ('key1', 'val1', 'str', 'sess1', 1234567890), ('key1', 'val1', 'str', 'sess1', 1234567890)])

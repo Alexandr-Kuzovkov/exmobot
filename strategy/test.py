@@ -29,7 +29,7 @@ class Strategy:
         self.conf = conf
         self.logger = logger
         self.params = params
-        self.prefix = capi.name + ' ' + self.name
+        self.prefix = self.name
 
         #ввод параметров
         #id сессии
@@ -264,5 +264,15 @@ class Strategy:
         pprint(Lib.calc_price_sell(self, quantity))
         '''
 
-        #pprint(self.capi.balance())
+        #тестирование использования нескольких capi в одной стратегии
+        '''
+        if type(self.capi) is dict:
+            pprint(str(self.capi))
+            for ca in self.capi.values():
+                pprint(ca.name)
+        else:
+            pprint(self.capi.name)
+            pprint(self.capi.balance())
+        '''
         #pprint(self.capi.exchange_all_to_usd())
+        #pprint(capi.user_trades(['ETH_BTC']))

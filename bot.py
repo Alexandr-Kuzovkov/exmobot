@@ -78,25 +78,31 @@ except Exception, ex:
     print ex.message
     exit(1)
 
-if debug:
-    mod_strategy = __import__('strategy.' + strategy_name, globals(), locals(), ['run'], -1)
+exchange_name_list = exchange_name.split(',')
+if len(exchange_name_list) == 1:
     mod_api = __import__('exchange.' + exchange_name + '.api', globals(), locals(), ['API'], -1)
     mod_common_api = __import__('exchange.' + exchange_name + '.common_api', globals(), locals(), ['CommonAPI'], -1)
-    mod_dbase = __import__('storage.' + storage_type + '.crud', globals(), locals(), ['Storage'], -1)
-    dbase = mod_dbase.Crud()
     api = mod_api.API(api_key, api_secret)
     capi = mod_common_api.CommonAPI(api)
+else:
+    capi = {}
+    for exchange_name in exchange_name_list:
+        mod_api = __import__('exchange.' + exchange_name + '.api', globals(), locals(), ['API'], -1)
+        mod_common_api = __import__('exchange.' + exchange_name + '.common_api', globals(), locals(), ['CommonAPI'], -1)
+        api = mod_api.API(api_key, api_secret)
+        capi[exchange_name] = mod_common_api.CommonAPI(api)
+
+if debug:
+    mod_strategy = __import__('strategy.' + strategy_name, globals(), locals(), ['run'], -1)
+    mod_dbase = __import__('storage.' + storage_type + '.crud', globals(), locals(), ['Storage'], -1)
+    dbase = mod_dbase.Crud()
     storage = mod_storage.Storage(dbase, session_id)
     strategy = mod_strategy.Strategy(capi, logger, storage, conf)
 else:
     try:
         mod_strategy = __import__('strategy.' + strategy_name, globals(), locals(), ['run'], -1)
-        mod_api = __import__('exchange.' + exchange_name + '.api', globals(), locals(), ['API'], -1)
-        mod_common_api = __import__('exchange.' + exchange_name + '.common_api', globals(), locals(), ['CommonAPI'], -1)
         mod_dbase = __import__('storage.' + storage_type + '.crud', globals(), locals(), ['Storage'], -1)
         dbase = mod_dbase.Crud()
-        api = mod_api.API(api_key, api_secret)
-        capi = mod_common_api.CommonAPI(api)
         storage = mod_storage.Storage(dbase, session_id)
         strategy = mod_strategy.Strategy(capi, logger, storage, conf)
     except Exception, e:

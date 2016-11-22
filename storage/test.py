@@ -20,7 +20,7 @@ capi = mod_capi.CommonAPI(mod_api.API())
 print '-'*80
 print 'BEGIN Testing storage.storage...'
 
-dbases = [SQLite.crud.Crud(), MySQL.crud.Crud()]
+dbases = [SQLite.crud.Crud('store_test.sqlite'), MySQL.crud.Crud('store_test')]
 for dbase in dbases:
     strg = storage.Storage(dbase, 'sess-test')
     strg.save('key1', 'value1')
@@ -50,9 +50,10 @@ for dbase in dbases:
     pprint(strg.delete_old_values(['balance'], time.time()-3000, full=False))
     pprint(strg.get_last_balance('ETH', 3))
 
-    user_trades = capi.user_trades(['ETH_USDT'], limit=10)
+    pair = 'BTC_ETC'
+    user_trades = capi.user_trades([pair])
     pprint(user_trades)
-    strg.save_user_trades(user_trades['USDT_ETH'])
+    strg.save_user_trades(user_trades[pair])
 
 
 

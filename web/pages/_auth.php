@@ -1,5 +1,5 @@
 <?php
 /**авторизация**/
-if (!Auth::isAuth()) { echo '<label>Требуется авторизация!</label>'; exit();}
+if (!Auth::isAuth()) { $uri = '/login'; }
 /**авторизация**/
 ?>

@@ -17,7 +17,9 @@ class Crud:
     schema = {} #словарь в котором хранится схема БД
 
     #конструктор, создание таблиц
-    def __init__(self):
+    def __init__(self, dbfile=None):
+        if dbfile is not None:
+            self.rel_path_db_file = 'db/' + dbfile
         self.curr_dir = os.path.dirname(os.path.realpath(__file__))
         root_dir = '/'.join(self.curr_dir.split('/')[0:len(self.curr_dir.split('/')) - 2])
         self.db_file = '/'.join([root_dir, self.rel_path_db_file])
