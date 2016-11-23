@@ -6,6 +6,7 @@
 import errno
 import warnings
 import time
+from pprint import pprint
 
 from zlib import MAX_WBITS as _MAX_WBITS
 from Cookie import SimpleCookie
@@ -16,6 +17,7 @@ from httplib import HTTPSConnection
 from json import loads as jsonloads
 from re import search as research
 from urllib import urlencode
+import urllib2
 from zlib import decompress as _zdecompress
 
 from Cookie import CookieError
@@ -134,6 +136,8 @@ class BTCEConnection(object):
         }
     conn = None    # type 'httplib.HTTPSConnection'
     resp = None    # type 'httplib.HTTPResponse'
+    req = None
+    res = None
 
     @classmethod
     def __init__(cls, compr=None, timeout=60):
@@ -144,6 +148,7 @@ class BTCEConnection(object):
             compr = 'identity'
         elif compr is True:
             compr = 'gzip, deflate'
+        #cls._post_headers.update(cls._headers)
 
         if not cls.conn:
             # Create new connection.
@@ -160,6 +165,10 @@ class BTCEConnection(object):
             cls._post_headers.update(cls._headers)
             cls.conn.close()
 
+
+
+
+
     @classmethod
     def _signature(cls, apikey, msg):
         """Calculation of SHA-512 authentication signature.
@@ -174,8 +183,13 @@ class BTCEConnection(object):
         """Get the CloudFlare cookie and update security.
         @raise RuntimeWarning: where no CloudFlare cookie"""
         cookie_header = cls.resp.getheader('Set-Cookie')
+        print 'cookie-header=%s' % cookie_header
+        #cookie_header = dict(cls.res.info())['set-cookie']
+
+        #pprint(cookie_header)
         try:
             cf_cookie = SimpleCookie(cookie_header)[CF_COOKIE]
+            print 'cf_cookie=%s' % cf_cookie
         except (CookieError, KeyError):
             # warn/failback: use the previous cookie
             if 'Cookie' not in cls._headers.iterkeys():
@@ -190,6 +204,7 @@ class BTCEConnection(object):
         """Decompress connection response.
         @return: decompressed data <type 'str'>"""
         encoding = cls.resp.getheader('Content-Encoding')
+
         if encoding == 'gzip':
             data = _zdecompress(data, _MAX_WBITS+16)
         elif encoding == 'deflate':
@@ -205,30 +220,44 @@ class BTCEConnection(object):
         @param apikey: Trade API Key {'Key': 'KEY', 'Secret': 'SECRET'}
         @param **params: Public/Trade API method and/or parameters
         @return: BTC-E API response (JSON data) <type 'str'>"""
+
+        #url = BTCE_HOST + url
+
         if apikey:
             # args: Trade API
             method = 'POST'
+            #req = urllib2.Request(url)
             body = urlencode(params)
             cls._signature(apikey, body)
             headers = cls._post_headers
+            #req.add_data(body)
         else:
             # args: Public API
             method = 'GET'
             if params:
                 url = '{}?{}'.format(url, urlencode(params))
+            #req = urllib2.Request(url)
             body = None
             headers = cls._headers
-
+        '''
+        for key, val in headers.items():
+            req.add_header(key, val)
+        '''
         while True:
             try:
-                # Make HTTPS request.
+                #HTTPS request.
+                print 'HTTPS request'
                 cls.conn.request(method, url, body=body, headers=headers)
                 cls.resp = cls.conn.getresponse()
+                #cls.res = urllib2.urlopen(req)
+
             except HTTPException as error:
+                print 'HTTPException'
                 cls.conn.close()
                 if not isinstance(error, BadStatusLine):
                     raise
             except SocketError as error:
+                print 'SocketError'
                 cls.conn.close()
                 if error.errno != errno.ECONNRESET:
                     raise
@@ -267,10 +296,14 @@ class BTCEConnection(object):
 
 class PublicAPIv3(BTCEConnection):
     "BTC-E Public API v3 <https://btc-e.com/api/3/docs>."
-    def __init__(self, *pairs, **connkw):
+
+    proxy = None
+
+    def __init__(self, proxy, *pairs, **connkw):
         """Initialization of the BTC-E Public API v3.
         @param *pairs: [btc_usd[-btc_rur[-...]]] or arguments
         @param **connkw: ... (see: 'BTCEConnection' class)"""
+        self.proxy = proxy
         super(PublicAPIv3, self).__init__(**connkw)
         self.pairs = pairs    # type 'str' (delimiter: '-')
 
@@ -299,12 +332,14 @@ class TradeAPIv1(BTCEConnection):
     "BTC-E Trade API v1 <https://btc-e.com/tapi/docs>."
 
     __wait_for_nonce = False
+    proxy = None
 
-    def __init__(self, apikey, **connkw):
+    def __init__(self, apikey, proxy, **connkw):
         """Initialization of the BTC-E Trade API v1.
         @raise APIError: where no 'invalid nonce' in error
         @param apikey: Trade API Key {'Key': 'KEY', 'Secret': 'SECRET'}
         @param **connkw: ... (see: 'BTCEConnection' class)"""
+        self.proxy = proxy
         super(TradeAPIv1, self).__init__(**connkw)
         self._apikey = apikey    # type 'dict' (keys: 'Key', 'Secret')
         self._nonce = None       # type 'int' (min/max: 1 to 4294967294)

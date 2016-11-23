@@ -92,14 +92,14 @@ exchange_name_list = exchange_name.split(',')
 if len(exchange_name_list) == 1:
     mod_api = __import__('exchange.' + exchange_name + '.api', globals(), locals(), ['API'], -1)
     mod_common_api = __import__('exchange.' + exchange_name + '.common_api', globals(), locals(), ['CommonAPI'], -1)
-    api = mod_api.API(api_key, api_secret, proxy_address, proxy_account)
+    api = mod_api.API(api_key, api_secret, {'address': proxy_address, 'account': proxy_account})
     capi = mod_common_api.CommonAPI(api)
 else:
     capi = {}
     for exchange_name in exchange_name_list:
         mod_api = __import__('exchange.' + exchange_name + '.api', globals(), locals(), ['API'], -1)
         mod_common_api = __import__('exchange.' + exchange_name + '.common_api', globals(), locals(), ['CommonAPI'], -1)
-        api = mod_api.API(api_key, api_secret, proxy_address, proxy_account)
+        api = mod_api.API(api_key, api_secret, {'address': proxy_address, 'account': proxy_account})
         capi[exchange_name] = mod_common_api.CommonAPI(api)
 
 if debug:

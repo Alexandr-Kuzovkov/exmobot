@@ -188,7 +188,7 @@ class Strategy:
 
         pprint(capi.balance())
         time.sleep(3)
-        pprint(capi.currency)
+        #pprint(capi.ticker())
         #pprint(capi.ticker())
         #pprint(capi.orders_balance())
         #pprint(capi.balance_full())

@@ -14,20 +14,18 @@ from pprint import pprint
 class API:
     api_key = ''
     api_secret = ''
-    proxy_address = None
-    proxy_account = None
+    proxy = None
     pairs = []
     host = "http://api.exmo.com"
 
-    def __init__(self, key=None, secret=None, proxy_address=None, proxy_account=None):
+    def __init__(self, key=None, secret=None, proxy=None):
         if (key is None) or (secret is None):
             self.api_key = config.api_key
             self.api_secret = config.api_secret
         else:
             self.api_key = key
             self.api_secret = secret
-        self.proxy_address = proxy_address
-        self.proxy_account = proxy_account
+        self.proxy = proxy
 
     '''
     Вызов метода AUTH API
@@ -49,7 +47,7 @@ class API:
         for key, val in headers.items():
             req.add_header(key, val)
         req.add_data(params)
-        self.add_proxy({'address': self.proxy_address, 'account': self.proxy_account})
+        self.add_proxy(self.proxy)
         res = urllib2.urlopen(req)
         status = res.getcode()
         reason = res.info()
@@ -73,7 +71,7 @@ class API:
         for key, val in headers.items():
             req.add_header(key, val)
         req.add_data(params)
-        self.add_proxy({'address': self.proxy_address, 'account': self.proxy_account})
+        self.add_proxy(self.proxy)
         res = urllib2.urlopen(req)
         response = res.read()
         status = res.getcode()
@@ -89,6 +87,8 @@ class API:
     @param proxy словарь вида {'address': 'protocol://ip_address:port', 'account': 'user:password'}
     '''
     def add_proxy(self, proxy):
+        if proxy is None:
+            return
         if type(proxy) is not dict:
             raise Exception('proxy parameter type must be dict')
         proxy_address = proxy.get('address', None)
