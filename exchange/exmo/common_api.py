@@ -60,10 +60,14 @@ class CommonAPI:
     ["USD","EUR","RUB","BTC","DOGE","LTC"] 
     '''
     def _get_currency(self):
-        data = self.api.exmo_public_api('currency')
-        if ('result' in data) and (not data['result']):
-            raise Exception('EXMO API is not availlable!')
-        return data
+        currency = []
+        for pair in self.pair_settings.keys():
+            currency.append(pair.split('_')[0].upper())
+            currency.append(pair.split('_')[1].upper())
+        currency = set(currency)
+        currency = list(currency)
+        return currency
+
 
     '''
     Получение комиссий по парам
