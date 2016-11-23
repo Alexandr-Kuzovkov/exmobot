@@ -15,7 +15,7 @@ class API:
             apikey = config.apikey
         else:
             apikey = {'Key': key, 'Secret': secret}
-        self.tapi = btcelib.TradeAPIv1(apikey, proxy, compr=True )
+        self.tapi = btcelib.TradeAPIv1(apikey, proxy, compr=True)
 
     '''
     Вызов метода PUBLIC API

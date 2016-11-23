@@ -28,7 +28,7 @@ print 'BEGIN Testing exchange...'
 
 capis = [poloniex_capi, exmo_capi, btce_capi]
 for capi in capis:
-    if capi.name != 'exmo':
+    if capi.name != 'btce':
         continue
     pair = capi.check_pair('BTC_ETH')
     print 'Testing API %s' % capi.name
