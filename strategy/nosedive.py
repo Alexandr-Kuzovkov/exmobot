@@ -107,8 +107,8 @@ class Strategy:
             buy_price = min(buy_price_percent, buy_price_amount)
 
             self.logger.info('top_buy_price=%f; buy_price_percent=%f; buy_price_amount=%f' % (buy_orders[0][0], buy_price_percent, buy_price_amount), self.prefix)
-            buy_price_percent, buy_price_amount, buy_price
             Lib.order_create(self, 'buy', buy_price, secondary_balance/buy_price)
+            self.storage.save(self.session_id + 'buy_price', buy_price, 'float', self.session_id) #сохраняем закупочную цену
 
         #если баланс по первой валюте достаточен
         if primary_balance >= min_primary_balance:
@@ -119,6 +119,7 @@ class Strategy:
             #вычисляем сколько мы потратили  второй валюты на покупку имеющегося количества первой валюты (amount1)
             curr_quantity = 0.0
             amount1 = 0.0
+            trades_data_valid = False
             for trade in user_trades:
                 if trade['type'] == 'sell' or trade['pair'] != self.capi.check_pair(self.pair):
                     continue
@@ -127,7 +128,11 @@ class Strategy:
                 amount1 += trade['amount']
                 #print 'q=%f a=%f time=%s' % (trade['quantity'], trade['amount'], time.ctime(trade['date']))
                 if Lib._round(curr_quantity * (1 - self.fee), 5) >= Lib._round(primary_balance, 5):
+                    trades_data_valid = True
                     break
+            #обрабатываем когда нет данных о сделках
+            if not trades_data_valid:
+                amount1 = self.storage.load(self.session_id + 'buy_price', self.session_id)
             #вычисляем из ордеров на покупку за сколько можно продать по рынку имеющееся количество первой валюты (amount2)
             amount2 = self.capi.possable_amount(self.pair.split('_')[0], self.pair.split('_')[1], primary_balance, orders)
             self.logger.info('amount1=%f; amount2=%f' % (amount1, amount2), self.prefix)

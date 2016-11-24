@@ -8,6 +8,7 @@ class SQLite implements Db{
     private static $instance = null;
     private static $db_file = null;
     private $tables = array();
+    private $schema = SCHEMA_FILE;
 
     public static function get_instance(){
         if (self::$instance == null){
@@ -69,7 +70,7 @@ class SQLite implements Db{
             }elseif(is_null($value)){
                 $condition_strings[] = strval($field) . ' NULL';
             }elseif(is_string($value)){
-                $condition_strings[] = strval($field) . "'{$value}'";
+                $condition_strings[] = strval($field) . "'".SQLite3::escapeString($value)."'";
             }else{
                 throw new Exception(__CLASS__ . __METHOD__ . 'Bad field value');
             }
@@ -113,7 +114,7 @@ class SQLite implements Db{
             }elseif(is_null($value)){
                 $set_strings[] = strval($field) . '=NULL';
             }elseif(is_string($value)){
-                $set_strings[] = strval($field) . "='{$value}'";
+                $set_strings[] = strval($field) . "='".SQLite3::escapeString($value)."'";
             }else{
                 throw new Exception(__CLASS__ . __METHOD__ . 'Bad field value');
             }
@@ -125,7 +126,7 @@ class SQLite implements Db{
             }elseif(is_null($value)){
                 $conditions_string[] = strval($field) . ' NULL';
             }elseif(is_string($value)){
-                $conditions_string[] = strval($field) . "'{$value}'";
+                $conditions_string[] = strval($field) . "'".SQLite3::escapeString($value)."'";
             }else{
                 throw new Exception(__CLASS__ . __METHOD__ . 'Bad field value');
             }
@@ -152,7 +153,7 @@ class SQLite implements Db{
             }elseif(is_null($value)){
                 $conditions_string[] = strval($field) . ' NULL';
             }elseif(is_string($value)){
-                $conditions_string[] = strval($field) . "'{$value}'";
+                $conditions_string[] = strval($field) . "'".SQLite3::escapeString($value)."'";
             }else{
                 throw new Exception(__CLASS__ . __METHOD__ . 'Bad field value');
             }
@@ -193,7 +194,7 @@ class SQLite implements Db{
                     }elseif(is_null($value)){
                         $value_str[] = ' NULL';
                     }elseif(is_string($value)){
-                        $value_str[] = "'{$value}'";
+                        $value_str[] = "'".SQLite3::escapeString($value)."'";
                     }else{
                         throw new Exception(__CLASS__ . __METHOD__ . 'Bad field value');
                     }
@@ -212,7 +213,7 @@ class SQLite implements Db{
                 }elseif(is_null($value)){
                     $value_str[] = ' NULL';
                 }elseif(is_string($value)){
-                    $value_str[] = "'{$value}'";
+                    $value_str[] = "'".SQLite3::escapeString($value)."'";
                 }else{
                     throw new Exception(__CLASS__ . __METHOD__ . 'Bad field value');
                 }
@@ -251,76 +252,55 @@ class SQLite implements Db{
         return basename(self::$db_file);
     }
 
-    /**
-     * инициализация схемы БД
-     */
-    private function init_tables(){
-        $this->tables['orders'] = array(
-            'schema' => "CREATE TABLE IF NOT EXISTS orders 
-                  (
-                    order_id INTEGER,
-                    pair,
-                    quantity REAL,
-                    price REAL, 
-                    order_type, 
-                    session_id, 
-                    utime INTEGER
-                  )"
-        );
 
 
-
-
-
-        $this->tables['session_data'] = array(
-            'schema' => "CREATE TABLE IF NOT EXISTS session_data 
-                  (
-                   key, 
-                   value, 
-                   type, 
-                   session_id, 
-                   utime INTEGER
-                  )"
-        );
-
-        $this->tables['user_trades'] = array(
-            'schema' => "CREATE TABLE IF NOT EXISTS user_trades 
-                  (
-                    trade_id, 
-                    order_id, 
-                    pair, 
-                    quantity REAL, 
-                    price REAL, 
-                    amount REAL, 
-                    trade_type, 
-                    session_id, 
-                    trade_date INTEGER, 
-                    utime INTEGER
-                  )"
-        );
-
-        $this->tables['balance'] = array(
-            'schema' => "CREATE TABLE IF NOT EXISTS balance 
-                  (
-                   currency, 
-                   amount REAL, 
-                   session_id, 
-                   utime INTEGER
-                  )"
-        );
-
-    }
 
     /**
-     * создание таблиц в БД
+     * Создание таблиц в БД
+     * @param null $schema
+     * @throws Exception
      */
-    public function create_tables(){
-        $this->init_tables();
-        foreach($this->tables as $name => $table){
-            $sql = $table['schema'];
+    public function create_tables($schema=null){
+        if($schema == null)
+            $schema = $this->schema;
+        if (!file_exists($schema)){
+            throw new Exception("Config-file $schema not exists!");
+        }
+        $tables = parse_ini_file ($schema, true, INI_SCANNER_RAW);
+        foreach($tables as $table=>$rows){
+            $fls = array();
+            foreach($rows as $field=>$params_str){
+                $fparams = explode(' ', $params_str);
+                $ftype = trim($fparams[0]);
+                $fsize = trim($fparams[1]);
+                if (count($fparams) > 2){
+                    $fdef = trim($fparams[2]);
+                    if (in_array($fdef, array('null','NULL','None','NONE'))){
+                        $fdef = ' DEFAULT NULL ';
+                    }elseif(is_numeric($fdef)) {
+                        $fdef = ' DEFAULT ' . $fdef;
+                    }else{
+                        $fdef = ' DEFAULT ' . "'" . $fdef . "'";
+                    }
+                }else{
+                    $fdef = '';
+                }
+                if ($ftype == 'int'){
+                    $fls[] = implode('', array($field, ' INTEGER(', $fsize, ')', $fdef));
+                }elseif($ftype == 'float') {
+                    $fls[] = implode('', array($field, ' REAL(', $fsize, ')', $fdef));
+                }elseif($ftype == 'text' || $ftype == 'str'){
+                    $fls[] = implode('', array($field, ' TEXT ', $fdef));
+                }else{
+                    $fls[] = implode('', array($field, ' TEXT ', $fdef));
+                }
+            }
+            $sql = implode(' ', array('CREATE TABLE IF NOT EXISTS ', $table,'(', implode(',',$fls), ')'));
             $this->query($sql);
         }
+
     }
+
 
     /**
      * удаление таблиц в БД

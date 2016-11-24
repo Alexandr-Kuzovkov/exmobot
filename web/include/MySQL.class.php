@@ -12,6 +12,7 @@ class MySQL implements Db{
     private $db_pass = null;
     private $db_name = null;
     private $tables = array();
+    private $schema = SCHEMA_FILE;
 
     public static function get_instance(){
         if (self::$instance == null){
@@ -25,7 +26,7 @@ class MySQL implements Db{
         $this->db_user = $db_user;
         $this->db_pass = $db_pass;
         $this->db_name = $db_name;
-        $this->create_tables();
+        $this->create_tables($this->schema);
     }
 
     /**
@@ -68,6 +69,7 @@ class MySQL implements Db{
      * @throws Exception
      */
     public function get($table, $conditions = array()){
+        mysqli::set_charset ( $this->DB_CHARSET );
         $condition_strings = array();
         foreach ($conditions as $field => $value){
             if (is_int($value) || is_float($value)){
@@ -75,7 +77,7 @@ class MySQL implements Db{
             }elseif(is_null($value)){
                 $condition_strings[] = strval($field) . ' NULL';
             }elseif(is_string($value)){
-                $condition_strings[] = strval($field) . "'{$value}'";
+                $condition_strings[] = strval($field) . mysqli::real_escape_string ($value);
             }else{
                 throw new Exception(__CLASS__ . __METHOD__ . 'Bad field value');
             }
@@ -110,7 +112,7 @@ class MySQL implements Db{
     public function update($table, Array $data, $conditions = array()){
         $set_strings = array();
         $conditions_string = array();
-
+         mysqli::set_charset ( $this->DB_CHARSET );
         if (!is_array($data) || !count($data))
             throw new Exception(__CLASS__ . __METHOD__ . 'Dataset must be array');
         foreach ($data as $field => $value){
@@ -119,7 +121,7 @@ class MySQL implements Db{
             }elseif(is_null($value)){
                 $set_strings[] = strval($field) . '=NULL';
             }elseif(is_string($value)){
-                $set_strings[] = strval($field) . "='{$value}'";
+                $set_strings[] = strval($field) . "='" . mysqli::real_escape_string ($value)."'";
             }else{
                 throw new Exception(__CLASS__ . __METHOD__ . 'Bad field value');
             }
@@ -131,7 +133,7 @@ class MySQL implements Db{
             }elseif(is_null($value)){
                 $conditions_string[] = strval($field) . ' NULL';
             }elseif(is_string($value)){
-                $conditions_string[] = strval($field) . "'{$value}'";
+                $conditions_string[] = strval($field) .  "'".mysqli::real_escape_string ($value)."'";
             }else{
                 throw new Exception(__CLASS__ . __METHOD__ . 'Bad field value');
             }
@@ -151,14 +153,14 @@ class MySQL implements Db{
     public function delete($table, $conditions = array()){
         $set_strings = array();
         $conditions_string = array();
-
+        mysqli::set_charset ( $this->DB_CHARSET );
         foreach ($conditions as $field => $value){
             if (is_int($value) || is_float($value)){
                 $conditions_string[] = strval($field) . strval($value);
             }elseif(is_null($value)){
                 $conditions_string[] = strval($field) . ' NULL';
             }elseif(is_string($value)){
-                $conditions_string[] = strval($field) . "'{$value}'";
+                $conditions_string[] = strval($field) . "'".mysqli::real_escape_string ($value)."'";
             }else{
                 throw new Exception(__CLASS__ . __METHOD__ . 'Bad field value');
             }
@@ -177,6 +179,7 @@ class MySQL implements Db{
      * @throws Exception
      */
     public function insert($table, Array $data){
+         mysqli::set_charset ( $this->DB_CHARSET );
         if (!is_array($data))
             throw new Exception(__CLASS__ . __METHOD__ . 'Dataset must be array');
         if (!count($data))
@@ -198,7 +201,7 @@ class MySQL implements Db{
                     }elseif(is_null($value)){
                         $value_str[] = ' NULL';
                     }elseif(is_string($value)){
-                        $value_str[] = "'{$value}'";
+                        $value_str[] = "'" . mysqli::real_escape_string ($value)."'";
                     }else{
                         throw new Exception(__CLASS__ . __METHOD__ . 'Bad field value');
                     }
@@ -217,7 +220,7 @@ class MySQL implements Db{
                 }elseif(is_null($value)){
                     $value_str[] = ' NULL';
                 }elseif(is_string($value)){
-                    $value_str[] = "'{$value}'";
+                    $value_str[] = "'" . mysqli::real_escape_string ($value)."'";
                 }else{
                     throw new Exception(__CLASS__ . __METHOD__ . 'Bad field value');
                 }
@@ -258,72 +261,53 @@ class MySQL implements Db{
 
 
     /**
-     * инициализация схемы БД
+     * Создание таблиц в БД
+     * @param null $schema
+     * @throws Exception
      */
-    private function init_tables(){
-
-        $this->tables['orders'] = array(
-            'schema' => "CREATE TABLE IF NOT EXISTS orders 
-                  (
-                    order_id varchar(30), 
-                    pair varchar(20), 
-                    quantity REAL (20,6), 
-                    price REAL(20,6), 
-                    order_type varchar(10), 
-                    session_id varchar(255), 
-                    utime INT(11)
-                  )ENGINE=InnoDB DEFAULT CHARSET=utf8;"
-        );
-
-
-        $this->tables['session_data'] = array(
-            'schema' => "CREATE TABLE IF NOT EXISTS session_data 
-                  (
-                    `key` varchar(255),
-                    `value` varchar(255), 
-                    `type` varchar(255), 
-                    session_id varchar(255), 
-                    utime INT(11)
-                  )ENGINE=InnoDB DEFAULT CHARSET=utf8;"
-        );
-
-        $this->tables['user_trades'] = array(
-            'schema' => "CREATE TABLE IF NOT EXISTS user_trades 
-                  (
-                    trade_id varchar(255), 
-                    order_id varchar(30), 
-                    pair varchar(20), 
-                    quantity REAL(20,6), 
-                    price REAL(20,6), 
-                    amount REAL(20,6), 
-                    trade_type varchar(10), 
-                    session_id varchar(255), 
-                    trade_date INT(11), 
-                    utime INT(11)
-                  )ENGINE=InnoDB DEFAULT CHARSET=utf8;"
-        );
-
-        $this->tables['balances'] = array(
-            'schema' => "CREATE TABLE IF NOT EXISTS balance 
-                  (
-                   currency varchar(30), 
-                   amount REAL(20,6), 
-                   session_id varchar(255), 
-                   utime INT(11)
-                  )ENGINE=InnoDB DEFAULT CHARSET=utf8;"
-        );
-    }
-
-    /**
-     * создание таблиц в БД
-     */
-    public function create_tables(){
-        $this->init_tables();
-        foreach($this->tables as $name => $table){
-            $sql = $table['schema'];
+    public function create_tables($schema=null){
+        if($schema == null)
+            $schema = $this->schema;
+        if (!file_exists($schema)){
+            throw new Exception("Config-file $schema not exists!");
+        }
+        $tables = parse_ini_file ($schema, true, INI_SCANNER_RAW);
+        foreach($tables as $table=>$rows){
+            $fls = array();
+            foreach($rows as $field=>$params_str){
+                $fparams = explode(' ', $params_str);
+                $ftype = trim($fparams[0]);
+                $fsize = trim($fparams[1]);
+                if (count($fparams) > 2){
+                    $fdef = trim($fparams[2]);
+                    if (in_array($fdef, array('null','NULL','None','NONE'))){
+                        $fdef = ' DEFAULT NULL ';
+                    }elseif(is_numeric($fdef)) {
+                        $fdef = ' DEFAULT ' . $fdef;
+                    }else{
+                        $fdef = ' DEFAULT ' . "'" . $fdef . "'";
+                    }
+                }else{
+                    $fdef = '';
+                }
+                if ($ftype == 'int'){
+                    $fls[] = implode('', array('`',$field, '`', ' INT(', $fsize, ')', $fdef));
+                }elseif($ftype == 'float') {
+                    $fls[] = implode('', array('`', $field, '`', ' REAL(', $fsize, ')', $fdef));
+                }elseif($ftype == 'text'){
+                    $fls[] = implode('', array('`', $field, '`', ' TEXT ', $fdef));
+                }elseif($ftype == 'datetime') {
+                    $fls[] = implode('', array('`', $field, '`', ' DATETIME ', $fdef));
+                }else{
+                    $fls[] = implode('', array('`',$field, '`', ' varchar(', $fsize, ')', $fdef));
+                }
+            }
+            $sql = implode(' ', array('CREATE TABLE IF NOT EXISTS ', $table,'(', implode(',',$fls), ')', ' ENGINE=InnoDB DEFAULT CHARSET=utf8'));
             $this->query($sql);
         }
+
     }
+
 
     /**
      * удаление таблиц в БД

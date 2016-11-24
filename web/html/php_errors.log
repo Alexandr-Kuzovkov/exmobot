@@ -100,3 +100,128 @@
 [23-Nov-2016 01:18:42 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 38
 [23-Nov-2016 01:18:42 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 47
 [23-Nov-2016 13:30:26 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[23-Nov-2016 22:30:10 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[24-Nov-2016 21:00:15 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[24-Nov-2016 21:00:23 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[24-Nov-2016 22:00:42 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[24-Nov-2016 22:58:54 Europe/Moscow] PHP Warning:  syntax error, unexpected '|' in ../../storage/schema.ini on line 10
+ in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 335
+[24-Nov-2016 23:00:49 Europe/Moscow] PHP Warning:  syntax error, unexpected '|' in ../../storage/schema.ini on line 10
+ in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 335
+[24-Nov-2016 23:01:01 Europe/Moscow] PHP Warning:  syntax error, unexpected '|' in ../../storage/schema.ini on line 10
+ in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 335
+[24-Nov-2016 23:01:55 Europe/Moscow] PHP Warning:  syntax error, unexpected '|' in ../../storage/schema.ini on line 10
+ in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 335
+[24-Nov-2016 23:01:58 Europe/Moscow] PHP Warning:  syntax error, unexpected '|' in ../../storage/schema.ini on line 10
+ in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 335
+[24-Nov-2016 23:02:12 Europe/Moscow] PHP Warning:  syntax error, unexpected '|' in ../../storage/schema.ini on line 10
+ in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 335
+[24-Nov-2016 23:02:12 Europe/Moscow] PHP Warning:  syntax error, unexpected '|' in ../../storage/schema.ini on line 10
+ in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 335
+[24-Nov-2016 23:02:12 Europe/Moscow] PHP Warning:  syntax error, unexpected '|' in ../../storage/schema.ini on line 10
+ in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 335
+[24-Nov-2016 23:02:26 Europe/Moscow] PHP Warning:  syntax error, unexpected '|' in ../../storage/schema.ini on line 10
+ in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 335
+[24-Nov-2016 23:02:27 Europe/Moscow] PHP Warning:  syntax error, unexpected '|' in ../../storage/schema.ini on line 10
+ in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 335
+[24-Nov-2016 23:02:27 Europe/Moscow] PHP Warning:  syntax error, unexpected '|' in ../../storage/schema.ini on line 10
+ in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 335
+[24-Nov-2016 23:04:31 Europe/Moscow] PHP Warning:  syntax error, unexpected '|' in ../../storage/schema.ini on line 17
+ in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 335
+[24-Nov-2016 23:41:21 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined variable: fdef in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 304
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined variable: fdef in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 304
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined variable: fdef in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 304
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined variable: fdef in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 304
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:41:37 Europe/Moscow] PHP Fatal error:  Undefined class constant 'DB_CHARSET' in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 21
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Notice:  Undefined property: MySQL::$DB_CHARSET in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 44
+[24-Nov-2016 23:45:04 Europe/Moscow] PHP Fatal error:  Undefined class constant 'DB_CHARSET' in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 21
+[24-Nov-2016 23:48:21 Europe/Moscow] PHP Warning:  Missing argument 1 for MySQL::create_tables(), called in /var/www/vhosts/exmo_bot/web/scripts/clear_db.php on line 30 and defined in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 275
+[24-Nov-2016 23:48:21 Europe/Moscow] PHP Notice:  Undefined variable: schema in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 276
+[24-Nov-2016 23:48:21 Europe/Moscow] PHP Notice:  Undefined variable: schema in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 277
+[24-Nov-2016 23:48:21 Europe/Moscow] PHP Fatal error:  Uncaught exception 'Exception' with message 'Config-file  not exists!' in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php:277
+Stack trace:
+#0 /var/www/vhosts/exmo_bot/web/scripts/clear_db.php(30): MySQL->create_tables()
+#1 /var/www/vhosts/exmo_bot/web/html/index.php(80): require_once('/var/www/vhosts...')
+#2 {main}
+  thrown in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 277
+[25-Nov-2016 00:33:31 Europe/Moscow] PHP Notice:  Undefined property: SQLite::$schema in /var/www/vhosts/exmo_bot/web/include/SQLite.class.php on line 264
+[25-Nov-2016 00:33:31 Europe/Moscow] PHP Fatal error:  Uncaught exception 'Exception' with message 'Config-file  not exists!' in /var/www/vhosts/exmo_bot/web/include/SQLite.class.php:266
+Stack trace:
+#0 /var/www/vhosts/exmo_bot/web/include/SQLite.class.php(21): SQLite->create_tables()
+#1 /var/www/vhosts/exmo_bot/web/include/SQLite.class.php(15): SQLite->__construct()
+#2 /var/www/vhosts/exmo_bot/web/scripts/clear_db.php(20): SQLite::get_instance()
+#3 /var/www/vhosts/exmo_bot/web/html/index.php(80): require_once('/var/www/vhosts...')
+#4 {main}
+  thrown in /var/www/vhosts/exmo_bot/web/include/SQLite.class.php on line 266

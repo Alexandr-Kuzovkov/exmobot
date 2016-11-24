@@ -279,3 +279,5 @@ class Strategy:
         '''
         #pprint(self.capi.exchange_all_to_usd())
         #pprint(capi.user_trades(['ETH_BTC']))
+
+        pprint(capi.user_trades())

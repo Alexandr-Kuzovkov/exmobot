@@ -263,7 +263,7 @@ class Crud:
             self.schema[table] = []
             fls = []
             for field in conf.options(table):
-                fparams = conf.get(table, field).split('|')
+                fparams = conf.get(table, field).split(' ')
                 ftype = fparams[0].strip()
                 fsize = fparams[1].strip()
                 self.schema[table].append({'name': field, 'type': ftype})
