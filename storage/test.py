@@ -11,8 +11,12 @@ abspath = os.path.abspath(__file__)
 rootpath = '/'.join(abspath.split('/')[0:len(abspath.split('/'))-2])
 sys.path.append(rootpath)
 os.chdir(rootpath)
-import exchange.poloniex.api as mod_api
-import exchange.poloniex.common_api as mod_capi
+#import exchange.poloniex.api as mod_api
+#import exchange.poloniex.common_api as mod_capi
+#import exchange.exmo.api as mod_api
+#import exchange.exmo.common_api as mod_capi
+import exchange.btce.api as mod_api
+import exchange.btce.common_api as mod_capi
 capi = mod_capi.CommonAPI(mod_api.API())
 
 
@@ -50,13 +54,19 @@ for dbase in dbases:
     pprint(strg.delete_old_values(['balance'], time.time()-3000, full=False))
     pprint(strg.get_last_balance('ETH', 3))
 
-    pair = 'BTC_ETC'
+    pair = 'LTC_USD'
     user_trades = capi.user_trades([pair])
     pprint(user_trades)
     strg.save_user_trades(user_trades[pair])
 
-
-
+    exchange = 'btce'
+    ticker = capi.ticker()
+    print '------ticker--%s---' % exchange
+    pprint(ticker)
+    ticker = {'btce': ticker}
+    strg.save_ticker(ticker)
+    print '-----loaded-ticker--%s---' % exchange
+    pprint(strg.load_ticker())
 
 print 'END Testing storage.storage...'
 print '-'*80

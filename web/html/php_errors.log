@@ -225,3 +225,18 @@ Stack trace:
 #3 /var/www/vhosts/exmo_bot/web/html/index.php(80): require_once('/var/www/vhosts...')
 #4 {main}
   thrown in /var/www/vhosts/exmo_bot/web/include/SQLite.class.php on line 266
+[25-Nov-2016 00:47:48 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[25-Nov-2016 00:48:55 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[25-Nov-2016 00:48:58 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[25-Nov-2016 00:49:17 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[25-Nov-2016 00:49:40 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[25-Nov-2016 15:31:55 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[25-Nov-2016 16:41:49 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[25-Nov-2016 16:41:52 Europe/Moscow] PHP Warning:  file_get_contents(http://exmo_bot.loc:8080/api?exchange=exmo&amp;method=balance): failed to open stream: HTTP request failed! HTTP/1.1 500 Internal Server Error
+ in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 31
+[25-Nov-2016 16:41:52 Europe/Moscow] PHP Warning:  file_get_contents(http://exmo_bot.loc:8080/api?exchange=exmo&amp;method=orders_balance): failed to open stream: HTTP request failed! HTTP/1.1 500 Internal Server Error
+ in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 32
+[25-Nov-2016 16:41:52 Europe/Moscow] PHP Warning:  file_get_contents(http://exmo_bot.loc:8080/api?exchange=exmo&amp;method=balance_full_usd): failed to open stream: HTTP request failed! HTTP/1.1 500 Internal Server Error
+ in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 33
+[25-Nov-2016 16:41:52 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 38
+[25-Nov-2016 16:41:52 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 47

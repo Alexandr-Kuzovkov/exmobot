@@ -209,4 +209,106 @@ class Storage:
         return result
 
 
+    '''
+    запись данных тикера
+    @param ticker словарь вида:
+    {
+        "btce": {
+                  "BTC_USD": {
+                    "high": 120,
+                    "low": 100,
+                    "avg": 110,
+                    "vol": 1020,
+                    "vol_curr": 1043420,
+                    "last_trade": 111,
+                    "buy_price": 110,
+                    "sell_price": 111,
+                    "updated": 1435517311
+                  }
+        }
+    }
+    Описание полей:
+    high - максимальная цена сделки за 24 часа
+    low - минимальная цена сделки за 24 часа
+    avg - средняя цена сделки за 24 часа
+    vol - объем всех сделок за 24 часа
+    vol_curr - сумма всех сделок за 24 часа
+    last_trade - цена последней сделки
+    buy_price - текущая максимальная цена покупки
+    sell_price - текущая минимальная цена продажи
+    updated - дата и время обновления данных
+    '''
+    def save_ticker(self, ticker):
+        data_to_write = []
+        for exchange, exchange_ticker in ticker.items():
+            for pair, pair_ticker in exchange_ticker.items():
+                data = (exchange, pair, pair_ticker['high'], pair_ticker['low'], pair_ticker['avg'], pair_ticker['vol'], pair_ticker['vol_curr'], pair_ticker['last_trade'], pair_ticker['buy_price'], pair_ticker['sell_price'], pair_ticker['updated'])
+                data_to_write.append(data)
+        self.dbase.insert('ticker', data_to_write)
+
+
+    '''
+    получение данных тикера из базы
+    @param exchange имя биржи
+    @param pair валютная пара
+    @param start временная метка начала интервала данных
+    @param end временная метка конца интервала данных
+    @return словарь вида:
+    {
+        "btce": {
+                  "BTC_USD": {
+                    "high": 120,
+                    "low": 100,
+                    "avg": 110,
+                    "vol": 1020,
+                    "vol_curr": 1043420,
+                    "last_trade": 111,
+                    "buy_price": 110,
+                    "sell_price": 111,
+                    "updated": 1435517311
+                  }
+        }
+    }
+    Описание полей:
+    high - максимальная цена сделки за 24 часа
+    low - минимальная цена сделки за 24 часа
+    avg - средняя цена сделки за 24 часа
+    vol - объем всех сделок за 24 часа
+    vol_curr - сумма всех сделок за 24 часа
+    last_trade - цена последней сделки
+    buy_price - текущая максимальная цена покупки
+    sell_price - текущая минимальная цена продажи
+    updated - дата и время обновления данных
+    '''
+    def load_ticker(self, exchange=None, pair=None, start=None, end=None):
+        condition = []
+        if exchange is not None:
+            condition.append({'exchange=': self._quote(exchange)})
+        if pair is not None:
+             condition.append({'pair=': self._quote(pair)})
+        if start is not None:
+            condition.append({'updated>=': start})
+        if end is not None:
+            condition.append({'updated<=': end})
+        if len(condition) == 0:
+            condition = None
+        data = self.dbase.get('ticker', condition)
+        ticker = {}
+        for row in data:
+            exchange, pair, high, low, avg, vol, vol_curr, last_trade, buy_price, sell_price, updated = row
+            if exchange not in ticker:
+                ticker[exchange] = {}
+            if pair not in ticker[exchange]:
+                ticker[exchange][pair] = {}
+            ticker[exchange][pair]['high'] = high
+            ticker[exchange][pair]['low'] = low
+            ticker[exchange][pair]['avg'] = avg
+            ticker[exchange][pair]['vol'] = vol
+            ticker[exchange][pair]['vol_curr'] = vol_curr
+            ticker[exchange][pair]['last_trade'] = last_trade
+            ticker[exchange][pair]['buy_price'] = buy_price
+            ticker[exchange][pair]['sell_price'] = sell_price
+            ticker[exchange][pair]['updated'] = updated
+        return ticker
+
 

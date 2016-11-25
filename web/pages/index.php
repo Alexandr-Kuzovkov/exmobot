@@ -1,6 +1,5 @@
 <?php require_once('_header.php') ?>
 <?php require_once('_topmenu.php')?>
-<?php require_once('_auth.php')?>
 
 <div class="exchange">
     <a href="https://exmo.com" target="_blank">

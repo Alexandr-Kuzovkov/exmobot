@@ -1,4 +1,6 @@
 
+<?php  if(Auth::isAuth()){Auth::logout();} ?>
+
 <?php require_once('_login_header.php') ?>
 
 

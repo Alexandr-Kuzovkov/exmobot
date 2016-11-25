@@ -40,7 +40,10 @@ class CommonAPI:
     max_amount - максимальная сумма по ордеру
     '''
     def _get_pair_settings(self):
-        data = self.api.exmo_public_api('pair_settings')
+        try:
+            data = self.api.exmo_public_api('pair_settings')
+        except Exception:
+            raise Exception('EXMO API is not availlable!')
         if ('result' in data) and (not data['result']):
             raise Exception('EXMO API is not availlable!')
         for pair, settings in data.items():
