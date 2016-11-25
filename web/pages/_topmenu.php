@@ -79,7 +79,14 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li <?php check_active('help');?>><a href="/help">Справка</a></li>
-                <li <?php check_active('login');?>><a href="/login"><?php if(!Auth::isAuth()):?>Войти<?php else:?>Выйти<?php endif;?></a></li>
+                <!--<li <?php check_active('login');?>><a href="/login"><?php if(!Auth::isAuth()):?>Войти<?php else:?>Выйти<?php endif;?></a></li>-->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo Auth::getCurrentUser();?><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/change-pass">Сменить пароль</a></li>
+                        <li><a href="/login">Выйти</a></li>
+                    </ul>
+                </li>
             </ul>
         </div><!--/.nav-collapse -->
     </div><!--/.container-fluid -->

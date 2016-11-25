@@ -39,6 +39,9 @@ class Strategy:
         #id сессии
         self.session_id = Lib.set_param(self, key='session_id', default_value='0')
 
+        #время хранения данных тикера в сутках
+        self.store_time = Lib.set_param(self, key='store_time', param_type='int', default_value='30')
+
         self.prefix = self.name
 
 
@@ -62,3 +65,7 @@ class Strategy:
                  self.logger.info('Error while get ticker from %s' % self.capi.name, self.prefix)
             self.storage.save_ticker(ticker)
             self.logger.info('Ticker from %s succsesfully saved', self.prefix)
+
+        #удаление старых данных
+        utmost_update = time.time() - self.store_time * 86400
+        self.storage.delete_old_tickers(utmost_update)

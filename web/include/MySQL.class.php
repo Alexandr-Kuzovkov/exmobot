@@ -13,6 +13,7 @@ class MySQL implements Db{
     private $db_name = null;
     private $tables = array();
     private $schema = SCHEMA_FILE;
+    private $db = null;
 
     public static function get_instance(){
         if (self::$instance == null){
@@ -26,24 +27,30 @@ class MySQL implements Db{
         $this->db_user = $db_user;
         $this->db_pass = $db_pass;
         $this->db_name = $db_name;
+        $this->_connect_db();
         $this->create_tables($this->schema);
+    }
+
+    private function _connect_db(){
+        $this->db = mysqli_connect($this->db_host, $this->db_user, $this->db_pass, $this->db_name);
+        if (!$this->db) {
+            die('Connect Error (' . mysqli_connect_errno() . ') '
+                . mysqli_connect_error());
+        }
+        return $this->db;
     }
 
     /**
      * выполнение запроса к БД
      * @param $sql
+     * @param $db объект MySQLi
      * @return array|bool|mysqli_result
      */
     public function query($sql){
-        $db = mysqli_connect($this->db_host, $this->db_user, $this->db_pass, $this->db_name);
-        if (!$db) {
-            die('Connect Error (' . mysqli_connect_errno() . ') '
-                . mysqli_connect_error());
-        }
+        $db = $this->_connect_db();
         $db->set_charset($this->DB_CHARSET);
-
-        $mysql_res = mysqli_query($db, $sql);
-        if (mysqli_errno($db) == 0){
+        $mysql_res = mysqli_query($this->db, $sql);
+        if (mysqli_errno($this->db) == 0){
             if (is_object($mysql_res)){
                 $result = array();
                 while($row = mysqli_fetch_assoc ($mysql_res))
@@ -53,11 +60,11 @@ class MySQL implements Db{
                 $result = $mysql_res;
             }
         }else{
-            echo mysqli_error($db);
+            echo mysqli_error($this->db);
             $result = false;
         }
 
-        mysqli_close($db);
+        mysqli_close($this->db);
         return $result;
     }
 
@@ -69,7 +76,7 @@ class MySQL implements Db{
      * @throws Exception
      */
     public function get($table, $conditions = array()){
-        mysqli::set_charset ( $this->DB_CHARSET );
+        $db = $this->_connect_db();
         $condition_strings = array();
         foreach ($conditions as $field => $value){
             if (is_int($value) || is_float($value)){
@@ -77,7 +84,7 @@ class MySQL implements Db{
             }elseif(is_null($value)){
                 $condition_strings[] = strval($field) . ' NULL';
             }elseif(is_string($value)){
-                $condition_strings[] = strval($field) . mysqli::real_escape_string ($value);
+                $condition_strings[] = strval($field) . "'".$db->real_escape_string($value)."'";
             }else{
                 throw new Exception(__CLASS__ . __METHOD__ . 'Bad field value');
             }
@@ -110,9 +117,9 @@ class MySQL implements Db{
      * @throws Exception
      */
     public function update($table, Array $data, $conditions = array()){
+        $db = $this->_connect_db();
         $set_strings = array();
         $conditions_string = array();
-         mysqli::set_charset ( $this->DB_CHARSET );
         if (!is_array($data) || !count($data))
             throw new Exception(__CLASS__ . __METHOD__ . 'Dataset must be array');
         foreach ($data as $field => $value){
@@ -121,7 +128,7 @@ class MySQL implements Db{
             }elseif(is_null($value)){
                 $set_strings[] = strval($field) . '=NULL';
             }elseif(is_string($value)){
-                $set_strings[] = strval($field) . "='" . mysqli::real_escape_string ($value)."'";
+                $set_strings[] = strval($field) . "='" . $db->real_escape_string($value) ."'";
             }else{
                 throw new Exception(__CLASS__ . __METHOD__ . 'Bad field value');
             }
@@ -133,7 +140,7 @@ class MySQL implements Db{
             }elseif(is_null($value)){
                 $conditions_string[] = strval($field) . ' NULL';
             }elseif(is_string($value)){
-                $conditions_string[] = strval($field) .  "'".mysqli::real_escape_string ($value)."'";
+                $conditions_string[] = strval($field) .  "'" . $db->real_escape_string($value) ."'";
             }else{
                 throw new Exception(__CLASS__ . __METHOD__ . 'Bad field value');
             }
@@ -151,16 +158,16 @@ class MySQL implements Db{
      * @throws Exception
      */
     public function delete($table, $conditions = array()){
+        $db = $this->_connect_db();
         $set_strings = array();
         $conditions_string = array();
-        mysqli::set_charset ( $this->DB_CHARSET );
         foreach ($conditions as $field => $value){
             if (is_int($value) || is_float($value)){
                 $conditions_string[] = strval($field) . strval($value);
             }elseif(is_null($value)){
                 $conditions_string[] = strval($field) . ' NULL';
             }elseif(is_string($value)){
-                $conditions_string[] = strval($field) . "'".mysqli::real_escape_string ($value)."'";
+                $conditions_string[] = strval($field) . "'".$db->real_escape_string($value)."'";
             }else{
                 throw new Exception(__CLASS__ . __METHOD__ . 'Bad field value');
             }
@@ -179,7 +186,7 @@ class MySQL implements Db{
      * @throws Exception
      */
     public function insert($table, Array $data){
-         mysqli::set_charset ( $this->DB_CHARSET );
+        $db = $this->_connect_db();
         if (!is_array($data))
             throw new Exception(__CLASS__ . __METHOD__ . 'Dataset must be array');
         if (!count($data))
@@ -201,7 +208,7 @@ class MySQL implements Db{
                     }elseif(is_null($value)){
                         $value_str[] = ' NULL';
                     }elseif(is_string($value)){
-                        $value_str[] = "'" . mysqli::real_escape_string ($value)."'";
+                        $value_str[] = "'".$db->real_escape_string($value)."'";
                     }else{
                         throw new Exception(__CLASS__ . __METHOD__ . 'Bad field value');
                     }
@@ -220,7 +227,7 @@ class MySQL implements Db{
                 }elseif(is_null($value)){
                     $value_str[] = ' NULL';
                 }elseif(is_string($value)){
-                    $value_str[] = "'" . mysqli::real_escape_string ($value)."'";
+                    $value_str[] = "'".$db->real_escape_string($value)."'";
                 }else{
                     throw new Exception(__CLASS__ . __METHOD__ . 'Bad field value');
                 }
@@ -266,6 +273,7 @@ class MySQL implements Db{
      * @throws Exception
      */
     public function create_tables($schema=null){
+        $db = $this->_connect_db();
         if($schema == null)
             $schema = $this->schema;
         if (!file_exists($schema)){
@@ -285,7 +293,7 @@ class MySQL implements Db{
                     }elseif(is_numeric($fdef)) {
                         $fdef = ' DEFAULT ' . $fdef;
                     }else{
-                        $fdef = ' DEFAULT ' . "'" . $fdef . "'";
+                        $fdef = ' DEFAULT ' . "'" . $db->real_escape_string($fdef) . "'";
                     }
                 }else{
                     $fdef = '';
