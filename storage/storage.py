@@ -312,3 +312,9 @@ class Storage:
         return ticker
 
 
+    '''
+    удаление старых данных по тикерам
+    @param utmost_update крайняя временная метка, ранее которой записи подлежат удалению
+    '''
+    def delete_old_tickers(self, utmost_update):
+        self.dbase.delete('ticker', {'updated<': utmost_update})

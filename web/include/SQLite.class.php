@@ -34,6 +34,7 @@ class SQLite implements Db{
     /**
      * выполнение запроса к БД
      * @param $sql
+     * @param $db
      * @return array|bool|result
      */
     public function query($sql){

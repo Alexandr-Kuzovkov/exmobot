@@ -39,6 +39,7 @@ $routes = array(
     '/api-data' => $pages . 'api_data.php',
     '/clear' => $pages . 'clear.php',
     '/clear-db' => $scripts . 'clear_db.php',
+    '/change-pass' => $pages . 'change_pass.php',
 
 );
 
