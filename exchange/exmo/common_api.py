@@ -40,7 +40,10 @@ class CommonAPI:
     max_amount - максимальная сумма по ордеру
     '''
     def _get_pair_settings(self):
-        data = self.api.exmo_public_api('pair_settings')
+        try:
+            data = self.api.exmo_public_api('pair_settings')
+        except Exception:
+            raise Exception('EXMO API is not availlable!')
         if ('result' in data) and (not data['result']):
             raise Exception('EXMO API is not availlable!')
         for pair, settings in data.items():
@@ -60,10 +63,14 @@ class CommonAPI:
     ["USD","EUR","RUB","BTC","DOGE","LTC"] 
     '''
     def _get_currency(self):
-        data = self.api.exmo_public_api('currency')
-        if ('result' in data) and (not data['result']):
-            raise Exception('EXMO API is not availlable!')
-        return data
+        currency = []
+        for pair in self.pair_settings.keys():
+            currency.append(pair.split('_')[0].upper())
+            currency.append(pair.split('_')[1].upper())
+        currency = set(currency)
+        currency = list(currency)
+        return currency
+
 
     '''
     Получение комиссий по парам
@@ -73,6 +80,19 @@ class CommonAPI:
         for pair in self.pair_settings.keys():
             fee[pair] = config.fee
         return fee
+
+    '''
+    Проверка валютной пары и при необходимости
+    изменение порядка валют в паре
+    '''
+    def check_pair(self, pair):
+        valid_pairs = self.pair_settings.keys()
+        if pair in valid_pairs:
+            return pair
+        elif '_'.join([pair.split('_')[1], pair.split('_')[0]]) in valid_pairs:
+            return '_'.join([pair.split('_')[1], pair.split('_')[0]])
+        else:
+            raise Exception('pair expected in %s' % str(valid_pairs))
 
     '''
     получение минимальных балансов по валютам в паре
@@ -583,7 +603,7 @@ class CommonAPI:
     Подсчет на какое количество валюты currency_to можно
     обменять количество amount_from валюты currency_from
     '''
-    def possable_amount(self, currency_from, currency_to, amount_from):
+    def possable_amount(self, currency_from, currency_to, amount_from, orders=None):
         currencies = self._get_currency();
         if currency_from not in currencies or currency_to not in currencies:
             raise Exception('currencies expected in ' + str(currencies))
@@ -597,7 +617,8 @@ class CommonAPI:
         else:
             raise Exception('pair expected in ' + str(valid_pairs))
 
-        orders = self.orders([pair], limit=1000)
+        if orders is None:
+            orders = self.orders([pair], limit=1000)
         amount_to = 0.0
         if order_type == 'bid':
             quantity_curr = 0.0
@@ -954,5 +975,46 @@ class CommonAPI:
             current_currency = path['currency']
             current_quantity = self.balance(current_currency)
         return {'result': True, 'amount': current_quantity}
+
+
+    '''
+    обмен по рынку всех валют на USD
+    '''
+    def exchange_all_to_usd(self):
+        self.orders_cancel()
+        sleep(1)
+        balance = self.balance()
+        for currency, amount in balance.items():
+            if amount == 0 or currency in ['USD']:
+                continue
+            if currency + '_USD' in self.pair_settings.keys():
+                res = self.api.exmo_api('order_create', {'pair': currency + '_USD', 'quantity': amount, 'price': 0, 'type': 'market_sell'})
+                if not res['result']:
+                    print res['error']
+                else:
+                    sleep(1)
+
+            elif 'USD_' + currency in self.pair_settings.keys():
+                res = self.api.exmo_api('order_create', {'pair': 'USD_' + currency, 'quantity': amount, 'price': 0,'type': 'market_buy'})
+                if not res['result']:
+                    print res['error']
+                else:
+                    sleep(1)
+            else:
+                if currency + '_BTC' in self.pair_settings.keys():
+                    res = self.api.exmo_api('order_create',{'pair': currency + '_BTC', 'quantity': amount, 'price': 0,'type': 'market_sell'})
+                    if not res['result']:
+                        print res['error']
+                    else:
+                        sleep(1)
+                elif 'BTC_' + currency in self.pair_settings.keys():
+                    res = self.api.exmo_api('order_create',{'pair': 'BTC_' + currency, 'quantity': amount, 'price': 0,'type': 'market_buy'})
+                    if not res['result']:
+                        print res['error']
+                    else:
+                        sleep(1)
+                else:
+                    pass
+        return self.balance()
 
 

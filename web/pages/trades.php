@@ -1,6 +1,6 @@
 <?php require_once('_header.php') ?>
 <?php require_once('_topmenu.php')?>
-<?php require_once('_auth.php')?>
+
 <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
 
 <?php

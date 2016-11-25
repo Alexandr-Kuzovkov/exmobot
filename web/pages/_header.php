@@ -1,5 +1,3 @@
-<?php if(session_status() !== PHP_SESSION_ACTIVE ) session_start();?>
-<?php require_once('../include/common.inc.php');?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

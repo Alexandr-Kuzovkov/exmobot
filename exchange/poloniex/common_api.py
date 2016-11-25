@@ -4,6 +4,7 @@ from pprint import pprint
 from time import strptime
 from time import mktime
 from time import time
+from time import sleep
 
 class CommonAPI:
     name = 'poloniex'
@@ -95,7 +96,7 @@ class CommonAPI:
     '''
     def _date2timestamp(self, date):
         try:
-            print date
+            #print date
             timestamp = int(mktime(strptime(date, '%Y-%m-%d %H:%M:%S')))
         except ValueError, ex:
             print ex
@@ -108,7 +109,7 @@ class CommonAPI:
     Проверка валютной пары и при необходимости
     изменение порядка валют в паре
     '''
-    def _check_pair(self, pair):
+    def check_pair(self, pair):
         valid_pairs = self.pair_settings.keys()
         if pair in valid_pairs:
             return pair
@@ -122,11 +123,11 @@ class CommonAPI:
     Проверка валютной пары в списке и при необходимости
     изменение порядка валют в паре
     '''
-    def _check_pairs(self, pairs):
+    def check_pairs(self, pairs):
         valid_pairs = self.pair_settings.keys()
         new_pairs = []
         for pair in pairs:
-            new_pairs.append(self._check_pair(pair))
+            new_pairs.append(self.check_pair(pair))
         return new_pairs
 
 
@@ -138,6 +139,7 @@ class CommonAPI:
     def get_min_balance(self, pair, ticker=None):
         if ticker is None:
             ticker = self.ticker()
+        pair = self.check_pair(pair)
         price = max(ticker[pair]['buy_price'], ticker[pair]['sell_price'])
         if 'min_quantity' in self.pair_settings[pair] and self.pair_settings[pair]['min_quantity'] != 0:
             min_primary_balance = self.pair_settings[pair]['min_quantity']
@@ -187,7 +189,7 @@ class CommonAPI:
         valid_pairs = self.pair_settings.keys()
         if len(pairs) > 1:
             raise Exception('Poloniex API support one pair only')
-        pair = self._check_pair(pairs[0])
+        pair = self.check_pair(pairs[0])
         data = self.api.public_api_query('returnTradeHistory', currencyPair=pair)
         trades = {}
         trades[pair] = []
@@ -249,7 +251,7 @@ class CommonAPI:
     '''
     def orders(self, pairs=[], limit=150):
         valid_pairs = self.pair_settings.keys()
-        pairs = self._check_pairs(pairs)
+        pairs = self.check_pairs(pairs)
         orders = {}
 
         if len(pairs) == 1:
@@ -356,7 +358,7 @@ class CommonAPI:
     '''
     def order_create(self, pair, quantity, price, order_type):
         valid_types = ['buy', 'sell']
-        pair = self._check_pair(pair)
+        pair = self.check_pair(pair)
         valid_pairs = self.pair_settings.keys()
         min_quantity = self.pair_settings[pair]['min_quantity']
         max_quantity = self.pair_settings[pair]['max_quantity']
@@ -566,7 +568,7 @@ class CommonAPI:
         valid_pairs = self.pair_settings.keys()
         if pairs is None:
             pairs = valid_pairs
-        pairs = self._check_pairs(pairs)
+        pairs = self.check_pairs(pairs)
         trades = {}
         if len(pairs) == 1:
             data = self.api.trade_api_query('returnTradeHistory', currencyPair=pairs[0])
@@ -707,7 +709,7 @@ class CommonAPI:
     '''
     def required_amount(self, pair, quantity):
         valid_pairs = self.pair_settings.keys()
-        pair = self._check_pair(pair)
+        pair = self.check_pair(pair)
         orders = self.orders([pair], limit=1000)
         amount = 0.0
         curr_quantity = 0.0
@@ -732,7 +734,7 @@ class CommonAPI:
     Подсчет на какое количество валюты currency_to можно
     обменять количество amount_from валюты currency_from
     '''
-    def possable_amount(self, currency_from, currency_to, amount_from):
+    def possable_amount(self, currency_from, currency_to, amount_from, orders=None):
         currencies = self._get_currency();
         if currency_from not in currencies or currency_to not in currencies:
             raise Exception('currencies expected in ' + str(currencies))
@@ -746,7 +748,8 @@ class CommonAPI:
         else:
             raise Exception('pair expected in ' + str(valid_pairs))
 
-        orders = self.orders([pair], limit=1000)
+        if orders is None:
+            orders = self.orders([pair], limit=1000)
         amount_to = 0.0
         if order_type == 'bid':
             quantity_curr = 0.0
@@ -1137,4 +1140,58 @@ class CommonAPI:
                 else:
                     return {'result': False, 'order_id': int(data['orderNumber'])}
         return {'result': True, 'amount': current_quantity}
+
+
+    '''
+    обмен по рынку всех валют на USD
+    '''
+    def exchange_all_to_usd(self):
+        self.orders_cancel()
+        sleep(1)
+        balance = self.balance()
+        for currency, amount in balance.items():
+            if amount == 0 or currency in ['USDT']:
+                continue
+            if currency + '_USDT' in self.pair_settings.keys():
+                rate = self.pair_settings[currency + '_USDT']['min_price']
+                if rate * amount < self.pair_settings[currency + '_USDT']['min_amount']:
+                    rate = self.pair_settings[currency + '_USDT']['min_amount'] / amount * 2
+                data = self.api.trade_api_query('sell', currencyPair=currency + '_USDT', rate=rate, amount=amount, immediateOrCancel=1)
+                if 'error' in data:
+                    print data['error']
+                else:
+                    sleep(1)
+
+            elif 'USDT_' + currency in self.pair_settings.keys():
+                rate = self.pair_settings['USDT_' + currency]['min_price']
+                if rate * amount < self.pair_settings['USDT_' + currency]['min_amount']:
+                    rate = self.pair_settings['USDT_' + currency]['min_amount'] / amount * 2
+                data = self.api.trade_api_query('sell', currencyPair='USDT_' + currency, rate=rate, amount=amount, mmediateOrCancel=1)
+                if 'error' in data:
+                    print data['error']
+                else:
+                    sleep(1)
+            else:
+                if currency + '_BTC' in self.pair_settings.keys():
+                    rate = self.pair_settings[currency + '_BTC']['min_price']
+                    if rate * amount < self.pair_settings[currency + '_BTC']['min_amount']:
+                        rate = self.pair_settings[currency + '_BTC']['min_amount'] / amount * 2
+                    data = self.api.trade_api_query('sell', currencyPair=currency + '_BTC', rate=rate, amount=amount,mmediateOrCancel=1)
+                    if 'error' in data:
+                        print data['error']
+                    else:
+                        sleep(1)
+                elif 'BTC_' + currency in self.pair_settings.keys():
+                    rate = self.pair_settings['BTC_' + currency]['min_price']
+                    if rate * amount < self.pair_settings['BTC_' + currency]['min_amount']:
+                        rate = self.pair_settings['BTC_' + currency]['min_amount'] / amount * 2
+                    data = self.api.trade_api_query('sell', currencyPair='BTC_' + currency, rate=rate, amount=amount,mmediateOrCancel=1)
+                    if 'error' in data:
+                        print data['error']
+                    else:
+                        sleep(1)
+                else:
+                    pass
+        return self.balance()
+
 

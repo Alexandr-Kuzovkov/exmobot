@@ -14,7 +14,7 @@ ABSBOTPATH = '/'.join(abspath.split('/')[0:len(abspath.split('/')) - 2])
 config_file = ABSBOTPATH + '/web/wsgi/accounts.conf'
 sys.path.append(ABSBOTPATH)
 os.chdir(ABSBOTPATH)
-#storage_type = 'sqlite'
+#storage_type = 'SQLIte'
 #session_id = 'test'
 
 
@@ -43,7 +43,12 @@ def application(environ, start_response):
     start_response(status, response_headers)
     return [response]
 
-
+'''
+Парсинг GET параметров запроса и возвращение словаря вида:
+{'capi': capi, 'method': method, 'params': params}, где
+capi - объект CommonAPI, method - имя запрашиваемого метода
+params - словарь с параметрами
+'''
 def parseRequest(get):
     if 'exchange' in get:
         exchange_name = get['exchange'][0]
@@ -82,6 +87,10 @@ def parseRequest(get):
     return {'capi': capi, 'method': method, 'params': params}
 
 
+'''
+Возвращает результат вызова метода
+объекта CommonAPI с параметрами
+'''
 def callMethod(params):
     capi = params['capi']
     method = getattr(capi, params['method'])

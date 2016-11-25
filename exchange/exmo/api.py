@@ -2,25 +2,30 @@
 
 import httplib
 import urllib
+import urllib2
 import json
 import hashlib
 import hmac
 import time
 import exchange.exmo.config as config
+from pprint import pprint
 
 
 class API:
     api_key = ''
     api_secret = ''
+    proxy = None
     pairs = []
+    host = "http://api.exmo.com"
 
-    def __init__(self, key=None, secret=None):
+    def __init__(self, key=None, secret=None, proxy=None):
         if (key is None) or (secret is None):
             self.api_key = config.api_key
             self.api_secret = config.api_secret
         else:
             self.api_key = key
             self.api_secret = secret
+        self.proxy = proxy
 
     '''
     Вызов метода AUTH API
@@ -37,15 +42,19 @@ class API:
         headers = {"Content-type": "application/x-www-form-urlencoded",
                    "Key": self.api_key,
                    "Sign": sign}
-        conn = httplib.HTTPSConnection("api.exmo.com")
-        conn.request("POST", "/v1/" + method, params, headers)
-        response = conn.getresponse()
-        status = response.status
-        reason = response.reason
-        res = json.load(response)
-        conn.close()
+        url = self.host + "/v1/" + method
+        req = urllib2.Request(url)
+        for key, val in headers.items():
+            req.add_header(key, val)
+        req.add_data(params)
+        self.add_proxy(self.proxy)
+        res = urllib2.urlopen(req)
+        status = res.getcode()
+        reason = res.info()
+        response = res.read()
+        result = json.loads(response)
         if status == 200:
-            return res
+            return result
         else:
             raise Exception(reason)
 
@@ -56,21 +65,48 @@ class API:
         nonce = int(round(time.time() * 1000))
         params["nonce"] = nonce
         params = urllib.urlencode(params)
-
         headers = {"Content-type": "application/x-www-form-urlencoded"}
-        conn = httplib.HTTPSConnection("api.exmo.com")
-        conn.request("POST", "/v1/" + method, params, headers)
-        response = conn.getresponse()
-        status = response.status
-        reason = response.reason
-        res = json.load(response)
-        conn.close()
+        url = self.host + "/v1/" + method
+        req = urllib2.Request(url)
+        for key, val in headers.items():
+            req.add_header(key, val)
+        req.add_data(params)
+        self.add_proxy(self.proxy)
+        res = urllib2.urlopen(req)
+        response = res.read()
+        status = res.getcode()
+        reason = res.info()
+        result = json.loads(response)
         if status == 200:
-            return res
+            return result
         else:
             raise Exception(reason)
 
-
+    '''
+    реализация запроса через прокси
+    @param proxy словарь вида {'address': 'protocol://ip_address:port', 'account': 'user:password'}
+    '''
+    def add_proxy(self, proxy):
+        if proxy is None:
+            return
+        if type(proxy) is not dict:
+            raise Exception('proxy parameter type must be dict')
+        proxy_address = proxy.get('address', None)
+        proxy_account = proxy.get('account', None)
+        if proxy_address is None and proxy_account is None:
+            return
+        protocol = proxy_address.split(':')[0]
+        ip_port = proxy_address.split('//')[1]
+        if proxy_account is None:
+            print str({protocol: ''.join([protocol + '://', ip_port])})
+            proxy_handler = urllib2.ProxyHandler({protocol: ''.join([protocol + '://', ip_port])})
+            opener = urllib2.build_opener(proxy_handler, urllib2.HTTPHandler)
+        else:
+            print str({protocol: ''.join([protocol + '://', proxy_account, '@', ip_port])})
+            proxy_handler = urllib2.ProxyHandler({protocol: ''.join([protocol + '://', proxy_account, '@', ip_port])})
+            proxy_auth_handler = urllib2.ProxyBasicAuthHandler()
+            opener = urllib2.build_opener(proxy_handler, proxy_auth_handler, urllib2.HTTPHandler)
+        urllib2.install_opener(opener)
 
     #PUBLIC API
 

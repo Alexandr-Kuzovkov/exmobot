@@ -88,6 +88,19 @@ class CommonAPI:
         return number
 
     '''
+    Проверка валютной пары и при необходимости
+    изменение порядка валют в паре
+    '''
+    def check_pair(self, pair):
+        valid_pairs = self.pair_settings.keys()
+        if pair in valid_pairs:
+            return pair
+        elif '_'.join([pair.split('_')[1], pair.split('_')[0]]) in valid_pairs:
+            return '_'.join([pair.split('_')[1], pair.split('_')[0]])
+        else:
+            raise Exception('pair expected in %s' % str(valid_pairs))
+
+    '''
     получение минимальных балансов по валютам в паре
     необходимых для создания ордера
     @return (min_primary_balance, min_secondary_balance)
@@ -512,9 +525,9 @@ class CommonAPI:
                     raise Exception('pair expected in ' + str(valid_pairs))
         try:
             if pairs is None:
-                data = self.api.btce_api('TradeHistory', count=limit)
+                data = self.api.btce_api('TradeHistory', order='DESC', count=limit)
             else:
-                data = self.api.btce_api('TradeHistory', pair='-'.join(pairs).lower(), count=limit)
+                data = self.api.btce_api('TradeHistory', pair='-'.join(pairs).lower(), order='DESC', count=limit)
         except Exception, ex:
             return {}
         trades = {}
@@ -656,7 +669,7 @@ class CommonAPI:
     Подсчет на какое количество валюты currency_to можно
     обменять количество amount_from валюты currency_from
     '''
-    def possable_amount(self, currency_from, currency_to, amount_from):
+    def possable_amount(self, currency_from, currency_to, amount_from, orders=None):
         currencies = self._get_currency();
         if currency_from not in currencies or currency_to not in currencies:
             raise Exception('currencies expected in ' + str(currencies))
@@ -670,7 +683,8 @@ class CommonAPI:
         else:
             raise Exception('pair expected in ' + str(valid_pairs))
 
-        orders = self.orders([pair], limit=1000)
+        if orders is None:
+            orders = self.orders([pair], limit=1000)
         amount_to = 0.0
         if order_type == 'bid':
             quantity_curr = 0.0
@@ -1054,4 +1068,57 @@ class CommonAPI:
                 else:
                     return {'result': False, 'order_id': int(data['order_id'])}
         return {'result': True, 'amount': current_quantity}
+
+
+    '''
+    обмен по рынку всех валют на USD
+    '''
+    def exchange_all_to_usd(self):
+        self.orders_cancel()
+        time.sleep(1)
+        balance = self.balance()
+        for currency, amount in balance.items():
+            if amount == 0 or currency in ['USD']:
+                continue
+            if currency + '_USD' in self.pair_settings.keys():
+                try:
+                    rate = self.pair_settings[currency + '_USD']['min_price']
+                    amount_to = self._round(amount, 6)
+                    data = self.api.btce_api('Trade', pair=(currency + '_USD').lower(), type='sell', rate=rate, amount=amount_to)
+                except Exception, ex:
+                    print ex
+                else:
+                    time.sleep(1)
+
+            elif 'USD_' + currency in self.pair_settings.keys():
+                try:
+                    rate = self.pair_settings['USD_' + currency]['min_price']
+                    amount_to = self._round(amount, 6)
+                    data = self.api.btce_api('Trade', pair=('USD_' + currency).lower(), type='sell', rate=rate, amount=amount_to)
+                except Exception, ex:
+                    print ex
+                else:
+                    time.sleep(1)
+            else:
+                if currency +'_BTC' in self.pair_settings.keys():
+                    try:
+                        rate = self.pair_settings[currency + '_BTC']['min_price']
+                        amount_to = self._round(amount, 6)
+                        data = self.api.btce_api('Trade', pair=(currency + '_BTC').lower(), type='sell', rate=rate,amount=amount_to)
+                    except Exception, ex:
+                        print ex
+                    else:
+                        time.sleep(1)
+                elif 'BTC_' + currency in self.pair_settings.keys():
+                    try:
+                        rate = self.pair_settings['BTC_' + currency]['min_price']
+                        amount_to = self._round(amount, 6)
+                        data = self.api.btce_api('Trade', pair=('BTC_' + currency).lower(), type='sell', rate=rate,amount=amount_to)
+                    except Exception, ex:
+                        print ex
+                    else:
+                        time.sleep(1)
+                else:
+                    pass
+        return self.balance()
 

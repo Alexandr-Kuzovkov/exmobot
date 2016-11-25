@@ -2,7 +2,7 @@
 '''
 получение минимальной цены продажи для обеспечения
 продажи не в убыток на основе истории сделок
-@param quantity количество первой валюты в паре
+@param quantity количество первой валюты (ранее купленной а сейчас продаваемой)в паре
 '''
 def calc_price_sell(strategy, quantity, user_trades=None, limit=100):
     if user_trades is None:
@@ -102,7 +102,7 @@ def print_profit_pairs(strategy, ticker=None):
         if profit > 0:
             profit_pairs.append(pair_info)
 
-    profits_pair = sorted(profit_pairs, key=lambda row: 1 / row['profit'])
+    profit_pairs = sorted(profit_pairs, key=lambda row: 1 / row['profit'])
 
     # pprint(currency_ratio)
     if strategy.capi.name == 'poloniex':
@@ -131,7 +131,7 @@ def print_profit_pairs(strategy, ticker=None):
                 profit_pairs[i]['vol_btc'] = 0.0
 
     print 'Биржа: %s всего пар: %i пар с профитом: %i' % (strategy.capi.name, len(ticker), len(profit_pairs))
-    for item in profits_pair:
+    for item in profit_pairs:
         print 'pair=%s   profit=%f   volume=%f(%s) = %f BTC   sell_price=%.10f   buy_price=%.10f' % (item['pair'], item['profit'], item['vol'], item['vol_currency'], item['vol_btc'], item['sell_price'],item['buy_price'])
 
 
@@ -277,3 +277,43 @@ def save_last_user_trades(strategy, user_trades=None, limit=100):
             strategy.storage.save_user_trades(user_trades[strategy.pair], strategy.session_id)
         except KeyError:
             strategy.storage.save_user_trades(user_trades['_'.join([strategy.pair.split('_')[1], strategy.pair.split('_')[0]])], strategy.session_id)
+
+
+'''
+вычисление профита на основе цены покупки, продажи и комиссии
+'''
+def _calc_profit(ask, bid, fee):
+    return ask / bid * (1 - fee) * (1 - fee) - 1
+
+
+'''
+Рассчет цен ордеров на обмен
+@param orders ордера на прямой обмен
+@param min_profit минимальный профит
+@param fee комиссия
+@param price_step шаг изменения цены
+@return {'ask':ask, 'bid': bid} словарь содержащий цены
+'''
+def calc_prices(strategy, orders, price_step, fee=0.002):
+    try:
+        ask = orders[strategy.pair]['ask'][0][0] - price_step
+        bid = orders[strategy.pair]['bid'][0][0] + price_step
+    except KeyError:
+        ask = orders['_'.join([strategy.pair.split('_')[1], strategy.pair.split('_')[0]])]['ask'][0][0]
+        bid = orders['_'.join([strategy.pair.split('_')[1], strategy.pair.split('_')[0]])]['bid'][0][0]
+
+    profit = _calc_profit(ask, bid, fee)
+    while (profit < strategy.min_profit):
+        ask += price_step
+        bid -= price_step
+        profit = strategy._calc_profit(ask, bid, fee)
+
+    return {'ask': ask, 'bid': bid}
+
+
+
+'''
+возвращает название пары с обратным порядком валют
+'''
+def reverse_pair(pair):
+    return '_'.join([pair.split('_')[1], pair.split('_')[0]])

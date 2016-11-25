@@ -5,6 +5,7 @@ import sys
 from logger.logger import Logger
 from ConfigParser import *
 import os
+import storage.storage as mod_storage
 
 
 try:
@@ -43,7 +44,7 @@ try:
     if conf.has_option('common', 'storage'):
         storage_type = conf.get('common', 'storage')
     else:
-        storage_type = 'sqlite'
+        storage_type = 'SQLite'
 
     if conf.has_option('common', 'debug'):
         debug = int(conf.get('common', 'debug'))
@@ -59,6 +60,16 @@ try:
         api_secret = conf.get('account', 'secret')
     else:
         api_secret = None
+
+    if conf.has_option('proxy', 'address'):
+        proxy_address = conf.get('proxy', 'address')
+    else:
+        proxy_address = None
+
+    if conf.has_option('proxy', 'account'):
+        proxy_account = conf.get('proxy', 'account')
+    else:
+        proxy_account = None
 
 except Exception, ex:
     print '''
@@ -77,28 +88,33 @@ except Exception, ex:
     print ex.message
     exit(1)
 
-if debug:
-    mod_strategy = __import__('strategy.' + strategy_name, globals(), locals(), ['run'], -1)
+exchange_name_list = exchange_name.split(',')
+if len(exchange_name_list) == 1:
     mod_api = __import__('exchange.' + exchange_name + '.api', globals(), locals(), ['API'], -1)
     mod_common_api = __import__('exchange.' + exchange_name + '.common_api', globals(), locals(), ['CommonAPI'], -1)
-    mod_storage = __import__('storage.' + storage_type, globals(), locals(), ['Storage'], -1)
-    api = mod_api.API(api_key, api_secret)
+    api = mod_api.API(api_key, api_secret, {'address': proxy_address, 'account': proxy_account})
     capi = mod_common_api.CommonAPI(api)
-    root_dir = os.path.dirname(os.path.realpath(__file__))
-    storage = mod_storage.Storage(session_id, root_dir)
+else:
+    capi = {}
+    for exchange_name in exchange_name_list:
+        mod_api = __import__('exchange.' + exchange_name + '.api', globals(), locals(), ['API'], -1)
+        mod_common_api = __import__('exchange.' + exchange_name + '.common_api', globals(), locals(), ['CommonAPI'], -1)
+        api = mod_api.API(api_key, api_secret, {'address': proxy_address, 'account': proxy_account})
+        capi[exchange_name] = mod_common_api.CommonAPI(api)
+
+if debug:
+    mod_strategy = __import__('strategy.' + strategy_name, globals(), locals(), ['run'], -1)
+    mod_dbase = __import__('storage.' + storage_type + '.crud', globals(), locals(), ['Storage'], -1)
+    dbase = mod_dbase.Crud()
+    storage = mod_storage.Storage(dbase, session_id)
     strategy = mod_strategy.Strategy(capi, logger, storage, conf)
 else:
     try:
         mod_strategy = __import__('strategy.' + strategy_name, globals(), locals(), ['run'], -1)
-        mod_api = __import__('exchange.' + exchange_name + '.api', globals(), locals(), ['API'], -1)
-        mod_common_api = __import__('exchange.' + exchange_name + '.common_api', globals(), locals(), ['CommonAPI'], -1)
-        mod_storage = __import__('storage.' + storage_type, globals(), locals(), ['Storage'], -1)
-        api = mod_api.API(api_key, api_secret)
-        capi = mod_common_api.CommonAPI(api)
-        root_dir = os.path.dirname(os.path.realpath(__file__))
-        storage = mod_storage.Storage(session_id, root_dir)
+        mod_dbase = __import__('storage.' + storage_type + '.crud', globals(), locals(), ['Storage'], -1)
+        dbase = mod_dbase.Crud()
+        storage = mod_storage.Storage(dbase, session_id)
         strategy = mod_strategy.Strategy(capi, logger, storage, conf)
-
     except Exception, e:
         print 'Startup Error: %s' % e
         logger.info('Startup Error: %s' % e)

@@ -1,6 +1,5 @@
 <?php require_once('_header.php') ?>
 <?php require_once('_topmenu.php')?>
-<?php require_once('_auth.php')?>
 
 <?php
  $work_dir = substr(__DIR__, 0, strrpos(__DIR__, 'web/pages'));

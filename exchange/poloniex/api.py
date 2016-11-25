@@ -9,13 +9,17 @@ def createTimeStamp(datestr, format="%Y-%m-%d %H:%M:%S"):
     return time.mktime(time.strptime(datestr, format))
 
 class API:
-    def __init__(self, key=None, secret=None):
+
+    proxy = None
+
+    def __init__(self, key=None, secret=None, proxy=None):
         if (key is None) or (secret is None):
             self.APIKey = config.APIKey
             self.Secret = config.Secret
         else:
             self.APIKey = key
             self.Secret = secret
+        self.proxy = proxy
 
     def post_process(self, before):
         after = before
@@ -31,7 +35,7 @@ class API:
         return after
 
     def api_query(self, command, req={}):
-
+        self.add_proxy(self.proxy)
         if(command == "returnTicker" or command == "return24Volume"):
             ret = urllib2.urlopen(urllib2.Request('https://poloniex.com/public?command=' + command))
             return json.loads(ret.read())
@@ -59,6 +63,7 @@ class API:
 
 
     def public_api_query(self, method, **params):
+        self.add_proxy(self.proxy)
         if params is None:
             params = {}
         params['command'] = method
@@ -68,6 +73,7 @@ class API:
 
 
     def trade_api_query(self, method, **params):
+        self.add_proxy(self.proxy)
         if params is None:
             params = {}
         params['command'] = method
@@ -172,6 +178,32 @@ class API:
     def withdraw(self, currency, amount, address):
         return self.api_query('withdraw',{"currency":currency, "amount":amount, "address":address})
 
+
+    '''
+    request throuth proxy
+    @param proxy dict as {'address': 'protocol://ip_address:port', 'account': 'user:password'}
+    '''
+    def add_proxy(self, proxy):
+        if proxy is None:
+            return
+        if type(proxy) is not dict:
+            raise Exception('proxy parameter type must be dict')
+        proxy_address = proxy.get('address', None)
+        proxy_account = proxy.get('account', None)
+        if proxy_address is None and proxy_account is None:
+            return
+        protocol = proxy_address.split(':')[0]
+        ip_port = proxy_address.split('//')[1]
+        if proxy_account is None:
+            print str({protocol: ''.join([protocol + '://', ip_port])})
+            proxy_handler = urllib2.ProxyHandler({protocol: ''.join([protocol + '://', ip_port])})
+            opener = urllib2.build_opener(proxy_handler, urllib2.HTTPHandler)
+        else:
+            print str({protocol: ''.join([protocol + '://', proxy_account, '@', ip_port])})
+            proxy_handler = urllib2.ProxyHandler({protocol: ''.join([protocol + '://', proxy_account, '@', ip_port])})
+            proxy_auth_handler = urllib2.ProxyBasicAuthHandler()
+            opener = urllib2.build_opener(proxy_handler, proxy_auth_handler, urllib2.HTTPHandler)
+        urllib2.install_opener(opener)
 
 '''
 -----------------------------------------------------------------------------------------------------------------------

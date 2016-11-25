@@ -2,6 +2,7 @@
 
 from pprint import pprint
 import time
+import strategy.library.functions as Lib
 
 class Strategy:
 
@@ -33,22 +34,12 @@ class Strategy:
         #параметры передаваемые при вызове функции имеют приоритет
         #перед параметрами заданными в файле конфигурации
 
-
-    '''
-    Округление числа
-    '''
-    def _round(self, number, prec):
-        number = number * (10 ** prec)
-        number = int(number)
-        number = float(number) / (10 ** prec)
-        return number
-
     '''
     функция реализующая торговую логику
     '''
     def run(self):
         #флаг что поиск цепочки и обмен нужно повторять в случае успешного поиска
-        do_repeat = self.set_param(key='do_repeat', default_value=0, param_type='int')
+        do_repeat = Lib.set_param(self, key='do_repeat', default_value=0, param_type='int')
         repeat = True
         while repeat:
             try:
@@ -63,61 +54,23 @@ class Strategy:
                     repeat = True
 
 
-
-    '''
-    установка значения параметра
-    @param key имя параметра
-    @param default_value значение по умолчанию
-    @param param_type тип
-    @return значение параметра
-    '''
-    def set_param(self, key, default_value, param_type=None):
-        if key in self.params:
-            param = self.params[key]
-        elif self.conf.has_option('common', key):
-            param = self.conf.get('common', key)
-        else:
-            param = default_value
-        if param_type is not None:
-            if param_type == 'int':
-                param = int(param)
-            elif param_type == 'float':
-                param = float(param)
-            else:
-                param = str(param)
-        return param
-
-
-    '''
-    запись изменений баланса в базу
-    '''
-    def save_change_balance(self, currency, amount):
-        last = self.storage.get_last_balance(currency, 1, self.session_id)
-        curr_amount = self._round(amount, 6)
-        if len(last) > 0:
-            last_amount = self._round(last[0]['amount'], 6)
-            if abs(curr_amount - last_amount) / last_amount > 0.0001:
-                self.storage.save_balance(currency, curr_amount, self.session_id)
-        else:
-            self.storage.save_balance(currency, curr_amount, self.session_id)
-
     '''
     поиск профитноных цепочек и выполнение обмена
     '''
     def search_profit_chains_and_exchange(self):
         # максимальная длина цепочки
-        max_chain_len = self.set_param(key='max_chain_len', default_value=4, param_type='int')
+        max_chain_len = Lib.set_param(self, key='max_chain_len', default_value=4, param_type='int')
         # лимит использования средств для обмена
-        limit = self.set_param(key='limit', default_value=10.0, param_type='float')
+        limit = Lib.set_param(self, key='limit', default_value=10.0, param_type='float')
         # валюта на входе цепочки
-        start_currency = self.set_param(key='start_currency', default_value='USD')
+        start_currency = Lib.set_param(self, key='start_currency', default_value='USD')
         # производить ли обмен
-        do_exchange = self.set_param(key='do_exchange', default_value=0, param_type='int')
+        do_exchange = Lib.set_param(self, key='do_exchange', default_value=0, param_type='int')
 
         # получаем текущий баланс по стартовой валюте
         current_balance = self.capi.balance(start_currency)
         # записываем изменения баланса в базу
-        self.save_change_balance(start_currency, current_balance)
+        Lib.save_change_balance2(self, start_currency, current_balance)
         start_amount = min(limit, current_balance)
 
         try:

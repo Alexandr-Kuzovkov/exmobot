@@ -6,6 +6,7 @@
 import errno
 import warnings
 import time
+from pprint import pprint
 
 from zlib import MAX_WBITS as _MAX_WBITS
 from Cookie import SimpleCookie
@@ -16,6 +17,7 @@ from httplib import HTTPSConnection
 from json import loads as jsonloads
 from re import search as research
 from urllib import urlencode
+import urllib2
 from zlib import decompress as _zdecompress
 
 from Cookie import CookieError
@@ -134,9 +136,12 @@ class BTCEConnection(object):
         }
     conn = None    # type 'httplib.HTTPSConnection'
     resp = None    # type 'httplib.HTTPResponse'
+    req = None
+    res = None
+    proxy = None
 
     @classmethod
-    def __init__(cls, compr=None, timeout=60):
+    def __init__(self, proxy, compr=None, timeout=60):
         """Initialization of shared HTTPS connection.
         @param compr: HTTPS compression (default: identity)
         @param timeout: connection timeout (max: 60 sec)"""
@@ -144,52 +149,66 @@ class BTCEConnection(object):
             compr = 'identity'
         elif compr is True:
             compr = 'gzip, deflate'
-
+        self._post_headers.update(self._headers)
+        self.proxy = proxy
+        '''
         if not cls.conn:
             # Create new connection.
-            cls.conn = HTTPSConnection(BTCE_HOST, strict=True, timeout=timeout)
-            cls._post_headers.update(cls._headers)
+            #cls.conn = HTTPSConnection(BTCE_HOST, strict=True, timeout=timeout)
+            #cls._post_headers.update(cls._headers)
         elif timeout != cls.conn.timeout:
             # update: connection timeout
             cls.conn.timeout = timeout
             cls.conn.close()
-
-        if compr and compr != cls._headers['Accept-Encoding']:
+        '''
+        if compr and compr != self._headers['Accept-Encoding']:
             # update: connection compression
-            cls._headers['Accept-Encoding'] = compr
-            cls._post_headers.update(cls._headers)
-            cls.conn.close()
+            self._headers['Accept-Encoding'] = compr
+            self._post_headers.update(self._headers)
+            #cls.conn.close()
+
+
+
+
 
     @classmethod
-    def _signature(cls, apikey, msg):
+    def _signature(self, apikey, msg):
         """Calculation of SHA-512 authentication signature.
         @param apikey: Trade API-Key {'Key': 'KEY', 'Secret': 'SECRET'}
         @param msg: Trade API method and parameters"""
         signature = hmacnew(apikey['Secret'], msg=msg, digestmod=_sha512)
-        cls._post_headers['Key'] = apikey['Key']
-        cls._post_headers['Sign'] = signature.hexdigest()
+        self._post_headers['Key'] = apikey['Key']
+        self._post_headers['Sign'] = signature.hexdigest()
 
     @classmethod
-    def _setcookie(cls):
+    def _setcookie(self):
         """Get the CloudFlare cookie and update security.
         @raise RuntimeWarning: where no CloudFlare cookie"""
-        cookie_header = cls.resp.getheader('Set-Cookie')
+        #cookie_header = cls.resp.getheader('Set-Cookie')
+        #print 'cookie-header=%s' % cookie_header
+        cookie_header = dict(self.res.info()).get('set-cookie', None)
+
+        #pprint(cookie_header)
         try:
             cf_cookie = SimpleCookie(cookie_header)[CF_COOKIE]
+            #print 'cf_cookie=%s' % cf_cookie
         except (CookieError, KeyError):
             # warn/failback: use the previous cookie
-            if 'Cookie' not in cls._headers.iterkeys():
+            if 'Cookie' not in self._headers.iterkeys():
                 warnings.warn("Missing CloudFlare security cookie",
                               category=RuntimeWarning, stacklevel=2)
         else:
-            cls._post_headers['Cookie'] = \
-                cls._headers['Cookie'] = cf_cookie.OutputString('value')
+            self._post_headers['Cookie'] = \
+                self._headers['Cookie'] = cf_cookie.OutputString('value')
 
     @classmethod
-    def _decompress(cls, data):
+    def _decompress(self, data):
         """Decompress connection response.
         @return: decompressed data <type 'str'>"""
-        encoding = cls.resp.getheader('Content-Encoding')
+        #encoding = cls.resp.getheader('Content-Encoding')
+        if 'content-encoding' not in dict(self.res.info()):
+            return data
+        encoding = dict(self.res.info())['content-encoding']
         if encoding == 'gzip':
             data = _zdecompress(data, _MAX_WBITS+16)
         elif encoding == 'deflate':
@@ -198,63 +217,81 @@ class BTCEConnection(object):
         return data
 
     @classmethod
-    def jsonrequest(cls, url, apikey=None, **params):
+    def jsonrequest(self, url, apikey=None, **params):
         """Create query to the BTC-E API (JSON response).
         @raise httplib.HTTPException, socket.error: connection errors
         @param url: Public/Trade API plain URL without parameters
         @param apikey: Trade API Key {'Key': 'KEY', 'Secret': 'SECRET'}
         @param **params: Public/Trade API method and/or parameters
         @return: BTC-E API response (JSON data) <type 'str'>"""
+
+        url = 'https://' + BTCE_HOST + url
+        hdr = {'User-Agent': 'Mozilla/5.0'}
+
         if apikey:
             # args: Trade API
-            method = 'POST'
+            #method = 'POST'
+            req = urllib2.Request(url, headers=hdr)
             body = urlencode(params)
-            cls._signature(apikey, body)
-            headers = cls._post_headers
+            self._signature(apikey, body)
+            headers = self._post_headers
+            req.add_data(body)
         else:
             # args: Public API
-            method = 'GET'
+            #method = 'GET'
             if params:
                 url = '{}?{}'.format(url, urlencode(params))
-            body = None
-            headers = cls._headers
+            req = urllib2.Request(url, headers=hdr)
+            #body = None
+            headers = self._headers
+
+        for key, val in headers.items():
+            req.add_header(key, val)
 
         while True:
             try:
-                # Make HTTPS request.
-                cls.conn.request(method, url, body=body, headers=headers)
-                cls.resp = cls.conn.getresponse()
+                #HTTPS request.
+                #print 'HTTPS request'
+                #cls.conn.request(method, url, body=body, headers=headers)
+                #cls.resp = cls.conn.getresponse()
+                if self.proxy is not None:
+                    self.add_proxy(self.proxy)
+                self.res = urllib2.urlopen(req)
+
             except HTTPException as error:
-                cls.conn.close()
+                #print 'HTTPException'
+                self.conn.close()
                 if not isinstance(error, BadStatusLine):
                     raise
             except SocketError as error:
-                cls.conn.close()
+                #print 'SocketError'
+                self.conn.close()
                 if error.errno != errno.ECONNRESET:
                     raise
             else:
-                cls._setcookie()
+                self._setcookie()
                 break    # Connection succeeded.
-        return cls._decompress(cls.resp.read())
+        #return cls._decompress(cls.resp.read())
+        return self._decompress(self.res.read())
 
     @classmethod
-    def apirequest(cls, url, apikey=None, **params):
+    def apirequest(self, url, apikey=None, **params):
         """Create query to the BTC-E API (decoded response).
         @raise APIError, CloudFlare: BTC-E and CloudFlare errors
         @param url: Public/Trade API plain URL without parameters
         @param apikey: Trade API Key {'Key': 'KEY', 'Secret': 'SECRET'}
         @param **params: Public/Trade API method and/or parameters
         @return: BTC-E API response (decoded data) <type 'dict'>"""
-        jsondata = cls.jsonrequest(url, apikey, **params)
+        jsondata = self.jsonrequest(url, apikey, **params)
         try:
             data = jsonloads(jsondata,
                              parse_float=FloatParser,
                              parse_int=IntegerParser)
         except ValueError:
-            if cls.resp.status != 200:
+            if self.resp.status != 200:
                 # CloudFlare proxy errors
                 raise CloudFlare("{} {}".format(
-                    cls.resp.status, cls.resp.reason))
+                    self.resp.status, self.resp.reason))
             else:
                 # BTC-E API unknown errors
                 raise APIError(jsondata)
@@ -264,14 +301,42 @@ class BTCEConnection(object):
                 raise APIError(data['error'])
         return data
 
+    '''
+    request throuth proxy
+    @param proxy dict as {'address': 'protocol://ip_address:port', 'account': 'user:password'}
+    '''
+    @classmethod
+    def add_proxy(self, proxy):
+        if proxy is None:
+            return
+        if type(proxy) is not dict:
+            raise Exception('proxy parameter type must be dict')
+        proxy_address = proxy.get('address', None)
+        proxy_account = proxy.get('account', None)
+        if proxy_address is None and proxy_account is None:
+            return
+        protocol = proxy_address.split(':')[0]
+        ip_port = proxy_address.split('//')[1]
+        if proxy_account is None:
+            print str({protocol: ''.join([protocol + '://', ip_port])})
+            proxy_handler = urllib2.ProxyHandler({protocol: ''.join([protocol + '://', ip_port])})
+            opener = urllib2.build_opener(proxy_handler, urllib2.HTTPHandler)
+        else:
+            print str({protocol: ''.join([protocol + '://', proxy_account, '@', ip_port])})
+            proxy_handler = urllib2.ProxyHandler({protocol: ''.join([protocol + '://', proxy_account, '@', ip_port])})
+            proxy_auth_handler = urllib2.ProxyBasicAuthHandler()
+            opener = urllib2.build_opener(proxy_handler, proxy_auth_handler, urllib2.HTTPHandler)
+        urllib2.install_opener(opener)
+
 
 class PublicAPIv3(BTCEConnection):
     "BTC-E Public API v3 <https://btc-e.com/api/3/docs>."
-    def __init__(self, *pairs, **connkw):
+
+    def __init__(self, proxy, *pairs, **connkw):
         """Initialization of the BTC-E Public API v3.
         @param *pairs: [btc_usd[-btc_rur[-...]]] or arguments
         @param **connkw: ... (see: 'BTCEConnection' class)"""
-        super(PublicAPIv3, self).__init__(**connkw)
+        super(PublicAPIv3, self).__init__(proxy, **connkw)
         self.pairs = pairs    # type 'str' (delimiter: '-')
 
         if not self.pairs:
@@ -300,12 +365,12 @@ class TradeAPIv1(BTCEConnection):
 
     __wait_for_nonce = False
 
-    def __init__(self, apikey, **connkw):
+    def __init__(self, apikey, proxy, **connkw):
         """Initialization of the BTC-E Trade API v1.
         @raise APIError: where no 'invalid nonce' in error
         @param apikey: Trade API Key {'Key': 'KEY', 'Secret': 'SECRET'}
         @param **connkw: ... (see: 'BTCEConnection' class)"""
-        super(TradeAPIv1, self).__init__(**connkw)
+        super(TradeAPIv1, self).__init__(proxy, **connkw)
         self._apikey = apikey    # type 'dict' (keys: 'Key', 'Secret')
         self._nonce = None       # type 'int' (min/max: 1 to 4294967294)
 
@@ -338,3 +403,4 @@ class TradeAPIv1(BTCEConnection):
         params['method'] = method
         params['nonce'] = self._nextnonce()
         return self.apirequest('/tapi', self._apikey, **params)['return']
+

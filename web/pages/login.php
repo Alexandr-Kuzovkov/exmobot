@@ -1,12 +1,7 @@
-<?php
-    if(session_status() !== PHP_SESSION_ACTIVE ) session_start();
-    require_once ('../include/Auth.class.php');
-    if(Auth::isAuth()){ Auth::logout(); header('Location: /');}
-?>
 
-<?php require_once('_header.php') ?>
-<?php require_once('_topmenu.php')?>
+<?php  if(Auth::isAuth()){Auth::logout();} ?>
 
+<?php require_once('_login_header.php') ?>
 
 
     <form method="post" action="/auth">
@@ -21,4 +16,4 @@
     </div>
     </form>
 
-<?php require_once('_footer.php')?>
+<?php require_once('_login_footer.php')?>
