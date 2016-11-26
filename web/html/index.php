@@ -1,8 +1,6 @@
-<?php if(session_status() !== PHP_SESSION_ACTIVE ) session_start();?>
-<?php require_once('../include/common.inc.php');?>
+<?php if(session_status() !== PHP_SESSION_ACTIVE ) session_start();
+require_once('../include/common.inc.php');
 
-
-<?php
 $pages = 'pages/';
 $scripts = 'scripts/';
 $root_dir = ''; /*если скрипт не в корневом каталоге сервера*/

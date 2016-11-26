@@ -13,9 +13,9 @@ $file = get_database_file();
 $fullname = realpath($path . $file);
 $db = (isset($_GET['db']))? $_GET['db'] : 'sqlite';
 if ($db == 'sqlite'){
-    $data = get_database_data_sqlite($fullname);
+    $data = get_database_data_sqlite($fullname,null, 1000);
 }elseif($db == 'mysql'){
-    $data = get_database_data_mysql();
+    $data = get_database_data_mysql(null, 1000);
 }
 ?>
 <link rel="stylesheet" type="text/css" href="vendor/datatables/jquery.dataTables.css">
