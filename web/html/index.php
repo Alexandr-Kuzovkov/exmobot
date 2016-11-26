@@ -38,6 +38,8 @@ $routes = array(
     '/clear' => $pages . 'clear.php',
     '/clear-db' => $scripts . 'clear_db.php',
     '/change-pass' => $pages . 'change_pass.php',
+    '/ticker' => $pages . 'ticker.php',
+    '/get-ticker-data' => $scripts . 'get_ticker_data.php',
 
 );
 

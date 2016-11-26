@@ -47,6 +47,7 @@
                     </ul>
                 </li>
                 <li <?php check_active('hard');?>><a href="/hard">Оборудование</a></li>
+                <li <?php check_active('ticker');?>><a href="/ticker">Тикеры</a></li>
                 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Базы данных<span class="caret"></span></a>

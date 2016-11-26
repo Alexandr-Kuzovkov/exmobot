@@ -1990,3 +1990,16 @@ Stack trace:
 [26-Nov-2016 22:06:06 Europe/Moscow] PHP Parse error:  syntax error, unexpected '$db' (T_VARIABLE) in /var/www/vhosts/exmo_bot/web/include/functions.php on line 122
 [26-Nov-2016 22:08:01 Europe/Moscow] PHP Warning:  SQLite3::query(): Unable to prepare statement: 26, file is encrypted or is not a database in /var/www/vhosts/exmo_bot/web/include/functions.php on line 144
 [26-Nov-2016 22:08:01 Europe/Moscow] PHP Fatal error:  Call to a member function fetchArray() on a non-object in /var/www/vhosts/exmo_bot/web/include/functions.php on line 145
+[26-Nov-2016 23:51:30 Europe/Moscow] PHP Notice:  Undefined variable: pairs in /var/www/vhosts/exmo_bot/web/scripts/get_ticker_data.php on line 13
+[26-Nov-2016 23:53:01 Europe/Moscow] PHP Notice:  Undefined variable: pairs in /var/www/vhosts/exmo_bot/web/scripts/get_ticker_data.php on line 13
+[26-Nov-2016 23:53:04 Europe/Moscow] PHP Notice:  Undefined variable: pairs in /var/www/vhosts/exmo_bot/web/scripts/get_ticker_data.php on line 13
+[26-Nov-2016 23:53:06 Europe/Moscow] PHP Notice:  Undefined variable: pairs in /var/www/vhosts/exmo_bot/web/scripts/get_ticker_data.php on line 13
+[26-Nov-2016 23:53:08 Europe/Moscow] PHP Notice:  Undefined variable: pairs in /var/www/vhosts/exmo_bot/web/scripts/get_ticker_data.php on line 13
+[26-Nov-2016 23:53:09 Europe/Moscow] PHP Notice:  Undefined variable: pairs in /var/www/vhosts/exmo_bot/web/scripts/get_ticker_data.php on line 13
+[27-Nov-2016 00:07:39 Europe/Moscow] PHP Fatal error:  Uncaught exception 'Exception' with message 'MySQLMySQL::getBad field value' in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php:89
+Stack trace:
+#0 /var/www/vhosts/exmo_bot/web/scripts/get_ticker_data.php(14): MySQL->get('ticker', Array)
+#1 /var/www/vhosts/exmo_bot/web/html/index.php(81): require_once('/var/www/vhosts...')
+#2 {main}
+  thrown in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 89
+[27-Nov-2016 00:37:53 Europe/Moscow] PHP Fatal error:  Cannot use [] for reading in /var/www/vhosts/exmo_bot/web/scripts/get_ticker_data.php on line 19
