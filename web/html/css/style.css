@@ -233,5 +233,9 @@ a#unselect-all-img
     opacity: 0.6;
 }
 
+.controls{
+    cursor: pointer;
+}
+
 
 

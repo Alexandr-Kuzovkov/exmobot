@@ -5,11 +5,13 @@
 (function() {
 
     var end = (new Date()).getTime();
-    var start = end - 86400000 / 8;
+    var chartInterval = 86400000 / 8;
+    var start = end - chartInterval;
 
     var chartsObj = {exmo: [], btce: [], poloniex: []};
     var chartsStatus = Storage.load('charts_status');
     if (chartsStatus == null) chartsStatus = {exmo: {}, btce: {}, poloniex: {}};
+    var controls = '<a href="#" id="back" class="controls">back</a> &nbsp; <a href="#" id="forward" class="controls">forward</a>';
 
 
     $('.collapse').on('show.bs.collapse', function () {
@@ -42,6 +44,11 @@
 
             });
         });
+
+        $('.controls').click(function(){
+            var id = this.id;
+            console.log(id);
+        });
     }
 
 
@@ -65,6 +72,7 @@
         var block = $('#' + block_selector);
         var lines = {};
         block.children().remove();
+        block.append(controls);
         //console.log(block.children());
         for (pair in data) {
             //console.log(pair);
