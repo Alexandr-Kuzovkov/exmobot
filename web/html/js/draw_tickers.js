@@ -91,6 +91,7 @@
         var block = $('#' + block_selector);
         var lines = {};
         block.children().remove();
+        block.html('');
         block.append(controls);
         //console.log(block.children());
         for (pair in data) {
