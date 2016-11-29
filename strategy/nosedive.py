@@ -64,6 +64,9 @@ class Strategy:
         self.logger.info('-'*40, self.prefix)
         self.logger.info('Run strategy %s, pair: %s' % (self.name, self.pair), self.prefix)
 
+        # удаляем неактуальные записи об ордерах
+        Lib.delete_orders_not_actual(self)
+
         #Получаем ордера на покупку
         orders = self.capi.orders([self.pair])
         try:
@@ -85,6 +88,9 @@ class Strategy:
         balance = self.capi.balance()
         primary_balance = balance[self.pair.split('_')[0]]
         secondary_balance = min(balance[self.pair.split('_')[1]], self.limit)
+
+        #сохраняем в базу последние сделки
+        Lib.save_last_user_trades(self)
 
         # сохраняем балансы в базу для сбора статистики
         if primary_balance < min_primary_balance:
