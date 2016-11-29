@@ -19,7 +19,7 @@ if (!isset($_FILES['dump']) || $_FILES['dump']['error'] != 0){
 }
 
 if ($db == 'sqlite'){
-    move_uploaded_file($_FILES['dump']['tmp_name'], $fullname);
+    $res = move_uploaded_file($_FILES['dump']['tmp_name'], $fullname);
     chmod($fullname, 0666);
     header('Location: /database?db=sqlite');
     exit();

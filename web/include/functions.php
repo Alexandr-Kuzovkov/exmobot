@@ -118,93 +118,24 @@
      * (первый попавшийся файл с раширением sqlite)
      */
     function get_database_file(){
-        $path = '../../db';
-        $db_file = false;
-        $files = scandir($path);
-        if (is_array($files) && count($files)){
-            foreach ($files as $file){
-                if ($file == '.' || $file == '..') continue;
-                if (pathinfo($file, PATHINFO_EXTENSION) !== 'sqlite') continue;
-                $db_file = $file;
-                break;
-            }
-        }
+        return 'store.sqlite';
+        $db = SQLite::get_instance();
+        $db_file = $db->get_db_name();
+        unset($db);
         return $db_file;
     }
 
 
-    /**
-     * возвращает данные по изменению балансов
-     * сгруппированные по сессиям и валютам и отсортированные по времени
-     */
-    function get_balances_data($db_name){
-        $selector = array();
-        $rows = exec_query($db_name, 'SELECT session_id FROM balance GROUP BY session_id');
-        if (is_array($rows)){
-            foreach ($rows as $row){
-                $session_id = $row['session_id'];
-                $rows2 = exec_query($db_name, "SELECT currency FROM balance WHERE session_id='{$session_id}' GROUP BY currency");
-                if (is_array($rows2)){
-                    foreach($rows2 as $row2){
-                        $selector[$session_id][] = $row2['currency'];
-                    }
-                }
-
-            }
-        }
-        $result = array();
-        foreach($selector as $session_id => $currencies){
-            foreach($currencies as $currency){
-                $rows = exec_query($db_name, "SELECT utime, amount FROM balance WHERE currency='{$currency}' AND session_id='{$session_id}' ORDER BY utime ASC");
-                $result[$session_id][$currency] = $rows;
-            }
-        }
-
-        return $result;
-
-    }
-
-    /**
-     * возвращает данные по сделкам
-     * сгруппированные по сессиям и валютным парам и отсортированные по времени
-     */
-    function get_trades_data($db_name){
-        $selector = array();
-        $rows = exec_query($db_name, 'SELECT session_id FROM user_trades GROUP BY session_id');
-        if (is_array($rows)){
-            foreach ($rows as $row){
-                $session_id = $row['session_id'];
-                $rows2 = exec_query($db_name, "SELECT pair FROM user_trades WHERE session_id='{$session_id}' GROUP BY pair");
-                if (is_array($rows2)){
-                    foreach($rows2 as $row2){
-                        $selector[$session_id][] = $row2['pair'];
-                    }
-                }
-
-            }
-        }
-        $result = array();
-        foreach($selector as $session_id => $pairs){
-            foreach($pairs as $pair){
-                $rows = exec_query($db_name, "SELECT * FROM user_trades WHERE pair='{$pair}' AND session_id='{$session_id}' ORDER BY trade_date DESC");
-                $result[$session_id][$pair] = $rows;
-            }
-        }
-
-        return $result;
-
-    }
-
-
-
     /*---------------------------------------------------------------------------------*/
-    /**
-     * возвращает содержимое всех таблиц базы данных sqlite
-     * либо конкретной таблицы если задано ее имя
-     *@param $db_name полное имя файла базы данных
-     *@param  $table_name имя таблицы БД
-     */
-    function get_database_data_sqlite($db_name, $table_name = null){
+/**
+ * возвращает содержимое всех таблиц базы данных sqlite
+ * либо конкретной таблицы если задано ее имя
+ * @param $db_name полное имя файла базы данных
+ * @param  $table_name имя таблицы БД
+ * @param $limit
+ * @return array|string
+ */
+    function get_database_data_sqlite($db_name, $table_name = null, $limit = null){
         try{
             $db = new SQLite3($db_name);
             $sql = "SELECT * FROM sqlite_master WHERE type = 'table'";
@@ -216,7 +147,7 @@
             }
             foreach($tables as $table){
                 if ($table_name !== null && $table_name !== $table) continue;
-                $sql = "SELECT * FROM $table";
+                $sql = ($limit == null)? "SELECT * FROM $table" : "SELECT * FROM $table LIMIT $limit";
                 $res = $db->query($sql);
                 $count = 0;
                 $result[$table] = array();
@@ -232,13 +163,15 @@
         }
     }
 
-    /**
-     * возвращает содержимое всех таблиц базы данных mysql
-     * либо конкретной таблицы если задано ее имя
-     *@param $db_name полное имя файла базы данных
-     *@param  $table_name имя таблицы БД
-     */
-    function get_database_data_mysql($table_name = null){
+/**
+ * возвращает содержимое всех таблиц базы данных mysql
+ * либо конкретной таблицы если задано ее имя
+ * @param $db_name полное имя файла базы данных
+ * @param  $table_name имя таблицы БД
+ * @param  $limit
+ * @return array|string
+ */
+    function get_database_data_mysql($table_name = null, $limit = null){
         try{
             $db = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
             if (!$db) {
@@ -256,7 +189,7 @@
 
             foreach($tables as $table){
                 if ($table_name !== null && $table_name !== $table) continue;
-                $sql = "SELECT * FROM $table";
+                $sql = ($limit == null)? "SELECT * FROM $table" : "SELECT * FROM $table LIMIT $limit";
                 $res = mysqli_query($db, $sql);
                 $count = 0;
                 $result[$table] = array();

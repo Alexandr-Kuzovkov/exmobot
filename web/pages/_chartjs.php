@@ -1,0 +1,1 @@
+<script src="/vendor/chartjs/Chart.js"></script>

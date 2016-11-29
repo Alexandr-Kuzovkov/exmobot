@@ -213,5 +213,29 @@ a#unselect-all-img
     color: red;
 }
 
+.exchange-block
+{
+    margin: 10px 0 10px 0;
+}
+
+.time-interval
+{
+    font-size: 0.9em;
+}
+
+.pair-title
+{
+    cursor: pointer;
+}
+
+.pair-title:hover
+{
+    opacity: 0.6;
+}
+
+.controls{
+    cursor: pointer;
+}
+
 
 

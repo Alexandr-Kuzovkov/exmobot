@@ -47,6 +47,7 @@
                     </ul>
                 </li>
                 <li <?php check_active('hard');?>><a href="/hard">Оборудование</a></li>
+                <li <?php check_active('ticker');?>><a href="/ticker">Тикеры</a></li>
                 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Базы данных<span class="caret"></span></a>
@@ -55,14 +56,14 @@
                         <li <?php check_active('query');?>><a href="/query?db=sqlite">Запрос(SQLite)</a></li>
                         <li <?php check_active('balances');?>><a href="/balances?db=sqlite">Балансы(SQLite)</a></li>
                         <li <?php check_active('trades');?>><a href="/trades?db=sqlite">Сделки(SQLite)</a></li>
-                        <li <?php check_active('clear');?>><a href="/clear?db=sqlite">Очистить базу(SQLite)</a></li>
+                        <li <?php check_active('clear');?>><a href="/clear?db=sqlite">Пересоздать базу(SQLite)</a></li>
                         <li <?php check_active('copy');?>><a href="/copy?db=sqlite_mysql">Копирование SQLite -> MySQL</a></li>
                         <li role="separator" class="divider"></li>
                         <li <?php check_active('database');?>><a href="/database?db=mysql">Все данные(MySQL)</a></li>
                         <li <?php check_active('query');?>><a href="/query?db=mysql">Запрос(MySQL)</a></li>
                         <li <?php check_active('balances');?>><a href="/balances?db=mysql">Балансы(MySQL)</a></li>
                         <li <?php check_active('trades');?>><a href="/trades?db=mysql">Сделки(MySQL)</a></li>
-                        <li <?php check_active('clear');?>><a href="/clear?db=mysql">Очистить базу(MySQL)</a></li>
+                        <li <?php check_active('clear');?>><a href="/clear?db=mysql">Пересоздать базу(MySQL)</a></li>
                         <li <?php check_active('copy');?>><a href="/copy?db=mysql_sqlite">Копирование MySQL -> SQLite</a></li>
                         <li role="separator" class="divider"></li>
                         <li <?php check_active('backup');?>><a href="/backup?db=sqlite" target="_blank">Скачать файл базы SQLite</a></li>
