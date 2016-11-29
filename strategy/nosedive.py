@@ -64,15 +64,12 @@ class Strategy:
         self.logger.info('-'*40, self.prefix)
         self.logger.info('Run strategy %s, pair: %s' % (self.name, self.pair), self.prefix)
 
-        # удаляем неактуальные записи об ордерах
-        Lib.delete_orders_not_actual(self)
-
         #Получаем ордера на покупку
         orders = self.capi.orders([self.pair])
         try:
             buy_orders = orders[self.pair]['bid']
         except KeyError:
-             buy_orders = orders[Lib.reverse_pair(self.pair)]['bid']
+            buy_orders = orders[Lib.reverse_pair(self.pair)]['bid']
 
         #минимальный баланс первой и второй валют в паре для создания ордера
         ticker = self.capi.ticker()
@@ -83,6 +80,9 @@ class Strategy:
 
         #удаляем все ордера по паре
         self.capi.orders_cancel([self.pair])
+
+        #удаляем неактуальные записи об ордерах
+        Lib.delete_orders_not_actual(self)
 
         #получаем наличие своих средств
         balance = self.capi.balance()

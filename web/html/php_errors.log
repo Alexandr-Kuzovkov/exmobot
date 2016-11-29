@@ -2010,3 +2010,4 @@ Stack trace:
 [28-Nov-2016 22:46:45 Europe/Moscow] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 76 bytes) in /var/www/vhosts/exmo_bot/web/scripts/get_ticker_data.php on line 33
 [28-Nov-2016 22:49:47 Europe/Moscow] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 76 bytes) in /var/www/vhosts/exmo_bot/web/scripts/get_ticker_data.php on line 33
 [29-Nov-2016 19:58:20 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[29-Nov-2016 23:44:28 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2

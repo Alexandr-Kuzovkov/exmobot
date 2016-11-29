@@ -210,8 +210,9 @@ def _round(number, prec):
 '''
 удаляем неактуальные записи об ордерах в базе данных
 '''
-def delete_orders_not_actual(strategy):
-    user_orders = strategy.capi.user_orders()
+def delete_orders_not_actual(strategy, user_orders = None):
+    if user_orders is None:
+        user_orders = strategy.capi.user_orders()
     stored_orders = strategy.storage.orders(session_id=strategy.session_id)
     for stored_order in stored_orders:
         order_exists = False
