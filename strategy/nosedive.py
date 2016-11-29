@@ -144,7 +144,7 @@ class Strategy:
                     break
             #обрабатываем когда нет данных о сделках
             if not trades_data_valid:
-                amount1 = self.storage.load(self.session_id + 'buy_price', self.session_id)
+                amount1 = self.storage.load(self.session_id + 'buy_price', self.session_id) * primary_balance
             #вычисляем из ордеров на покупку за сколько можно продать по рынку имеющееся количество первой валюты (amount2)
             amount2 = self.capi.possable_amount(self.pair.split('_')[0], self.pair.split('_')[1], primary_balance, orders)
             self.logger.info('amount1=%f; amount2=%f' % (amount1, amount2), self.prefix)
