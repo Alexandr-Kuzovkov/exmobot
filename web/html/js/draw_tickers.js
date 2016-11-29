@@ -7,11 +7,23 @@
     var end = (new Date()).getTime();
     var chartInterval = 86400000 / 8;
     var start = end - chartInterval;
-
+    var time_delta = chartInterval / 3;
+    var time_offset = Storage.load('time_offset');
+    if (time_offset == null) time_offset = 0;
+    console.log(time_offset);
     var chartsObj = {exmo: [], btce: [], poloniex: []};
     var chartsStatus = Storage.load('charts_status');
     if (chartsStatus == null) chartsStatus = {exmo: {}, btce: {}, poloniex: {}};
-    var controls = '<a href="#" id="back" class="controls">back</a> &nbsp; <a href="#" id="forward" class="controls">forward</a>';
+    var controls = [
+                    '<button type="button" class="btn btn-default controls" data-toggle="tooltip" data-placement="top" title="Back" id="back">',
+                    '<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>',
+                    '</button> &nbsp; ',
+                    '<button type="button" class="btn btn-default controls" data-toggle="tooltip" data-placement="top" title="Forward" id="forward">',
+                    '<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></button>',
+                    '<button type="button" class="btn btn-default controls" data-toggle="tooltip" data-placement="top" title="ToEnd" id="toend">',
+                    '<span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span>',
+                     '</button>'
+                    ].join('');
 
 
     $('.collapse').on('show.bs.collapse', function () {
@@ -21,7 +33,9 @@
 
 
     function getTickerData(exchange, start, end, callback) {
-        $.post('/get-ticker-data', {exchange: exchange, start: start, end: end}, function (data) {
+        var delta = time_offset * time_delta;
+        console.log(delta);
+        $.post('/get-ticker-data', {exchange: exchange, start: start - delta, end: end - delta}, function (data) {
             callback(exchange, data);
         })
     }
@@ -30,6 +44,9 @@
         drawChart(exchange, data);
         //showJson(exchange, data);
 
+        $('.pair-title').each(function(){
+            $(this).unbind('click');
+        });
         $('.pair-title').click(function(){
             var id = this.id;
             var chart_id = id.split('-').pop();
@@ -46,8 +63,10 @@
         });
 
         $('.controls').click(function(){
-            var id = this.id;
-            console.log(id);
+            var direction = this.id;
+            console.log(direction);
+            changeTimeOffset(direction);
+            getTickerData(exchange, start, end, updateBlock);
         });
     }
 
@@ -119,8 +138,8 @@
                     pointHoverBackgroundColor: "rgba(75,192,192,1)",
                     pointHoverBorderColor: "rgba(220,22,22,1)",
                     pointHoverBorderWidth: 4,
-                    pointRadius: 1,
-                    pointHitRadius: 2,
+                    pointRadius: 3,
+                    pointHitRadius: 5,
                     data: [],
                     options: {
                         scales: {
@@ -137,7 +156,6 @@
                 for (var i = 0; i < data[pair].length; i++) {
                     lines[pair]['datasets'][lines[pair]['datasets'].length - 1]['data'].push(data[pair][i][field]);
                 }
-
             }
 
             var beginInterval = new Date(Array_min(updates));
@@ -179,6 +197,20 @@
     function changeChartStatus(exchange, pair, status){
         chartsStatus[exchange][pair] = status;
         Storage.save('charts_status', chartsStatus);
+    }
+
+    function changeTimeOffset(direction){
+        if (direction == 'back'){
+            time_offset += 1;
+        }else if(direction == 'forward'){
+            if(time_offset > 0)
+                time_offset -= 1;
+        }else if(direction == 'toend'){
+            time_offset = 0;
+        }else{
+            return;
+        }
+        Storage.save('time_offset', time_offset);
     }
 
 })()

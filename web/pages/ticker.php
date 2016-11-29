@@ -41,6 +41,6 @@
     </div>
 
 
-<script type="text/javascript" src="/js/drawcharts.js"></script>
+<script type="text/javascript" src="/js/draw_tickers.js"></script>
 
 <?php require_once('_footer.php')?>
