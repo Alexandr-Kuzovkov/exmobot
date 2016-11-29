@@ -86,6 +86,12 @@ class Strategy:
         primary_balance = balance[self.pair.split('_')[0]]
         secondary_balance = min(balance[self.pair.split('_')[1]], self.limit)
 
+        # сохраняем балансы в базу для сбора статистики
+        if primary_balance < min_primary_balance:
+            Lib.save_change_balance(self, self.pair.split('_')[1], balance[self.pair.split('_')[1]])
+        if secondary_balance < min_secondary_balance:
+            Lib.save_change_balance(self, self.pair.split('_')[0], balance[self.pair.split('_')[0]])
+
         self.logger.info('balance: %s=%f; %s=%f' % (self.pair.split('_')[0], primary_balance, self.pair.split('_')[1], secondary_balance), self.prefix)
 
         #если баланс по 2 валюте достаточен
