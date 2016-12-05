@@ -231,7 +231,7 @@ def delete_orders_not_actual(strategy, user_orders = None):
 такой ордер не отменяем
 @param min_balance мимнимальное количество валюты на ордер
 '''
-def delete_own_orders(strategy, min_balance):
+def delete_own_orders(strategy, min_balance=0):
     own_orders = strategy.storage.orders(strategy.pair, strategy.session_id)
     for own_order in own_orders:
         if own_order['order_type'] == 'sell' and own_order['quantity'] <= min_balance:
@@ -307,7 +307,7 @@ def calc_prices(strategy, orders, price_step, fee=0.002):
     while (profit < strategy.min_profit):
         ask += price_step
         bid -= price_step
-        profit = strategy._calc_profit(ask, bid, fee)
+        profit = _calc_profit(ask, bid, fee)
 
     return {'ask': ask, 'bid': bid}
 
