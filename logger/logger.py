@@ -20,7 +20,7 @@ class Logger:
     def info(self, msg, prefix=''):
         if self.logfile is not None:
             try:
-                f = open(self.logfile, 'a')
+		f = open(self.logfile, 'a')
                 f.write(self._prep_message(msg, prefix))
                 f.close()
             except Exception, e:

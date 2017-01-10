@@ -81,7 +81,7 @@ class Strategy:
         #return
 
         logger.info('-'*40, prefix)
-        logger.info('Run strategy %s, pair: %s  mode: %i hold_currency %s' % (self.name, pair, mode, str(self.hold_currency)), prefix)
+        logger.info('Run strategy %s, pair: %s  mode: %i' % (self.name, pair, mode), prefix)
 
         #удаляем неактуальные записи об ордерах
         Lib.delete_orders_not_actual(self)
@@ -114,7 +114,7 @@ class Strategy:
         secondary_balance = min(balance[pair.split('_')[1]], limit)
 
         #сохраняем в базу последние сделки
-        self.save_last_user_trades()
+        Lib.save_last_user_trades(self)
 
         logger.info('Balance: %s = %f; %s = %f' % (pair.split('_')[0], balance[pair.split('_')[0]], pair.split('_')[1], balance[pair.split('_')[1]]), prefix)
         logger.info('Balance with limit: %s = %f; %s = %f' % (pair.split('_')[0], primary_balance, pair.split('_')[1], secondary_balance), prefix)
