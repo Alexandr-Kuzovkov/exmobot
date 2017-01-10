@@ -34,7 +34,7 @@ def calc_price_sell(strategy, quantity, user_trades=None, limit=100):
 @param param_type тип
 @return значение параметра
 '''
-def set_param(strategy, key, default_value, param_type=None):
+def set_param(strategy, key, default_value=None, param_type=None):
     if key in strategy.params:
         param = strategy.params[key]
     elif strategy.conf.has_option('common', key):

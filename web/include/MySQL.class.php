@@ -324,6 +324,7 @@ class MySQL implements Db{
         $res = $this->query("SHOW TABLES");
         foreach($res as $row){
             $table = $row['Tables_in_' . $this->get_db_name()];
+            if ($table == PROTECTED_TABLE) continue;
             $sql = "DROP TABLE IF EXISTS `{$table}`";
             $this->query($sql);
         }

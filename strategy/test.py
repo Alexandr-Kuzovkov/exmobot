@@ -280,4 +280,14 @@ class Strategy:
         #pprint(self.capi.exchange_all_to_usd())
         #pprint(capi.user_trades(['ETH_BTC']))
 
-        pprint(capi.user_trades())
+        '''
+        if self.capi.name in ['poloniex']:
+            pprint(self.capi.orders(['USDT_BTC'], 20))
+        else:
+            pprint(self.capi.orders(['BTC_USD'], 20))
+        '''
+
+        if self.capi.name in ['poloniex']:
+            pprint(self.capi.trades(['USDT_BTC']))
+        else:
+            pprint(self.capi.trades(['BTC_USD']))

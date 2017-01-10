@@ -64,7 +64,7 @@ class Strategy:
             except Exception, ex:
                  self.logger.info('Error while get ticker from %s' % self.capi.name, self.prefix)
             self.storage.save_ticker(ticker)
-            self.logger.info('Ticker from %s succsesfully saved', self.prefix)
+            self.logger.info('Ticker from %s successfully saved', self.prefix)
 
         #удаление старых данных
         utmost_update = time.time() - self.store_time * 86400

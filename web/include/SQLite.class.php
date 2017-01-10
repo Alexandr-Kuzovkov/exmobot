@@ -316,6 +316,7 @@ class SQLite implements Db{
                 $tables[] = $row['name'];
             }
             foreach($tables as $table){
+                if ($table == PROTECTED_TABLE) continue;
                 $sql = "DROP TABLE IF EXISTS {$table}";
                 $this->query($sql);
             }

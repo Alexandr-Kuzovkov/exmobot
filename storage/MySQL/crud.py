@@ -18,6 +18,7 @@ class Crud:
     rel_path_schema = '/storage/schema.ini'
     schema_file = ''
     schema = {} #словарь в котором хранится схема БД
+    protected_table = ['user']  # неудаляемые таблицы при пересоздании базы
 
     #конструктор, создание таблиц
     def __init__(self, dbname=None):
@@ -244,6 +245,8 @@ class Crud:
         for row in rows:
             tables.append(row[0])
         for table in tables:
+            if table in self.protected_table:
+                continue
             query = ['DROP TABLE IF EXISTS', table]
             query = ' '.join(query)
             self.execute(query)

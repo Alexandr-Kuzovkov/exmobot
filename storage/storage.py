@@ -318,3 +318,29 @@ class Storage:
     '''
     def delete_old_tickers(self, utmost_update):
         self.dbase.delete('ticker', {'updated<': utmost_update})
+
+
+    '''
+    запись данных статистики
+    @param exchange имя биржи
+    @param pair валютная пара
+    @param order_qt_sell
+    @param order_qt_buy
+    @param trade_qt_sell
+    @param trade_qt_buy
+    @param top_buy
+    @param low_sell
+    '''
+    def save_stat(self, exchange, pair, order_qt_sell, order_qt_buy, trade_qt_sell, trade_qt_buy, low_sell, top_buy):
+        data_to_write = []
+        row = (int(time.time()), exchange, pair, order_qt_sell, order_qt_buy, trade_qt_sell, trade_qt_buy, low_sell, top_buy)
+        data_to_write.append(row)
+        self.dbase.insert('stat', data_to_write)
+
+
+    '''
+    удаление старых данных статистики
+    @param utmost_update крайняя временная метка, ранее которой записи подлежат удалению
+    '''
+    def delete_old_stat(self, utmost_update):
+        self.dbase.delete('stat', {'utime<': utmost_update})

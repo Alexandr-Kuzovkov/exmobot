@@ -2012,3 +2012,7 @@ Stack trace:
 [29-Nov-2016 19:58:20 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
 [29-Nov-2016 23:44:28 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
 [30-Nov-2016 00:10:52 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[10-Dec-2016 21:08:33 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[10-Jan-2017 21:50:09 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[10-Jan-2017 23:50:57 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+[10-Jan-2017 23:56:32 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2

@@ -6,3 +6,4 @@
     define('DB_PASS', 'rootroot');
     define('DB_FILE', 'store.sqlite');
     define('SCHEMA_FILE', '../../storage/schema.ini');
+    define('PROTECTED_TABLE', 'user');
