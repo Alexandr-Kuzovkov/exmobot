@@ -31,6 +31,13 @@
         Пример удаления записей из таблицы старше 1 часа:
         DELETE FROM session_data WHERE utime < (strftime('%s','now') - 3600)
 
+        Пример экспорта запроса из базы MySQL в файл .csv, который может быть открыт в Exel:
+        SELECT 'utime', 'exchange', 'pair', 'orders_qt_sell', 'orders_qt_buy'
+        UNION ALL
+        (SELECT utime, exchange, pair, orders_qt_sell, orders_qt_buy FROM stat WHERE exchange='btce'
+        INTO OUTFILE '/tmp/stat_data3.csv' FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n')
+
+
             btce: UiA9otSQuYfw
         </pre>
 

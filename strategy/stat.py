@@ -73,9 +73,10 @@ class Strategy:
                                     trade_qt_sell += trade['quantity']
                                 elif trade['type'] == 'buy':
                                     trade_qt_buy += trade['quantity']
-                            print name, pair, order_qt_sell, order_qt_buy, trade_qt_sell, trade_qt_buy, low_sell, top_buy
+                            data = (name, pair, order_qt_sell, order_qt_buy, trade_qt_sell, trade_qt_buy, low_sell, top_buy)
+                            self.logger.info('Received data: exchange: %s pair: %s %f %f %f %f %f %f' % data, self.prefix)
                             self.storage.save_stat(name, pair, order_qt_sell, order_qt_buy, trade_qt_sell, trade_qt_buy, low_sell, top_buy)
-                            self.logger.info('Stat data from %s for pair %s saved' % (name, pair), self.prefix)
+                            self.logger.info('Stat data from "%s" for pair %s has been saved' % (name, pair), self.prefix)
                         except Exception, ex:
                             self.logger.info('Error while get stat from %s for pair %s ' % (name, pair), self.prefix)
 
@@ -100,6 +101,8 @@ class Strategy:
                                 trade_qt_sell += trade['quantity']
                             elif trade['type'] == 'buy':
                                 trade_qt_buy += trade['quantity']
+                        data = (self.capi.name, pair, order_qt_sell, order_qt_buy, trade_qt_sell, trade_qt_buy, low_sell, top_buy)
+                        self.logger.info('Received data: exchange: %s pair: %s %f %f %f %f %f %f' % data, self.prefix)
                         self.storage.save_stat(self.capi.name, pair, order_qt_sell, order_qt_buy, trade_qt_sell, trade_qt_buy,
                                                low_sell, top_buy)
                         self.logger.info('Stat data from %s for pair %s saved' % (self.capi.name, pair), self.prefix)
