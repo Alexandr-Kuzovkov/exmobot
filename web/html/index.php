@@ -40,6 +40,8 @@ $routes = array(
     '/change-pass' => $pages . 'change_pass.php',
     '/ticker' => $pages . 'ticker.php',
     '/get-ticker-data' => $scripts . 'get_ticker_data.php',
+    '/download-file' => $pages . 'download_file.php',
+    '/get-file' => $scripts . 'get_file.php'
 
 );
 

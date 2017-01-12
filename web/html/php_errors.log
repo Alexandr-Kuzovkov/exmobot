@@ -2002,19 +2002,183 @@ Stack trace:
 #1 /var/www/vhosts/exmo_bot/web/html/index.php(81): require_once('/var/www/vhosts...')
 #2 {main}
   thrown in /var/www/vhosts/exmo_bot/web/include/MySQL.class.php on line 89
-[27-Nov-2016 00:37:53 Europe/Moscow] PHP Fatal error:  Cannot use [] for reading in /var/www/vhosts/exmo_bot/web/scripts/get_ticker_data.php on line 19
-[27-Nov-2016 23:05:58 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
-[28-Nov-2016 13:27:16 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
-[28-Nov-2016 22:34:26 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
-[28-Nov-2016 22:46:29 Europe/Moscow] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 76 bytes) in /var/www/vhosts/exmo_bot/web/scripts/get_ticker_data.php on line 33
-[28-Nov-2016 22:46:45 Europe/Moscow] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 76 bytes) in /var/www/vhosts/exmo_bot/web/scripts/get_ticker_data.php on line 33
-[28-Nov-2016 22:49:47 Europe/Moscow] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 76 bytes) in /var/www/vhosts/exmo_bot/web/scripts/get_ticker_data.php on line 33
-[29-Nov-2016 19:58:20 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
-[29-Nov-2016 23:44:28 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
-[30-Nov-2016 00:10:52 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
-[10-Dec-2016 21:08:33 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
-[10-Jan-2017 21:50:09 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
-[10-Jan-2017 23:50:57 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
-[10-Jan-2017 23:56:32 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
-[11-Jan-2017 20:30:07 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
-[11-Jan-2017 22:29:35 Europe/Moscow] PHP Notice:  A session had already been started - ignoring session_start() in /var/www/vhosts/exmo_bot/web/scripts/auth.php on line 2
+
+[12-Jan-2017 14:01:08 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:08 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:08 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:10 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:10 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:10 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:12 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:12 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:12 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:14 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:14 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:14 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:16 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:16 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:16 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:18 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:18 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:18 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:20 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:20 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:20 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:22 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:22 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:22 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:24 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:24 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:24 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:26 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:26 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:26 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:28 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:28 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:28 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:30 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:30 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:30 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:32 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:32 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:32 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:34 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:34 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:34 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:36 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:36 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:36 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:38 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:38 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:38 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:40 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:40 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:01:40 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')' in /var/www/vhosts/exmo_bot/web/html/index.php on line 45
+[12-Jan-2017 14:42:48 Europe/Moscow] PHP Warning:  scandir(/tmpw): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 14:42:48 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:03:27 Europe/Moscow] PHP Notice:  Undefined variable: basename in /var/www/vhosts/exmo_bot/web/scripts/get_file.php on line 9
+[12-Jan-2017 15:03:27 Europe/Moscow] PHP Fatal error:  Function name must be a string in /var/www/vhosts/exmo_bot/web/scripts/get_file.php on line 9
+[12-Jan-2017 15:03:49 Europe/Moscow] PHP Notice:  Undefined variable: fullname in /var/www/vhosts/exmo_bot/web/scripts/get_file.php on line 16
+[12-Jan-2017 15:03:49 Europe/Moscow] PHP Warning:  readfile(): Filename cannot be empty in /var/www/vhosts/exmo_bot/web/scripts/get_file.php on line 16
+[12-Jan-2017 15:05:17 Europe/Moscow] PHP Notice:  Undefined variable: fullname in /var/www/vhosts/exmo_bot/web/scripts/get_file.php on line 16
+[12-Jan-2017 15:05:17 Europe/Moscow] PHP Warning:  readfile(): Filename cannot be empty in /var/www/vhosts/exmo_bot/web/scripts/get_file.php on line 16
+[12-Jan-2017 15:07:35 Europe/Moscow] PHP Warning:  scandir(/tm): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:07:35 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:07:36 Europe/Moscow] PHP Warning:  scandir(/t): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:07:36 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:07:39 Europe/Moscow] PHP Warning:  scandir(/v): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:07:39 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:07:39 Europe/Moscow] PHP Warning:  scandir(/va): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:07:39 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:08:15 Europe/Moscow] PHP Warning:  scandir(/v): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:08:15 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:08:15 Europe/Moscow] PHP Warning:  scandir(/va): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:08:15 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:08:17 Europe/Moscow] PHP Warning:  scandir(/var/l): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:08:17 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:08:19 Europe/Moscow] PHP Warning:  scandir(/var/lo): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:08:19 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:08:34 Europe/Moscow] PHP Warning:  scandir(/var/l): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:08:34 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:08:34 Europe/Moscow] PHP Warning:  scandir(/var/lo): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:08:34 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:08:53 Europe/Moscow] PHP Warning:  scandir(/t): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:08:53 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:08:54 Europe/Moscow] PHP Warning:  scandir(/tm): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:08:54 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:10:10 Europe/Moscow] PHP Warning:  scandir(/tm): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:10:10 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:10:11 Europe/Moscow] PHP Warning:  scandir(/t): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:10:11 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:10:13 Europe/Moscow] PHP Warning:  scandir(/v): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:10:13 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:10:13 Europe/Moscow] PHP Warning:  scandir(/va): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:10:13 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:10:16 Europe/Moscow] PHP Warning:  scandir(/var/l): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:10:16 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:10:17 Europe/Moscow] PHP Warning:  scandir(/var/lo): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:10:17 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:31:05 Europe/Moscow] PHP Warning:  scandir(/tm): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:31:05 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:31:05 Europe/Moscow] PHP Warning:  scandir(/t): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:31:05 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:31:06 Europe/Moscow] PHP Warning:  scandir(/v): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:31:06 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:31:06 Europe/Moscow] PHP Warning:  scandir(/va): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:31:06 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:31:50 Europe/Moscow] PHP Warning:  scandir(/tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:31:50 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 5
+[12-Jan-2017 15:34:43 Europe/Moscow] PHP Warning:  scandir(/tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 6
+[12-Jan-2017 15:34:43 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 6
+[12-Jan-2017 15:34:57 Europe/Moscow] PHP Warning:  scandir(/tmp/vmw): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 6
+[12-Jan-2017 15:34:57 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 6
+[12-Jan-2017 15:34:57 Europe/Moscow] PHP Warning:  scandir(/tmp/vm): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 6
+[12-Jan-2017 15:34:57 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 6
+[12-Jan-2017 15:34:57 Europe/Moscow] PHP Warning:  scandir(/tmp/v): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 6
+[12-Jan-2017 15:34:57 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 6
+[12-Jan-2017 15:35:07 Europe/Moscow] PHP Warning:  scandir(/tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 6
+[12-Jan-2017 15:35:07 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 6
+[12-Jan-2017 15:44:56 Europe/Moscow] PHP Warning:  scandir(/tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 15:44:56 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 15:45:00 Europe/Moscow] PHP Warning:  scandir(/tmp/sni-qt_skype_2392-6SQbYL): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 15:45:00 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 15:45:02 Europe/Moscow] PHP Warning:  scandir(/tmp/sni-qt_python2.7_2868-T2fpws): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 15:45:02 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 15:45:02 Europe/Moscow] PHP Warning:  scandir(/tmp/skype-2392): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 15:45:02 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 15:55:34 Europe/Moscow] PHP Warning:  scandir(/tmp/h): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 15:55:34 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 15:59:00 Europe/Moscow] PHP Warning:  scandir(//////////tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 15:59:00 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 15:59:04 Europe/Moscow] PHP Warning:  scandir(//////////tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 15:59:04 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:00:14 Europe/Moscow] PHP Warning:  scandir(/tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:00:14 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:07:53 Europe/Moscow] PHP Warning:  scandir(//tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:07:53 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:15:03 Europe/Moscow] PHP Warning:  scandir(//tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:15:03 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:15:06 Europe/Moscow] PHP Warning:  scandir(//tmp/sni-qt_skype_2392-6SQbYL): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:15:06 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:15:10 Europe/Moscow] PHP Warning:  scandir(//tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:15:10 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:15:54 Europe/Moscow] PHP Warning:  scandir(//tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:15:54 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:19:24 Europe/Moscow] PHP Warning:  scandir(//tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:19:24 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:29:28 Europe/Moscow] PHP Warning:  scandir(//tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 6
+[12-Jan-2017 16:29:28 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 6
+[12-Jan-2017 16:31:13 Europe/Moscow] PHP Warning:  scandir(/tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 6
+[12-Jan-2017 16:31:13 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 6
+[12-Jan-2017 16:31:26 Europe/Moscow] PHP Warning:  scandir(/tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 6
+[12-Jan-2017 16:31:26 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 6
+[12-Jan-2017 16:31:29 Europe/Moscow] PHP Warning:  scandir(/tmp/sni-qt_skype_2392-6SQbYL): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 6
+[12-Jan-2017 16:31:29 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 6
+[12-Jan-2017 16:31:31 Europe/Moscow] PHP Warning:  scandir(/tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 6
+[12-Jan-2017 16:31:31 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 6
+[12-Jan-2017 16:34:56 Europe/Moscow] PHP Warning:  scandir(//tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:34:56 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:35:31 Europe/Moscow] PHP Warning:  scandir(/tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:35:31 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:35:44 Europe/Moscow] PHP Warning:  scandir(/tmp/sni-qt_skype_2392-6SQbYL): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:35:44 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:35:50 Europe/Moscow] PHP Warning:  readfile(/tmp/.ICE-unix/2117): failed to open stream: No such device or address in /var/www/vhosts/exmo_bot/web/scripts/get_file.php on line 16
+[12-Jan-2017 16:36:47 Europe/Moscow] PHP Warning:  scandir(/tmp/skype-2392): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:36:47 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:36:57 Europe/Moscow] PHP Warning:  scandir(/tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:36:57 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:41:35 Europe/Moscow] PHP Warning:  scandir(/tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:41:35 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:41:46 Europe/Moscow] PHP Warning:  scandir(/tmp/skype-2392): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:41:46 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:44:35 Europe/Moscow] PHP Warning:  scandir(//tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:44:35 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:45:44 Europe/Moscow] PHP Warning:  scandir(): Directory name cannot be empty in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:48:36 Europe/Moscow] PHP Fatal error:  Call to undefined function realname() in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 13
+[12-Jan-2017 16:48:39 Europe/Moscow] PHP Fatal error:  Call to undefined function realname() in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 13
+[12-Jan-2017 16:50:20 Europe/Moscow] PHP Warning:  scandir(/tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:50:20 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:52:33 Europe/Moscow] PHP Warning:  scandir(/tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:52:33 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:52:41 Europe/Moscow] PHP Warning:  scandir(/tmp/vmware-root): failed to open dir: Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[12-Jan-2017 16:52:41 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7

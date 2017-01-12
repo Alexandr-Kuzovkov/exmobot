@@ -237,5 +237,19 @@ a#unselect-all-img
     cursor: pointer;
 }
 
+#file-list{
+    list-style-type: none;
+}
+
+#file-list-wrap{
+    margin: 10px 0 0 0;
+    width: 95%;
+    height: 400px;
+    background-color: #1b2426;
+    color: #3e8f3e;
+    font-size: 1.0em;
+    padding-left: 10px;
+}
+
 
 
