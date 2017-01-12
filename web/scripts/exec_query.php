@@ -40,5 +40,5 @@ if ($db == 'sqlite'){
 
     <script type="text/javascript" charset="utf8" src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script>
-        $("#result").dataTable();
+        <?php if(is_array($data)): ?> $("#result").dataTable(); <?php endif; ?>
     </script>

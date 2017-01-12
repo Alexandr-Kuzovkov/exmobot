@@ -149,6 +149,12 @@ a#unselect-all-img
     color: #f0f0f0;
 }
 
+.orange-btn
+{
+    background-color: darkorange;
+    color: #f0f0f0;
+}
+
 .black-field
 {
     width: 95%;
