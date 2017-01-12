@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 
     <h3>Скачать файл</h3>
+    <div class="error" id="error"></div>
     Каталог: <input id="dir" type="text" value="/tmp" size="100"/>
     <div id="file-list-wrap" class="scroll">
         <ul id="file-list">
@@ -47,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     </div>
 
     <script type="text/javascript">
+
         $('#dir').change(function(){
             fillFileList();
         });
@@ -55,13 +57,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             fillFileList();
         });
 
+        /*заполнение списка файлов*/
         function fillFileList(){
             var dir = $('#dir').val();
             $.post('/download-file', {dir:dir}, function(res){
+                console.log(res);
                 if (res.res){
+                    $('#error').html('');
                     $('#file-list').html(res.data);
                     $('.enter-dir').click(function(){
-                        console.log(this);
                         if (this.text == '..'){
                             var dir = $('#dir').val();
                             var arr = dir.split('/');
@@ -72,17 +76,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                         }else{
                             $('#dir').val(this.id);
                         }
-
                         fillFileList();
                     });
                 }else{
-                    var dir = $('#dir').val();
-                    var arr = dir.split('/');
-                    arr = trimArr(arr);
-                    arr.pop();
-                    dir = '/' + arr.join('/');
-                    $('#dir').val(dir);
-                    alert(res.data.message);
+                    var errno = getErrNo(res.data.message);
+                    if (errno == 13){
+                        var dir = $('#dir').val();
+                        var arr = dir.split('/');
+                        arr = trimArr(arr);
+                        arr.pop();
+                        dir = '/' + arr.join('/');
+                        $('#dir').val(dir);
+                    }
+                    $('#error').html(res.data.message);
                 }
             });
 
@@ -104,7 +110,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         return arr;
     }
 
-    </script>
+    /*получение номера ошибки*/
+    function getErrNo(message){
+        var regE = /\(errno \d{1,}\)/;
+        var regE2 = /\d{1,}/;
+        var match = message.match(regE);
+        if (match){
+            return match[0].match(regE2)[0];
+        }
+    }
+
+</script>
 
 
 <?php require_once('_footer.php')?>
