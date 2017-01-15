@@ -8,7 +8,8 @@
     </a>
     <a id="exmo-balance" class="api-data">Баланс</a> |
     <a id="exmo-user_orders" class="api-data">Ордера</a> |
-    <a id="exmo-user_trades" class="api-data">История торгов</a>
+    <a id="exmo-user_trades" class="api-data">История торгов |</a>
+    <a id="exmo-ticker" class="api-data">Тикер</a>
 </div>
 <div class="exchange">
     <a href="https://btc-e.nz" target="_blank">
@@ -17,7 +18,8 @@
     </a>
     <a id="btce-balance" class="api-data">Баланс</a> |
     <a id="btce-user_orders" class="api-data">Ордера</a> |
-    <a id="btce-user_trades" class="api-data">История торгов</a>
+    <a id="btce-user_trades" class="api-data">История торгов |</a>
+    <a id="btce-ticker" class="api-data">Тикер</a>
 </div>
 <div class="exchange">
     <a href="https://poloniex.com" target="_blank">
@@ -26,7 +28,8 @@
     </a>
     <a id="poloniex-balance" class="api-data">Баланс</a> |
     <a id="poloniex-user_orders" class="api-data">Ордера</a> |
-    <a id="poloniex-user_trades" class="api-data">История торгов</a>
+    <a id="poloniex-user_trades" class="api-data">История торгов |</a>
+    <a id="poloniex-ticker" class="api-data">Тикер</a>
 </div>
 
 <div class="clr"></div>

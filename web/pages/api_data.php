@@ -18,6 +18,7 @@ $handler = array(
     'balance' => 'getBalanceTable',
     'user_orders' => 'getOrdersTable',
     'user_trades' => 'getTradesTable',
+    'ticker' => 'getTickerTable',
 
 );
 
@@ -130,6 +131,48 @@ function getTradesTable($exchange){
         }
         $table1[] = '</tr>';
     }
+    $table1[] = '</table>';
+    echo $h1, implode('', $table1);
+}
+
+function getTickerTable($exchange){
+    $ticker = json_decode(file_get_contents("{$_SERVER['HTTP_REFERER']}api?exchange={$exchange}&method=ticker"), true);
+    $fields_name = array(
+        'high'=>'максимальная цена сделки за 24 часа',
+        'low'=>'минимальная цена сделки за 24 часа',
+        'avg'=> 'средняя цена сделки за 24 часа',
+        'vol' => 'объем всех сделок за 24 часа',
+        'vol_curr' => 'сумма всех сделок за 24 часа',
+        'last_trade' => 'цена последней сделки',
+        'buy_price'=>'текущая максимальная цена покупки',
+        'sell_price' => 'текущая минимальная цена продажи',
+        'updated' => 'дата и время обновления данных',
+    );
+    $h1 = '<h3>Тикер</h3>';
+    $table1 = array('<table class="table table-striped"');
+    $table1[] = '<tr>';
+    if (is_array($ticker) && count($ticker)){
+        foreach ($ticker as $pair => $items){
+            $table1[] = '<th>Пара</th>';
+            foreach($items as $field => $val){
+                $table1[] = "<th>{$fields_name[$field]}</th>";
+            }
+            break;
+        }
+    }
+    $table1[] = '</tr>';
+    if (is_array($ticker) && count($ticker)){
+        foreach ($ticker as $pair => $items){
+            $table1[] = '<tr>';
+            $table1[] = "<td>{$pair}</td>";
+            foreach($items as $field => $val){
+                $table1[] = ($field == 'updated')? "<td>".date('d.m.Y H:i:s', intval($val))."</td>" : "<td>{$val}</td>";
+            }
+            $table1[] = '</tr>';
+
+        }
+    }
+
     $table1[] = '</table>';
     echo $h1, implode('', $table1);
 }

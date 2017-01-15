@@ -10,6 +10,7 @@
         'balance':'Баланс',
         'user_orders':'Ордера',
         'user_trades':'История торгов',
+        'ticker':'Тикер',
         'exmo': 'Биржа EXMO',
         'btce': 'Биржа BTC-E',
         'poloniex': 'Биржа Poloniex'
