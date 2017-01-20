@@ -16,7 +16,7 @@ class API:
     api_secret = ''
     proxy = None
     pairs = []
-    host = "http://api.exmo.com"
+    host = "http://api.exmo.me"
 
     def __init__(self, key=None, secret=None, proxy=None):
         if (key is None) or (secret is None):
