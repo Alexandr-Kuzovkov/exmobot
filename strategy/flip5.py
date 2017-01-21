@@ -72,7 +72,6 @@ class Strategy:
         logger = self.logger
         prefix = self.prefix
         pair = self.pair
-        mode = self.mode
         session_id = self.session_id
         capi = self.capi
         storage = self.storage
@@ -83,7 +82,7 @@ class Strategy:
         #return
 
         logger.info('-'*40, prefix)
-        logger.info('Run strategy %s, pair: %s  mode: %i hold_currency %s' % (self.name, pair, mode, str(self.hold_currency)), prefix)
+        logger.info('Run strategy %s, pair: %s  hold_currency %s' % (self.name, pair, str(self.hold_currency)), prefix)
 
         #удаляем неактуальные записи об ордерах
         Lib.delete_orders_not_actual(self)
@@ -150,7 +149,7 @@ class Strategy:
         min_primary_balance, min_secondary_balance = capi.get_min_balance(pair)
 
         logger.info('min_primary_balance %f' % min_primary_balance, prefix)
-        logger.info('min_secondary_balance' % min_secondary_balance, prefix)
+        logger.info('min_secondary_balance %f' % min_secondary_balance, prefix)
 
         #сохраняем балансы в базу для сбора статистики
         if primary_balance < min_primary_balance:
