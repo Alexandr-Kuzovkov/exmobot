@@ -16,6 +16,7 @@ class Crud:
     schema_file = ''
     schema = {} #словарь в котором хранится схема БД
     protected_table = ['user'] #неудаляемые таблицы при пересоздании базы
+    name = 'SQLite'
 
     #конструктор, создание таблиц
     def __init__(self, dbfile=None):

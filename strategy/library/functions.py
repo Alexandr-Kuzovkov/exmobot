@@ -1,4 +1,7 @@
 #coding=utf-8
+
+import time
+
 '''
 получение минимальной цены продажи для обеспечения
 продажи не в убыток на основе истории сделок
@@ -315,6 +318,76 @@ def calc_prices(strategy, orders, price_step, fee=0.002):
 
 '''
 возвращает название пары с обратным порядком валют
+@param pair пара
 '''
 def reverse_pair(pair):
     return '_'.join([pair.split('_')[1], pair.split('_')[0]])
+
+
+'''
+определение направления рынка
+@param pair пара
+@param time_interval временной интервал окна в минутах
+'''
+def detect_marker_direct(strategy, pair, time_interval):
+    time_interval = time_interval * 60
+    exchange = strategy.capi.name
+    if strategy.storage.dbase.name == 'MySQL':
+        q = "select (select sum((top_buy+low_sell)/2) as avg from stat where exchange=? and pair=? and utime > unix_timestamp() - ?) - (select sum((top_buy+low_sell)/2) as avg from stat where exchange=? and pair=? and utime > unix_timestamp() - ? and utime < unix_timestamp() - ?) as result"
+        data = (exchange, pair, time_interval, exchange, pair, time_interval * 2, time_interval)
+        res = strategy.storage.dbase.query(q, data)
+    elif strategy.storage.dbase.name == 'SQLite':
+        q = "select (select sum((top_buy+low_sell)/2) as avg from stat where exchange=? and pair=? and utime > strftime('%s', 'now') - ?) - (select sum((top_buy+low_sell)/2) as avg from stat where exchange=? and pair=? and utime > strftime('%s', 'now') - ? and utime < strftime('%s', 'now') - ?) as result"
+        data = (exchange, pair, time_interval, exchange, pair, time_interval * 2, time_interval)
+        res = strategy.storage.dbase.query(q, data)
+    else:
+        raise Exception('Incorrect DB name')
+        res = None
+    if type(res) is list:
+        return res[0][0]
+    else:
+        return None
+
+
+'''
+запись в базу статистики по текущей паре для текущей биржи
+@param orders книга ордеров (результат запроса API)
+@param trades история торгов (результат запроса API)
+@param store_time время хранения данных в сутках
+'''
+def save_statistic_data(strategy, orders=None, trades=None, store_time=None):
+    if store_time is None:
+        store_time = 1
+    pair = strategy.pair
+    if pair in strategy.capi.pair_settings.keys():
+        try:
+            if orders is None:
+                orders = strategy.capi.orders([pair])
+            if trades is None:
+                trades = strategy.capi.trades([pair])
+            low_sell = orders[pair]['ask'][0][0]
+            top_buy = orders[pair]['bid'][0][0]
+            order_qt_sell = 0.0
+            order_qt_buy = 0.0
+            for order in orders[pair]['ask']:
+                order_qt_sell += order[1]
+            for order in orders[pair]['bid']:
+                order_qt_buy += order[1]
+            trade_qt_sell = 0.0
+            trade_qt_buy = 0.0
+            for trade in trades[pair]:
+                if trade['type'] == 'sell':
+                    trade_qt_sell += trade['quantity']
+                elif trade['type'] == 'buy':
+                    trade_qt_buy += trade['quantity']
+            data = (strategy.capi.name, pair, order_qt_sell, order_qt_buy, trade_qt_sell, trade_qt_buy, low_sell, top_buy)
+            strategy.logger.info('Received data: exchange: %s pair: %s %f %f %f %f %f %f' % data, strategy.prefix)
+            strategy.storage.save_stat(strategy.capi.name, pair, order_qt_sell, order_qt_buy, trade_qt_sell, trade_qt_buy,
+                                   low_sell, top_buy)
+            strategy.logger.info('Stat data from %s for pair %s saved' % (strategy.capi.name, pair), strategy.prefix)
+        except Exception, ex:
+            strategy.logger.info('Error while get stat from %s for pair %s ' % (strategy.capi.name, pair), strategy.prefix)
+
+    #удаление старых данных
+    utmost_update = time.time() - store_time * 86400
+    strategy.storage.delete_old_stat(utmost_update)

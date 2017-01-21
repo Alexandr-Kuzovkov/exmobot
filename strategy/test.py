@@ -287,7 +287,14 @@ class Strategy:
             pprint(self.capi.orders(['BTC_USD'], 20))
         '''
 
+        '''
         if self.capi.name in ['poloniex']:
             pprint(self.capi.trades(['USDT_BTC']))
         else:
             pprint(self.capi.trades(['BTC_USD']))
+        '''
+        self.pair = 'BTC_USD'
+        Lib.save_statistic_data(self)
+        pprint(Lib.detect_marker_direct(self, 'BTC_USD', 30))
+
+

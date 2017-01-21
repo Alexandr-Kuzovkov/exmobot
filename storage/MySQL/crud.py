@@ -19,6 +19,7 @@ class Crud:
     schema_file = ''
     schema = {} #словарь в котором хранится схема БД
     protected_table = ['user']  # неудаляемые таблицы при пересоздании базы
+    name = 'MySQL'
 
     #конструктор, создание таблиц
     def __init__(self, dbname=None):
@@ -41,7 +42,7 @@ class Crud:
     def query(self, query, data=None):
         conn = self._get_connection()
         cur = conn.cursor()
-        query = query.replace('?', '%')
+        query = query.replace('?', '%s')
         success = True
         try:
             if data is not None:
