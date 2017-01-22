@@ -333,13 +333,14 @@ def detect_marker_direct(strategy, pair, time_interval):
     time_interval = time_interval * 60
     exchange = strategy.capi.name
     if strategy.storage.dbase.name == 'MySQL':
-        q = "select (select sum((top_buy+low_sell)/2) as avg from stat where exchange=? and pair=? and utime > unix_timestamp() - ?) - (select sum((top_buy+low_sell)/2) as avg from stat where exchange=? and pair=? and utime > unix_timestamp() - ? and utime < unix_timestamp() - ?) as result"
+        q = "select (select avg((top_buy+low_sell)/2) as avg from stat where exchange=? and pair=? and utime > unix_timestamp() - ?) - (select avg((top_buy+low_sell)/2) as avg from stat where exchange=? and pair=? and utime > unix_timestamp() - ? and utime < unix_timestamp() - ?) as result"
         data = (exchange, pair, time_interval, exchange, pair, time_interval * 2, time_interval)
         res = strategy.storage.dbase.query(q, data)
     elif strategy.storage.dbase.name == 'SQLite':
-        q = "select (select sum((top_buy+low_sell)/2) as avg from stat where exchange=? and pair=? and utime > strftime('%s', 'now') - ?) - (select sum((top_buy+low_sell)/2) as avg from stat where exchange=? and pair=? and utime > strftime('%s', 'now') - ? and utime < strftime('%s', 'now') - ?) as result"
+        q = "select (select avg((top_buy+low_sell)/2) as avg from stat where exchange=? and pair=? and utime > strftime('%s', 'now') - ?) - (select avg((top_buy+low_sell)/2) as avg from stat where exchange=? and pair=? and utime > strftime('%s', 'now') - ? and utime < strftime('%s', 'now') - ?) as result"
         data = (exchange, pair, time_interval, exchange, pair, time_interval * 2, time_interval)
         res = strategy.storage.dbase.query(q, data)
+        print res
     else:
         raise Exception('Incorrect DB name')
         res = None
