@@ -63,9 +63,9 @@ def save_change_balance(strategy, currency, amount):
     #pprint(last)
     strategy.logger.info(str(amount))
     strategy.logger.info(str(last))
-    strategy.logger.info(str(_round(last[0]['amount'], 5)))
-    strategy.logger.info(str(_round(amount, 5)))
-    if (len(last) > 0) and (_round(last[0]['amount'], 5) == _round(amount, 5)):
+    strategy.logger.info(str(round(last[0]['amount'], 5)))
+    strategy.logger.info(str(round(amount, 5)))
+    if (len(last) > 0) and (round(last[0]['amount'], 5) == round(amount, 5)):
         strategy.logger.info('equal')
         #pprint(_round(last[0]['amount'], 4))
         #pprint(_round(amount, 4))
@@ -79,9 +79,9 @@ def save_change_balance(strategy, currency, amount):
 '''
 def save_change_balance2(strategy, currency, amount):
     last = strategy.storage.get_last_balance(currency, 1, strategy.session_id)
-    curr_amount = _round(amount, 4)
+    curr_amount = round(amount, 4)
     if len(last) > 0:
-        last_amount = _round(last[0]['amount'], 4)
+        last_amount = round(last[0]['amount'], 4)
         if abs(curr_amount - last_amount) / last_amount > 0.001:
             strategy.storage.save_balance(currency, curr_amount, strategy.session_id)
     else:
