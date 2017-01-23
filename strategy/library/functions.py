@@ -1,6 +1,7 @@
 #coding=utf-8
 
 import time
+from pprint import pprint
 
 '''
 получение минимальной цены продажи для обеспечения
@@ -59,7 +60,14 @@ def set_param(strategy, key, default_value=None, param_type=None):
 '''
 def save_change_balance(strategy, currency, amount):
     last = strategy.storage.get_last_balance(currency, 1, strategy.session_id)
-    if (len(last) > 0) and (_round(last[0]['amount'],5) == _round(amount, 5)):
+    #pprint(last)
+    strategy.logger.info(str(last))
+    strategy.logger.info(str(_round(last[0]['amount'], 4)))
+    strategy.logger.info(str(_round(amount, 4)))
+    if (len(last) > 0) and (_round(last[0]['amount'], 4) == _round(amount, 4)):
+        strategy.logger.info('equal')
+        #pprint(_round(last[0]['amount'], 4))
+        #pprint(_round(amount, 4))
         pass
     else:
         strategy.storage.save_balance(currency, amount, strategy.session_id)
@@ -70,9 +78,9 @@ def save_change_balance(strategy, currency, amount):
 '''
 def save_change_balance2(strategy, currency, amount):
     last = strategy.storage.get_last_balance(currency, 1, strategy.session_id)
-    curr_amount = _round(amount, 6)
+    curr_amount = _round(amount, 4)
     if len(last) > 0:
-        last_amount = _round(last[0]['amount'], 6)
+        last_amount = _round(last[0]['amount'], 4)
         if abs(curr_amount - last_amount) / last_amount > 0.001:
             strategy.storage.save_balance(currency, curr_amount, strategy.session_id)
     else:

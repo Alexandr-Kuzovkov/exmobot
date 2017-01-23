@@ -2331,3 +2331,19 @@ Stack trace:
 [12-Jan-2017 19:59:11 Europe/Moscow] PHP Warning:  scandir(): (errno 13): Permission denied in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
 [12-Jan-2017 19:59:13 Europe/Moscow] PHP Warning:  scandir(/tm): failed to open dir: No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
 [12-Jan-2017 19:59:13 Europe/Moscow] PHP Warning:  scandir(): (errno 2): No such file or directory in /var/www/vhosts/exmo_bot/web/pages/download_file.php on line 7
+[23-Jan-2017 23:25:06 Europe/Moscow] PHP Warning:  file_get_contents(http://exmo_bot.loc:8080/api?exchange=btce&amp;method=balance): failed to open stream: HTTP request failed! HTTP/1.1 500 Internal Server Error
+ in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 32
+[23-Jan-2017 23:25:08 Europe/Moscow] PHP Warning:  file_get_contents(http://exmo_bot.loc:8080/api?exchange=btce&amp;method=orders_balance): failed to open stream: HTTP request failed! HTTP/1.1 500 Internal Server Error
+ in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 33
+[23-Jan-2017 23:25:09 Europe/Moscow] PHP Warning:  file_get_contents(http://exmo_bot.loc:8080/api?exchange=btce&amp;method=balance_full_usd): failed to open stream: HTTP request failed! HTTP/1.1 500 Internal Server Error
+ in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 34
+[23-Jan-2017 23:25:09 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 39
+[23-Jan-2017 23:25:09 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 48
+[23-Jan-2017 23:25:20 Europe/Moscow] PHP Warning:  file_get_contents(http://exmo_bot.loc:8080/api?exchange=btce&amp;method=balance): failed to open stream: HTTP request failed! HTTP/1.1 500 Internal Server Error
+ in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 32
+[23-Jan-2017 23:25:21 Europe/Moscow] PHP Warning:  file_get_contents(http://exmo_bot.loc:8080/api?exchange=btce&amp;method=orders_balance): failed to open stream: HTTP request failed! HTTP/1.1 500 Internal Server Error
+ in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 33
+[23-Jan-2017 23:25:22 Europe/Moscow] PHP Warning:  file_get_contents(http://exmo_bot.loc:8080/api?exchange=btce&amp;method=balance_full_usd): failed to open stream: HTTP request failed! HTTP/1.1 500 Internal Server Error
+ in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 34
+[23-Jan-2017 23:25:22 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 39
+[23-Jan-2017 23:25:22 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 48

@@ -292,9 +292,20 @@ class Strategy:
             pprint(self.capi.trades(['USDT_BTC']))
         else:
             pprint(self.capi.trades(['BTC_USD']))
-        '''
+
         self.pair = 'BTC_USD'
         Lib.save_statistic_data(self)
         pprint(Lib.detect_marker_direct(self, 'BTC_USD', 30))
 
+
+        '''
+        #получаем наличие своих средств
+        balance = self.capi.balance()
+
+        self.pair = 'BTC_USD'
+        pprint(balance)
+        primary_balance = balance[self.pair.split('_')[0]]
+        secondary_balance = balance[self.pair.split('_')[1]]
+        Lib.save_change_balance(self, self.pair.split('_')[0], primary_balance)
+        Lib.save_change_balance(self, self.pair.split('_')[1], secondary_balance)
 
