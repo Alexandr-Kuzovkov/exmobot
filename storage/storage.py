@@ -179,7 +179,10 @@ class Storage:
             session_id = self.session_id
         rows = self.dbase.get('user_trades', {'session_id=':self._quote(session_id)})
         data_to_write = []
+        now = int(time.time())
         for trade in trades:
+            if trade['date'] < now * 3600 * 24: #не добавляем сделки старше суток
+                continue
             if len(rows) > 0:
                 record_exists = False
                 for row in rows:

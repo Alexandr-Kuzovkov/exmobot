@@ -157,6 +157,12 @@ class Strategy:
         if secondary_balance < min_secondary_balance:
             Lib.save_change_balance(self, pair.split('_')[0], balance[pair.split('_')[0]])
 
+        ticker = capi.ticker()
+        full_equal_usd = capi.balance_full_usd(ticker)
+        full_equal_btc = capi.balance_full_btc(ticker)
+        Lib.save_change_balance(self, 'FULL_EQUAL_USD', full_equal_usd)
+        Lib.save_change_balance(self, 'FULL_EQUAL_BTC', full_equal_btc)
+
         Lib.save_statistic_data(self, orders=orders, trades=trades, store_time=5)
         price_trend = Lib.detect_marker_direct(self, pair=pair, time_interval=30)
 
