@@ -317,6 +317,7 @@ class CommonAPI:
         params = {'pair': pair, 'quantity': quantity, 'price': price, 'type': order_type}
         return self.api.exmo_api('order_create', params)
 
+
     '''
     Отмена ордера
     Входящие параметры:
@@ -604,7 +605,7 @@ class CommonAPI:
     обменять количество amount_from валюты currency_from
     '''
     def possable_amount(self, currency_from, currency_to, amount_from, orders=None):
-        currencies = self._get_currency();
+        currencies = self._get_currency()
         if currency_from not in currencies or currency_to not in currencies:
             raise Exception('currencies expected in ' + str(currencies))
         valid_pairs = self.pair_settings.keys()
