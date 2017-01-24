@@ -144,7 +144,8 @@ class Strategy:
                         Lib.save_last_user_trades(self)
                     else:
                          logger.info('%error while exchange %s -> %s' % (pair.split('_')[1], pair.split('_')[0]), prefix)
-
+                else:
+                    logger.info('Not action required', prefix)
 
             if primary_balance > min_primary_balance: #если есть первая валюта
                 possable_amount = capi.possable_amount(pair.split('_')[0], pair.split('_')[1], primary_balance, orders) #сколько можно за нее получить второй
@@ -160,6 +161,8 @@ class Strategy:
                         Lib.save_last_user_trades(self)
                     else:
                         logger.info('%error while exchange %s -> %s' % (pair.split('_')[0], pair.split('_')[1]), prefix)
+                else:
+                    logger.info('Not action required', prefix)
 
 
         else:#если биржа с обратным названием пар
@@ -178,7 +181,8 @@ class Strategy:
                         Lib.save_last_user_trades(self)
                     else:
                          logger.info('%error while exchange %s -> %s' % (pair.split('_')[0], pair.split('_')[1]), prefix)
-
+                else:
+                    logger.info('Not action required', prefix)
 
             if secondary_balance > min_secondary_balance: #если есть первая валюта
                 possable_amount = capi.possable_amount(pair.split('_')[1], pair.split('_')[0], secondary_balance, orders) #сколько можно за нее получить второй
@@ -194,3 +198,5 @@ class Strategy:
                         Lib.save_last_user_trades(self)
                     else:
                         logger.info('%error while exchange %s -> %s' % (pair.split('_')[1], pair.split('_')[0]), prefix)
+                else:
+                    logger.info('Not action required', prefix)
