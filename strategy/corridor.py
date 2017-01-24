@@ -148,7 +148,7 @@ class Strategy:
 
             if primary_balance > min_primary_balance: #если есть первая валюта
                 possable_amount = capi.possable_amount(pair.split('_')[0], pair.split('_')[1], primary_balance, orders) #сколько можно за нее получить второй
-                avg_price = primary_balance / possable_amount #средняя цена будет
+                avg_price = possable_amount / primary_balance #средняя цена будет
                 logger.info('sell_avg_price=%f;  top_price=%f' % (avg_price, self.top_price), prefix)
                 if avg_price >= self.top_price: #если средняя цена выше верхней границы, то продаем по рынку
                     chain = {'chain': [{'currency': pair.split('_')[1], 'order_type':'sell', 'pair': pair, 'parent':0, 'user':True}], 'profit': 0.0}
@@ -182,7 +182,7 @@ class Strategy:
 
             if secondary_balance > min_secondary_balance: #если есть первая валюта
                 possable_amount = capi.possable_amount(pair.split('_')[1], pair.split('_')[0], secondary_balance, orders) #сколько можно за нее получить второй
-                avg_price = secondary_balance / possable_amount #средняя цена будет
+                avg_price = possable_amount / secondary_balance #средняя цена будет
                 logger.info('sell_avg_price=%f;  top_price=%f' % (avg_price, self.top_price), prefix)
                 if avg_price >= self.top_price: #если средняя цена выше верхней границы, то продаем по рынку
                     chain = {'chain': [{'currency': pair.split('_')[0], 'order_type':'sell', 'pair': pair, 'parent':0, 'user':True}], 'profit': 0.0}
