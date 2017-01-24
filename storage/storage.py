@@ -181,7 +181,7 @@ class Storage:
         data_to_write = []
         now = int(time.time())
         for trade in trades:
-            if trade['date'] < now * 3600 * 24: #не добавляем сделки старше суток
+            if trade['date'] < (now - (3600 * 24)): #не добавляем сделки старше суток
                 continue
             if len(rows) > 0:
                 record_exists = False

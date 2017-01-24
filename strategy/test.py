@@ -133,9 +133,9 @@ class Strategy:
 
 
 
-        #user_trades = capi.user_trades(['ETH_USD'], limit=100)
-        #pprint(user_trades)
-        #storage.save_user_trades(user_trades['ETH_USD'])
+        user_trades = capi.user_trades(['BTC_USD'])
+        pprint(user_trades)
+        storage.save_user_trades(user_trades['BTC_USD'])
 
         #storage.delete_old_values(['user_trades'], time.time()-3, False, 'test')
         #pprint(storage.get_last_user_trades(pair=None, limit=5))
@@ -298,7 +298,7 @@ class Strategy:
         pprint(Lib.detect_marker_direct(self, 'BTC_USD', 30))
 
 
-        '''
+
         #получаем наличие своих средств
         balance = self.capi.balance()
 
@@ -308,4 +308,4 @@ class Strategy:
         secondary_balance = balance[self.pair.split('_')[1]]
         Lib.save_change_balance(self, self.pair.split('_')[0], primary_balance)
         Lib.save_change_balance(self, self.pair.split('_')[1], secondary_balance)
-
+        '''

@@ -144,9 +144,10 @@ class Strategy:
                 min_price_step = 0.000001
 
         logger.info('min_price_step %f' % min_price_step, prefix)
+        ticker = capi.ticker()
 
         #минимальный баланс первой и второй валют в паре для создания ордера
-        min_primary_balance, min_secondary_balance = capi.get_min_balance(pair)
+        min_primary_balance, min_secondary_balance = capi.get_min_balance(pair, ticker)
 
         logger.info('min_primary_balance %f' % min_primary_balance, prefix)
         logger.info('min_secondary_balance %f' % min_secondary_balance, prefix)
@@ -157,7 +158,6 @@ class Strategy:
         if secondary_balance < min_secondary_balance:
             Lib.save_change_balance(self, pair.split('_')[0], balance[pair.split('_')[0]])
 
-        ticker = capi.ticker()
         full_equal_usd = capi.balance_full_usd(ticker)
         full_equal_btc = capi.balance_full_btc(ticker)
         Lib.save_change_balance(self, 'FULL_EQUAL_USD', full_equal_usd)
@@ -179,7 +179,7 @@ class Strategy:
 
                     #вычисляем профит на основе верхней цены и нижней цены
                     profit = new_ask/new_bid*(1-fee)*(1-fee) - 1
-                    if profit <= min_profit:
+                    if profit < min_profit:
                         #вычисляем цену продажи исходя из текущей цены покупки и небольшого профита
                         new_ask = new_bid * (1 + (2*fee + min_profit))
 
@@ -238,7 +238,7 @@ class Strategy:
                     new_bid = bid + min_price_step
                     #вычисляем профит на основе лучшей цены продажи и покупки
                     profit = new_ask/new_bid*(1-fee)*(1-fee) - 1
-                    if profit <= min_profit:
+                    if profit < min_profit:
                         #если профита нет выставляем цену продажи выше, на основе цены покупки и профита
                         new_ask = new_bid * (1 + (2*fee + min_profit))
 

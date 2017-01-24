@@ -556,20 +556,29 @@
                 $sell_sum = 0.0;
                 $buy_sum = 0.0;
                 foreach($trades as $trade){
+
                     if ($trade['trade_type'] == 'sell'){
-                        $count_sell++;
                         if ($amount_start == 0){
                             $amount_start = $trade['amount'];
                         }
+                        if ($quantity_start == 0){
+                            $quantity_start = $trade['quantity'];
+                            $quantity_curr = $trade['quantity'];
+                        }
+                        $count_sell++;
                         $amount_curr += $trade['amount'] * $fee;
                         $quantity_curr -= $trade['quantity'];
                         $sell_sum += $trade['amount'];
 
                     }elseif ($trade['trade_type'] == 'buy'){
-                        $count_buy++;
+                        if ($amount_start == 0){
+                            $amount_start = $trade['amount'];
+                            $amount_curr = $trade['amount'];
+                        }
                         if ($quantity_start == 0){
                             $quantity_start = $trade['quantity'];
                         }
+                        $count_buy++;
                         $amount_curr -= $trade['amount'];
                         $quantity_curr += $trade['quantity'] * $fee;
                         $buy_sum += $trade['amount'];
