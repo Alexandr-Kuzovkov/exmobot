@@ -60,9 +60,6 @@ def set_param(strategy, key, default_value=None, param_type=None):
 '''
 def save_change_balance(strategy, currency, amount):
     last = strategy.storage.get_last_balance(currency, 1, strategy.session_id)
-    strategy.logger.info(str(amount))
-    strategy.logger.info(str(round(last[0]['amount'], 6)))
-    strategy.logger.info(str(round(amount, 6)))
     if (len(last) > 0) and (round(last[0]['amount'], 6) == round(amount, 6)):
         pass
     else:
@@ -74,9 +71,9 @@ def save_change_balance(strategy, currency, amount):
 '''
 def save_change_balance2(strategy, currency, amount):
     last = strategy.storage.get_last_balance(currency, 1, strategy.session_id)
-    curr_amount = round(amount, 4)
+    curr_amount = round(amount, 6)
     if len(last) > 0:
-        last_amount = round(last[0]['amount'], 4)
+        last_amount = round(last[0]['amount'], 6)
         if abs(curr_amount - last_amount) / last_amount > 0.001:
             strategy.storage.save_balance(currency, curr_amount, strategy.session_id)
     else:
