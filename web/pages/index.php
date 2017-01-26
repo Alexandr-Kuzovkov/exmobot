@@ -2,7 +2,7 @@
 <?php require_once('_topmenu.php')?>
 
 <div class="exchange">
-    <a href="https://exmo.com" target="_blank">
+    <a href="https://exmo.me" target="_blank">
         <img src="img/exmo.png" />
         <p>EXMO</p>
     </a>
