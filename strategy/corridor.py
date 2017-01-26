@@ -128,7 +128,7 @@ class Strategy:
         if capi.name not in ['poloniex']: #если биржа с нормальным названием пар
 
             if secondary_balance > min_secondary_balance: #если есть вторая валюта
-                possable_amount = capi.possable_amount(pair.split('_')[1], pair.split('_')[0], secondary_balance, orders) #сколько можно купить на нее первой
+                possable_amount = (1 - fee) * capi.possable_amount(pair.split('_')[1], pair.split('_')[0], secondary_balance, orders) #сколько можно купить на нее первой
                 avg_price = secondary_balance / possable_amount #средняя цена будет
                 logger.info('buy_avg_price=%f;  low_price=%f' % (avg_price, self.low_price), prefix)
                 if avg_price <= self.low_price: #если средняя цена меньше нижней границы, то покупаем по рынку
@@ -145,7 +145,7 @@ class Strategy:
                     logger.info('Not action required', prefix)
 
             if primary_balance > min_primary_balance: #если есть первая валюта
-                possable_amount = capi.possable_amount(pair.split('_')[0], pair.split('_')[1], primary_balance, orders) #сколько можно за нее получить второй
+                possable_amount = (1 - fee) * capi.possable_amount(pair.split('_')[0], pair.split('_')[1], primary_balance, orders) #сколько можно за нее получить второй
                 avg_price = possable_amount / primary_balance #средняя цена будет
                 logger.info('sell_avg_price=%f;  top_price=%f' % (avg_price, self.top_price), prefix)
                 if avg_price >= self.top_price: #если средняя цена выше верхней границы, то продаем по рынку
@@ -165,7 +165,7 @@ class Strategy:
         else:#если биржа с обратным названием пар
 
             if primary_balance > min_primary_balance: #если есть вторая валюта
-                possable_amount = capi.possable_amount(pair.split('_')[0], pair.split('_')[1], primary_balance, orders) #сколько можно купить на нее первой
+                possable_amount = (1 - fee) * capi.possable_amount(pair.split('_')[0], pair.split('_')[1], primary_balance, orders) #сколько можно купить на нее первой
                 avg_price = primary_balance / possable_amount #средняя цена будет
                 logger.info('buy_avg_price=%f;  low_price=%f' % (avg_price, self.low_price), prefix)
                 if avg_price <= self.low_price: #если средняя цена меньше нижней границы, то покупаем по рынку
@@ -182,7 +182,7 @@ class Strategy:
                     logger.info('Not action required', prefix)
 
             if secondary_balance > min_secondary_balance: #если есть первая валюта
-                possable_amount = capi.possable_amount(pair.split('_')[1], pair.split('_')[0], secondary_balance, orders) #сколько можно за нее получить второй
+                possable_amount = (1 - fee) * capi.possable_amount(pair.split('_')[1], pair.split('_')[0], secondary_balance, orders) #сколько можно за нее получить второй
                 avg_price = possable_amount / secondary_balance #средняя цена будет
                 logger.info('sell_avg_price=%f;  top_price=%f' % (avg_price, self.top_price), prefix)
                 if avg_price >= self.top_price: #если средняя цена выше верхней границы, то продаем по рынку
