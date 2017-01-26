@@ -136,7 +136,7 @@ class Strategy:
                     res = capi.execute_exchange_chain(chain, secondary_balance)
                     #если все успешно записываем в лог
                     if type(res) is dict and 'result' in res and res['result']:
-                        logger.info('%s was bought, balance %s=%f' % (pair.split('_')[0], pair.split('_')[0], res.amount), prefix)
+                        logger.info('%s was bought, balance %s=%f' % (pair.split('_')[0], pair.split('_')[0], res['amount']), prefix)
                         #сохраняем в базу последние сделки
                         Lib.save_last_user_trades(self)
                     else:
@@ -153,7 +153,7 @@ class Strategy:
                     res = capi.execute_exchange_chain(chain, primary_balance)
                     #если все успешно записываем в лог
                     if type(res) is dict and 'result' in res and res['result']:
-                        logger.info('%s was sold, balance %s=%f' % (pair.split('_')[0], pair.split('_')[0], res.amount), prefix)
+                        logger.info('%s was sold, balance %s=%f' % (pair.split('_')[0], pair.split('_')[0], res['amount']), prefix)
                         #сохраняем в базу последние сделки
                         Lib.save_last_user_trades(self)
                     else:
@@ -173,7 +173,7 @@ class Strategy:
                     res = capi.execute_exchange_chain(chain, primary_balance)
                     #если все успешно записываем в лог
                     if type(res) is dict and 'result' in res and res['result']:
-                        logger.info('%s was bought, balance %s=%f' % (pair.split('_')[1], pair.split('_')[1], res.amount), prefix)
+                        logger.info('%s was bought, balance %s=%f' % (pair.split('_')[1], pair.split('_')[1], res['amount']), prefix)
                         #сохраняем в базу последние сделки
                         Lib.save_last_user_trades(self)
                     else:
@@ -190,7 +190,7 @@ class Strategy:
                     res = capi.execute_exchange_chain(chain, secondary_balance)
                     #если все успешно записываем в лог
                     if type(res) is dict and 'result' in res and res['result']:
-                        logger.info('%s was sold, balance %s=%f' % (pair.split('_')[1], pair.split('_')[1], res.amount), prefix)
+                        logger.info('%s was sold, balance %s=%f' % (pair.split('_')[1], pair.split('_')[1], res['amount']), prefix)
                         #сохраняем в базу последние сделки
                         Lib.save_last_user_trades(self)
                     else:
