@@ -93,7 +93,7 @@ class Strategy:
         #получаем свои ордера
         user_orders = capi.user_orders()
         #проверяем цены ордеров текущим установкам, при несоответствии удаляем ордер
-        if pair in user_orders:
+        if pair in user_orders: #если есть ордера
             logger.info('current orders: ', self.prefix)
             for user_order in user_orders[pair]:
                 if user_order['type'] == 'sell':
@@ -114,6 +114,9 @@ class Strategy:
                         time.sleep(1)
                     else:
                         logger.info('order price match, keep it', self.prefix)
+
+        else: #если ордеров нет сохраняем сделки
+            Lib.save_last_user_trades(self)
 
 
         #получаем лучшие цены покупки и продажи
