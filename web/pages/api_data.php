@@ -148,26 +148,27 @@ function getTickerTable($exchange){
         'sell_price' => 'текущая минимальная цена продажи',
         'updated' => 'дата и время обновления данных',
     );
+    $fee = ($exchange == 'poloniex')? 0.0015 : 0.002;
     $h1 = '<h3>Тикер</h3>';
     $table1 = array('<table class="table table-striped"');
     $table1[] = '<tr>';
     if (is_array($ticker) && count($ticker)){
-        foreach ($ticker as $pair => $items){
-            $table1[] = '<th>Пара</th>';
-            foreach($items as $field => $val){
-                $table1[] = "<th>{$fields_name[$field]}</th>";
-            }
-            break;
+        $table1[] = '<th>Пара</th>';
+        foreach($fields_name as $field => $name){
+            $table1[] = "<th>{$fields_name[$field]}</th>";
         }
+        $table1[] = '<th>профитность</th>';
     }
     $table1[] = '</tr>';
     if (is_array($ticker) && count($ticker)){
         foreach ($ticker as $pair => $items){
             $table1[] = '<tr>';
             $table1[] = "<td>{$pair}</td>";
-            foreach($items as $field => $val){
-                $table1[] = ($field == 'updated')? "<td>".date('d.m.Y H:i:s', intval($val))."</td>" : "<td>{$val}</td>";
+            foreach($fields_name as $field => $name){
+                $table1[] = ($field == 'updated')? "<td>".date('d.m.Y H:i:s', intval($items[$field]))."</td>" : "<td>{$items[$field]}</td>";
             }
+            $profit = $items['sell_price'] / $items['buy_price'] * (1-$fee) * (1-$fee) - 1;
+            $table1[] = ($profit >= 0)? '<td class="green">' . $profit . "</td>" : '<td class="red">' . $profit . "</td>";
             $table1[] = '</tr>';
 
         }
