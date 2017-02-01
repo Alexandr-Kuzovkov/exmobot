@@ -8,6 +8,7 @@
 
 $exchange = (isset($_GET['exchange']))? $_GET['exchange'] : null;
 $method = (isset($_GET['method']))? $_GET['method'] : null;
+$order_id = (isset($_GET['id']))? intval($_GET['id']) : null;
 
 if ($exchange == null || $method == null){
     echo 'Bag parameters!'; exit();
@@ -19,6 +20,7 @@ $handler = array(
     'user_orders' => 'getOrdersTable',
     'user_trades' => 'getTradesTable',
     'ticker' => 'getTickerTable',
+    'order_cancel' => 'getOrdersTable',
 
 );
 
@@ -63,6 +65,10 @@ function getBalanceTable($exchange){
  * @param $exchange имя биржи
  */
 function getOrdersTable($exchange){
+    global $order_id;
+    if ($order_id != null){
+        $res = json_decode(file_get_contents("{$_SERVER['HTTP_REFERER']}api?exchange={$exchange}&method=order_cancel&id={$order_id}"), true);
+    }
     $orders = json_decode(file_get_contents("{$_SERVER['HTTP_REFERER']}api?exchange={$exchange}&method=user_orders"), true);
     $fields_name = array('created'=>'Создан', 'order_id'=>'Id', 'pair'=> 'Пара', 'price' => 'Цена', 'amount' => 'Сумма', 'quantity' => 'Количество', 'type'=>'Тип');
     $h1 = '<h3>Ордера</h3>';
@@ -75,7 +81,11 @@ function getOrdersTable($exchange){
             }
             break;
         }
+    }else{
+        echo 'Ордеров нет';
+        return;
     }
+    $table1[] = '<th>';
     $table1[] = '</tr>';
     if (is_array($orders) && count($orders)){
         foreach ($orders as $pair => $items){
@@ -84,6 +94,7 @@ function getOrdersTable($exchange){
                 foreach($row as $field => $val){
                     $table1[] = ($field == 'created')? "<td>".date('d.m.Y H:i:s', intval($val))."</td>" : "<td>{$val}</td>";
                 }
+                $table1[] = '<td class="red">' . "<span class='order-cancel pointer' title='Cancel' id='{$row['order_id']}'>Cancel</span></td>";
                 $table1[] = '</tr>';
             }
         }

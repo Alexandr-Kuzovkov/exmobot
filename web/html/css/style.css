@@ -265,5 +265,10 @@ a#unselect-all-img
     color: green;
 }
 
+.pointer{
+    cursor: pointer;
+}
+
+
 
 

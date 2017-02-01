@@ -99,4 +99,8 @@ def callMethod(params):
         if 'currency' in params['params']:
             return method(params['params']['currency'])
 
+    if params['method'] == 'order_cancel':
+        if 'id' in params['params']:
+            return method(params['params']['id'])
+
     return method()

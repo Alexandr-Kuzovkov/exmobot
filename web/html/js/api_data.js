@@ -34,8 +34,24 @@
 		$( "#api-data" ).dialog("open");
 	});
 
+    /*отображение данных в окне диалога*/
     function showData(data){
         //console.log(data);
+        $( "#api-data" ).dialog({'title':dict[api_data.exchange] + ' - ' + dict[api_data.method]});
+        document.getElementById("api-data").innerHTML = '';
+        document.getElementById("api-data").innerHTML = data;
+        if (api_data.method == 'user_orders'){
+            $('.order-cancel').click(function(ev){
+                var order_id = this.id;
+                $('#api-data').html('<img class="preload" src="img/preload.gif"/>');
+                $( "#api-data" ).dialog({'title':'Loading...'});
+                $.get('/api-data',{'exchange':api_data.exchange, 'method': 'order_cancel', 'id': order_id}, updateOrders);
+            });
+        }
+    }
+
+    /*обновление данных в окне диалога*/
+    function updateOrders(data){
         $( "#api-data" ).dialog({'title':dict[api_data.exchange] + ' - ' + dict[api_data.method]});
         document.getElementById("api-data").innerHTML = '';
         document.getElementById("api-data").innerHTML = data;

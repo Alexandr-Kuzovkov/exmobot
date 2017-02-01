@@ -2347,3 +2347,5 @@ Stack trace:
  in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 34
 [23-Jan-2017 23:25:22 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 39
 [23-Jan-2017 23:25:22 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 48
+[01-Feb-2017 20:53:22 Europe/Moscow] PHP Notice:  Undefined index: order_cancel in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 25
+[01-Feb-2017 20:53:22 Europe/Moscow] PHP Fatal error:  Function name must be a string in /var/www/vhosts/exmo_bot/web/pages/api_data.php on line 25
