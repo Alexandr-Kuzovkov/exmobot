@@ -718,8 +718,10 @@ class CommonAPI:
     '''
     определение полного баланса в USD
     '''
-    def balance_full_usd(self, ticker=None):
-        balance_full = self.balance_full()
+
+    def balance_full_usd(self, balance_full=None, ticker=None):
+        if balance_full is None:
+            balance_full = self.balance_full()
         if ticker is None:
             ticker = self.ticker()
         currency_ratio = {}
@@ -753,8 +755,10 @@ class CommonAPI:
     '''
     определение полного баланса в BTC
     '''
-    def balance_full_btc(self, ticker=None):
-        balance_full = self.balance_full()
+
+    def balance_full_btc(self, balance_full=None, ticker=None):
+        if balance_full is None:
+            balance_full = self.balance_full()
         if ticker is None:
             ticker = self.ticker()
         currency_ratio = {}

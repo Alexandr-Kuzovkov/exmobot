@@ -41,12 +41,7 @@
         document.getElementById("api-data").innerHTML = '';
         document.getElementById("api-data").innerHTML = data;
         if (api_data.method == 'user_orders'){
-            $('.order-cancel').click(function(ev){
-                var order_id = this.id;
-                $('#api-data').html('<img class="preload" src="img/preload.gif"/>');
-                $( "#api-data" ).dialog({'title':'Loading...'});
-                $.get('/api-data',{'exchange':api_data.exchange, 'method': 'order_cancel', 'id': order_id}, updateOrders);
-            });
+            $('.order-cancel').click(handleCancelClick);
         }
     }
 
@@ -55,6 +50,16 @@
         $( "#api-data" ).dialog({'title':dict[api_data.exchange] + ' - ' + dict[api_data.method]});
         document.getElementById("api-data").innerHTML = '';
         document.getElementById("api-data").innerHTML = data;
+        $('.order-cancel').click(handleCancelClick);
+    }
+
+
+    /*обработчик клика на Cancel*/
+    function handleCancelClick(ev){
+        var order_id = this.id;
+        $('#api-data').html('<img class="preload" src="img/preload.gif"/>');
+        $( "#api-data" ).dialog({'title':'Loading...'});
+        $.get('/api-data',{'exchange':api_data.exchange, 'method': 'order_cancel', 'id': order_id}, updateOrders);
     }
 
 

@@ -77,7 +77,7 @@ class Strategy:
         #получаем свои ордера
         user_orders = self.capi.user_orders()
 
-        #удаляем неактуальные записи об ордерах
+        #удаляем неактуальные записи об ордерах в базе
         Lib.delete_orders_not_actual(self, user_orders)
 
         #получаем ticker
@@ -144,7 +144,7 @@ class Strategy:
 
             #биржа с нормальным названием пар
             if self.capi.name not in ['poloniex']:
-                # если есть на балансе вторая валюта
+                # если разбег цен обеспечивает профит и вторая валюта есть
                 if secondary_balance >= min_secondary_balance and profit >= self.min_profit:
                     #новые цены продажи и покупки
                     new_ask = ask - min_price_step
@@ -193,5 +193,15 @@ class Strategy:
                     sell_price = max(saved_ask, ask - min_price_step)
                     # ставим ордер на продажу
                     Lib.order_create(self, 'sell', sell_price, secondary_balance)
+
+        #сохраняем последние сделки
+        Lib.save_last_user_trades2(self)
+
+        #сохраняем балансы для статистики
+        balance_full = self.capi.balance_full()
+        full_usd_balance = self.capi.balance_full_usd(balance_full, ticker)
+        full_btc_balance = self.capi.balance_full_btc(balance_full, ticker)
+        Lib.save_change_balance(self, 'USD', full_usd_balance)
+        Lib.save_change_balance(self, 'BTC', full_btc_balance)
 
 

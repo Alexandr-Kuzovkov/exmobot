@@ -283,6 +283,19 @@ def save_last_user_trades(strategy, user_trades=None, limit=100):
         except KeyError:
             strategy.storage.save_user_trades(user_trades['_'.join([strategy.pair.split('_')[1], strategy.pair.split('_')[0]])], strategy.session_id)
 
+'''
+запись последних сделок пользователя в базу по всем списку пар, используемых в стратегии
+'''
+def save_last_user_trades2(strategy, user_trades=None, limit=100):
+    if user_trades is None:
+        user_trades = strategy.capi.user_trades(strategy.pairs, limit=limit)
+    for pair in strategy.pairs:
+        if pair in user_trades or '_'.join([pair.split('_')[1], pair.split('_')[0]]) in user_trades:
+            try:
+                strategy.storage.save_user_trades(user_trades[pair], strategy.session_id)
+            except KeyError:
+                strategy.storage.save_user_trades(user_trades['_'.join([pair.split('_')[1], pair.split('_')[0]])], strategy.session_id)
+
 
 '''
 вычисление профита на основе цены покупки, продажи и комиссии
