@@ -524,11 +524,14 @@ class CommonAPI:
                 if pair not in valid_pairs:
                     raise Exception('pair expected in ' + str(valid_pairs))
         try:
-            if pairs is None:
+            if type(pairs) is list and len(pairs) == 1:
+                data = self.api.btce_api('TradeHistory', pair=pairs[0].lower(), order='DESC', count=limit)
+            elif pairs is None:
                 data = self.api.btce_api('TradeHistory', order='DESC', count=limit)
             else:
-                data = self.api.btce_api('TradeHistory', pair='-'.join(pairs).lower(), order='DESC', count=limit)
+                data = self.api.btce_api('TradeHistory', order='DESC', count=limit)
         except Exception, ex:
+            print ex
             return {}
         trades = {}
         for trade_id, trade in data.items():

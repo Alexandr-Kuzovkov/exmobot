@@ -152,7 +152,7 @@ class Strategy:
         print res0
         '''
 
-        pprint(capi.pair_settings.keys())
+        #pprint(capi.pair_settings.keys())
         #pprint(capi.get_min_balance('USDT_ETH', 11.2))
         #pprint(capi.trades(['USDT_ETH']))
         #pprint(capi._date2timestamp('2016-08-15 13:04:53'))
@@ -309,4 +309,15 @@ class Strategy:
         Lib.save_change_balance(self, self.pair.split('_')[0], primary_balance)
         Lib.save_change_balance(self, self.pair.split('_')[1], secondary_balance)
         '''
+
+        # сохраняем последние сделки
+        if self.capi.name == 'exmo':
+            self.pairs = ['BTC_USD', 'ETH_USD', 'DASH_USD']
+        elif self.capi.name == 'btce':
+            self.pairs = ['BTC_USD','ETH_USD','DSH_USD','LTC_USD']
+            #self.pairs = ['LTC_USD']
+        elif self.capi.name == 'poloniex':
+            self.pairs = ['USDT_BTC','USDT_REP','USDT_ETC','USDT_DASH']
+            #self.pairs = ['BTC_ETC']
+        Lib.save_last_user_trades2(self)
 

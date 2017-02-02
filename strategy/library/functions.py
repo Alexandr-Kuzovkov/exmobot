@@ -289,6 +289,7 @@ def save_last_user_trades(strategy, user_trades=None, limit=100):
 def save_last_user_trades2(strategy, user_trades=None, limit=100):
     if user_trades is None:
         user_trades = strategy.capi.user_trades(strategy.pairs, limit=limit)
+        pprint(user_trades)
     for pair in strategy.pairs:
         if pair in user_trades or '_'.join([pair.split('_')[1], pair.split('_')[0]]) in user_trades:
             try:
