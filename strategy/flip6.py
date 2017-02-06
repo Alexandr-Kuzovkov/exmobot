@@ -63,6 +63,9 @@ class Strategy:
         # флаг остановки торгов
         self.stop_trade = Lib.set_param(self, key='stop_trade', default_value=0, param_type='int')
 
+        #время жизни ордеров sell в часах
+        self.sell_order_ttl = Lib.set_param(self, key='sell_order_ttl', default_value=8760, param_type='int')
+
     '''
     функция реализующая торговую логику
     '''
@@ -72,7 +75,7 @@ class Strategy:
         #return
 
         self.logger.info('-'*40, self.prefix)
-        self.logger.info('Run strategy %s, pairs: %s' % (self.name, str(self.pairs)), self.prefix)
+        self.logger.info('Run strategy %s, pairs: %s, sell_order_ttl: %i hours' % (self.name, str(self.pairs), self.sell_order_ttl), self.prefix)
 
         #получаем свои ордера
         user_orders = self.capi.user_orders()
@@ -83,7 +86,9 @@ class Strategy:
         #получаем ticker
         ticker = self.capi.ticker()
 
-        #удаляем ордера "BUY"
+        #удаляем ордера "BUY" и ордера "SELL" с истекшим временем жизни
+        now = int(time.time())
+        max_delta_time = self.sell_order_ttl * 3600
         for pair, user_orders_for_pair in user_orders.items():
             for user_order_for_pair in user_orders_for_pair:
                 if user_order_for_pair['type'] == 'buy':
@@ -93,6 +98,17 @@ class Strategy:
                         self.logger.info('order "BUY" id=%i removed succesfully' % order_id, self.prefix)
                     else:
                         self.logger.info('ERROR while removing order "BUY" id=%i' % order_id, self.prefix)
+                elif user_order_for_pair['type'] == 'sell':
+                    created = int(user_order_for_pair['created'])
+                    if (now - created) > max_delta_time:
+                        order_id = int(user_order_for_pair['order_id'])
+                        res = self.capi.order_cancel(order_id)
+                        if 'result' in res and res['result'] == True:
+                            self.logger.info('order "SELL" id=%i expired and removed succesfully' % order_id, self.prefix)
+                            self.storage.delete(pair + '_ask')
+                        else:
+                            self.logger.info('ERROR while removing order "SELL" id=%i' % order_id, self.prefix)
+
 
         if self.stop_trade > 0:
             self.logger.info('Stopping trade...')
