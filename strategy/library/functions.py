@@ -74,7 +74,7 @@ def save_change_balance2(strategy, currency, amount):
     curr_amount = round(amount, 6)
     if len(last) > 0:
         last_amount = round(last[0]['amount'], 6)
-        if abs(curr_amount - last_amount) / last_amount > 0.001:
+        if abs(curr_amount - last_amount) > 0.0001:
             strategy.storage.save_balance(currency, curr_amount, strategy.session_id)
     else:
         strategy.storage.save_balance(currency, curr_amount, strategy.session_id)

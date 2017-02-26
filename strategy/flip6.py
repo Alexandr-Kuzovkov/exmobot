@@ -217,7 +217,7 @@ class Strategy:
         balance_full = self.capi.balance_full()
         full_usd_balance = self.capi.balance_full_usd(balance_full, ticker)
         full_btc_balance = self.capi.balance_full_btc(balance_full, ticker)
-        Lib.save_change_balance(self, 'USD', full_usd_balance)
-        Lib.save_change_balance(self, 'BTC', full_btc_balance)
+        Lib.save_change_balance2(self, 'USD', full_usd_balance)
+        Lib.save_change_balance2(self, 'BTC', full_btc_balance)
 
 
