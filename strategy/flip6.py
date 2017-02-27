@@ -89,6 +89,7 @@ class Strategy:
 
         self.logger.info('-'*40, self.prefix)
         self.logger.info('Run strategy %s, pairs: %s, sell_order_ttl: %i hours' % (self.name, str(self.pairs), self.sell_order_ttl), self.prefix)
+        self.logger.info('Order_limits: %s, Limits: %s' % (str(self.order_limits), str(self.limits)), self.prefix)
 
         #получаем свои ордера
         user_orders = self.capi.user_orders()

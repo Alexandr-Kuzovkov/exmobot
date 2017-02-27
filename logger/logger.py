@@ -18,7 +18,7 @@ class Logger:
 
     #Запись сообщения в лог-файл или в stdout
     def info(self, msg, prefix=''):
-        status = '<I>'
+        status = '<INFO>'
         if self.logfile is not None:
             try:
 		f = open(self.logfile, 'a')
@@ -32,7 +32,7 @@ class Logger:
 
     # Запись сообщения об ошибке в лог-файл или в stdout
     def error(self, msg, prefix=''):
-        status = '<E>'
+        status = '<ERROR>'
         if self.logfile is not None:
             try:
                 f = open(self.logfile, 'a')
