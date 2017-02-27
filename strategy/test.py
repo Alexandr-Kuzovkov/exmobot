@@ -1,5 +1,6 @@
 #coding=utf-8
 import random
+import json
 from pprint import pprint
 import time
 from sms import smsru
@@ -34,6 +35,22 @@ class Strategy:
         #ввод параметров
         #id сессии
         self.session_id = Lib.set_param(self, key='session_id', default_value='0')
+        self.order_limits = Lib.set_param(self, key='order_limits', default_value=None)
+        try:
+            self.order_limits = json.loads(self.order_limits)
+            pprint(self.order_limits)
+            self.pairs = self.order_limits.keys()
+            pprint(self.pairs)
+        except Exception, ex:
+            print 'Error parse param "order_limits": %s' % ex
+
+        self.limits = Lib.set_param(self, key='limits', default_value=None)
+        try:
+            self.limits = json.loads(self.limits)
+            pprint(self.limits)
+        except Exception, ex:
+            print 'Error parse param "limits": %s' % ex
+
         #параметры передаваемые при вызове функции имеют приоритет
         #перед параметрами заданными в файле конфигурации
 
@@ -56,7 +73,6 @@ class Strategy:
         pair = 'ETH_USD'
         order_type = 'sell'
         quantity = eth_amount
-
         print exmo.order_create(pair=pair, price=price, order_type= order_type, quantity=eth_amount)
 
         '''
@@ -310,6 +326,7 @@ class Strategy:
         Lib.save_change_balance(self, self.pair.split('_')[1], secondary_balance)
         '''
 
+        '''
         # сохраняем последние сделки
         if self.capi.name == 'exmo':
             self.pairs = ['BTC_USD', 'ETH_USD', 'DASH_USD']
@@ -320,4 +337,27 @@ class Strategy:
             self.pairs = ['USDT_BTC','USDT_REP','USDT_ETC','USDT_DASH']
             #self.pairs = ['BTC_ETC']
         Lib.save_last_user_trades2(self)
+        '''
+        user_orders = self.capi.user_orders()
+        sum_in_orders = {}
+        for pair, user_orders_for_pair in user_orders.items():
+            for user_order_for_pair in user_orders_for_pair:
+                if user_order_for_pair['type'] == 'sell':
+                    if pair not in sum_in_orders:
+                        sum_in_orders[pair] = 0.0
+                    sum_in_orders[pair] += user_order_for_pair['amount']
+
+        pprint(sum_in_orders)
+
+        for pair in self.pairs:
+            balance = self.capi.balance()
+            order_limit = self.order_limits[pair]
+            if pair in sum_in_orders:
+                limit = self.limits[pair] - sum_in_orders[pair]
+            else:
+                limit = self.limits[pair]
+            secondary_balance = min(balance[pair.split('_')[1]], limit, order_limit)
+            print 'order_limit=%f, limit=%f, secondary_balance %s = %f' % (order_limit, limit, pair.split('_')[1], secondary_balance)
+
+
 

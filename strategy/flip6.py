@@ -1,5 +1,6 @@
 #coding=utf-8
 import time
+import json
 import strategy.library.functions as Lib
 
 '''
@@ -55,9 +56,6 @@ class Strategy:
         # имя стратегии
         self.name = Lib.set_param(self, key='name', default_value=self.session_id + '->' + self.name)
 
-        #лимит использования депозита по второй валюте в паре
-        self.limit = Lib.set_param(self, key='limit', default_value=1000000000.0, param_type='float')
-
         self.prefix = capi.name + ' ' + self.name
 
         # флаг остановки торгов
@@ -65,6 +63,21 @@ class Strategy:
 
         #время жизни ордеров sell в часах
         self.sell_order_ttl = Lib.set_param(self, key='sell_order_ttl', default_value=8760, param_type='int')
+
+        # лимиты для ордеров по каждой паре
+        self.order_limits = Lib.set_param(self, key='order_limits', default_value=None)
+        try:
+            self.order_limits = json.loads(self.order_limits)
+            self.pairs = self.order_limits.keys()
+        except Exception, ex:
+            self.logger.error('Error parse param "order_limits": %s' % ex, self.prefix)
+
+        # лимит использования депозита по каждой паре
+        self.limits = Lib.set_param(self, key='limits', default_value=None)
+        try:
+            self.limits = json.loads(self.limits)
+        except Exception, ex:
+            self.logger.error('Error parse param "limits": %s' % ex, self.logger)
 
     '''
     функция реализующая торговую логику
@@ -89,6 +102,7 @@ class Strategy:
         #удаляем ордера "BUY" и ордера "SELL" с истекшим временем жизни
         now = int(time.time())
         max_delta_time = self.sell_order_ttl * 3600
+        sum_in_orders = {}
         for pair, user_orders_for_pair in user_orders.items():
             for user_order_for_pair in user_orders_for_pair:
                 if user_order_for_pair['type'] == 'buy':
@@ -97,17 +111,21 @@ class Strategy:
                     if 'result' in res and res['result'] == True:
                         self.logger.info('order "BUY" id=%i removed succesfully' % order_id, self.prefix)
                     else:
-                        self.logger.info('ERROR while removing order "BUY" id=%i' % order_id, self.prefix)
+                        self.logger.error('ERROR while removing order "BUY" id=%i' % order_id, self.prefix)
                 elif user_order_for_pair['type'] == 'sell':
                     created = int(user_order_for_pair['created'])
-                    if (now - created) > max_delta_time:
+                    if (now - created) > max_delta_time: #если ордер слишком старый удаляем его
                         order_id = int(user_order_for_pair['order_id'])
                         res = self.capi.order_cancel(order_id)
                         if 'result' in res and res['result'] == True:
                             self.logger.info('order "SELL" id=%i expired and removed succesfully' % order_id, self.prefix)
                             self.storage.delete(pair + '_ask')
                         else:
-                            self.logger.info('ERROR while removing order "SELL" id=%i' % order_id, self.prefix)
+                            self.logger.error('ERROR while removing order "SELL" id=%i' % order_id, self.prefix)
+                    else: #иначе учитываем сумму в ордере как вложенную в торги по данной паре
+                        if pair not in sum_in_orders:
+                            sum_in_orders[pair] = 0.0
+                        sum_in_orders[pair] += user_order_for_pair['amount']
 
 
         if self.stop_trade > 0:
@@ -121,8 +139,13 @@ class Strategy:
             balance = self.capi.balance()
             ask = max(ticker[pair]['sell_price'], ticker[pair]['buy_price'])
             bid = min(ticker[pair]['sell_price'], ticker[pair]['buy_price'])
-            primary_balance = min(balance[pair.split('_')[0]], self.limit / ask)
-            secondary_balance = min(balance[pair.split('_')[1]], self.limit)
+            order_limit = self.order_limits[pair]
+            if pair in sum_in_orders:
+                limit = self.limits[pair] - sum_in_orders[pair]
+            else:
+                limit = self.limits[pair]
+            secondary_balance = min(balance[pair.split('_')[1]], limit, order_limit)
+            primary_balance = balance[pair.split('_')[0]]
 
             self.logger.info('pair %s, ask = %f, bid = %f' %(pair, ask, bid), self.prefix)
             self.logger.info('Balance: %s = %f; %s = %f' % (pair.split('_')[0], balance[pair.split('_')[0]], pair.split('_')[1], balance[pair.split('_')[1]]), self.prefix)

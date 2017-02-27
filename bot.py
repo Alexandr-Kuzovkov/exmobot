@@ -117,7 +117,7 @@ else:
         strategy = mod_strategy.Strategy(capi, logger, storage, conf)
     except Exception, e:
         print 'Startup Error: %s' % e
-        logger.info('Startup Error: %s' % e)
+        logger.error('Startup Error: %s' % e)
         exit(1)
 
 
@@ -128,5 +128,5 @@ else:
         strategy.run()
     except Exception, ex:
         print 'Strategy.run: %s %s' % (ex, ex.message)
-        logger.info('Strategy.run: %s %s' % (ex, ex.message))
+        logger.error('Strategy.run: %s %s' % (ex, ex.message))
 

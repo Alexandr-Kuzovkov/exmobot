@@ -259,7 +259,7 @@ def order_create(strategy, order_type, price, quantity):
     try:
         res = strategy.capi.order_create(pair=strategy.pair, quantity=quantity, price=price, order_type=order_type)
         if not res['result']:
-            strategy.logger.info('Error order create "' + order_type + '": %s' % str(res['error']), strategy.prefix)
+            strategy.logger.error('Error order create "' + order_type + '": %s' % str(res['error']), strategy.prefix)
             return False
         else:
             strategy.logger.info('Order "' + order_type + '": %s: price=%f' % (strategy.pair, price), strategy.prefix)
@@ -267,7 +267,7 @@ def order_create(strategy, order_type, price, quantity):
             strategy.storage.order_add(res['order_id'], strategy.pair, quantity, price, order_type, strategy.session_id)
             return True
     except Exception, ex:
-        strategy.logger.info('Error order create "' + order_type + '": %s' % ex.message, strategy.prefix)
+        strategy.logger.error('Error order create "' + order_type + '": %s' % ex.message, strategy.prefix)
         return False
 
 
@@ -402,7 +402,7 @@ def save_statistic_data(strategy, orders=None, trades=None, store_time=None):
                                    low_sell, top_buy)
             strategy.logger.info('Stat data from %s for pair %s saved' % (strategy.capi.name, pair), strategy.prefix)
         except Exception, ex:
-            strategy.logger.info('Error while get stat from %s for pair %s ' % (strategy.capi.name, pair), strategy.prefix)
+            strategy.logger.error('Error while get stat from %s for pair %s ' % (strategy.capi.name, pair), strategy.prefix)
 
     #удаление старых данных
     utmost_update = time.time() - store_time * 86400
