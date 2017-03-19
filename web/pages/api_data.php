@@ -9,6 +9,8 @@
 $exchange = (isset($_GET['exchange']))? $_GET['exchange'] : null;
 $method = (isset($_GET['method']))? $_GET['method'] : null;
 $order_id = (isset($_GET['id']))? intval($_GET['id']) : null;
+$session_id = (isset($_GET['session']))? $_GET['session'] : null;
+$db = (isset($_GET['db']))? $_GET['db'] : null;
 
 if ($exchange == null || $method == null){
     echo 'Bag parameters!'; exit();
@@ -21,6 +23,8 @@ $handler = array(
     'user_trades' => 'getTradesTable',
     'ticker' => 'getTickerTable',
     'order_cancel' => 'getOrdersTable',
+    'cfm_fix_profit' => 'confirmFixProfit',
+    'fix_profit' => 'fixProfit',
 
 );
 
@@ -187,6 +191,44 @@ function getTickerTable($exchange){
 
     $table1[] = '</table>';
     echo $h1, implode('', $table1);
+}
+
+
+function confirmFixProfit($exchange){
+    global $db, $session_id;
+    $start_balance = get_start_balance($db, $session_id, 'USD');
+    $balance_full_usd = json_decode(file_get_contents("{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/api?exchange={$exchange}&method=possable_amount_usd"), true);
+    if (is_array($start_balance) && count($start_balance)){
+        $start_balance = $start_balance[0]['amount'];
+        $profit_abs = $balance_full_usd - $start_balance;
+        $profit_rel = ($balance_full_usd - $start_balance)/$start_balance * 100.0;
+    }else{
+
+    }
+
+    $body = array(
+        '<h3>Фиксация прибыли</h3>',
+        '<p>Будет выполнено:</p>',
+        '<ul>',
+        '<li>останов торгов;</li>',
+        '<li>отмена текущих ордеров;</li>',
+        '<li>продажа всех криптовалют по рынку;</li>',
+        '<li>очистка истории баланса;</li>',
+        '</ul>',
+        "<p>Начальный совокупный баланс: <b>{$start_balance}</b> USD</p>",
+        "<p>Текущий совокупный баланс: <b>{$balance_full_usd}</b> USD</p>",
+        "<p>Абсолютный профит: <b>{$profit_abs}</b> USD</p>",
+        "<p>Относительный профит: <b>{$profit_rel}</b> %</p>",
+        "<button id='{$exchange}-fix_profit~{$session_id}' class='fix-profit'>Зафиксировать</button>"
+    );
+    echo implode('', $body);
+}
+
+
+function fixProfit($exchange){
+    global $session_id;
+    $result = json_decode(file_get_contents("{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/api?exchange={$exchange}&method=fix_profit&session_id={$session_id}"), true);
+    print_r($result);
 }
 
 function sortByDate($a,$b){

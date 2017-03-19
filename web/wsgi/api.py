@@ -103,4 +103,8 @@ def callMethod(params):
         if 'id' in params['params']:
             return method(params['params']['id'])
 
+    if params['method'] == 'fix_profit':
+        if 'session_id' in params['params']:
+            return method(params['params']['session_id'])
+
     return method()

@@ -398,7 +398,10 @@ class CommonAPI:
         for currency, amount in balances['balances'].items():
             balance[currency] = float(balances['balances'][currency])
         for currency, amount in balances['orders'].items():
-            balance[currency] += float(balances['orders'][currency])
+            if currency in balance:
+                balance[currency] += float(balances['orders'][currency])
+            else:
+                balance[currency] = float(balances['orders'][currency])
         return balance
 
 
@@ -1019,5 +1022,43 @@ class CommonAPI:
                 else:
                     pass
         return self.balance()
+
+
+    '''
+    вычисление на какую сумму в USD можно продать по рынку
+    все имеющиеся на балансе криптовалюты
+    '''
+    def possable_amount_usd(self):
+        balance_full = self.balance_full()
+        total_amount = 0.0
+        currencies = self._get_currency()
+        valid_pairs = self.pair_settings.keys()
+        for currency, amount in balance_full.items():
+            if currency not in currencies:
+                continue
+            if currency == 'USD':
+                total_amount += amount
+                continue
+            pair = None
+            if '_'.join([currency, 'USD']) in valid_pairs:
+                pair = '_'.join([currency, 'USD'])
+            if '_'.join(['USD', currency]) in valid_pairs:
+                pair = '_'.join(['USD', currency])
+            if pair is None:
+                continue
+            if amount < self.pair_settings[pair]['min_quantity']:
+                continue
+            curr_amount = self.possable_amount(currency, 'USD', amount)
+            total_amount += curr_amount
+        return total_amount
+
+
+    def fix_profit(self, session_id):
+        #stop trading
+        #cancel all orders
+        #exchange_all_to_usd
+        #clear balance history
+        return {'status': 'Ok', 'amount': 100.0, 'session_id':session_id}
+
 
 

@@ -56,7 +56,9 @@ if ($db == 'sqlite'){
                     <a href="#" id="title_<?php echo $session_id.$currency;?>" class="chart">График</a>
                     <canvas class="canvas" id="chart_<?php echo $session_id.$currency;?>"></canvas>
                 <?php endforeach;?>
+                <button class="cfm-fix-profit pointer" id="<?php echo $session_id.'~'.$db?>">Зафиксировать прибыль</button>
                 &nbsp;</td>
+
         <?php endforeach;?>
     </tr>
 </table>
@@ -106,3 +108,5 @@ if ($db == 'sqlite'){
         }
     });
 </script>
+<div id="api-data"></div>
+<script type="text/javascript" src="js/api_data.js"></script>

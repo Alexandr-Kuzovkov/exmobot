@@ -13,7 +13,9 @@
         'ticker':'Тикер',
         'exmo': 'Биржа EXMO',
         'btce': 'Биржа BTC-E',
-        'poloniex': 'Биржа Poloniex'
+        'poloniex': 'Биржа Poloniex',
+        'fix_profit': 'Зафиксировать прибыль',
+        'cfm_fix_profit': 'Зафиксировать прибыль',
     };
 
     $("#api-data").dialog({
@@ -43,6 +45,9 @@
         if (api_data.method == 'user_orders'){
             $('.order-cancel').click(handleCancelClick);
         }
+        if (api_data.method == 'cfm_fix_profit'){
+            $('.fix-profit').click(fixProfit);
+        }
     }
 
     /*обновление данных в окне диалога*/
@@ -60,6 +65,31 @@
         $('#api-data').html('<img class="preload" src="img/preload.gif"/>');
         $( "#api-data" ).dialog({'title':'Loading...'});
         $.get('/api-data',{'exchange':api_data.exchange, 'method': 'order_cancel', 'id': order_id}, updateOrders);
+    }
+
+    /*обработка клика по кнопкам фиксации прибыли(confirm)*/
+    $('.cfm-fix-profit').click(function(){
+        var id = this.id;
+        api_data.exchange = id.split('-')[0];
+        api_data.method = 'cfm_fix_profit';
+        session = id.split('~')[0];
+        db = id.split('~').pop();
+        $('#api-data').html('<img class="preload" src="img/preload.gif"/>');
+        $( "#api-data" ).dialog({'title':'Loading...'});
+        $.get('/api-data',{'exchange':api_data.exchange, 'method':api_data.method, 'session': session, 'db': db}, showData);
+        $( "#api-data" ).dialog("open");
+    });
+
+    /*обработка клика по кнопкам фиксации прибыли(action)*/
+    function fixProfit(){
+        var id = this.id;
+        api_data.exchange = id.split('-')[0];
+        api_data.method = id.split('~')[0].split('-')[1];
+        session = id.split('~').pop()
+        $('#api-data').html('<img class="preload" src="img/preload.gif"/>');
+        $( "#api-data" ).dialog({'title':'Loading...'});
+        $.get('/api-data',{'exchange':api_data.exchange, 'method':api_data.method, 'session':session}, showData);
+        
     }
 
 

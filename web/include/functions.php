@@ -251,7 +251,6 @@
         }catch(Exception $e){
             return $e->getMessage();
         }
-
     }
 
     /**
@@ -313,7 +312,23 @@
         }
 
         return $result;
+    }
 
+
+    /**
+     * возвращает значение баланса по первой записи в таблице balance
+     * @param $store_type тип БД (mysql, sqlite)
+     */
+    function get_start_balance($store_type, $session_id, $currency){
+        $sql = "SELECT amount FROM balance WHERE session_id='{$session_id}' AND currency='{$currency}' ORDER BY utime ASC LIMIT 1";
+        if ($store_type == 'mysql'){
+            $res = exec_query_mysql($sql);
+        }elseif($store_type == 'sqlite'){
+            $res = exec_query_sqlite($sql);
+        }else{
+            throw new Exception('Param "store_type" must be in (mysql|sqlite)!');
+        }
+        return $res;
     }
 
     /**

@@ -38,16 +38,16 @@ class Strategy:
         self.order_limits = Lib.set_param(self, key='order_limits', default_value=None)
         try:
             self.order_limits = json.loads(self.order_limits)
-            pprint(self.order_limits)
+            #pprint(self.order_limits)
             self.pairs = self.order_limits.keys()
-            pprint(self.pairs)
+            #pprint(self.pairs)
         except Exception, ex:
             print 'Error parse param "order_limits": %s' % ex
 
         self.limits = Lib.set_param(self, key='limits', default_value=None)
         try:
             self.limits = json.loads(self.limits)
-            pprint(self.limits)
+            #pprint(self.limits)
         except Exception, ex:
             print 'Error parse param "limits": %s' % ex
 
@@ -338,6 +338,7 @@ class Strategy:
             #self.pairs = ['BTC_ETC']
         Lib.save_last_user_trades2(self)
         '''
+        '''
         user_orders = self.capi.user_orders()
         sum_in_orders = {}
         for pair, user_orders_for_pair in user_orders.items():
@@ -359,5 +360,8 @@ class Strategy:
             secondary_balance = min(balance[pair.split('_')[1]], limit, order_limit)
             print 'order_limit=%f, limit=%f, secondary_balance %s = %f' % (order_limit, limit, pair.split('_')[1], secondary_balance)
 
+        '''
 
+        #pprint(self.capi.balance_full())
+        pprint(self.capi.possable_amount_usd())
 
