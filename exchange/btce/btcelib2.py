@@ -11,7 +11,7 @@ class APIError(Exception):
     pass
 
 class PublicAPIv3:
-    host = "btc-e.nz"
+    host = "wex.nz"
     headers = {}
     conn = None
     req = None
@@ -37,7 +37,7 @@ class PublicAPIv3:
 
 class TradeAPIv1:
 
-    host = "btc-e.nz"
+    host = "wex.nz"
     _nonce = 0
     apikey = None
 

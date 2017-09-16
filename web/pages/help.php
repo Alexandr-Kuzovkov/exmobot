@@ -38,7 +38,7 @@
         INTO OUTFILE '/tmp/stat_data3.csv' FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n')
 
 
-            btce: TJs9M5XwzWvd
+            btce: S8TwAdt3VJLV
         </pre>
 
 
