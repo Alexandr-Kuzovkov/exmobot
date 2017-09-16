@@ -26,7 +26,8 @@ btce_capi = btce_mod_capi.CommonAPI(btce_mod_api.API())
 print '-'*80
 print 'BEGIN Testing exchange...'
 
-capis = [poloniex_capi, exmo_capi, btce_capi]
+#capis = [poloniex_capi, exmo_capi, btce_capi]
+capis = [btce_capi]
 for capi in capis:
     pair = capi.check_pair('BTC_ETH')
     print 'Testing API %s' % capi.name
