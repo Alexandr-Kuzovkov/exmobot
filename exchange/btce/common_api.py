@@ -753,6 +753,8 @@ class CommonAPI:
         for curr, amount in balance_full.items():
             if curr not in self.currency:
                 continue
+            if curr not in currency_ratio_usd:
+                continue
             balance_usd += amount * currency_ratio_usd[curr]
 
         return balance_usd
@@ -789,6 +791,8 @@ class CommonAPI:
         balance_btc = 0.0
         for curr, amount in balance_full.items():
             if curr not in self.currency:
+                continue
+            if curr not in currency_ratio_btc:
                 continue
             balance_btc += amount * currency_ratio_btc[curr]
 

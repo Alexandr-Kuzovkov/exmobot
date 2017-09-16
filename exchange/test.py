@@ -59,6 +59,13 @@ for capi in capis:
     print '----possable_amount("ETH", "BTC", 100)----'
     sleep(2)
     pprint(capi.possable_amount('ETH', 'BTC', 100))
+    print '----total-balance-usd()----'
+    sleep(2)
+    pprint(capi.balance_full_usd())
+    print '----total-balance-btc()----'
+    sleep(2)
+    pprint(capi.balance_full_btc())
+
 
 print 'END Testing exchange...'
 print '-' * 80
