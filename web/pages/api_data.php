@@ -35,9 +35,9 @@ echo $handler[$method]($exchange);
  * @param $exchange имя биржи
  */
 function getBalanceTable($exchange){
-    $balance = json_decode(file_get_contents("{$_SERVER['HTTP_REFERER']}api?exchange={$exchange}&method=balance"), true);
-    $orders_balance = json_decode(file_get_contents("{$_SERVER['HTTP_REFERER']}api?exchange={$exchange}&method=orders_balance"), true);
-    $balance_full_usd = json_decode(file_get_contents("{$_SERVER['HTTP_REFERER']}api?exchange={$exchange}&method=balance_full_usd"), true);
+    $balance = json_decode(request("{$_SERVER['HTTP_REFERER']}api?exchange={$exchange}&method=balance"), true);
+    $orders_balance = json_decode(request("{$_SERVER['HTTP_REFERER']}api?exchange={$exchange}&method=orders_balance"), true);
+    $balance_full_usd = json_decode(request("{$_SERVER['HTTP_REFERER']}api?exchange={$exchange}&method=balance_full_usd"), true);
     $h1 = '<h3>Баланс</h3>';
     $table1 = array('<table class="table table-striped">');
     $table1[] = '<tr><th>Валюта</th><th>Сумма</th></tr>';
@@ -71,9 +71,9 @@ function getBalanceTable($exchange){
 function getOrdersTable($exchange){
     global $order_id;
     if ($order_id != null){
-        $res = json_decode(file_get_contents("{$_SERVER['HTTP_REFERER']}api?exchange={$exchange}&method=order_cancel&id={$order_id}"), true);
+        $res = json_decode(request("{$_SERVER['HTTP_REFERER']}api?exchange={$exchange}&method=order_cancel&id={$order_id}"), true);
     }
-    $orders = json_decode(file_get_contents("{$_SERVER['HTTP_REFERER']}api?exchange={$exchange}&method=user_orders"), true);
+    $orders = json_decode(request("{$_SERVER['HTTP_REFERER']}api?exchange={$exchange}&method=user_orders"), true);
     $fields_name = array('created'=>'Создан', 'order_id'=>'Id', 'pair'=> 'Пара', 'price' => 'Цена', 'amount' => 'Сумма', 'quantity' => 'Количество', 'type'=>'Тип');
     $h1 = '<h3>Ордера</h3>';
     $table1 = array('<table class="table table-striped"');
@@ -114,7 +114,7 @@ function getOrdersTable($exchange){
  * @param $exchange имя биржи
  */
 function getTradesTable($exchange){
-    $trades = json_decode(file_get_contents("{$_SERVER['HTTP_REFERER']}api?exchange={$exchange}&method=user_trades"), true);
+    $trades = json_decode(request("{$_SERVER['HTTP_REFERER']}api?exchange={$exchange}&method=user_trades"), true);
     $fields_name = array('date'=>'Дата и время', 'order_id'=>'Order Id', 'pair'=> 'Пара', 'price' => 'Цена', 'amount' => 'Сумма', 'quantity' => 'Количество', 'type'=>'Тип', 'trade_id'=>'Trade Id');
     $h1 = '<h3>История торгов</h3>';
     $table1 = array('<table class="table table-striped"');
@@ -151,7 +151,7 @@ function getTradesTable($exchange){
 }
 
 function getTickerTable($exchange){
-    $ticker = json_decode(file_get_contents("{$_SERVER['HTTP_REFERER']}api?exchange={$exchange}&method=ticker"), true);
+    $ticker = json_decode(request("{$_SERVER['HTTP_REFERER']}api?exchange={$exchange}&method=ticker"), true);
     $fields_name = array(
         'high'=>'максимальная цена сделки за 24 часа',
         'low'=>'минимальная цена сделки за 24 часа',
@@ -197,7 +197,7 @@ function getTickerTable($exchange){
 function confirmFixProfit($exchange){
     global $db, $session_id;
     $start_balance = get_start_balance($db, $session_id, 'USD');
-    $balance_full_usd = json_decode(file_get_contents("{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/api?exchange={$exchange}&method=possable_amount_usd"), true);
+    $balance_full_usd = json_decode(request("{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/api?exchange={$exchange}&method=possable_amount_usd"), true);
     if (is_array($start_balance) && count($start_balance)){
         $start_balance = $start_balance[0]['amount'];
         $profit_abs = $balance_full_usd - $start_balance;
@@ -227,10 +227,19 @@ function confirmFixProfit($exchange){
 
 function fixProfit($exchange){
     global $session_id;
-    $result = json_decode(file_get_contents("{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/api?exchange={$exchange}&method=fix_profit&session_id={$session_id}"), true);
+    $result = json_decode(request("{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/api?exchange={$exchange}&method=fix_profit&session_id={$session_id}"), true);
     print_r($result);
 }
 
 function sortByDate($a,$b){
     return $a['date'] < $b['date'];
+}
+
+function request($url){
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    return $response;
 }
