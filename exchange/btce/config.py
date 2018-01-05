@@ -1,9 +1,3 @@
 #coding=utf-8
 
-#apikey = {'Key': 'P0FCMSHL-OVL322KB-12W55313-U17GMB3C-5USRE4Q2', 'Secret': '31996579998cff11da08df6891308da6ebbc46fec2ffe6e22ece0d6fefe850e7'} # 77.40.56.139
-
-#apikey = {'Key': 'IC4L0DT0-TJQVASUG-ICXJ6LYU-39NH6Y27-HMUAQ34V', 'Secret': 'e108b3cf6fc2e28e9c718959ba5c61eaee1c03179513fdbff1a2189c31fe88ba'} #188.187.188.57
-
-#apikey = {'Key': 'QKAWR2BZ-YO10QUGZ-PCU55TVI-YKX6D67W-OPKZP72Z', 'Secret': 'e5ba60ffbcc69a9b8927409d7b1b6af38d5cbb488081db96ed9362c40d5fb38e'} #key5 188.187.188.57,77.40.56.139
-
-apikey = {'Key': 'BIL4JU3S-3BK3G7UC-SZASAJB6-3FRMOZMK-AR0QE76R', 'Secret': '699d21c423641b864f4c6c684972aa9d89ec17b79a8d4cdb4a8da5023b4af92e'} #key5 188.187.188.57,77.40.56.139
+apikey = {'Key': 'my-api-key', 'Secret': 'my-api-secret'}
